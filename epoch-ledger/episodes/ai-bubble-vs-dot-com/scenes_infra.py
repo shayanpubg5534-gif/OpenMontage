@@ -192,17 +192,42 @@ tl.fromTo(['#i2-warm','#i2-coolp'],{{strokeDashoffset:0}},{{strokeDashoffset:-28
 show(['#i2-out','#i2-outl'],{w_prev + .2});
 tl.fromTo('#i2-out',{{y:0}},{{y:-14,duration:.5,yoyo:true,repeat:5}},{w_prev + .2});
 """
-    regions.append(("campus-infra", [(a10s, a11e + .6)], f"""AI3D.add('campus-infra',{{start:{a10s},end:{a11e + .6},world:'campus',
- cam:{{from:[150,22,95],to:[-70,70,150],look:[85,14,20],lookTo:[0,6,-25],dur:{a11e + .6 - a10s}}},power:{w_energy},invest:[{a11s},{a11e + .6}]}});"""))
+    # Scene brief (c04_10–11): power is a physical supply chain (lines → substation → feeders → halls that
+    # run servers and cooling); building it means buying land and buildings, power equipment, cooling plant
+    # and servers — capital deployed before any revenue. Decorative particles removed.
+    w_elec, w_sup, w_en, w_fac, w_run = W("Electricity", "c04_10"), W("supply", "c04_10"), W("energy", "c04_10"), W("facilities", "c04_10"), W("running", "c04_10")
+    w_build, w_infra, w_req2, w_sub, w_inv2 = W("Building", "c04_11"), W("infrastructure", "c04_11"), W("requires", "c04_11"), W("substantial", "c04_11"), W("investment", "c04_11")
+    ce = a11e + .6
+    ckeys = [[a10s, [300, 46, -150], [170, 18, -64], 42], [w_sup - .1, [205, 24, -8], [148, 5, -58], 40],
+             [w_en + .2, [150, 80, 70], [40, 0, -30], 44], [w_fac + .1, [-2, 10, 44], [-10, 5, -12], 42],
+             [w_build + .2, [125, 34, 0], [60, 12, -70], 42], [w_req2, [140, 40, 14], [80, 8, -60], 44], [ce, [190, 70, 70], [70, 5, -50], 46]]
+    regions.append(("campus-infra", [(a10s, ce)], f"""AI3D.add('campus-infra',{{start:{a10s},end:{ce},world:'campus2',keys:{ckeys},
+ power:{w_elec},supply:{w_sup},energy:{w_en},running:{w_fac},build:{w_build},items:{{frame:{w_build},power:{w_req2},cooling:{w_sub},servers:{w_inv2}}}}});"""))
+    capex_rows = ["Buildings &amp; land", "Power equipment", "Cooling plant", "Servers &amp; chips"]
+    capex_html = ('<div id="i2-capex" style="position:absolute;right:56px;top:40px;width:560px;padding:22px 26px;border-radius:14px;background:rgba(247,238,218,.95);'
+                  'border:3px solid #b8892e;color:#3a2a18;font:700 30px Inter;opacity:0"><div style="font:800 34px Fraunces;margin-bottom:10px">Capital expenditure '
+                  '<span style="font:600 20px Inter;opacity:.7;letter-spacing:.06em">ILLUSTRATIVE</span></div>'
+                  + "".join(f'<div class="cx-row" id="i2-cx{i}" style="height:48px;display:flex;align-items:center;gap:14px;opacity:0"><b style="color:#b8892e">■</b>{r}</div>' for i, r in enumerate(capex_rows))
+                  + '<div style="margin-top:12px;height:30px;border-radius:15px;background:rgba(0,0,0,.12);overflow:hidden"><div id="i2-cxbar" style="height:100%;width:0;background:linear-gradient(90deg,#b8892e,#f2c66d)"></div></div>'
+                  '<div style="font:700 22px Inter;margin-top:6px;opacity:.8">Spent before the first customer pays</div></div>'
+                  '<div class="lbl" id="i2-pw" style="left:64px;top:140px;font-size:40px"></div>')
+    capex_js = f"""
+const pwT=[['High-voltage transmission',{w_elec}],['Substation: voltage stepped down',{w_sup}],['Feeders to every hall',{w_en}],['Servers and cooling running',{w_fac}]];
+pwT.forEach(([txt,t],i)=>{{tl.call(()=>{{document.getElementById('i2-pw').textContent=txt;}},[],t); tl.fromTo('#i2-pw',{{opacity:0,y:10}},{{opacity:1,y:0,duration:.25}},t);}});
+hide('#i2-pw',{w_build - .3},.2);
+show('#i2-capex',{w_build},.3);
+[{w_build},{w_req2},{w_sub},{w_inv2}].forEach((t,i)=>tl.fromTo('#i2-cx'+i,{{opacity:0,x:30}},{{opacity:1,x:0,duration:.25}},t));
+tl.to('#i2-cxbar',{{width:'100%',duration:{w_inv2 + .6 - w_build},ease:'power1.inOut'}},{w_build});
+"""
     scenes.append(Scene("i2", round(w_phys + .3, 3), round(a11e + .6 - w_phys - .3, 3),
         '<div id="i2-flash" class="fill" style="background:#9ff3ff;opacity:0"></div><div id="i2-dip" class="fill" style="background:#02040a;opacity:0"></div>'
         '<div class="tag m" id="i2-t1">Processors</div><div class="tag m" id="i2-t2">Servers</div><div class="tag m" id="i2-t3">Cooling</div>'
-        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>' + cool_html,
+        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>' + cool_html + capex_html,
         js=f"""
 tl.fromTo('#i2-flash',{{opacity:1}},{{opacity:0,duration:.6,ease:'power2.out'}},{w_phys + .4});
 [[{a8s},.22],[{a10s},.22]].forEach(([t,d])=>{{tl.fromTo('#i2-dip',{{opacity:0}},{{opacity:1,duration:d}},t-d);tl.to('#i2-dip',{{opacity:0,duration:.3}},t);}});
 show('#i2-t1',{W('processors', 'c04_07')}); hide('#i2-t1',{W('perform', 'c04_07') - .3},.2); show('#i2-t2',{W('Servers', 'c04_08')}); hide('#i2-t2',{a9s - .2},.2);
 show('#i2-t3',{W('Cooling', 'c04_09')});
-""" + cool_js + f""" hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
+""" + cool_js + capex_js + f""" hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
 """))
     return scenes, regions, ""
