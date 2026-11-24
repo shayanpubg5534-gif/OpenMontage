@@ -1,0 +1,444 @@
+[
+ {
+  "start": 0.1,
+  "end": 3.98,
+  "text": "When a bank lends you money, it doesn't hand you someone else's savings.",
+  "words": [
+   {
+    "word": "When",
+    "start": 0.1,
+    "end": 0.18
+   },
+   {
+    "word": "a",
+    "start": 0.18,
+    "end": 0.3
+   },
+   {
+    "word": "bank",
+    "start": 0.3,
+    "end": 0.56
+   },
+   {
+    "word": "lends",
+    "start": 0.56,
+    "end": 0.84
+   },
+   {
+    "word": "you",
+    "start": 0.84,
+    "end": 1.1
+   },
+   {
+    "word": "money,",
+    "start": 1.1,
+    "end": 1.36
+   },
+   {
+    "word": "it",
+    "start": 1.8,
+    "end": 1.9
+   },
+   {
+    "word": "doesn't",
+    "start": 1.9,
+    "end": 2.18
+   },
+   {
+    "word": "hand",
+    "start": 2.18,
+    "end": 2.38
+   },
+   {
+    "word": "you",
+    "start": 2.38,
+    "end": 2.56
+   },
+   {
+    "word": "someone",
+    "start": 2.56,
+    "end": 2.96
+   },
+   {
+    "word": "else's",
+    "start": 2.96,
+    "end": 3.5
+   },
+   {
+    "word": "savings.",
+    "start": 3.5,
+    "end": 3.98
+   }
+  ]
+ },
+ {
+  "start": 4.66,
+  "end": 9.1,
+  "text": "Meet Maya. She walks into her bank and asks for a $10,000 loan.",
+  "words": [
+   {
+    "word": "Meet",
+    "start": 4.66,
+    "end": 4.8
+   },
+   {
+    "word": "Maya.",
+    "start": 4.8,
+    "end": 5.1
+   },
+   {
+    "word": "She",
+    "start": 5.62,
+    "end": 5.7
+   },
+   {
+    "word": "walks",
+    "start": 5.7,
+    "end": 5.9
+   },
+   {
+    "word": "into",
+    "start": 5.9,
+    "end": 6.18
+   },
+   {
+    "word": "her",
+    "start": 6.18,
+    "end": 6.36
+   },
+   {
+    "word": "bank",
+    "start": 6.36,
+    "end": 6.62
+   },
+   {
+    "word": "and",
+    "start": 6.62,
+    "end": 7.04
+   },
+   {
+    "word": "asks",
+    "start": 7.04,
+    "end": 7.32
+   },
+   {
+    "word": "for",
+    "start": 7.32,
+    "end": 7.6
+   },
+   {
+    "word": "a",
+    "start": 7.6,
+    "end": 7.72
+   },
+   {
+    "word": "$10,000",
+    "start": 7.72,
+    "end": 8.6
+   },
+   {
+    "word": "loan.",
+    "start": 8.6,
+    "end": 9.1
+   }
+  ]
+ },
+ {
+  "start": 9.651,
+  "end": 14.76,
+  "text": "The bank checks her credit, approves the loan, and writes two new lines in its ledger.",
+  "words": [
+   {
+    "word": "The",
+    "start": 9.651,
+    "end": 9.74
+   },
+   {
+    "word": "bank",
+    "start": 9.74,
+    "end": 9.98
+   },
+   {
+    "word": "checks",
+    "start": 9.98,
+    "end": 10.32
+   },
+   {
+    "word": "her",
+    "start": 10.32,
+    "end": 10.52
+   },
+   {
+    "word": "credit,",
+    "start": 10.52,
+    "end": 10.9
+   },
+   {
+    "word": "approves",
+    "start": 11.3,
+    "end": 11.66
+   },
+   {
+    "word": "the",
+    "start": 11.66,
+    "end": 11.94
+   },
+   {
+    "word": "loan,",
+    "start": 11.94,
+    "end": 12.28
+   },
+   {
+    "word": "and",
+    "start": 12.56,
+    "end": 12.74
+   },
+   {
+    "word": "writes",
+    "start": 12.74,
+    "end": 12.96
+   },
+   {
+    "word": "two",
+    "start": 12.96,
+    "end": 13.28
+   },
+   {
+    "word": "new",
+    "start": 13.28,
+    "end": 13.5
+   },
+   {
+    "word": "lines",
+    "start": 13.5,
+    "end": 13.84
+   },
+   {
+    "word": "in",
+    "start": 13.84,
+    "end": 14.2
+   },
+   {
+    "word": "its",
+    "start": 14.2,
+    "end": 14.4
+   },
+   {
+    "word": "ledger.",
+    "start": 14.4,
+    "end": 14.76
+   }
+  ]
+ },
+ {
+  "start": 15.2,
+  "end": 20.36,
+  "text": "On one side, an asset, Maya's promise to repay. On the other, a deposit.",
+  "words": [
+   {
+    "word": "On",
+    "start": 15.2,
+    "end": 15.32
+   },
+   {
+    "word": "one",
+    "start": 15.32,
+    "end": 15.54
+   },
+   {
+    "word": "side,",
+    "start": 15.54,
+    "end": 15.92
+   },
+   {
+    "word": "an",
+    "start": 16.14,
+    "end": 16.24
+   },
+   {
+    "word": "asset,",
+    "start": 16.24,
+    "end": 16.66
+   },
+   {
+    "word": "Maya's",
+    "start": 17.26,
+    "end": 17.48
+   },
+   {
+    "word": "promise",
+    "start": 17.48,
+    "end": 17.74
+   },
+   {
+    "word": "to",
+    "start": 17.74,
+    "end": 18.02
+   },
+   {
+    "word": "repay.",
+    "start": 18.02,
+    "end": 18.42
+   },
+   {
+    "word": "On",
+    "start": 18.96,
+    "end": 19.14
+   },
+   {
+    "word": "the",
+    "start": 19.14,
+    "end": 19.32
+   },
+   {
+    "word": "other,",
+    "start": 19.32,
+    "end": 19.58
+   },
+   {
+    "word": "a",
+    "start": 19.82,
+    "end": 19.9
+   },
+   {
+    "word": "deposit.",
+    "start": 19.9,
+    "end": 20.36
+   }
+  ]
+ },
+ {
+  "start": 20.876,
+  "end": 25.0,
+  "text": "And with a few keystrokes, $10,000 appears in her account.",
+  "words": [
+   {
+    "word": "And",
+    "start": 20.876,
+    "end": 20.96
+   },
+   {
+    "word": "with",
+    "start": 20.96,
+    "end": 21.1
+   },
+   {
+    "word": "a",
+    "start": 21.1,
+    "end": 21.22
+   },
+   {
+    "word": "few",
+    "start": 21.22,
+    "end": 21.46
+   },
+   {
+    "word": "keystrokes,",
+    "start": 21.46,
+    "end": 22.24
+   },
+   {
+    "word": "$10,000",
+    "start": 22.62,
+    "end": 23.34
+   },
+   {
+    "word": "appears",
+    "start": 23.34,
+    "end": 23.96
+   },
+   {
+    "word": "in",
+    "start": 23.96,
+    "end": 24.42
+   },
+   {
+    "word": "her",
+    "start": 24.42,
+    "end": 24.56
+   },
+   {
+    "word": "account.",
+    "start": 24.56,
+    "end": 25.0
+   }
+  ]
+ },
+ {
+  "start": 25.451,
+  "end": 30.64,
+  "text": "No vault was opened. That money did not exist before. The loan created it.",
+  "words": [
+   {
+    "word": "No",
+    "start": 25.451,
+    "end": 25.68
+   },
+   {
+    "word": "vault",
+    "start": 25.68,
+    "end": 26.02
+   },
+   {
+    "word": "was",
+    "start": 26.02,
+    "end": 26.22
+   },
+   {
+    "word": "opened.",
+    "start": 26.22,
+    "end": 26.68
+   },
+   {
+    "word": "That",
+    "start": 27.06,
+    "end": 27.22
+   },
+   {
+    "word": "money",
+    "start": 27.22,
+    "end": 27.48
+   },
+   {
+    "word": "did",
+    "start": 27.48,
+    "end": 27.7
+   },
+   {
+    "word": "not",
+    "start": 27.7,
+    "end": 27.9
+   },
+   {
+    "word": "exist",
+    "start": 27.9,
+    "end": 28.3
+   },
+   {
+    "word": "before.",
+    "start": 28.3,
+    "end": 28.8
+   },
+   {
+    "word": "The",
+    "start": 29.34,
+    "end": 29.44
+   },
+   {
+    "word": "loan",
+    "start": 29.44,
+    "end": 29.76
+   },
+   {
+    "word": "created",
+    "start": 29.76,
+    "end": 30.34
+   },
+   {
+    "word": "it.",
+    "start": 30.34,
+    "end": 30.64
+   }
+  ]
+ }
+]

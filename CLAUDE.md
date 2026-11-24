@@ -7,3 +7,5 @@ It contains routing rules that determine your first action based on what the use
 Skipping it WILL cause you to take the wrong action.
 
 There are no instructions in this file. All instructions are in AGENT_GUIDE.md.
+
+Series kits are routed from AGENT_GUIDE.md too — for The Epoch Ledger documentaries see its "Series kit: The Epoch Ledger" section (`/epoch-ledger`, `skills/creative/epoch-ledger.md`, `epoch-ledger/README.md`).

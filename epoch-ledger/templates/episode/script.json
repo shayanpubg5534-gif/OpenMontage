@@ -1,0 +1,8 @@
+{
+ "title": "__TITLE__",
+ "lines": [
+  {"id": "hook", "text": "Write the hook line here. Start on the question, never on a logo."},
+  {"id": "customer", "text": "Introduce the human stake in one sentence."},
+  {"id": "reveal", "text": "Land the insight in one short, quotable sentence."}
+ ]
+}

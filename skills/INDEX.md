@@ -324,6 +324,8 @@ Load via `styles/playbook_loader.py`: `load_playbook("clean-professional")`. `li
 
 `ink-sketch` (Ink Theater) is a **style id** handled by `creative/ink-theater.md` and the `ink-theater/` engine, not a YAML playbook.
 
+The Epoch Ledger series look is handled by `creative/epoch-ledger.md` and the `epoch-ledger/` kit (characters, sets, Three.js vault, captions, render cache), not a YAML playbook.
+
 ## Installed Agent Skills (Layer 3)
 
 All agent skills live in `.agents/skills/` and are managed via `npx skills add`.

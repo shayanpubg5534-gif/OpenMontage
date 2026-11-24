@@ -1,0 +1,29 @@
+{
+ "title": "How Banks Create Money",
+ "lines": [
+  {
+   "id": "hook",
+   "text": "When a bank lends you money, it doesn't hand you someone else's savings."
+  },
+  {
+   "id": "customer",
+   "text": "Meet Maya. She walks into her bank and asks for a ten-thousand-dollar loan."
+  },
+  {
+   "id": "approval",
+   "text": "The bank checks her credit, approves the loan, and writes two new lines in its ledger."
+  },
+  {
+   "id": "ledger",
+   "text": "On one side, an asset: Maya's promise to repay. On the other, a deposit."
+  },
+  {
+   "id": "deposit",
+   "text": "And with a few keystrokes, ten thousand dollars appears in her account."
+  },
+  {
+   "id": "reveal",
+   "text": "No vault was opened. That money did not exist before. The loan created it."
+  }
+ ]
+}
