@@ -1,6 +1,24 @@
 # Production plan — Is the AI Bubble Bigger Than the Dot-Com Bubble?
 
-Status: **pre-production complete, awaiting approval.** Nothing has been rendered.
+Status: **refined script ready for approval** (Option C approved as a one-time flagship exception:
+16–19 minutes acceptable; series standard unchanged). Nothing has been rendered.
+
+## Update after approval (2026-11-24)
+
+- Option C with light refinement: 22 changes (repetition, wording, 2 factual corrections, ECB
+  period precision, spoken "twenty twenty-six"). **Refined narration: 18:19.5 (1,099.5 s)**,
+  1,986 words, 400 caption pages — see `refined_script.md`.
+- ECB figures verified against the primary text; "processors" correction withdrawn (correct
+  British pronunciation, Whisper limitation).
+- Approved: HyperFrames-native captions (subject to visual + timing validation against the pilot
+  in the first draft); narration + original sound effects, no music; read-only access to FRED,
+  World Bank and ECB (FRED downloads are refused by FRED itself — see `fact_check.md`).
+- Render estimate at 18:19.5 with HyperFrames captions (no Remotion pass, no re-encode):
+  ≈ 4.3 h for the first full 1080p render + ≈ 11 min chunk overhead; one-scene revisions 4–8 min.
+- Next (after approval): representative 960×540 draft previews of selected scenes; no full render.
+
+---
+
 
 Companion files: `fact_check.md` · `narration_timings.md` · `storyboard.md` (68 scenes) ·
 `art-direction.md` · `artifacts/decision_log.json`.

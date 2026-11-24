@@ -147,6 +147,13 @@ def transcribe(audio: Path, model: str, outdir: Path, reuse: bool = False) -> li
     return _merge_numbers(raw)
 
 
+def _uk_us(text: str) -> str:
+    t = _norm(text.replace("-", "").replace(".", "dot"))
+    for a, b in (("tre", "ter"), ("bre", "ber"), ("ise", "ize"), ("our", "or"), ("yse", "yze")):
+        t = t.replace(a, b)
+    return t
+
+
 def audio_check(words: list[dict], segs: list[dict]) -> list[dict]:
     """Per line: script words Whisper heard differently (pronunciation review list)."""
     import difflib
@@ -163,6 +170,10 @@ def audio_check(words: list[dict], segs: list[dict]) -> list[dict]:
                 continue  # numerals for spelled-out numbers are fine
             if _norm(said.replace("-", "")) == _norm(got.replace(" ", "")):
                 continue  # hyphenation / spacing only
+            if _uk_us(said) == _uk_us(got):
+                continue  # British vs American spelling (centre/center, recognise/recognize, fibre/fiber)
+            if not got and all(_norm(t) in ("dollars", "dollar", "percent") for t in said.split()):
+                continue  # folded into "$…" / "…%"
             out.append({"id": s["id"], "script": said, "heard": got})
     return out
 

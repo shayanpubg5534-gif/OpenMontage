@@ -45,9 +45,12 @@ def main():
     md += ["\n## Remaining transcription mismatches (reviewed)\n",
            "Whisper vs script after the fixes. These are transcription artefacts, not narration errors, "
            "unless stated otherwise; captions always show the script wording.\n",
-           "| Line | Script | Whisper heard |", "|---|---|---|"]
+           "| Line | Script | Whisper heard | Review |", "|---|---|---|---|"]
+    notes = {"processors.": "Correct British pronunciation /ˈprəʊsɛsəz/ (same phonemes as c04_07); Whisper limitation",
+             "promised": "'promised to' — the d blends into the t, as in natural speech; no change",
+             "2003": "Read 'two thousand and three' — standard British reading; no change"}
     for x in check:
-        md.append(f"| {x['id']} | {x['script']} | {x['heard']} |")
+        md.append(f"| {x['id']} | {x['script']} | {x['heard']} | {notes.get(x['script'], 'review')} |")
     (HERE / "refined_script.md").write_text("\n".join(md) + "\n")
     print("wrote refined_script.md", fmt(timing["total"]), words, "words", len(check), "mismatches")
 
