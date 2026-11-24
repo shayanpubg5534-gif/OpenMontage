@@ -282,3 +282,17 @@ def test_empty_srt_has_no_captions(tmp_path: Path) -> None:
     srt.write_text(" \n\t\n", encoding="utf-8")
 
     assert RemotionCaptionBurn()._srt_to_word_captions(str(srt)) == []
+
+
+def test_break_pages_at_segments_is_opt_in():
+    from tools.video.remotion_caption_burn import RemotionCaptionBurn
+
+    segs = [
+        {"words": [{"word": "Meet", "start": 0.0, "end": 0.2}, {"word": "Maya.", "start": 0.2, "end": 0.5}]},
+        {"words": [{"word": "She", "start": 0.6, "end": 0.7}, {"word": "walks", "start": 0.7, "end": 1.0}]},
+    ]
+    tool = RemotionCaptionBurn()
+    default = tool._segments_to_word_captions(segs)
+    assert not any(c.get("pageBreakAfter") for c in default)
+    split = tool._segments_to_word_captions(segs, break_pages_at_segments=True)
+    assert [c.get("pageBreakAfter", False) for c in split] == [False, True, False, True]

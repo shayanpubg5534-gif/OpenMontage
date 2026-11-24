@@ -1,0 +1,53 @@
+{
+  "series": "The Epoch Ledger",
+  "approved_pilot": "episodes/how-banks-create-money",
+  "narration": {
+    "tool": "kokoro_tts",
+    "voice": "bm_george",
+    "speed": 0.95,
+    "lead_seconds": 0.10,
+    "gap_seconds": 0.30,
+    "tail_seconds": 0.70,
+    "loudness_lufs": -16
+  },
+  "captions": {
+    "whisper_model": "small.en",
+    "engine": "remotion",
+    "engine_options": ["remotion", "hyperframes"],
+    "engine_note": "remotion = approved pilot path (separate burn pass). hyperframes = kit/captions.py, same look, no extra pass — switch after approval.",
+    "max_words_per_page": 6,
+    "font_size": 46,
+    "color": "#F8FAFC",
+    "highlight": "#f2c66d",
+    "background": "rgba(20,33,61,0.82)",
+    "font_family": "Inter, system-ui, sans-serif",
+    "bottom_offset": 60,
+    "remotion_burn_inputs": {
+      "break_pages_at_segments": true,
+      "words_per_page": 7,
+      "font_size": 46,
+      "highlight_color": "#f2c66d",
+      "caption_props": {"backgroundColor": "rgba(20,33,61,0.82)", "fontFamily": "Inter, system-ui, sans-serif", "bottomOffset": 60}
+    }
+  },
+  "render": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "hyperframes_version": "0.9.88",
+    "final_quality": "looks",
+    "final_quality_note": "HyperFrames 'looks' = H.264 CRF 16, yuv420p tv-range — the approved pilot setting",
+    "preview": {"fps": 24, "quality": "draft"},
+    "chunk_min_seconds": 15,
+    "safe_area_bottom_px": 880,
+    "browser_env": {
+      "REMOTION_BROWSER_EXECUTABLE": "/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell",
+      "HYPERFRAMES_BROWSER_PATH": "/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell"
+    }
+  },
+  "palette": {
+    "ink": "#14213d", "parchment": "#f4ead5", "brass": "#d4a24c", "ledger_green": "#2f7d5b",
+    "teal": "#1f7a78", "coral": "#e0603a", "sky": "#9cc9e6", "dawn": "#f6c59a", "outline": "#1b2230"
+  },
+  "type": {"display": "Fraunces 600/800", "labels": "Inter 500/700"}
+}

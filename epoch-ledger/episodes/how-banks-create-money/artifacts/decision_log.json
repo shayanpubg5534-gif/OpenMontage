@@ -1,0 +1,122 @@
+{
+ "version": "1.0",
+ "project_id": "how-banks-create-money",
+ "decisions": [
+  {
+   "decision_id": "d-001",
+   "stage": "proposal",
+   "category": "approval_policy",
+   "subject": "Full-run pre-authorization",
+   "options_considered": [
+    {
+     "option_id": "full",
+     "label": "User-specified full run",
+     "score": 1,
+     "reason": "User gave a complete brief and asked for the finished video"
+    },
+    {
+     "option_id": "gated",
+     "label": "Stage-by-stage gates",
+     "score": 0.4,
+     "reason": "Slower; user already fixed every major choice"
+    }
+   ],
+   "selected": "full",
+   "reason": "User explicitly specified voice, runtimes, style, captions and export, and requested the final deliverable in one request."
+  },
+  {
+   "decision_id": "d-002",
+   "stage": "proposal",
+   "category": "voice_selection",
+   "subject": "Narration TTS provider",
+   "options_considered": [
+    {
+     "option_id": "kokoro_bm_george",
+     "label": "Kokoro bm_george @0.95",
+     "score": 1,
+     "reason": "User-specified; free, local"
+    },
+    {
+     "option_id": "piper",
+     "label": "Piper en_GB-alan",
+     "score": 0.3,
+     "reason": "More robotic"
+    }
+   ],
+   "selected": "kokoro_bm_george",
+   "reason": "User instruction."
+  },
+  {
+   "decision_id": "d-003",
+   "stage": "proposal",
+   "category": "render_runtime_selection",
+   "subject": "Composition runtime",
+   "options_considered": [
+    {
+     "option_id": "hyperframes",
+     "label": "HyperFrames (+Three.js) for visuals",
+     "score": 1,
+     "reason": "Hand-authored motion design and WebGL"
+    },
+    {
+     "option_id": "remotion",
+     "label": "Remotion for captions pass",
+     "score": 0.9,
+     "reason": "Word-highlight caption component"
+    },
+    {
+     "option_id": "ffmpeg",
+     "label": "FFmpeg only",
+     "score": 0.1,
+     "reason": "Would downgrade to stills"
+    }
+   ],
+   "selected": "hyperframes+remotion",
+   "reason": "User asked for HyperFrames visuals with Remotion where better; Remotion's caption overlay used for captions."
+  },
+  {
+   "decision_id": "d-004",
+   "stage": "proposal",
+   "category": "composition_mode",
+   "subject": "Authoring mode",
+   "options_considered": [
+    {
+     "option_id": "atelier",
+     "label": "Atelier (hand-authored)",
+     "score": 1,
+     "reason": "Hero test piece"
+    },
+    {
+     "option_id": "templated",
+     "label": "Stock scene types",
+     "score": 0.2,
+     "reason": "Generic look, no characters"
+    }
+   ],
+   "selected": "atelier",
+   "reason": "Bespoke illustration and characters required."
+  },
+  {
+   "decision_id": "d-005",
+   "stage": "proposal",
+   "category": "music_source",
+   "subject": "Background music",
+   "options_considered": [
+    {
+     "option_id": "none",
+     "label": "No music",
+     "score": 1,
+     "reason": "music_library empty; Pixabay blocks automated access; local generation needs a GPU"
+    },
+    {
+     "option_id": "generate",
+     "label": "API music",
+     "score": 0,
+     "reason": "Paid APIs excluded"
+    }
+   ],
+   "selected": "none",
+   "reason": "No free music source available in this environment."
+  }
+ ]
+}

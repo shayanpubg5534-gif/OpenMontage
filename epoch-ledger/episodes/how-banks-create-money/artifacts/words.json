@@ -1,0 +1,494 @@
+[
+{
+"word": " When",
+"start": 0.0,
+"end": 0.18,
+"probability": 0.736
+},
+{
+"word": " a",
+"start": 0.18,
+"end": 0.3,
+"probability": 0.995
+},
+{
+"word": " bank",
+"start": 0.3,
+"end": 0.56,
+"probability": 0.998
+},
+{
+"word": " lends",
+"start": 0.56,
+"end": 0.84,
+"probability": 0.984
+},
+{
+"word": " you",
+"start": 0.84,
+"end": 1.1,
+"probability": 0.998
+},
+{
+"word": " money,",
+"start": 1.1,
+"end": 1.36,
+"probability": 0.998
+},
+{
+"word": " it",
+"start": 1.8,
+"end": 1.9,
+"probability": 0.985
+},
+{
+"word": " doesn't",
+"start": 1.9,
+"end": 2.18,
+"probability": 0.997
+},
+{
+"word": " hand",
+"start": 2.18,
+"end": 2.38,
+"probability": 0.995
+},
+{
+"word": " you",
+"start": 2.38,
+"end": 2.56,
+"probability": 0.996
+},
+{
+"word": " someone",
+"start": 2.56,
+"end": 2.96,
+"probability": 0.996
+},
+{
+"word": " else's",
+"start": 2.96,
+"end": 3.5,
+"probability": 0.99
+},
+{
+"word": " savings.",
+"start": 3.5,
+"end": 3.98,
+"probability": 0.975
+},
+{
+"word": " Meet",
+"start": 4.66,
+"end": 4.8,
+"probability": 0.896
+},
+{
+"word": " Maya.",
+"start": 4.8,
+"end": 5.1,
+"probability": 0.632
+},
+{
+"word": " She",
+"start": 5.62,
+"end": 5.7,
+"probability": 0.995
+},
+{
+"word": " walks",
+"start": 5.7,
+"end": 5.9,
+"probability": 0.999
+},
+{
+"word": " into",
+"start": 5.9,
+"end": 6.18,
+"probability": 0.993
+},
+{
+"word": " her",
+"start": 6.18,
+"end": 6.36,
+"probability": 0.998
+},
+{
+"word": " bank",
+"start": 6.36,
+"end": 6.62,
+"probability": 0.999
+},
+{
+"word": " and",
+"start": 6.62,
+"end": 7.04,
+"probability": 0.965
+},
+{
+"word": " asks",
+"start": 7.04,
+"end": 7.32,
+"probability": 0.992
+},
+{
+"word": " for",
+"start": 7.32,
+"end": 7.6,
+"probability": 0.998
+},
+{
+"word": " a",
+"start": 7.6,
+"end": 7.72,
+"probability": 0.99
+},
+{
+"word": " $10",
+"start": 7.72,
+"end": 8.02,
+"probability": 0.944
+},
+{
+"word": ",000",
+"start": 8.02,
+"end": 8.6,
+"probability": 0.996
+},
+{
+"word": " loan.",
+"start": 8.6,
+"end": 9.1,
+"probability": 0.993
+},
+{
+"word": " The",
+"start": 9.64,
+"end": 9.74,
+"probability": 0.994
+},
+{
+"word": " bank",
+"start": 9.74,
+"end": 9.98,
+"probability": 0.999
+},
+{
+"word": " checks",
+"start": 9.98,
+"end": 10.32,
+"probability": 0.997
+},
+{
+"word": " her",
+"start": 10.32,
+"end": 10.52,
+"probability": 0.986
+},
+{
+"word": " credit,",
+"start": 10.52,
+"end": 10.9,
+"probability": 0.999
+},
+{
+"word": " approves",
+"start": 11.3,
+"end": 11.66,
+"probability": 0.994
+},
+{
+"word": " the",
+"start": 11.66,
+"end": 11.94,
+"probability": 0.998
+},
+{
+"word": " loan,",
+"start": 11.94,
+"end": 12.28,
+"probability": 0.999
+},
+{
+"word": " and",
+"start": 12.56,
+"end": 12.74,
+"probability": 0.998
+},
+{
+"word": " writes",
+"start": 12.74,
+"end": 12.96,
+"probability": 0.996
+},
+{
+"word": " two",
+"start": 12.96,
+"end": 13.28,
+"probability": 0.974
+},
+{
+"word": " new",
+"start": 13.28,
+"end": 13.5,
+"probability": 0.994
+},
+{
+"word": " lines",
+"start": 13.5,
+"end": 13.84,
+"probability": 0.999
+},
+{
+"word": " in",
+"start": 13.84,
+"end": 14.2,
+"probability": 0.998
+},
+{
+"word": " its",
+"start": 14.2,
+"end": 14.4,
+"probability": 0.989
+},
+{
+"word": " ledger.",
+"start": 14.4,
+"end": 14.76,
+"probability": 0.999
+},
+{
+"word": " On",
+"start": 15.2,
+"end": 15.32,
+"probability": 0.994
+},
+{
+"word": " one",
+"start": 15.32,
+"end": 15.54,
+"probability": 0.999
+},
+{
+"word": " side,",
+"start": 15.54,
+"end": 15.92,
+"probability": 1.0
+},
+{
+"word": " an",
+"start": 16.14,
+"end": 16.24,
+"probability": 0.994
+},
+{
+"word": " asset,",
+"start": 16.24,
+"end": 16.66,
+"probability": 0.997
+},
+{
+"word": " Maya's",
+"start": 17.26,
+"end": 17.48,
+"probability": 0.967
+},
+{
+"word": " promise",
+"start": 17.48,
+"end": 17.74,
+"probability": 0.845
+},
+{
+"word": " to",
+"start": 17.74,
+"end": 18.02,
+"probability": 0.999
+},
+{
+"word": " repay.",
+"start": 18.02,
+"end": 18.42,
+"probability": 0.999
+},
+{
+"word": " On",
+"start": 18.96,
+"end": 19.14,
+"probability": 0.996
+},
+{
+"word": " the",
+"start": 19.14,
+"end": 19.32,
+"probability": 0.999
+},
+{
+"word": " other,",
+"start": 19.32,
+"end": 19.58,
+"probability": 1.0
+},
+{
+"word": " a",
+"start": 19.82,
+"end": 19.9,
+"probability": 0.997
+},
+{
+"word": " deposit.",
+"start": 19.9,
+"end": 20.36,
+"probability": 0.999
+},
+{
+"word": " And",
+"start": 20.86,
+"end": 20.96,
+"probability": 0.988
+},
+{
+"word": " with",
+"start": 20.96,
+"end": 21.1,
+"probability": 0.971
+},
+{
+"word": " a",
+"start": 21.1,
+"end": 21.22,
+"probability": 0.997
+},
+{
+"word": " few",
+"start": 21.22,
+"end": 21.46,
+"probability": 1.0
+},
+{
+"word": " keystrokes,",
+"start": 21.46,
+"end": 22.24,
+"probability": 0.981
+},
+{
+"word": " $10",
+"start": 22.62,
+"end": 22.84,
+"probability": 0.982
+},
+{
+"word": ",000",
+"start": 22.84,
+"end": 23.34,
+"probability": 0.999
+},
+{
+"word": " appears",
+"start": 23.34,
+"end": 23.96,
+"probability": 0.994
+},
+{
+"word": " in",
+"start": 23.96,
+"end": 24.42,
+"probability": 0.997
+},
+{
+"word": " her",
+"start": 24.42,
+"end": 24.56,
+"probability": 1.0
+},
+{
+"word": " account.",
+"start": 24.56,
+"end": 25.0,
+"probability": 1.0
+},
+{
+"word": " No",
+"start": 25.0,
+"end": 25.68,
+"probability": 0.776
+},
+{
+"word": " vault",
+"start": 25.68,
+"end": 26.02,
+"probability": 0.962
+},
+{
+"word": " was",
+"start": 26.02,
+"end": 26.22,
+"probability": 0.997
+},
+{
+"word": " opened.",
+"start": 26.22,
+"end": 26.68,
+"probability": 0.993
+},
+{
+"word": " That",
+"start": 27.06,
+"end": 27.22,
+"probability": 0.991
+},
+{
+"word": " money",
+"start": 27.22,
+"end": 27.48,
+"probability": 0.999
+},
+{
+"word": " did",
+"start": 27.48,
+"end": 27.7,
+"probability": 0.993
+},
+{
+"word": " not",
+"start": 27.7,
+"end": 27.9,
+"probability": 0.999
+},
+{
+"word": " exist",
+"start": 27.9,
+"end": 28.3,
+"probability": 0.997
+},
+{
+"word": " before.",
+"start": 28.3,
+"end": 28.8,
+"probability": 0.998
+},
+{
+"word": " The",
+"start": 29.34,
+"end": 29.44,
+"probability": 0.993
+},
+{
+"word": " loan",
+"start": 29.44,
+"end": 29.76,
+"probability": 0.91
+},
+{
+"word": " created",
+"start": 29.76,
+"end": 30.34,
+"probability": 0.999
+},
+{
+"word": " it.",
+"start": 30.34,
+"end": 30.64,
+"probability": 0.998
+}
+]

@@ -1,0 +1,21 @@
+{
+ "output": "projects/how-banks-create-money/renders/final.mp4",
+ "resolution": "1920x1080",
+ "fps": 30,
+ "codec": "h264/yuv420p + aac 48k",
+ "duration_s": 31.55,
+ "loudness_lufs": -16.2,
+ "timings": {
+  "hyperframes_render_s": 444,
+  "caption_burn_remotion_s": 117,
+  "final_encode_s": 35,
+  "narration_tts_s": "~10",
+  "whisper_small_en_s": "~20"
+ },
+ "checks": [
+  "hyperframes lint: 0 errors",
+  "no black frames",
+  "no freezes >1.5s",
+  "visual review of 16 sampled frames"
+ ]
+}
