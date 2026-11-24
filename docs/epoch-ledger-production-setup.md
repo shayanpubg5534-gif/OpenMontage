@@ -183,3 +183,63 @@ hook. It saved 86–97 % on test and log output, but only about 68 K tokens over
 (under 1 %), and its pytest filter hid a failing assertion's message. Not adopted as a hook;
 optional manual `rtk log` for long render logs. Details and preserved outputs:
 `docs/rtk-trial-2026-11-24.md`.
+
+## iart-ai motion-skills packs — evaluation (2026-11-24)
+
+Source: `github.com/iart-ai/motion-skills` (MIT index repo). Each pack is a separate repository.
+Twelve packs were cloned read-only into the session scratchpad: 37 skills, about 130 k words. I read
+each pack's skill instructions, references, scripts, dependencies and licence. Nothing was
+installed, and nothing in the repo or `.claude/` changed.
+
+**What they are:** prompt-only craft guides. Each one outputs either a standalone HTML file with
+a `?t=` seek harness, or a Remotion/Manim project. Each has a render → freeze → screenshot → check
+verification loop. The core techniques need no paid service. Some packs advertise the paid iArt
+service or MCP, and a few optional paths use paid APIs (listed below).
+
+**Fit with our architecture:** the GSAP, SVG and Three.js techniques map directly onto our
+HyperFrames master timeline, so no new rendering engine is needed. Installing the packs as skills
+is **not** advisable, for four reasons:
+- their broad trigger descriptions ("animate a chart", "make an explainer video") would
+  auto-activate alongside our existing remotion, gsap, threejs, hyperframes and manim skills
+  (duplicates);
+- each skill requires its own output contract (standalone HTML or a Remotion project), which
+  conflicts with our scene-cached HyperFrames build;
+- several are written for Remotion or After Effects;
+- loading them costs about 1.5–2.3 k words per skill.
+
+The value is in specific craft rules. Those can be distilled, with MIT attribution, into one
+Epoch Ledger reference loaded only while building scenes.
+
+| Pack (skills) | What is genuinely useful for us | Paid / conflicts | Recommendation |
+|---|---|---|---|
+| **motion-design-skills** (9) | `motion-art-direction`: a per-episode *motion-language spec* (one easing family, base timing unit, transition family, stagger rhythm); restraint rules ("no overshoot on financial content", one hero per frame, one "wow" per piece). `animation-principles`: three motion layers (primary, secondary, ambient); the 1/3 rule (no unbroken travel over a third of the frame; no more than a third of elements moving at once); anticipation and follow-through; named easing values. `shot-composition`: focal point on thirds, layer map, one camera move per shot, enter/exit direction carries meaning | `after-effects` and parts of `logo-animation` assume Adobe (paid); `remotion-video` duplicates our skill; `motion-background` is mostly decorative | **Selectively adapt** (art direction, principles, composition; color-motion's OKLCH interpolation). Reject AE, logo, remotion, background |
+| **explainer-video-skills** (5) | `diagram-animation`: progressive disclosure (nodes → edges → labels), active item lit with context dimmed, flowing connectors (marching dash + travelling dot), 0.5–1.5 s read holds. `isometric-animation`: true iso ±30° axes, one fixed light with top/side/dark shading, lift along Z instead of scaling, bottom-up builds, exploded views. `whiteboard-animation`: stroke draw-on in narration order, fills after outlines (blueprint and hand-drawn beats) | `explainer-video` overlaps our pipeline; `wrapped-video` is off-topic | **Selectively adapt** diagram, isometric and whiteboard rules |
+| **data-animation-skills** (3) | values as pure functions of time (we already do this); `tabular-nums` and `Intl.NumberFormat` for counters; an intro hold and a final hold of at least 2 s; rank transitions; design the static frame first; reveal order follows visual hierarchy | Remotion-based contract | **Selectively adapt** the rules; reject the Remotion templates |
+| **webgl-animation-skills** (3) | Three.js performance for CPU rendering (merge static geometry, prefer baked or matcap light and emissive motion over many lights and shadows, instancing); seeded particles with a fixed timestep, curl-noise flow for meaningful flows (airflow, coolant, capital) | `shader-glsl` is mostly backgrounds and transitions; post-effects are costly in software GL | **Selectively adapt** the performance and particle determinism rules |
+| **map-animation-skills** (1) | Path B vector maps: d3-geo projection, route draw-on, region highlight with context dimmed, pins and labels locked to the projection, slow establishing moves, optional 12 fps "editorial" stutter on overlays. Data: Natural Earth / world-atlas (public domain / ISC, reachable via jsDelivr) | Path A needs Google Earth Studio + After Effects (paid AE) | **Selectively adapt** Path B for future geography beats (supply chains, ripple maps); reject Path A |
+| **kinetic-typography-skills** (1) | split by line, word or character; mask/clip reveals; stagger values (lines 60–100 ms, words 40–70 ms, characters 20–40 ms); cap a group reveal at about 0.8 s; split after `document.fonts.ready` | none (GSAP SplitText is free) | **Integrate** as rules for narration-synced key-phrase type |
+| **javascript-animation-skills** (2) | `layout-check`: every text box and key object registers a box, and an automated pass flags text collisions over time (a QA gap we have). Also: "a hand-drawn line boils, it doesn't jitter" (change the wobble every 4 frames), draw back to front, events/cues list | `soundtrack` (synthesised music) conflicts with our no-music rule | **Selectively adapt**: build our own HyperFrames layout/collision check from the idea; reject the canvas engine and the soundtrack |
+| **b-roll-skills** (1) | per-word timing and "show vs say" treatment logic (we already key to words) | built for talking-head footage; transcription path mentions ElevenLabs (paid) | **Reject** (not our format); one rule, "a full-frame cover lasts 3–8 s before returning", is noted |
+| **generative-illustration-skills** (1) | "animate many small independent elements, never one big image" (we already work this way) | asset generation needs OpenRouter/Replicate keys (**paid**); **no licence file or licence statement** in the repo | **Reject** |
+| **manim-skills** (1) | solid Manim CE basics | separate engine and visual language | **Defer** (only for an equation-heavy episode) |
+| **youtube-video-skills** (2) | end-screen element zones (the last 5–20 s) for later; audiogram is off-format | the intro "logo sting" conflicts with our hook-first, no-logo rule | **Defer** (end-screen layout only) |
+| **freelance-motion-skills** (5) | `video-delivery-specs` (YouTube export/QC checklist); `brand-motion-guidelines` motion-token template (feeds our motion-language spec) | pricing, client revisions and creative brief are not relevant | **Selectively adapt** two references; reject the rest |
+
+### Proposed integration (on your approval)
+
+1. Add **one** file, `skills/creative/epoch-ledger-motion-craft.md` (≈ 2–3 k tokens), with MIT
+   attribution to iart-ai. It covers: the series motion-language spec (easing family, timing unit,
+   stagger rhythm, restraint for financial content), the motion layers and 1/3 rule, the
+   composition plan per shot, diagram and isometric construction rules, kinetic-type timing,
+   chart and number formatting, vector-map recipe, and Three.js CPU performance rules. It is linked
+   from the Epoch Ledger skill and `QUALITY.md`, and loaded only when building or revising scenes
+   (selective loading, no duplicate auto-triggering skills).
+2. Add a **layout/collision QA check** to our toolkit (our own code, inspired by `layout-check`).
+   It samples the timeline and flags text that overlaps other text, the caption band or key
+   objects. It runs on DOM boxes only, so it adds seconds to a review, not render time.
+3. Vendor GSAP SplitText and DrawSVG (free licence) when the first kinetic-type or blueprint beat
+   needs them. Add the Natural Earth/world-atlas data only when an episode needs a map.
+4. Everything persists through git (repo files only). There are no plugin or marketplace
+   installs, and nothing is fetched at session start. CPU impact: none for the rules themselves.
+   Blur-based text reveals and large particle systems are the only techniques with measurable
+   render cost, so use them sparingly.
