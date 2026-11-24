@@ -23,6 +23,10 @@ A region whose id matches a top-level clip id inherits that clip's span; a regio
 Usage:
   render.py plan    WORKSPACE [--preview]
   render.py render  WORKSPACE -o OUT.mp4 [--audio narration.wav] [--preview] [--jobs N]
+
+Output size follows the composition's root data-width/data-height (1920x1080 by default; an
+episode built with kit.assemble(resolution="1440p") renders 2560x1440). HyperFrames' own
+--resolution upscale is not used: 1080p→1440p is a non-integer scale it rejects.
   render.py scene   WORKSPACE SCENE_ID -o OUT.mp4 [--preview]   # one scene, cached
 """
 from __future__ import annotations
@@ -44,6 +48,11 @@ from pathlib import Path
 HF_VERSION = os.environ.get("EPOCH_HF_VERSION", "0.9.88")
 FINAL = {"fps": 30, "quality": "looks"}       # CRF 16 — the approved pilot setting
 PREVIEW = {"fps": 24, "quality": "draft"}     # range renders need 24/25/30/60 fps
+def render_command(ws: Path, out: Path, settings: dict, start: float, end: float, workers: str) -> list[str]:
+    cmd = ["npx", "--yes", f"hyperframes@{HF_VERSION}", "render", str(ws), "-o", str(out),
+           "--fps", str(settings["fps"]), "--quality", settings["quality"], "--quiet",
+           "--start", f"{start:.4f}", "--end", f"{end:.4f}", "--workers", workers]
+    return cmd
 AUDIO_EXT = {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"}
 SKIP_DIRS = {".hyperframes", ".render-cache", "renders", "node_modules", "__pycache__"}
 MARK = re.compile(r"/\*scene:([\w-]+)(?:\s+spans=([\d.,\-]+))?\*/(.*?)/\*/scene:\1\*/", re.S)
@@ -73,6 +82,7 @@ class Composition:
     clips: list[Clip]
     regions: list[Region]
     shared: str
+    size: tuple[int, int] = (1920, 1080)
     deps: dict[str, list[tuple[float, float]]] = field(default_factory=dict)  # id → spans; [] = global
 
 
@@ -86,6 +96,7 @@ class _TopLevel(HTMLParser):
         for line in self.lines:
             self.offsets.append(self.offsets[-1] + len(line))
         self.depth, self.root_depth, self.duration = 0, None, None
+        self.size = (1920, 1080)
         self.open: dict | None = None
         self.found: list[dict] = []
 
@@ -103,6 +114,7 @@ class _TopLevel(HTMLParser):
         self.depth += 1
         if self.root_depth is None and "data-composition-id" in a:
             self.root_depth, self.duration = self.depth, float(a.get("data-duration", 0))
+            self.size = (int(a.get("data-width", 1920)), int(a.get("data-height", 1080)))
         elif self.root_depth is not None and self.depth == self.root_depth + 1 and "data-start" in a:
             self.open = {**a, "tag": tag, "s": self._pos()}
 
@@ -132,7 +144,7 @@ def parse(html: str) -> Composition:
         shared = shared.replace(c.text, f"<!--clip:{c.id}-->", 1)
     for r in regions:
         shared = shared.replace(r.text, f"/*region:{r.id}*/", 1)
-    comp = Composition(p.duration, clips, regions, shared)
+    comp = Composition(p.duration, clips, regions, shared, p.size)
     by_id = {c.id: c for c in clips}
     for c in clips:
         comp.deps[c.id] = [(c.start, c.end)]
@@ -208,7 +220,8 @@ def plan(ws: Path, settings: dict, chunk_min: float) -> dict:
             h.update(texts[k].encode())
         out.append({"start_frame": a, "end_frame": b, "start": round(t0, 4), "end": round(t1, 4),
                     "deps": deps, "key": h.hexdigest()[:24]})
-    return {"duration": comp.duration, "fps": fps, "total_frames": total, "settings": settings, "chunks": out}
+    return {"duration": comp.duration, "fps": fps, "total_frames": total, "settings": settings,
+            "width": comp.size[0], "height": comp.size[1], "chunks": out}
 
 
 # ── execution ──────────────────────────────────────────────────────────
@@ -229,9 +242,7 @@ def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
     if dst.exists():
         return 0.0
     tmp = cache_dir(ws) / f"{ch['key']}.tmp.mp4"
-    cmd = ["npx", "--yes", f"hyperframes@{HF_VERSION}", "render", str(ws), "-o", str(tmp),
-           "--fps", str(settings["fps"]), "--quality", settings["quality"], "--quiet",
-           "--start", f"{ch['start']:.4f}", "--end", f"{ch['end']:.4f}", "--workers", workers]
+    cmd = render_command(ws, tmp, settings, ch["start"], ch["end"], workers)
     t = time.time()
     subprocess.run(cmd, check=True, cwd=ws)
     subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(tmp), "-an", "-c", "copy", str(dst)], check=True)
@@ -258,6 +269,12 @@ def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int) -> dict:
     cmd += ["-c:v", "copy", "-t", f"{p['total_frames'] / p['fps']:.4f}", "-movflags", "+faststart", str(out)]
     subprocess.run(cmd, check=True)
     lst.unlink()
+    want_size = (p["width"], p["height"])
+    size = tuple(int(v) for v in subprocess.check_output(
+        ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+         "-of", "csv=p=0", str(out)]).decode().strip().split(","))
+    if size != want_size:
+        raise RuntimeError(f"assembled {size[0]}x{size[1]}, expected {want_size[0]}x{want_size[1]}")
     got = frames_in(out)
     if got != p["total_frames"]:
         raise RuntimeError(f"assembled {got} frames, expected {p['total_frames']}")

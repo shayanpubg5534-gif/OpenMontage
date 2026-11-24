@@ -2,12 +2,14 @@
 
   python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/__SLUG__     # narration + timings first
   python epoch-ledger/episodes/__SLUG__/build.py                          # → projects/__SLUG__/hyperframes/index.html
+  EPOCH_RESOLUTION=1440p python epoch-ledger/episodes/__SLUG__/build.py WS  # optional 2560x1440 build
 
 Every scene is a kit.assemble.Scene with its own html/css/js so render.py can cache it.
 Key every animation to narration times (`line(id)`) or Whisper word times (`word(...)`),
 never to hand-typed seconds.
 """
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -64,8 +66,11 @@ vault = {"shots": [
     "materialize": {"start": r0 + 1, "dur": 1.5, "notesStart": r0 + 1.5, "notesDur": 1.0, "spinStart": r0 + 1.1,
                     "spinDur": 3.4, "glowFadeStart": r0 + 2.5, "glowFadeDur": 1.5, "at": [-2.4, 3.6]}}
 
-engine = json.loads((KIT_ROOT / "config" / "production.json").read_text())["captions"]["engine"]
-html = assemble(title="__TITLE__", duration=D, scenes=scenes, vault=vault,
+CONFIG = json.loads((KIT_ROOT / "config" / "production.json").read_text())
+engine = CONFIG["captions"]["engine"]
+# 1080p is the default; EPOCH_RESOLUTION=1440p builds the optional QHD variant (not default until benchmarked).
+resolution = os.environ.get("EPOCH_RESOLUTION", CONFIG["render"]["default_resolution"])
+html = assemble(title="__TITLE__", duration=D, scenes=scenes, vault=vault, resolution=resolution,
                 caption_pages=pages if engine == "hyperframes" else None)
 prepare_workspace(WORKSPACE)
 (WORKSPACE / "index.html").write_text(html)

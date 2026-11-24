@@ -34,6 +34,16 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 
 Generated media (narration WAV, renders, caches) lives in `projects/<slug>/` (git-ignored).
 
+## Production targets (approved)
+
+- **2–3 documentaries per week**, 8–10 minutes each; 12–13 minutes only when the topic needs
+  deeper explanation, historical context or detailed storytelling. Never add filler.
+- **Priorities:** visual quality, factual accuracy, storytelling, audience retention.
+- **Output:** 1920×1080 at 30 fps by default; 2560×1440 optional (not default until benchmarked).
+- **Cost:** free local tools only; no paid APIs; avoid unnecessary AI usage.
+- Reuse kit components, but re-stage them so episodes never look repetitive
+  (`skills/creative/epoch-ledger.md` → "Reuse without repetition").
+
 ## Series look (locked)
 
 - **Palette:** ink `#14213d` · parchment `#f4ead5` · brass `#d4a24c` · ledger green `#2f7d5b` ·
@@ -54,7 +64,10 @@ Generated media (narration WAV, renders, caches) lives in `projects/<slug>/` (gi
   sentence's one-word tail), Inter 700 46 px, `#F8FAFC` text, `#f2c66d` active word with glow,
   `rgba(20,33,61,0.82)` box, 60 px from the bottom.
 - **Output:** 1920×1080, 16:9, 30 fps, H.264 `yuv420p` (HyperFrames `looks` = CRF 16), AAC
-  48 kHz, `+faststart`, no watermark.
+  48 kHz, `+faststart`, no watermark. Optional 2560×1440: build with `EPOCH_RESOLUTION=1440p`
+  (`kit.assemble(resolution="1440p")` zooms the 1920×1080 design 4/3 so vectors, text and the
+  3D canvas re-rasterise at full resolution; HyperFrames' `--resolution` upscale rejects the
+  non-integer factor). `render.py` checks the output size against the composition.
 
 ## Workflow
 
@@ -85,11 +98,15 @@ Measured on the pilot (4 vCPU, software WebGL, no GPU): HyperFrames 444 s for 94
 ≈ **0.47 s per frame ≈ 14 min per minute of video**; Remotion caption pass ≈ 3.7 min per
 minute; final `yuv420p` re-encode ≈ 1.1 min per minute.
 
-| Path for an 8-minute episode | First render | Change one scene |
+| Path for a 10-minute episode at 1080p | First render | Change one scene |
 |---|---|---|
-| Pilot path (full HF render + Remotion captions + re-encode) | ≈ 2.5 h | ≈ 2.5 h |
-| `render.py` + Remotion captions | ≈ 2.5 h | ≈ 4–8 min + ≈ 30 min caption pass + ≈ 9 min re-encode |
-| `render.py` + HyperFrames captions (no re-encode) | ≈ 2 h | ≈ 4–8 min |
+| Pilot path (full HF render + Remotion captions + re-encode) | ≈ 3.2 h | ≈ 3.2 h |
+| `render.py` + Remotion captions | ≈ 3.2 h | ≈ 4–8 min + ≈ 37 min caption pass + ≈ 11 min re-encode |
+| `render.py` + HyperFrames captions (no re-encode) | ≈ 2.5 h | ≈ 4–8 min |
+
+Weekly load at 2–3 episodes of 8–13 minutes: ≈ 16–39 minutes of video, ≈ 4–9 render-hours of
+first renders at 1080p on this 4-vCPU machine, plus cached revisions. 1440p has 1.78× the
+pixels; expect a proportional increase until measured.
 
 How `render.py` saves time without touching quality:
 
@@ -104,6 +121,6 @@ How `render.py` saves time without touching quality:
 - **Cheap previews first.** `hyperframes snapshot` contact sheets (seconds) → `--preview`
   scene renders (24 fps draft) → final.
 
-Not yet benchmarked (needs approval because each test is a real render): pre-rasterising
+Not yet benchmarked (needs approval because each test is a real render): 1440p render time, pre-rasterising
 static SVG set layers to PNG, a 960×540 preview build, SVG filter cost in the ledger scene,
 Three.js shadow-map size, and parallel chunk jobs on machines with more cores.
