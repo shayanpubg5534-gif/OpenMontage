@@ -32,6 +32,16 @@
     });
     ENV = pm.fromScene(es, 0.04).texture;
   }
+  // keyframed camera: keys = [[t, [px,py,pz], [lx,ly,lz], fov], ...] — eased between keys, holds at ends.
+  function keyCam(cam, keys, t) {
+    let i = 0; while (i < keys.length - 1 && t >= keys[i + 1][0]) i++;
+    const a = keys[i], b = keys[Math.min(i + 1, keys.length - 1)];
+    const f = b === a ? 0 : ease(clamp((t - a[0]) / (b[0] - a[0])));
+    cam.position.lerpVectors(V3(a[1]), V3(b[1]), f);
+    const look = new THREE.Vector3().lerpVectors(V3(a[2]), V3(b[2]), f);
+    if (cam.isPerspectiveCamera) { cam.fov = lerp(a[3] || 40, b[3] || 40, f); cam.updateProjectionMatrix(); }
+    cam.lookAt(look); cam.updateMatrixWorld();
+  }
   function add(id, o) { shots.push(Object.assign({ id }, o)); }
 
   // camera move: {from:[x,y,z], to:[...], look:[...], lookTo:[...], dur}
@@ -241,7 +251,7 @@
     const rnd = RNG(5), S = new THREE.Scene();
     S.background = new THREE.Color(0x070d1c); S.environment = ENV;
     const asp = W / H, Z = 11;
-    const cam = new THREE.OrthographicCamera(-Z * asp, Z * asp, Z, -Z, -100, 200);
+    const cam = s.keys ? new THREE.PerspectiveCamera(40, asp, .1, 400) : new THREE.OrthographicCamera(-Z * asp, Z * asp, Z, -Z, -100, 200);
     const plate = new THREE.Mesh(new THREE.BoxGeometry(26, .6, 16), new THREE.MeshStandardMaterial({ color: 0x0f1a2e, metalness: .3, roughness: .7 }));
     plate.position.y = -.3; plate.receiveShadow = true; S.add(plate);
     const grid = new THREE.GridHelper(26, 26, 0x1f3a5c, 0x13253d); grid.position.y = .01; grid.scale.z = 16 / 26; S.add(grid);
@@ -275,7 +285,14 @@
     const tubes = links.map(c => { const m = new THREE.Mesh(new THREE.TubeGeometry(c, 60, .05, 6, false), new THREE.MeshBasicMaterial({ color: 0x2a6c8c, transparent: true, opacity: 0 })); S.add(m); return m; });
     const investTube = new THREE.Mesh(new THREE.TubeGeometry(loopInvest, 80, .08, 6, false), new THREE.MeshBasicMaterial({ color: 0xffc766, transparent: true, opacity: 0 })); S.add(investTube);
     const dots = (n, color, r) => { const m = new THREE.InstancedMesh(new THREE.SphereGeometry(r, 10, 8), new THREE.MeshBasicMaterial({ color }), n); S.add(m); return m; };
-    const PER = 14, prod = dots(PER * 3, 0x7fe9ff, .13), money = dots(PER * 3, 0xffc766, .15);
+    const chipTok = (n) => { const m = new THREE.InstancedMesh(new THREE.BoxGeometry(.36, .09, .36), new THREE.MeshStandardMaterial({ color: 0x7fe9ff, emissive: 0x1f8fb0, emissiveIntensity: .9, metalness: .6, roughness: .3 }), n); S.add(m); return m; };
+    // platform ghost footprints shown while the narrator introduces the economy
+    const rings = {}; for (const k in P) { const r = new THREE.Mesh(new THREE.RingGeometry(2.4, 2.6, 48), new THREE.MeshBasicMaterial({ color: 0x38d6ff, transparent: true, opacity: 0, side: THREE.DoubleSide }));
+      r.rotation.x = -Math.PI / 2; r.position.set(P[k][0], .03, P[k][1]); S.add(r); rings[k] = r; }
+    // fab output conveyor: chips leave the fab along a belt
+    const belt = new THREE.Mesh(new THREE.BoxGeometry(3.2, .08, .6), mat(0x2a3446)); belt.position.set(P.fab[0] + 3.4, .05, P.fab[1] + .9); S.add(belt);
+    const beltChips = chipTok(8);
+    const PER = 14, prod = chipTok(PER * 3), money = dots(PER * 3, 0xffc766, .15);
     const packet = new THREE.Mesh(new THREE.BoxGeometry(.9, .5, .6), new THREE.MeshStandardMaterial({ color: 0xffc766, emissive: 0xb07a10, emissiveIntensity: .8, metalness: .6, roughness: .3 })); S.add(packet);
     S.add(new THREE.HemisphereLight(0x9fc4ff, 0x0a0d14, .8));
     const sun = new THREE.DirectionalLight(0xffffff, 2.0); sun.position.set(-10, 18, 12); sun.castShadow = true;
@@ -288,10 +305,21 @@
     const m4 = new THREE.Matrix4();
     return {
       scene: S, camera: cam, update(t, u) {
-        const a = s.orbit ? s.orbit[0] + (s.orbit[1] - s.orbit[0]) * clamp(u / s.dur) : .78;
-        cam.position.set(Math.sin(a) * 30 + .5, 22, Math.cos(a) * 30 + 1); cam.lookAt(.5, -.5, 1);
-        const zoom = s.zoom ? lerp(s.zoom[0], s.zoom[1], ease(clamp(u / s.dur))) : 1; cam.zoom = zoom; cam.updateProjectionMatrix();
-        cam.updateMatrixWorld(); // labels are projected before render: matrices must be current for cold seeks
+        if (s.keys) keyCam(cam, s.keys, t);
+        else {
+          const a = s.orbit ? s.orbit[0] + (s.orbit[1] - s.orbit[0]) * clamp(u / s.dur) : .78;
+          cam.position.set(Math.sin(a) * 30 + .5, 22, Math.cos(a) * 30 + 1); cam.lookAt(.5, -.5, 1);
+          const zoom = s.zoom ? lerp(s.zoom[0], s.zoom[1], ease(clamp(u / s.dur))) : 1; cam.zoom = zoom; cam.updateProjectionMatrix();
+          cam.updateMatrixWorld(); // labels are projected before render: matrices must be current for cold seeks
+        }
+        // platform assembles as the economy is introduced (s.platform = time of "imagine")
+        const pf = s.platform !== undefined ? ease(clamp((t - s.platform) / 1.2)) : 1;
+        plate.scale.set(Math.max(.01, pf), 1, Math.max(.01, pf)); grid.scale.set(Math.max(.01, pf), 1, Math.max(.01, pf) * 16 / 26); plate.visible = grid.visible = pf > .01;
+        for (const k in rings) { const on = s.ghost !== undefined ? clamp((t - s.ghost - Object.keys(P).indexOf(k) * .25) / .4) : 0;
+          const off = s.rise ? clamp((t - s.rise[k]) / .6) : 1; rings[k].material.opacity = .8 * on * (1 - off) * (.75 + .25 * Math.sin(t * 5 + k.length)); }
+        const fr = s.rise ? clamp((t - s.rise.fab - .6) / .5) : 1; belt.visible = fr > 0;
+        for (let j = 0; j < 8; j++) { const f = (j / 8 + t * .3) % 1; m4.makeScale(fr, fr, fr); m4.setPosition(P.fab[0] + 1.9 + f * 3, .18, P.fab[1] + .9); beltChips.setMatrixAt(j, m4); }
+        beltChips.instanceMatrix.needsUpdate = true;
         // build-in of nodes (s.rise = {fab:t, cloud:t, lab:t, cust:t})
         for (const k in nodes) { const f = s.rise ? ease(clamp((t - s.rise[k]) / .7)) : 1; nodes[k].scale.set(1, Math.max(.01, f), 1); nodes[k].visible = f > .01; }
         // demand growth (s.grow = {cust, fab, cloud, lab})
@@ -321,6 +349,9 @@
           const el = document.getElementById(s.packetLabel); if (el) { const p = packet.position.clone().project(cam);
             el.style.opacity = packet.visible ? 1 : 0; el.style.transform = `translate(${(p.x * .5 + .5) * 1920}px, ${(-p.y * .5 + .5) * 1080 - 34}px) translate(-50%,-100%)`; }
         }
+        if (s.rev) for (const k in s.rev) { const el = document.getElementById('mf-rev-' + k); if (!el) continue; const a = clamp((t - s.rev[k]) / .3), b = clamp((t - s.rev[k] - 2.4) / .4);
+          v.copy(nodes[k].position); v.y += k === 'lab' ? 4.4 : k === 'cloud' ? 5.2 : 3.4; v.project(cam); el.style.opacity = a * (1 - b);
+          el.style.transform = `translate(${(v.x * .5 + .5) * 1920}px, ${(-v.y * .5 + .5) * 1080 - 40 * a}px) translate(-50%,-100%)`; }
         label(s.labels.fab, fab, 3.2, 'left'); label(s.labels.cloud, cloud, 1.0, 'left'); label(s.labels.lab, lab, 2.4, 'right'); label(s.labels.cust, cust, 1.2, 'right');
       }
     };
