@@ -142,7 +142,7 @@ R3.idle('p5', 0, T1, 13); R3.idle('p6', 0, T1, 17);
 # ── shot 2: medium — the spending/revenue gap, then investor cash fills it ───────────────────────
 def anim2() -> str:
     t = {k: W(k, "c03_04") for k in ("spending", "advertising", "employees", "infrastructure", "without", "earning", "revenue", "sustain")}
-    u = {k: W(k, "c03_05") for k in ("survival", "depended", "investors", "continuing", "capital")}
+    u = {k: W(k, "c03_05") for k in ("survival", "depended", "investors", "continuing", "provide", "capital")}
     T0, T1 = CUT1, CUT2
     return f"""
 const T0 = {T0}, T1 = {T1};
@@ -153,7 +153,9 @@ const cb = artPt(520, 300), cg = artPt(700, 260);
 // camera: open a touch wide on the team, settle onto the board as the manager starts; push to the gap on "investors"
 gsap.set('#s2-cam', {{ transformOrigin: cb[0] + 'px ' + cb[1] + 'px' }});
 tl.fromTo('#s2-cam', {{ scale: 1, x: 70 }}, {{ scale: 1.05, x: 0, duration: {t['advertising'] + .4 - T0:.2f}, ease: 'sine.inOut' }}, T0);
+tl.to('#s2-cam', {{ scale: 1.066, duration: {u['survival'] - .6 - (t['advertising'] + .4):.2f}, ease: 'none' }}, {t['advertising'] + .4});
 tl.to('#s2-cam', {{ scale: 1.1, x: -60, y: 30, duration: 2.4, ease: 'sine.inOut' }}, {u['survival'] - .6});
+tl.to('#s2-cam', {{ scale: 1.118, duration: {T1 - (u['survival'] + 1.8):.2f}, ease: 'none' }}, {u['survival'] + 1.8});
 tl.fromTo('#s2-fg', {{ x: 0 }}, {{ x: 120, duration: T1 - T0, ease: 'sine.inOut' }}, T0);
 // whiteboard build, each part on its word (marker strokes grow from the baseline; no overshoot on financial content)
 const hide = ['#wb-seg0', '#wb-seg1', '#wb-seg2', '#wb-rev', '#wb-gap'];
@@ -178,6 +180,12 @@ pt(-100, {t['advertising'] - .2}); pt(-110, {t['employees'] - .2}); pt(-121, {t[
 R3.rot(M, 'farm-front', {t['sustain']}, -26, .12); R3.rot(M, 'farm-front', {t['sustain'] + .14}, -14, .14);   // tap
 R3.pose(M, 'talk', {u['survival'] - .4}, .5); R3.rot(M, 'neck', {u['survival'] - .3}, 8, .45);
 R3.pose(M, 'point', {u['investors'] - .35}, .45); pt(-106, {u['investors'] - .3}); R3.rot(M, 'neck', {u['investors'] - .3}, -6, .4);
+R3.pose(M, 'talk', {u['continuing'] - .15}, .5); R3.rot(M, 'neck', {u['continuing'] - .1}, 9, .45);
+R3.rot(M, 'neck', {u['capital'] - .05}, 15, .18); R3.rot(M, 'neck', {u['capital'] + .18}, 8, .3);   // nod on "capital"
+R3.rot(M, 'farm-front', {u['provide']}, -40, .3); R3.rot(M, 'farm-front', {u['capital'] + .1}, -22, .35);
+R3.talk(M, {u['continuing']}, {u['capital'] + .6}, 34);
+R3.rot('e2', 'neck', {t['sustain'] + .4}, 14, .22); R3.rot('e2', 'neck', {t['sustain'] + .62}, 4, .25); R3.rot('e2', 'neck', {t['sustain'] + .87}, 13, .25); R3.rot('e2', 'neck', {t['sustain'] + 1.12}, 8, .3);
+R3.rot('e1', 'neck', {u['continuing']}, -4, .5); R3.rot('e1', 'upper', {u['capital']}, 2.5, .6);
 R3.talk(M, T0 + .2, {t['spending'] - .2}, 31); R3.talk(M, {u['survival'] - .3}, {u['investors'] - .3}, 32);
 R3.blinks(M, T0, T1, 33); R3.breathe('#mgr-upper', T0, T1, 1.6, 3.4);
 // team reactions: e2 goes from listening to hand-on-forehead on "without earning enough"; e1 folds tighter and frowns

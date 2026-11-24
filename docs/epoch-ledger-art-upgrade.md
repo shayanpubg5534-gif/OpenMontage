@@ -85,3 +85,32 @@ The full Epoch Ledger suite has 51 tests, all passing.
 - The close-up rig is drawn three-quarter facing right; flip it to face left. A frontal
   close-up is a future addition.
 - Local AI image generation and Manim are deferred, as agreed.
+
+## Motion test (24.7 s, approved style frames in motion)
+
+Source: `epoch-ledger/episodes/ai-bubble-vs-dot-com/motiontest/`. It has three parts:
+
+- `make_motiontest.py` builds the composition.
+- `sfx_motiontest.py` makes the original synthesised effects.
+- `scene_plan.json` is the shot plan; it passes the validator.
+
+The builder captures each style frame's own `page()` call, so the stills and the motion can never
+drift apart. Render with `epoch-ledger/scripts/render.py render projects/ai-bubble-vs-dot-com/motiontest -o ...`.
+
+The narration is the episode's own lines, unedited: c03_03–c03_05 (contiguous), then c03_10.
+Captions are in the approved pilot style.
+
+| Shot | Time | Narration-locked actions |
+|---|---|---|
+| Establishing | 0–5.4 s | The market-board line climbs on "rising". Gold glints flow through the capital pipe into BigCart. The furnace chimney smoke and gold embers thicken on "struggling". The founder walks to BigCart's door. Commuters walk, talk and blink. A three-layer parallax dolly moves the sky, set and foreground at different rates. A label states that the companies are fictional. |
+| Medium | 5.4–19.15 s | The whiteboard diagram builds on its words: ADS on "advertising", STAFF on "employees", SERVERS on "infrastructure"; REVENUE on "revenue", circled on "sustain"; the level line on "depended"; INVESTOR CASH fills the gap on "investors". The manager (the founder) points at each part, turns to the team and nods on "capital". One staffer puts his hand to his forehead on "without earning enough"; another shakes his head. Typing, a phone call, and a carton of BigCart merchandise carried past on "advertising" keep the room alive. |
+| Close-up | 19.15–24.7 s | Brows knit on "without". The eyelids grow heavy on "no longer". The phone comes down on "finance". The cash line hits bottom and the runway counts from 3 to 0 months. The office lights behind him go out one by one on "operations". The CRT flicker drives the red key light. |
+
+**Render performance:**
+- First render: 741 frames at 1080p30 ("looks" quality), split into two chunks rendered with `--jobs 2` on 4 vCPU.
+- Wall time was 9 min 35 s, about 23× real time.
+- The textured street and office sets cost about 1.1 s per frame. The close-up costs about 0.5 s per frame.
+- Rough extrapolation for the 18.3-minute film at this density: 6–8 hours. Scene caching means
+  only changed scenes re-render.
+- Ways to cut the cost: render static set layers once to PNG per shot, keep camera moves as
+  transforms over cached plates, and draft at 540p.
