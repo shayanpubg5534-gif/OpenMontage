@@ -19,6 +19,7 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 |---|---|
 | `kit/characters.py` | Maya (walk / bust / phone poses) and the loan officer — outlined, two-tone shaded SVG rigs with blink lids and pivot-ready limbs |
 | `kit/rig.py`, `kit/rig.js` | Jointed character rig v2 (elbows, knees, neck, props), varied crowd looks, pose library, natural walk, seeded ambient acting, expressions |
+| `COMPONENTS.md` | **Component index** — every reusable character, set, overlay and 3D world with where it lives; check it first, update it with every new component |
 | `QUALITY.md` | **Visual quality standard + checklist**, incl. mandatory word-level semantic sync and the no-repetition shot log |
 | `kit/sets.py` | Bank street (layered parallax), loan office, credit gauge, ledger T-account, terminal keyboard, bokeh |
 | `kit/vault3d.js` | Three.js vault: configurable camera "shots", coin stacks, pulsing lock, banknotes materialising from gold motes |

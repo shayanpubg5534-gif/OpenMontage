@@ -153,3 +153,25 @@ def test_rig_library_ships_with_helpers():
     js = (root / "epoch-ledger" / "kit" / "rig.js").read_text()
     for fn in ("function rpose", "function rwalk", "function ambient", "function rexpress"):
         assert fn in js
+
+
+def test_component_index_matches_code():
+    """COMPONENTS.md must only list symbols that exist (keeps the index trustworthy)."""
+    import re
+    root = Path(__file__).resolve().parents[2] / "epoch-ledger"
+    idx = (root / "COMPONENTS.md").read_text()
+    ep = root / "episodes" / "ai-bubble-vs-dot-com"
+    checks = {
+        root / "kit/rig.py": ["rig_svg", "crowd_look", "PROPS"],
+        root / "kit/rig.js": ["rpose", "rwalk", "ambient", "rtalk", "rexpress", "rcycle"],
+        ep / "floor.py": ["floor_scene", "place"],
+        ep / "railway_sets.py": ["locomotive", "coach", "boxcar", "track", "station_building", "canopy", "derrick"],
+        ep / "money_cutaways.py": ["fab", "cloud", "lab", "customers", "iris"],
+        ep / "die.py": ["die_svg", "tiles_svg"],
+        ep / "js/ai3d.js": ["serverRack", "campus2", "railway2", "diorama", "keyCam"],
+    }
+    for f, names in checks.items():
+        src = f.read_text()
+        for n in names:
+            assert n in idx, f"{n} missing from COMPONENTS.md"
+            assert re.search(rf"\b{re.escape(n)}\b", src), f"{n} not found in {f.name}"

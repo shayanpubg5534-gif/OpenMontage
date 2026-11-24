@@ -68,16 +68,18 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    Justify any length over 10 minutes in the proposal (what depth or context needs it).
    Open on the hook — never a logo or title card. Structure for retention: hook → stakes →
    mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
-3. **Scene briefs + art direction** → before building any scene write its brief (message,
+3. **Reuse first** → check `epoch-ledger/COMPONENTS.md` (component index) before reading
+   source or writing new code; update the index in the same commit as any new reusable part.
+4. **Scene briefs + art direction** → before building any scene write its brief (message,
    what the audience must understand, demonstrating actions, trigger words, cause → mechanism →
    consequence) and meet all four requirements in `epoch-ledger/QUALITY.md`: design detail,
    purposeful animation, word-level sync, **semantic storytelling** (show the meaning, not just
    the subject; every introduced object then operates and transacts). `art-direction.md`: scene table with one distinct primary subject per
    scene, the word each beat syncs to, the episode's signature device (1–2 beats), and a shot
    log (world, camera class, action) so no hero world repeats (see `epoch-ledger/QUALITY.md`).
-4. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`
+5. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`
    (per-line TTS, trimmed, breaths, −16 LUFS, Whisper `small.en` words, caption pages, SRT).
-5. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. **Semantic sync is
+6. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. **Semantic sync is
    mandatory:** every object/action starts on the Whisper time of the word that names it
    (`W("semiconductor", "c05_02")`), never at a line end or on guessed seconds; camera moves
    start ≈ 1 s before the word. Characters use the jointed rig (`kit/rig.py`, `kit/rig.js`:
@@ -85,21 +87,21 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    cameras (`keyCam`).
    Reuse `kit.characters`, `kit.sets`, `kit/vault3d.js` (new camera shots per episode),
    `kit/helpers.js` (`walk`, `blink`, `talk`, `stamp`, `count`).
-6. **Check** → `npx --yes hyperframes@0.9.88 lint` (0 errors) and `snapshot` contact sheets
+7. **Check** → `npx --yes hyperframes@0.9.88 lint` (0 errors) and `snapshot` contact sheets
    at every beat **and at each synced word time**. Review: overlaps, text over 3D objects,
    caption band (y ≥ 880) clear, characters fully visible, numbers legible, sync to the named
    words. Then render a short 540p motion sample of each priority sequence
    (`render.py range WS --start a --end b --fps 30 --quality draft`) and watch it — run the full
    checklist in `epoch-ledger/QUALITY.md` before asking for approval.
-7. **Preview** changed scenes only: `render.py scene WS <id> --preview`.
-8. **Final** → `render.py render WS -o projects/<slug>/renders/final.mp4`. With the
+8. **Preview** changed scenes only: `render.py scene WS <id> --preview`.
+9. **Final** → `render.py render WS -o projects/<slug>/renders/final.mp4`. With the
    `remotion` caption engine, then run `remotion_caption_burn` with
    `config → captions.remotion_burn_inputs` and re-encode to `yuv420p` (pilot path).
    Optional 1440p: build with `EPOCH_RESOLUTION=1440p` (scenes stay authored at 1920×1080;
    each scene is zoomed 4/3 so vectors and 3D re-rasterise sharply) and use the `hyperframes`
    caption engine. The kit sizes the root to the output frame and zooms each
    top-level clip (never the root); confirm in a snapshot that the frame is filled edge to edge.
-9. **Verify** → `ffprobe` (1920×1080, 30 fps, yuv420p, AAC 48 kHz), loudness ≈ −16 LUFS,
+10. **Verify** → `ffprobe` (1920×1080, 30 fps, yuv420p, AAC 48 kHz), loudness ≈ −16 LUFS,
    `blackdetect`/`freezedetect` clean, sampled frame sheet reviewed, captions match script.
 
 ## Reuse without repetition

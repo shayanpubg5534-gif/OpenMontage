@@ -15,3 +15,4 @@ Read `AGENT_GUIDE.md`, then `skills/creative/epoch-ledger.md` (pre-approved deci
 Request: $ARGUMENTS
 
 Always apply `epoch-ledger/QUALITY.md` (four requirements: design detail, purposeful animation, word-level sync, semantic storytelling; scene brief before building; introduce → operate → transact): visuals start on the spoken word that names them (Whisper word times), no repeated hero shots, rigged acting, layered camera motion; watch a motion sample before asking for approval.
+Check `epoch-ledger/COMPONENTS.md` before writing new components; keep it updated in the same commit.
