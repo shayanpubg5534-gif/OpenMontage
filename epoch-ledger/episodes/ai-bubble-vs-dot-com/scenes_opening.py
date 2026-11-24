@@ -326,7 +326,7 @@ tl.to('#o3-seam',{{x:-1940,duration:1.6,ease:'power2.inOut'}},{t05s}); hide('#o3
 hide('#o3-y99',{t05s + .2}); tl.to('#o3-y26',{{x:-1560,duration:1.6,ease:'power2.inOut'}},{t05s}); hide('#o3-y26',{t05s + 3.5});
 """))
     regions.append(("hall-open", [(s3_start, t07s + .05)], f"""AI3D.add('hall-open',{{start:{s3_start},end:{t07s + .05},world:'dataHall',
- cam:{{from:[0,1.6,3.5],to:[0,1.5,-14],look:[.5,1.45,-12],lookTo:[0,1.4,-40],dur:{t07s - s3_start}}},
+ keys:[[{s3_start},[1.2,1.6,2.5],[-5.5,1.5,-9],52],[{t05s - .1},[1.0,1.6,0.5],[-5.0,1.5,-11],52],[{t05s + 1.6},[0,1.55,-2],[.3,1.45,-14],52],[{t07s + .05},[0,1.5,-14],[0,1.4,-40],52]],
  gold:[{w_money - 3.2},{t06s + .3}],pulse:{t06s}}});"""))
 
     # ── s005: campus → chip → investors & industries ──────────────────

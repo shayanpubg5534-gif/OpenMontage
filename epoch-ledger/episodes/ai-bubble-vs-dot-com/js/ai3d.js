@@ -90,8 +90,8 @@
     const panels = new THREE.InstancedMesh(new THREE.BoxGeometry(1.1, .03, .5), new THREE.MeshBasicMaterial({ color: 0xa9cff0 }), 40);
     for (let i = 0; i < 40; i++) { m4.makeTranslation(0, 3.9, -2 - i * 3); panels.setMatrixAt(i, m4); } S.add(panels);
     for (let i = 0; i < 5; i++) { const pl = new THREE.PointLight(0x9fd0ff, 18, 16, 2); pl.position.set(0, 3.4, -4 - i * 12); S.add(pl); }
-    S.add(new THREE.HemisphereLight(0x6fb6ff, 0x05070c, .6));
-    const key = new THREE.PointLight(0x8fd8ff, 60, 30, 2); key.position.set(0, 3.5, -6); S.add(key);
+    S.add(new THREE.HemisphereLight(0x6fb6ff, 0x101828, 1.1));
+    const key = new THREE.PointLight(0x8fd8ff, 90, 30, 2); key.position.set(0, 3.5, -6); S.add(key);
     // gold money particles and cold airflow
     const pts = (n, color, size) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
       const p = new THREE.Points(g, new THREE.PointsMaterial({ color, size, map: dotTex(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); S.add(p); return p; };
@@ -101,7 +101,7 @@
     for (let i = 0; i < AIR; i++) aseed.push([(rnd() - .5) * 2.6, rnd(), -3 - rnd() * 40, rnd()]);
     return {
       scene: S, camera: cam, update(t, u) {
-        moveCam(cam, s.cam, u);
+        if (s.keys) keyCam(cam, s.keys, t); else moveCam(cam, s.cam, u);
         // LED wave: a pulse running down the aisle at s.pulse (film time)
         const pz = s.pulse ? -3 - Math.max(0, t - s.pulse) * 34 : 999;
         const heat = s.thermal ? clamp((t - s.thermal) / 1.2) : 0;
