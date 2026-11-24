@@ -101,21 +101,49 @@ def crt_close():
 
 
 def portal():
-    return """<div id="o2-screen" style="position:absolute;left:440px;top:160px;width:1040px;height:650px;border-radius:32px;overflow:hidden;
- background:#c0c0c0;font-family:'Times New Roman',serif">
- <div style="height:86px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font:700 46px 'Times New Roman';padding:14px 28px">My Web Portal 99</div>
- <div style="display:flex;height:564px">
-  <div style="width:250px;background:#d4d0c8;padding:20px;font:28px 'Times New Roman';color:#0000ee;line-height:1.7;text-decoration:underline">News<br>Stocks<br>Shopping<br>Chat<br>Email</div>
-  <div style="flex:1;background:#fff;padding:26px 34px">
-   <div style="font:700 40px 'Times New Roman';color:#800000">Welcome to the World Wide Web!</div>
-   <div style="margin-top:22px;display:flex;gap:10px"><div style="flex:1;height:44px;border:3px inset #999;background:#fff"></div>
-    <div style="width:150px;height:44px;background:#d4d0c8;border:3px outset #fff;font:30px 'Times New Roman';text-align:center">Search</div></div>
-   <div id="o2-load" style="margin-top:30px;height:28px;width:0%;background:#000080"></div>
-   <div style="margin-top:22px;font:30px 'Times New Roman';color:#000">Visitors today: <b id="o2-count">000000</b></div>
-  </div></div>
+    """1999 desktop that shows *how* the internet changed the world: messages arriving from other
+    continents (communication) → an online order confirmed (commerce) → a lit network of cities
+    (global connectivity)."""
+    win = lambda pid, title, body, col="#000080": (
+        f'<div id="{pid}" class="w98" style="opacity:0"><div class="w98t" style="background:linear-gradient(90deg,{col},#1084d0)">{title}'
+        f'<span>_ □ ×</span></div><div class="w98b">{body}</div></div>')
+    mails = "".join(f'<div class="mrow" id="o2-m{i}"><b>✉</b><span class="mf">{f}</span><span class="ms">{subj}</span><span class="mt">{t}</span></div>'
+                    for i, (f, subj, t) in enumerate([("Aiko · Tokyo", "Photos from our trip", "2 min"), ("Lagos office", "Contract signed — thanks!", "1 min"),
+                                                      ("Mum · London", "Call you Sunday?", "now")]))
+    inbox = win("o2-p1", "Inbox — Mail 99", f'<div class="mhead">From <span>Subject</span></div>{mails}')
+    shop = win("o2-p2", "Online Book Shop — ordering from home", """
+ <div style="display:flex;gap:30px;align-items:flex-start">
+  <div style="width:170px;height:230px;background:linear-gradient(135deg,#2e4a8a,#14284e);border:3px solid #000;color:#f2c66d;font:700 24px 'Times New Roman';padding:16px">A History of Money</div>
+  <div style="flex:1;font:28px 'Times New Roman'"><div style="font:700 34px 'Times New Roman'">A History of Money</div><div>Hardcover · in stock</div>
+   <div id="o2-add" class="w98btn" style="margin-top:20px">Add to cart</div>
+   <div style="margin-top:16px">Cart: <b id="o2-cart">0</b> item</div>
+   <div id="o2-ok" style="margin-top:14px;padding:10px 14px;background:#e8ffe8;border:3px solid #2e8a2e;color:#1a5a1a;font:700 28px 'Times New Roman';opacity:0">✔ Order confirmed — shipping tomorrow</div></div></div>
+ <div id="o2-cur" style="position:absolute;left:520px;top:300px;width:0;height:0;border-left:16px solid #000;border-top:10px solid transparent;border-bottom:10px solid transparent;transform:rotate(-40deg)"></div>""", "#006a4e")
+    arcs = "".join(f'<path class="o2-arc" d="{a}" fill="none" stroke="#f2c66d" stroke-width="7" stroke-linecap="round"/>' for a in GLOBE["arcs"])
+    dots = "".join(f'<circle class="o2-dot" cx="{x:.1f}" cy="{y:.1f}" r="11" fill="#fff1c9"/>' for x, y in GLOBE["dots"])
+    net = win("o2-p3", "World Wide Web — connecting the world", f"""
+ <svg viewBox="20 20 680 680" width="400" height="400" style="position:absolute;left:20px;top:10px;overflow:visible">
+  <path d="{GLOBE['sphere']}" fill="#1c4a52" stroke="#f2a541" stroke-width="4"/><path d="{GLOBE['land']}" fill="#c9a56a" stroke="#f3e3c3" stroke-width="2"/>{arcs}{dots}</svg>
+ <div style="position:absolute;left:460px;top:60px;font:700 34px 'Times New Roman';line-height:2.1;color:#000080">
+  <div class="o2-li">Messages in seconds</div><div class="o2-li">Shops open all night</div><div class="o2-li">News from everywhere</div><div class="o2-li">One network, worldwide</div></div>""", "#5a1a6a")
+    return f"""<div id="o2-screen" style="position:absolute;left:440px;top:160px;width:1040px;height:650px;border-radius:32px;overflow:hidden;background:#008080;font-family:'Times New Roman',serif">
+ <div style="position:absolute;left:0;right:0;bottom:0;height:52px;background:#c0c0c0;border-top:3px solid #fff;display:flex;align-items:center;gap:12px;padding:0 12px;font:700 26px 'Times New Roman'">
+  <div class="w98btn" style="padding:2px 14px">Start</div><div id="o2-task" style="margin-left:auto;font:24px 'Times New Roman'">Connected · 56k</div></div>
+ {inbox}{shop}{net}
  <div id="o2-reflect" style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(56,214,255,0) 0 60px,rgba(56,214,255,.14) 60px 66px);opacity:0;mix-blend-mode:screen"></div>
  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,rgba(0,0,0,0) 2px 5px)"></div>
 </div>"""
+
+
+O2_CSS = """
+.w98{position:absolute;left:40px;top:30px;width:960px;height:540px;background:#c0c0c0;border:3px outset #fff;box-shadow:6px 6px 0 rgba(0,0,0,.4)}
+.w98t{height:52px;color:#fff;font:700 30px 'Times New Roman';padding:8px 16px;display:flex;justify-content:space-between}
+.w98b{position:relative;margin:10px;height:452px;background:#fff;border:3px inset #999;padding:18px 24px;overflow:hidden}
+.w98btn{display:inline-block;background:#d4d0c8;border:3px outset #fff;padding:6px 20px;font:28px 'Times New Roman';color:#000}
+.mhead{font:700 26px 'Times New Roman';color:#555;border-bottom:2px solid #999;padding-bottom:6px}.mhead span{margin-left:240px}
+.mrow{display:flex;gap:18px;align-items:center;height:96px;border-bottom:1px solid #ccc;font:30px 'Times New Roman';opacity:0}
+.mrow b{color:#000080;font-size:38px}.mf{width:230px;font-weight:700}.ms{flex:1}.mt{color:#800000;font-size:24px}
+"""
 
 
 def office_svg():
@@ -205,7 +233,7 @@ def build():
     scenes, regions = [], []
 
     # ── s001: 1999 trading floor ─────────────────────────────────────
-    o1_end = t02s + .05
+    o1_end = W("change", "c01_01") - .2
     fl_html, fl_js = floor_scene("fl", 0, round(o1_end + .3, 3), "boom",
                                  cam={"s0": 1.0, "s1": 1.16, "x0": 40, "x1": -60, "y0": 10, "y1": -20, "origin": "50% 42%"})
     scenes.append(Scene("o1", 0, round(o1_end + .3, 3),
@@ -216,13 +244,26 @@ show('#o1-tag',.4); hide('#o1-tag',{t01s + 4.2});
 """))
 
     # ── s002: CRT close-up "They were right." ──────────────────────────
+    w_change, w_world, w_they, w_right = W("change", "c01_01"), W("world", "c01_01"), W("They", "c01_02"), W("right", "c01_02")
     scenes.append(Scene("o2", round(o1_end, 3), round(t03s + .25 - o1_end, 3),
         f'<div id="o2-cam" class="cam">{crt_close()}{portal()}</div>',
+        css=O2_CSS,
         js=f"""
-tl.fromTo('#o2',{{opacity:0}},{{opacity:1,duration:.12}},{o1_end});
-tl.fromTo('#o2-cam',{{scale:1.06}},{{scale:1.0,duration:{t03s - o1_end + .25},ease:'power2.out'}},{o1_end});
-tl.fromTo('#o2-load',{{width:'0%'}},{{width:'100%',duration:.9,ease:'steps(9)'}},{o1_end + .1});
-const o2c={{v:0}}; tl.to(o2c,{{v:48213,duration:1.2,ease:'power1.in',onUpdate:()=>document.getElementById('o2-count').textContent=String(Math.round(o2c.v)).padStart(6,'0')}},{o1_end});
+tl.fromTo('#o2',{{opacity:0}},{{opacity:1,duration:.15}},{o1_end});
+tl.fromTo('#o2-cam',{{scale:1.12}},{{scale:1.0,duration:{t03s - o1_end + .25},ease:'power2.out'}},{o1_end});
+// communication: mail from three continents arrives on "change"
+tl.fromTo('#o2-p1',{{opacity:0,scale:.6}},{{opacity:1,scale:1,duration:.18,ease:'steps(3)'}},{o1_end + .05});
+[0,1,2].forEach(i=>tl.fromTo('#o2-m'+i,{{opacity:0,x:-80}},{{opacity:1,x:0,duration:.16}},{w_change}+i*.2));
+// commerce: an order placed from home on "world"
+tl.fromTo('#o2-p2',{{opacity:0,scale:.6}},{{opacity:1,scale:1,duration:.18,ease:'steps(3)'}},{w_world - .15});
+tl.fromTo('#o2-cur',{{x:120,y:120}},{{x:-280,y:-60,duration:.35,ease:'power2.out'}},{w_world});
+tl.to('#o2-add',{{borderStyle:'inset',duration:.05}},{w_world + .38}); tl.set('#o2-cart',{{textContent:'1'}},{w_world + .42});
+tl.fromTo('#o2-ok',{{opacity:0,y:10}},{{opacity:1,y:0,duration:.15}},{w_world + .5});
+// connectivity: the network of cities lights up on "They were right"
+tl.fromTo('#o2-p3',{{opacity:0,scale:.6}},{{opacity:1,scale:1,duration:.18,ease:'steps(3)'}},{w_they - .15});
+document.querySelectorAll('.o2-arc').forEach((a,i)=>{{const n=a.getTotalLength();gsap.set(a,{{strokeDasharray:n,strokeDashoffset:n}});tl.to(a,{{strokeDashoffset:0,duration:.45,ease:'power2.out'}},{w_they}+i*.07);}});
+tl.fromTo('.o2-li',{{opacity:0,x:30}},{{opacity:1,x:0,duration:.15,stagger:.14}},{w_they});
+tl.fromTo('.o2-dot',{{scale:0,transformOrigin:'50% 50%'}},{{scale:1,duration:.2,stagger:.05}},{w_they});
 tl.fromTo('#o2-reflect',{{opacity:0}},{{opacity:1,duration:.4}},{t02e - .1});
 """))
 
