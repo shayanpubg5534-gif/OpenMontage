@@ -156,3 +156,19 @@ the main cost driver; I will report actual usage per chapter.
    identical-looking HyperFrames captions (no extra pass).
 5. **Music:** supply a licensed track, or narration + original sound design only.
 6. **Network access** for chart data and the ECB primary-source check (§4).
+
+## Revised visual samples v2 (2026-11-24) — awaiting approval
+
+960×540, 30 fps, draft. Motion = mean absolute luma change between consecutive frames (0–255)
+and % of near-static frames (< 0.4), same windows as the original previews.
+
+| Sample | Window | Render | Motion old → new | Near-static old → new |
+|---|---|---|---|---|
+| r1 Trading floor (boom → panic) | 0:00–0:16 | 424 s (26×) | 2.44 → 3.14 | 8% → 2% |
+| r2 Railway | 12:42.9–13:00.2 | 261 s (15×) | 1.45 → 3.94 | 17% → 5% |
+| r3 AI infrastructure | 5:53–6:28 | 501 s (14×) | 2.60 → 2.15 | 26% → 28% |
+| r4 Money flow | 7:15.7–7:50 | 367 s (11×) | 0.19 → 1.17 | 96% → 46% |
+
+Open items: the laptop chat (r3, first 9 s) is still near-static; money-flow camera holds are
+too still between beats; railway horizon hill is a featureless slab and the falling sign is
+off-camera; the 2026 half of the split screen is too dark; the rigged crowd doubles render cost.
