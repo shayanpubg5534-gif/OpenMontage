@@ -247,6 +247,15 @@ class RemotionCaptionBurn(BaseTool):
                 "default": False,
                 "description": "Force FFmpeg fallback even if Remotion is available.",
             },
+            "break_pages_at_segments": {
+                "type": "boolean",
+                "default": False,
+                "description": (
+                    "Start a new caption page at every segment boundary, so a page "
+                    "never mixes the end of one phrase with the start of the next. "
+                    "Pass phrase- or clause-level segments for best results."
+                ),
+            },
         },
     }
 
@@ -254,6 +263,7 @@ class RemotionCaptionBurn(BaseTool):
     idempotency_key_fields = [
         "input_path", "segments", "srt_path", "corrections", "words_per_page",
         "font_size", "highlight_color", "overlays", "force_ffmpeg", "caption_props",
+        "break_pages_at_segments",
     ]
     side_effects = ["writes captioned video to output_path"]
     user_visible_verification = [
@@ -300,6 +310,7 @@ class RemotionCaptionBurn(BaseTool):
         segments: list[dict],
         corrections: dict[str, str] | None = None,
         thai: bool | None = None,
+        break_pages_at_segments: bool = False,
     ) -> list[dict]:
         """Convert transcriber segments to [{word, startMs, endMs}, ...].
 
@@ -342,6 +353,8 @@ class RemotionCaptionBurn(BaseTool):
                         "startMs": int((seg["start"] + i * per_word) * 1000),
                         "endMs": int((seg["start"] + (i + 1) * per_word) * 1000),
                     })
+            if break_pages_at_segments and captions:
+                captions[-1]["pageBreakAfter"] = True
         return captions
 
     def _thai_segments_to_word_captions(
@@ -659,7 +672,10 @@ class RemotionCaptionBurn(BaseTool):
         # conversion, the word separator and the default page size alike.
         if segments:
             thai = self._segments_are_thai(segments)
-            captions = self._segments_to_word_captions(segments, corrections, thai=thai)
+            captions = self._segments_to_word_captions(
+                segments, corrections, thai=thai,
+                break_pages_at_segments=bool(inputs.get("break_pages_at_segments", False)),
+            )
         elif srt_path:
             thai = _is_thai(Path(srt_path).read_text(encoding="utf-8"))
             captions = self._srt_to_word_captions(srt_path, corrections, thai=thai)
