@@ -69,16 +69,24 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    Open on the hook — never a logo or title card. Structure for retention: hook → stakes →
    mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
 3. **Art direction** → `art-direction.md`: scene table with one distinct primary subject per
-   scene, the word each beat syncs to, and the episode's signature device (1–2 beats).
+   scene, the word each beat syncs to, the episode's signature device (1–2 beats), and a shot
+   log (world, camera class, action) so no hero world repeats (see `epoch-ledger/QUALITY.md`).
 4. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`
    (per-line TTS, trimmed, breaths, −16 LUFS, Whisper `small.en` words, caption pages, SRT).
-5. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. Key every tween to
-   `line(id)` or `word(text, after)` times from the artifacts, never to guessed seconds.
+5. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. **Semantic sync is
+   mandatory:** every object/action starts on the Whisper time of the word that names it
+   (`W("semiconductor", "c05_02")`), never at a line end or on guessed seconds; camera moves
+   start ≈ 1 s before the word. Characters use the jointed rig (`kit/rig.py`, `kit/rig.js`:
+   `rig_svg`, `crowd_look`, `rpose`, `rwalk`, `ambient`, `rexpress`); 3D shots use keyframed
+   cameras (`keyCam`).
    Reuse `kit.characters`, `kit.sets`, `kit/vault3d.js` (new camera shots per episode),
    `kit/helpers.js` (`walk`, `blink`, `talk`, `stamp`, `count`).
 6. **Check** → `npx --yes hyperframes@0.9.88 lint` (0 errors) and `snapshot` contact sheets
-   at every beat. Review: overlaps, text over 3D objects, caption band (y ≥ 880) clear,
-   characters fully visible, numbers legible, sync to the named words.
+   at every beat **and at each synced word time**. Review: overlaps, text over 3D objects,
+   caption band (y ≥ 880) clear, characters fully visible, numbers legible, sync to the named
+   words. Then render a short 540p motion sample of each priority sequence
+   (`render.py range WS --start a --end b --fps 30 --quality draft`) and watch it — run the full
+   checklist in `epoch-ledger/QUALITY.md` before asking for approval.
 7. **Preview** changed scenes only: `render.py scene WS <id> --preview`.
 8. **Final** → `render.py render WS -o projects/<slug>/renders/final.mp4`. With the
    `remotion` caption engine, then run `remotion_caption_burn` with
@@ -121,8 +129,10 @@ Reusing kit components is expected; looking the same every week is not. Per epis
 
 ## Known limits (say them up front)
 
-- Characters are clean flat-cartoon vector, not painterly; hands are simple shapes; the walk
-  cycle swings from the hip; mouths flap rather than lip-sync.
+- Characters are clean flat-cartoon vector, not painterly; hands are simple shapes; the rig
+  has elbows/knees/neck but no fingers or facial morphs; mouths flap rather than lip-sync.
+- 3D is low-poly procedural geometry (no downloaded models, no GPU): good lighting, shadows and
+  camera work, but not photoreal.
 - No free music source in the cloud environment; no GPU, so CPU rendering ≈ 14 min per minute
   of video for a first render at 1080p (≈ 2–3 h for a 10-minute episode; see the kit README
   for the cached path). 1440p has 1.78× the pixels and is not yet benchmarked.

@@ -137,3 +137,19 @@ def test_render_plan_reports_output_size(tmp_path):
                                                   scenes=[Scene("s1", 0, 10, "<div></div>")]))
     p = r.plan(tmp_path, r.FINAL, 4)
     assert (p["width"], p["height"]) == (2560, 1440)
+
+
+def test_quality_standard_is_wired_into_workflow():
+    root = Path(__file__).resolve().parents[2]
+    q = (root / "epoch-ledger" / "QUALITY.md").read_text()
+    assert "Semantic visual-to-narration sync" in q
+    cfg = json.loads((root / "epoch-ledger" / "config" / "production.json").read_text())
+    assert cfg["production"]["quality_standard"]["doc"] == "epoch-ledger/QUALITY.md"
+    assert "QUALITY.md" in (root / "skills" / "creative" / "epoch-ledger.md").read_text()
+
+
+def test_rig_library_ships_with_helpers():
+    root = Path(__file__).resolve().parents[2]
+    js = (root / "epoch-ledger" / "kit" / "rig.js").read_text()
+    for fn in ("function rpose", "function rwalk", "function ambient", "function rexpress"):
+        assert fn in js

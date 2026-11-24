@@ -13,3 +13,5 @@ Read `AGENT_GUIDE.md`, then `skills/creative/epoch-ledger.md` (pre-approved deci
 - Keep 1920×1080, 30 fps, yuv420p, no watermark by default; 1440p only on request (`EPOCH_RESOLUTION=1440p`). Kokoro bm_george at 0.95. No paid APIs; avoid unnecessary AI usage. Ask before changing voice, runtime, caption engine or default resolution.
 
 Request: $ARGUMENTS
+
+Always apply `epoch-ledger/QUALITY.md`: visuals start on the spoken word that names them (Whisper word times), no repeated hero shots, rigged acting, layered camera motion; watch a motion sample before asking for approval.

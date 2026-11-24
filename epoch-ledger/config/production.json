@@ -2,30 +2,61 @@
   "series": "The Epoch Ledger",
   "approved_pilot": "episodes/how-banks-create-money",
   "production": {
-    "cadence": {"episodes_per_week_min": 2, "episodes_per_week_max": 3, "note": "Quality first: 2–3 high-quality documentaries per week (replaces the earlier 20-per-month target)."},
-    "duration_minutes": {"target_min": 8, "target_max": 10, "extended_max": 13,
-      "extended_when": ["the topic needs deeper explanation", "essential historical context", "detailed storytelling the argument depends on"],
-      "rule": "Length follows the story: never pad with filler, repeated points, slow holds or recap to reach a target."},
+    "cadence": {
+      "episodes_per_week_min": 2,
+      "episodes_per_week_max": 3,
+      "note": "Quality first: 2–3 high-quality documentaries per week (replaces the earlier 20-per-month target)."
+    },
+    "duration_minutes": {
+      "target_min": 8,
+      "target_max": 10,
+      "extended_max": 13,
+      "extended_when": [
+        "the topic needs deeper explanation",
+        "essential historical context",
+        "detailed storytelling the argument depends on"
+      ],
+      "rule": "Length follows the story: never pad with filler, repeated points, slow holds or recap to reach a target."
+    },
     "narration_words_per_minute": 150,
-    "priorities": ["visual quality", "factual accuracy", "storytelling", "audience retention"],
-    "visual_priorities": ["detailed full-colour illustration", "cinematic 3D visuals", "animated charts and diagrams", "narration-synchronized storytelling"],
+    "priorities": [
+      "visual quality",
+      "factual accuracy",
+      "storytelling",
+      "audience retention"
+    ],
+    "visual_priorities": [
+      "detailed full-colour illustration",
+      "cinematic 3D visuals",
+      "animated charts and diagrams",
+      "narration-synchronized storytelling"
+    ],
     "opening": "Open on a powerful hook in the first seconds; no logo intro or title card.",
     "reuse_policy": "Reuse kit components (characters, sets, vault, helpers) but re-stage them: new compositions, camera moves, palettes accents and metaphors per episode; no two consecutive scenes share a primary subject, and no episode repeats a previous episode's hero shot.",
-    "cost_policy": "Free local tools only: no paid external APIs; avoid unnecessary AI usage (snapshots before renders, cached scene renders, no speculative full re-renders)."
+    "cost_policy": "Free local tools only: no paid external APIs; avoid unnecessary AI usage (snapshots before renders, cached scene renders, no speculative full re-renders).",
+    "quality_standard": {
+      "doc": "epoch-ledger/QUALITY.md",
+      "semantic_sync": "visuals start on the Whisper time of the word that names them (±0.3 s); camera moves start ~1 s before",
+      "no_repeat": "a reused world/set must change at least two of environment, perspective, action, purpose",
+      "motion_review": "render and watch a 540p motion sample of each priority sequence before approval"
+    }
   },
   "narration": {
     "tool": "kokoro_tts",
     "voice": "bm_george",
     "speed": 0.95,
-    "lead_seconds": 0.10,
-    "gap_seconds": 0.30,
-    "tail_seconds": 0.70,
+    "lead_seconds": 0.1,
+    "gap_seconds": 0.3,
+    "tail_seconds": 0.7,
     "loudness_lufs": -16
   },
   "captions": {
     "whisper_model": "small.en",
     "engine": "remotion",
-    "engine_options": ["remotion", "hyperframes"],
+    "engine_options": [
+      "remotion",
+      "hyperframes"
+    ],
     "engine_note": "remotion = approved pilot path (separate burn pass). hyperframes = kit/captions.py, same look, no extra pass — switch after approval.",
     "max_words_per_page": 6,
     "font_size": 46,
@@ -39,7 +70,11 @@
       "words_per_page": 7,
       "font_size": 46,
       "highlight_color": "#f2c66d",
-      "caption_props": {"backgroundColor": "rgba(20,33,61,0.82)", "fontFamily": "Inter, system-ui, sans-serif", "bottomOffset": 60}
+      "caption_props": {
+        "backgroundColor": "rgba(20,33,61,0.82)",
+        "fontFamily": "Inter, system-ui, sans-serif",
+        "bottomOffset": 60
+      }
     }
   },
   "render": {
@@ -48,15 +83,22 @@
     "fps": 30,
     "default_resolution": "1080p",
     "optional_resolutions": {
-      "1440p": {"width": 2560, "height": 1440, "hyperframes_resolution": "landscape-1440p",
+      "1440p": {
+        "width": 2560,
+        "height": 1440,
+        "hyperframes_resolution": "landscape-1440p",
         "status": "optional — not the default until benchmarked on a real episode",
         "how": "render.py render WS -o OUT --resolution 1440p (separate cache keys; compositions stay authored at 1920x1080 and are rasterised at 2560x1440)",
-        "captions": "use captions.engine = hyperframes (rendered with the frames); the Remotion burn pass has not been validated at 1440p"}
+        "captions": "use captions.engine = hyperframes (rendered with the frames); the Remotion burn pass has not been validated at 1440p"
+      }
     },
     "hyperframes_version": "0.9.88",
     "final_quality": "looks",
     "final_quality_note": "HyperFrames 'looks' = H.264 CRF 16, yuv420p tv-range — the approved pilot setting",
-    "preview": {"fps": 24, "quality": "draft"},
+    "preview": {
+      "fps": 24,
+      "quality": "draft"
+    },
     "chunk_min_seconds": 15,
     "safe_area_bottom_px": 880,
     "browser_env": {
@@ -65,8 +107,18 @@
     }
   },
   "palette": {
-    "ink": "#14213d", "parchment": "#f4ead5", "brass": "#d4a24c", "ledger_green": "#2f7d5b",
-    "teal": "#1f7a78", "coral": "#e0603a", "sky": "#9cc9e6", "dawn": "#f6c59a", "outline": "#1b2230"
+    "ink": "#14213d",
+    "parchment": "#f4ead5",
+    "brass": "#d4a24c",
+    "ledger_green": "#2f7d5b",
+    "teal": "#1f7a78",
+    "coral": "#e0603a",
+    "sky": "#9cc9e6",
+    "dawn": "#f6c59a",
+    "outline": "#1b2230"
   },
-  "type": {"display": "Fraunces 600/800", "labels": "Inter 500/700"}
+  "type": {
+    "display": "Fraunces 600/800",
+    "labels": "Inter 500/700"
+  }
 }
