@@ -68,7 +68,11 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    Justify any length over 10 minutes in the proposal (what depth or context needs it).
    Open on the hook — never a logo or title card. Structure for retention: hook → stakes →
    mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
-3. **Art direction** → `art-direction.md`: scene table with one distinct primary subject per
+3. **Scene briefs + art direction** → before building any scene write its brief (message,
+   what the audience must understand, demonstrating actions, trigger words, cause → mechanism →
+   consequence) and meet all four requirements in `epoch-ledger/QUALITY.md`: design detail,
+   purposeful animation, word-level sync, **semantic storytelling** (show the meaning, not just
+   the subject; every introduced object then operates and transacts). `art-direction.md`: scene table with one distinct primary subject per
    scene, the word each beat syncs to, the episode's signature device (1–2 beats), and a shot
    log (world, camera class, action) so no hero world repeats (see `epoch-ledger/QUALITY.md`).
 4. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`

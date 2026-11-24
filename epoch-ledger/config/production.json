@@ -38,7 +38,16 @@
       "doc": "epoch-ledger/QUALITY.md",
       "semantic_sync": "visuals start on the Whisper time of the word that names them (±0.3 s); camera moves start ~1 s before",
       "no_repeat": "a reused world/set must change at least two of environment, perspective, action, purpose",
-      "motion_review": "render and watch a 540p motion sample of each priority sequence before approval"
+      "motion_review": "render and watch a 540p motion sample of each priority sequence before approval",
+      "requirements": [
+        "professional visual design and environmental detail",
+        "natural and purposeful animation",
+        "precise narration-to-action synchronisation",
+        "semantic visual storytelling that explains meaning, mechanism, cause or consequence"
+      ],
+      "scene_brief": "message, audience understanding, demonstrating actions, trigger words, cause→mechanism→consequence — written before building",
+      "continuation_rule": "introducing an object does not complete the explanation: each company/facility gets introduction → operation → transaction",
+      "not_evidence": "frame-change metrics, camera movement, glow and particles are not evidence of quality"
     }
   },
   "narration": {

@@ -142,7 +142,7 @@ def test_render_plan_reports_output_size(tmp_path):
 def test_quality_standard_is_wired_into_workflow():
     root = Path(__file__).resolve().parents[2]
     q = (root / "epoch-ledger" / "QUALITY.md").read_text()
-    assert "Semantic visual-to-narration sync" in q
+    assert "Semantic visual storytelling" in q and "Introducing something does not explain it" in q
     cfg = json.loads((root / "epoch-ledger" / "config" / "production.json").read_text())
     assert cfg["production"]["quality_standard"]["doc"] == "epoch-ledger/QUALITY.md"
     assert "QUALITY.md" in (root / "skills" / "creative" / "epoch-ledger.md").read_text()
