@@ -121,8 +121,10 @@ def test_assemble_defaults_to_1080p_and_supports_1440p():
                                      "lookAt": [0, 0, 0]}]},
                    scenes=[Scene("s1", 0, 10, "<div></div>")])
     assert 'data-width="2560" data-height="1440"' in qhd
-    assert "#root{width:1920px;height:1080px;zoom:1.3333333333}" in qhd
+    assert "#root{width:2560px;height:1440px}.clip{zoom:1.3333333333}" in qhd
     assert '"width": 2560, "height": 1440' in qhd  # 3D renders at full 1440p, not upscaled
+    draft = assemble(title="t", duration=10, audio="", scenes=[Scene("s1", 0, 10, "<div></div>")], resolution="540p")
+    assert 'data-width="960" data-height="540"' in draft and ".clip{zoom:0.5000000000}" in draft
     with pytest.raises(ValueError):
         assemble(title="t", duration=1, scenes=[], resolution="4k")
 
@@ -135,3 +137,53 @@ def test_render_plan_reports_output_size(tmp_path):
                                                   scenes=[Scene("s1", 0, 10, "<div></div>")]))
     p = r.plan(tmp_path, r.FINAL, 4)
     assert (p["width"], p["height"]) == (2560, 1440)
+
+
+def test_quality_standard_is_wired_into_workflow():
+    root = Path(__file__).resolve().parents[2]
+    q = (root / "epoch-ledger" / "QUALITY.md").read_text()
+    assert "Semantic visual storytelling" in q and "Introducing something does not explain it" in q
+    cfg = json.loads((root / "epoch-ledger" / "config" / "production.json").read_text())
+    assert cfg["production"]["quality_standard"]["doc"] == "epoch-ledger/QUALITY.md"
+    assert "QUALITY.md" in (root / "skills" / "creative" / "epoch-ledger.md").read_text()
+
+
+def test_rig_library_ships_with_helpers():
+    root = Path(__file__).resolve().parents[2]
+    js = (root / "epoch-ledger" / "kit" / "rig.js").read_text()
+    for fn in ("function rpose", "function rwalk", "function ambient", "function rexpress"):
+        assert fn in js
+
+
+def test_component_index_matches_code():
+    """COMPONENTS.md must only list symbols that exist (keeps the index trustworthy)."""
+    import re
+    root = Path(__file__).resolve().parents[2] / "epoch-ledger"
+    idx = (root / "COMPONENTS.md").read_text()
+    ep = root / "episodes" / "ai-bubble-vs-dot-com"
+    checks = {
+        root / "kit/rig.py": ["rig_svg", "crowd_look", "PROPS"],
+        root / "kit/rig.js": ["rpose", "rwalk", "ambient", "rtalk", "rexpress", "rcycle"],
+        ep / "floor.py": ["floor_scene", "place"],
+        ep / "railway_sets.py": ["locomotive", "coach", "boxcar", "track", "station_building", "canopy", "derrick"],
+        ep / "money_cutaways.py": ["fab", "cloud", "lab", "customers", "iris"],
+        ep / "die.py": ["die_svg", "tiles_svg"],
+        ep / "js/ai3d.js": ["serverRack", "campus2", "railway2", "diorama", "keyCam"],
+        root / "kit/motion.js": ["mReveal", "mWordsAt", "mDrawOn", "mBoil", "mDiagram", "mFocus", "mFlow", "mCount", "mBars", "mAmbient", "mParallax", "mStutter", "mEndScreen"],
+        root / "kit/motion.py": ["ktext", "iso_box", "iso_grid", "world_map_svg", "route_path", "endscreen_html", "diagram_node"],
+        root / "kit/three_kit.js": ["keyCam", "surface", "flowAlong", "flowField", "shadowFollow"],
+    }
+    for f, names in checks.items():
+        src = f.read_text()
+        for n in names:
+            assert n in idx, f"{n} missing from COMPONENTS.md"
+            assert re.search(rf"\b{re.escape(n)}\b", src), f"{n} not found in {f.name}"
+
+
+def test_motion_craft_is_discoverable():
+    root = Path(__file__).resolve().parents[2]
+    for f in ("AGENT_GUIDE.md", "skills/INDEX.md", "skills/creative/epoch-ledger.md", ".claude/commands/epoch-ledger.md", "epoch-ledger/QUALITY.md"):
+        assert "motion-craft" in (root / f).read_text() or "motion_craft" in (root / f).read_text(), f
+    assert (root / ".claude/skills/epoch-ledger-motion-craft/SKILL.md").exists()
+    cfg = json.loads((root / "epoch-ledger/config/production.json").read_text())
+    assert cfg["production"]["motion_language"]["guidelines_flexible"]["one_third_rule"] == "guideline"

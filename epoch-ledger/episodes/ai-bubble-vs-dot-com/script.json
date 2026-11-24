@@ -1,0 +1,1046 @@
+{
+ "title": "Is the AI Bubble Bigger Than the Dot-Com Bubble?",
+ "chapters": [
+  {
+   "n": 1,
+   "title": "History Repeating Itself"
+  },
+  {
+   "n": 2,
+   "title": "The Birth of a Financial Bubble"
+  },
+  {
+   "n": 3,
+   "title": "When the Bubble Burst"
+  },
+  {
+   "n": 4,
+   "title": "The New Technological Gold Rush"
+  },
+  {
+   "n": 5,
+   "title": "Following the Money"
+  },
+  {
+   "n": 6,
+   "title": "The Growing Role of Debt"
+  },
+  {
+   "n": 7,
+   "title": "Is This Bigger Than the Dot-Com Bubble?"
+  },
+  {
+   "n": 8,
+   "title": "Why This Time Could Be Different"
+  },
+  {
+   "n": 9,
+   "title": "What Happens If Expectations Collapse?"
+  },
+  {
+   "n": 10,
+   "title": "The Lesson History Keeps Teaching Us"
+  }
+ ],
+ "lines": [
+  {
+   "id": "c01_01",
+   "chapter": 1,
+   "text": "In 1999, investors believed the internet was going to change the world.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_02",
+   "chapter": 1,
+   "text": "They were right.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c01_03",
+   "chapter": 1,
+   "text": "But that didn't stop trillions of dollars in market value from disappearing.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_04",
+   "chapter": 1,
+   "text": "Companies collapsed. Investors lost fortunes. And one of the greatest technological revolutions in history became associated with one of its most spectacular financial disasters.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_05",
+   "chapter": 1,
+   "text": "More than two decades later, another technological revolution is attracting extraordinary amounts of money.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_06",
+   "chapter": 1,
+   "text": "Artificial intelligence.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c01_07",
+   "chapter": 1,
+   "text": "Technology giants are constructing enormous data centres. Semiconductor companies are selling advanced processors. Investors are betting on a future where intelligent machines transform nearly every industry.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_08",
+   "chapter": 1,
+   "text": "But beneath this historic investment boom lies an uncomfortable question.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_09",
+   "chapter": 1,
+   "text": "Is humanity building its next great economic revolution, or repeating one of its most expensive financial mistakes?",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c01_10",
+   "chapter": 1,
+   "text": "To understand the answer, we need to travel back to a time when the internet was still new.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c02_01",
+   "chapter": 2,
+   "text": "During the early 1990s, the internet began to change from a specialized network into something ordinary people could use.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_02",
+   "chapter": 2,
+   "text": "For the first time, businesses could communicate with customers around the world without opening physical stores in every country.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_03",
+   "chapter": 2,
+   "text": "Information could travel almost instantly.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c02_04",
+   "chapter": 2,
+   "text": "Entire industries suddenly appeared vulnerable to disruption.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_05",
+   "chapter": 2,
+   "text": "Entrepreneurs recognized an enormous opportunity.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c02_06",
+   "chapter": 2,
+   "text": "Online shopping, digital advertising, internet banking and electronic communication promised to change the way economies operated.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_07",
+   "chapter": 2,
+   "text": "Investors wanted to be part of that future.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_08",
+   "chapter": 2,
+   "text": "Money began flowing into internet companies at a remarkable pace.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_09",
+   "chapter": 2,
+   "text": "But something unusual happened.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c02_10",
+   "chapter": 2,
+   "text": "Instead of valuing businesses primarily on their profits, investors increasingly valued them on their potential.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_11",
+   "chapter": 2,
+   "text": "Website visitors, user growth and market share became important indicators of success, even when companies were losing money.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_12",
+   "chapter": 2,
+   "text": "Many businesses believed that profitability could come later.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_13",
+   "chapter": 2,
+   "text": "The immediate priority was expansion.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c02_14",
+   "chapter": 2,
+   "text": "Imagine launching an online store that loses money on every order.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_15",
+   "chapter": 2,
+   "text": "Under normal circumstances, investors would question whether such a business could survive.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_16",
+   "chapter": 2,
+   "text": "But during the dot-com boom, rapid expansion could attract additional investment and push a company's valuation even higher.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_17",
+   "chapter": 2,
+   "text": "The expectation was that once the company became large enough, profits would eventually follow.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_18",
+   "chapter": 2,
+   "text": "Sometimes, that expectation was reasonable.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c02_19",
+   "chapter": 2,
+   "text": "Sometimes, it was little more than speculation.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c02_20",
+   "chapter": 2,
+   "text": "And as stock prices continued rising, distinguishing between the two became increasingly difficult.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c03_01",
+   "chapter": 3,
+   "text": "By the beginning of 2000, enthusiasm for internet companies had reached fever pitch.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_02",
+   "chapter": 3,
+   "text": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed roughly eighty-six percent in 1999 alone.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_03",
+   "chapter": 3,
+   "text": "But beneath the rising stock prices, many businesses were struggling.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_04",
+   "chapter": 3,
+   "text": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_05",
+   "chapter": 3,
+   "text": "Their survival depended on investors continuing to provide capital.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_06",
+   "chapter": 3,
+   "text": "Then confidence began to disappear.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c03_07",
+   "chapter": 3,
+   "text": "Investors began to worry about company valuations and profitability.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_08",
+   "chapter": 3,
+   "text": "Stock prices started falling.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c03_09",
+   "chapter": 3,
+   "text": "For businesses that depended on external financing, declining investor confidence became an existential threat.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_10",
+   "chapter": 3,
+   "text": "Without fresh capital, they could no longer finance their operations.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_11",
+   "chapter": 3,
+   "text": "Companies began shutting down. Employees lost their jobs. Investors watched their savings evaporate.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_12",
+   "chapter": 3,
+   "text": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-eight percent of its value.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_13",
+   "chapter": 3,
+   "text": "Imagine investing ten thousand dollars near the peak in a portfolio that tracked the index.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_14",
+   "chapter": 3,
+   "text": "Ignoring dividends and fees, that investment would have fallen to about two thousand two hundred dollars.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_15",
+   "chapter": 3,
+   "text": "Yet something remarkable happened after the crash.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_16",
+   "chapter": 3,
+   "text": "The internet continued growing.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c03_17",
+   "chapter": 3,
+   "text": "Online shopping expanded. Digital advertising grew in importance. Businesses built successful models around technologies that had once attracted excessive speculation.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_18",
+   "chapter": 3,
+   "text": "The internet was not the illusion.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c03_19",
+   "chapter": 3,
+   "text": "The unrealistic financial expectations surrounding many internet companies were.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c03_20",
+   "chapter": 3,
+   "text": "And that distinction is essential to understanding artificial intelligence today.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c04_01",
+   "chapter": 4,
+   "text": "The modern AI boom accelerated sharply once generative AI systems became widely accessible.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_02",
+   "chapter": 4,
+   "text": "Suddenly, ordinary people could interact with machines capable of generating text, writing software, creating images and assisting with complex tasks.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_03",
+   "chapter": 4,
+   "text": "Businesses began exploring how artificial intelligence could improve productivity, reduce costs and create entirely new services.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_04",
+   "chapter": 4,
+   "text": "Technology companies saw a potentially vast market.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_05",
+   "chapter": 4,
+   "text": "But artificial intelligence requires more than software.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_06",
+   "chapter": 4,
+   "text": "Behind every advanced AI system lies a vast physical infrastructure.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_07",
+   "chapter": 4,
+   "text": "Specialized processors perform enormous numbers of calculations.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_08",
+   "chapter": 4,
+   "text": "Servers operate inside sophisticated data centres.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c04_09",
+   "chapter": 4,
+   "text": "Cooling systems prevent equipment from overheating.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c04_10",
+   "chapter": 4,
+   "text": "Electricity networks supply the energy necessary to keep these facilities running.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_11",
+   "chapter": 4,
+   "text": "Building this infrastructure requires substantial investment.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c04_12",
+   "chapter": 4,
+   "text": "In November 2026, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030.",
+   "pause_after": 0.45,
+   "tts": "In November twenty twenty-six, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030."
+  },
+  {
+   "id": "c04_13",
+   "chapter": 4,
+   "text": "That is a forecast, not money that has already been spent, and it includes broader company investment rather than exclusively AI expenditure.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_14",
+   "chapter": 4,
+   "text": "Even so, it shows the sheer scale of the expansion.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_15",
+   "chapter": 4,
+   "text": "Companies are spending today because they expect AI services to generate substantial economic value tomorrow.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c04_16",
+   "chapter": 4,
+   "text": "But spending money and earning profitable returns on that money are two very different things.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c05_01",
+   "chapter": 5,
+   "text": "To understand the financial risks, imagine a simplified artificial intelligence economy.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_02",
+   "chapter": 5,
+   "text": "A semiconductor manufacturer produces advanced computing chips.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_03",
+   "chapter": 5,
+   "text": "A cloud computing company purchases those chips and installs them inside a data centre.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_04",
+   "chapter": 5,
+   "text": "An AI developer rents computing capacity from that cloud company to train and operate its models.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_05",
+   "chapter": 5,
+   "text": "Finally, businesses and individual customers pay to use the resulting AI services.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_06",
+   "chapter": 5,
+   "text": "Money moves through the system, supporting revenue at every stage.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_07",
+   "chapter": 5,
+   "text": "When customer demand expands, the entire network can benefit.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_08",
+   "chapter": 5,
+   "text": "Chip manufacturers sell more processors.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c05_09",
+   "chapter": 5,
+   "text": "Cloud companies rent more computing capacity.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c05_10",
+   "chapter": 5,
+   "text": "AI developers attract more customers.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c05_11",
+   "chapter": 5,
+   "text": "And investors anticipate higher future profits.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c05_12",
+   "chapter": 5,
+   "text": "But what happens when businesses within this ecosystem also finance one another?",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_13",
+   "chapter": 5,
+   "text": "Imagine a chip manufacturer investing one billion dollars in an AI developer.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_14",
+   "chapter": 5,
+   "text": "That developer uses part of its funding to purchase computing services.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_15",
+   "chapter": 5,
+   "text": "The computing provider then purchases more chips from the original manufacturer.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_16",
+   "chapter": 5,
+   "text": "Each company may benefit from the resulting activity.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_17",
+   "chapter": 5,
+   "text": "But analysts must ask how much demand is ultimately supported by paying customers, rather than continued financing from within the industry itself.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_18",
+   "chapter": 5,
+   "text": "Such arrangements do not automatically indicate fraud or financial manipulation.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_19",
+   "chapter": 5,
+   "text": "Strategic partnerships can help businesses develop useful technologies.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_20",
+   "chapter": 5,
+   "text": "However, they make it especially important to examine the underlying sources of revenue.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_21",
+   "chapter": 5,
+   "text": "In the end, the entire investment chain must generate enough external economic value to support the money being invested.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_22",
+   "chapter": 5,
+   "text": "Otherwise, the system becomes increasingly dependent on expectations about the future.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c05_23",
+   "chapter": 5,
+   "text": "And expectations can change frighteningly quickly.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c06_01",
+   "chapter": 6,
+   "text": "Another important development is the way AI infrastructure is being financed.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_02",
+   "chapter": 6,
+   "text": "Imagine a technology company that generates ten billion dollars in operating cash flow.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_03",
+   "chapter": 6,
+   "text": "After spending six billion dollars on buildings, equipment and other capital investments, it has four billion dollars left over: a simplified measure of free cash flow.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_04",
+   "chapter": 6,
+   "text": "Now imagine its investment requirements rise to fourteen billion dollars while operating cash flow remains unchanged.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_05",
+   "chapter": 6,
+   "text": "Its free cash flow becomes negative.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c06_06",
+   "chapter": 6,
+   "text": "The company must use existing cash reserves, sell assets, raise equity or borrow money to cover the difference.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_07",
+   "chapter": 6,
+   "text": "In October 2026, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+   "pause_after": 0.45,
+   "tts": "In October twenty twenty-six, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements."
+  },
+  {
+   "id": "c06_08",
+   "chapter": 6,
+   "text": "This matters because debt creates obligations that do not disappear simply because customer demand weakens.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_09",
+   "chapter": 6,
+   "text": "Lenders still expect repayment.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c06_10",
+   "chapter": 6,
+   "text": "Interest payments must still be made.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c06_11",
+   "chapter": 6,
+   "text": "And long-term financial commitments can remain in place even when technology becomes outdated.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_12",
+   "chapter": 6,
+   "text": "Consider a data centre financed with a long-term loan.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_13",
+   "chapter": 6,
+   "text": "If newer processors make its equipment less competitive before the investment has earned back its original cost, the owner could face financial difficulties.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_14",
+   "chapter": 6,
+   "text": "The technology may have improved.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c06_15",
+   "chapter": 6,
+   "text": "But the economics of the original investment may have deteriorated.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c06_16",
+   "chapter": 6,
+   "text": "This creates a fundamental tension between the rapid evolution of artificial intelligence and the financial commitments required to build its infrastructure.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c07_01",
+   "chapter": 7,
+   "text": "The answer depends on how we measure the size of a bubble.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_02",
+   "chapter": 7,
+   "text": "Are we measuring the amount of infrastructure being built?",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_03",
+   "chapter": 7,
+   "text": "The market value of technology companies?",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c07_04",
+   "chapter": 7,
+   "text": "The amount of debt supporting the expansion?",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_05",
+   "chapter": 7,
+   "text": "Or the difference between company valuations and their underlying economic value?",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_06",
+   "chapter": 7,
+   "text": "These measurements can produce very different answers.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_07",
+   "chapter": 7,
+   "text": "Research cited by the European Central Bank in November 2026 estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032.",
+   "pause_after": 0.45,
+   "tts": "Research cited by the European Central Bank in November twenty twenty-six estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032."
+  },
+  {
+   "id": "c07_08",
+   "chapter": 7,
+   "text": "For comparison, the internet boom between 1996 and 2003 took up about one point one percent.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_09",
+   "chapter": 7,
+   "text": "These are not perfectly equivalent historical measurements, and the AI figures depend on forecasts.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_10",
+   "chapter": 7,
+   "text": "Nevertheless, they suggest that today's infrastructure expansion could be considerably larger relative to the economy.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_11",
+   "chapter": 7,
+   "text": "But larger investment does not automatically mean a larger financial bubble.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_12",
+   "chapter": 7,
+   "text": "A railway connecting productive cities may require enormous investment and still generate substantial long-term returns.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_13",
+   "chapter": 7,
+   "text": "An expensive railway connecting places with insufficient demand may become a financial disaster.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_14",
+   "chapter": 7,
+   "text": "The critical question is not simply how much money is being spent.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c07_15",
+   "chapter": 7,
+   "text": "It is whether the economic returns will justify that spending.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c08_01",
+   "chapter": 8,
+   "text": "There are several important differences between the dot-com era and the current AI boom.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_02",
+   "chapter": 8,
+   "text": "Many of the internet startups that attracted sky-high valuations during the late 1990s had weak business models and limited financial resources.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_03",
+   "chapter": 8,
+   "text": "Today, several of the largest companies investing in artificial intelligence already operate highly profitable businesses.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_04",
+   "chapter": 8,
+   "text": "They generate revenue from cloud computing, advertising, software, subscriptions and digital commerce.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_05",
+   "chapter": 8,
+   "text": "This gives them resources that many speculative dot-com companies never possessed.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_06",
+   "chapter": 8,
+   "text": "Artificial intelligence also has practical applications that extend beyond future promises.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_07",
+   "chapter": 8,
+   "text": "Businesses are already using AI systems to assist with software development, customer support, research and administrative work.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_08",
+   "chapter": 8,
+   "text": "These applications can create genuine economic benefits.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_09",
+   "chapter": 8,
+   "text": "However, profitable companies can still make unprofitable investments.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_10",
+   "chapter": 8,
+   "text": "And a useful technology does not guarantee attractive returns for every company involved in developing it.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_11",
+   "chapter": 8,
+   "text": "During the internet boom, businesses constructed extensive fibre-optic networks to prepare for future internet traffic.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_12",
+   "chapter": 8,
+   "text": "Some infrastructure investments were financially unsuccessful because demand developed more slowly than expected.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_13",
+   "chapter": 8,
+   "text": "Yet those networks eventually helped support the expansion of the digital economy.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_14",
+   "chapter": 8,
+   "text": "It is entirely possible that artificial intelligence follows a similar pattern.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_15",
+   "chapter": 8,
+   "text": "Society could benefit enormously from infrastructure that produces disappointing financial returns for some of its original investors.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c08_16",
+   "chapter": 8,
+   "text": "Technological success and investment success are not necessarily the same thing.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c09_01",
+   "chapter": 9,
+   "text": "Imagine that AI adoption continues growing, but customers are unwilling to pay enough to justify the industry's enormous investments.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_02",
+   "chapter": 9,
+   "text": "Cloud companies may reduce their expansion plans.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_03",
+   "chapter": 9,
+   "text": "Semiconductor manufacturers may receive fewer orders.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c09_04",
+   "chapter": 9,
+   "text": "Data centre developers may struggle to attract tenants.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_05",
+   "chapter": 9,
+   "text": "Businesses with substantial financial obligations could face mounting pressure.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_06",
+   "chapter": 9,
+   "text": "Investors would begin revising their expectations.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c09_07",
+   "chapter": 9,
+   "text": "And because financial markets anticipate future earnings, company valuations could fall before the full economic consequences become visible.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_08",
+   "chapter": 9,
+   "text": "The effects might extend beyond technology companies.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_09",
+   "chapter": 9,
+   "text": "Retirement funds, investment portfolios and financial institutions hold exposure to technology-related assets.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_10",
+   "chapter": 9,
+   "text": "Construction companies, electricity providers and equipment manufacturers may also depend on continued infrastructure expansion.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_11",
+   "chapter": 9,
+   "text": "But a collapse is not inevitable.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c09_12",
+   "chapter": 9,
+   "text": "Demand could grow sufficiently to justify the investments.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_13",
+   "chapter": 9,
+   "text": "Technological improvements could reduce operating costs.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c09_14",
+   "chapter": 9,
+   "text": "New applications could create revenue streams that are difficult to anticipate today.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_15",
+   "chapter": 9,
+   "text": "The investment boom could also experience a gradual adjustment rather than a dramatic crash.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c09_16",
+   "chapter": 9,
+   "text": "The future depends on how these competing forces develop.",
+   "pause_after": 1.8
+  },
+  {
+   "id": "c10_01",
+   "chapter": 10,
+   "text": "The dot-com bubble demonstrated that investors can correctly identify a revolutionary technology and still misunderstand its financial value.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_02",
+   "chapter": 10,
+   "text": "The internet changed the world.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c10_03",
+   "chapter": 10,
+   "text": "But not every internet company deserved its valuation.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_04",
+   "chapter": 10,
+   "text": "Artificial intelligence may also transform the global economy.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_05",
+   "chapter": 10,
+   "text": "It could reshape industries, create new businesses and fundamentally alter how people work.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_06",
+   "chapter": 10,
+   "text": "Yet none of that eliminates the possibility of excessive speculation, overinvestment or disappointing returns.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_07",
+   "chapter": 10,
+   "text": "The most important question is not whether artificial intelligence is useful.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_08",
+   "chapter": 10,
+   "text": "It is whether the profits generated by artificial intelligence will ultimately justify the extraordinary financial commitments being made today.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_09",
+   "chapter": 10,
+   "text": "History does not tell us exactly what will happen next.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_10",
+   "chapter": 10,
+   "text": "But it reminds us that even the most convincing vision of the future can become dangerous when financial expectations move too far ahead of economic reality.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_11",
+   "chapter": 10,
+   "text": "The dot-com generation learned that lesson the hard way.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_12",
+   "chapter": 10,
+   "text": "Whether the artificial intelligence generation will learn it differently remains one of the most important financial questions of our time.",
+   "pause_after": 0.45
+  },
+  {
+   "id": "c10_13",
+   "chapter": 10,
+   "text": "This is The Epoch Ledger.",
+   "pause_after": 0.6
+  },
+  {
+   "id": "c10_14",
+   "chapter": 10,
+   "text": "Understanding the past. Decoding the present.",
+   "pause_after": 0.45
+  }
+ ]
+}

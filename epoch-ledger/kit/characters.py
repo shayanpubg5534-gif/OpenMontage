@@ -164,3 +164,113 @@ def banker_svg(p: str, cls: str = "") -> str:
   </g>
  </g>
 </svg>"""
+
+
+# ── Configurable cast (same rig as Maya: walk / bust / phone poses, blink lids, pivots) ──
+# Reuse the rig, vary the person: hair style, skin, clothing, accessories. Pivots are identical to
+# Maya's (hip 150 330, shoulder 150 204), so kit/helpers.js walk()/blink()/talk() work unchanged.
+LOOKS = {
+    "dan_1999": dict(skin="#e3b08c", skin_sh="#c48d6a", hair="#6b4a2b", hair_hi="#8d6a45", hair_style="short",
+                     jacket="#4f6b3a", jacket_sh="#3c5330", jacket_hi="#6a8a4f", shirt="#e8e2cf",
+                     pants="#b89a6c", pants_sh="#9a7f56", shoe="#5a3a22", sole="#3a2616", glasses=True, tie=None,
+                     bag=False, earring=False),
+    "investor_1999": dict(skin="#d9a27c", skin_sh="#b9805e", hair="#3b3b3b", hair_hi="#5c5c5c", hair_style="parted",
+                          jacket="#2e3c5c", jacket_sh="#222d45", jacket_hi="#3e5078", shirt="#f3efe4",
+                          pants="#2e3c5c", pants_sh="#222d45", shoe="#1f1a16", sole="#111", glasses=False,
+                          tie="#9b2f2f", bag=False, earring=False),
+    "employee_1999": dict(skin="#8a5a3c", skin_sh="#6e452c", hair="#1d1410", hair_hi="#3a2a20", hair_style="curly",
+                          jacket="#b5452f", jacket_sh="#8f3523", jacket_hi="#cf6048", shirt="#f0e6d2",
+                          pants="#3c4a68", pants_sh="#2c3850", shoe="#e9e3d6", sole="#bdb5a5", glasses=False,
+                          tie=None, bag=False, earring=True),
+    "cfo_modern": dict(skin="#c68a63", skin_sh="#a56d4b", hair="#1f1a1a", hair_hi="#3d3333", hair_style="short",
+                       jacket="#1f2b40", jacket_sh="#151e2e", jacket_hi="#2f4060", shirt="#dfe9f5",
+                       pants="#1f2b40", pants_sh="#151e2e", shoe="#14110f", sole="#000", glasses=True,
+                       tie=None, bag=False, earring=False),
+}
+
+_HAIR = {
+    # back mass, front fringe, extra (drawn over the face outline)
+    "short": ('<path d="M120 100 C112 62 146 44 176 52 C200 58 208 80 202 104 C196 94 186 88 172 90 C160 80 144 84 136 96 C130 92 124 96 122 108Z" fill="{hair}" stroke="{o}" stroke-width="3"/>',
+              '<path d="M150 60 C164 54 182 58 190 66" stroke="{hair_hi}" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>'),
+    "parted": ('<path d="M118 104 C110 64 146 42 178 50 C204 56 210 82 204 106 C198 90 182 78 160 80 C150 82 140 90 132 102 C126 100 122 102 120 112Z" fill="{hair}" stroke="{o}" stroke-width="3"/>',
+               '<path d="M160 52 C158 62 156 72 152 80" stroke="{hair_hi}" stroke-width="3" fill="none"/><path d="M126 104 C124 116 124 126 128 134" stroke="{hair}" stroke-width="7" stroke-linecap="round"/>'),
+    "curly": ('<g fill="{hair}" stroke="{o}" stroke-width="3">' + "".join(
+                f'<circle cx="{x}" cy="{y}" r="{r}"/>' for x, y, r in
+                [(128, 82, 17), (146, 64, 19), (168, 58, 19), (190, 70, 17), (202, 92, 13), (122, 104, 14), (136, 70, 14)]) + "</g>",
+              '<g fill="{hair_hi}" opacity=".6"><circle cx="150" cy="60" r="5"/><circle cx="172" cy="55" r="4"/></g>'),
+}
+
+
+def person_svg(p: str, look: str | dict, mode: str = "walk", cls: str = "") -> str:
+    """Any cast member on Maya's rig. look: a LOOKS key or a dict of the same fields."""
+    c = dict(LOOKS[look]) if isinstance(look, str) else dict(look)
+    c.setdefault("gold", "#d4a24c")
+    hair_back, hair_hi = _HAIR[c["hair_style"]]
+    hair_back = hair_back.format(o=OUT, **c)
+    hair_hi = hair_hi.format(o=OUT, **c)
+    glasses = (f'<rect x="146" y="105" width="20" height="17" rx="5" fill="#dff0ff" fill-opacity=".25" stroke="#22262e" stroke-width="2.5"/>'
+               f'<rect x="172" y="105" width="20" height="17" rx="5" fill="#dff0ff" fill-opacity=".25" stroke="#22262e" stroke-width="2.5"/>'
+               f'<path d="M166 112 L172 112 M146 112 L128 110" stroke="#22262e" stroke-width="2.5"/>') if c.get("glasses") else ""
+    earring = f'<circle cx="124" cy="133" r="3.6" fill="{c["gold"]}" stroke="{OUT}" stroke-width="1.5"/>' if c.get("earring") else ""
+    head = f"""
+  <g id="{p}-head">
+    <path d="M138 148 L162 148 L165 192 L135 192Z" fill="{c['skin']}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M137 158 L163 166 L163 178 L137 172Z" fill="{c['skin_sh']}"/>
+    <ellipse cx="124" cy="117" rx="9" ry="13" fill="{c['skin']}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M128 82 C150 62 190 70 196 100 C202 126 198 150 180 160 C164 170 142 166 133 150 C124 136 120 102 128 82Z" fill="{c['skin']}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M131 100 C128 120 132 142 142 154 C138 136 138 116 142 100Z" fill="{c['skin_sh']}" opacity=".5"/>
+    {earring}
+    {hair_back}{hair_hi}
+    <ellipse cx="155" cy="114" rx="5.5" ry="7" fill="#fff"/><ellipse cx="181" cy="114" rx="6.5" ry="8" fill="#fff"/>
+    <circle cx="157" cy="115" r="3.8" fill="#2b1a10"/><circle cx="183.5" cy="115" r="4.4" fill="#2b1a10"/>
+    <circle cx="158.4" cy="113.4" r="1.3" fill="#fff"/><circle cx="185" cy="113.2" r="1.5" fill="#fff"/>
+    <g class="lids">
+      <ellipse class="lid" cx="155" cy="114" rx="6.5" ry="8" fill="{c['skin']}" transform="scale(1 0)" style="transform-box:fill-box;transform-origin:50% 0%"/>
+      <ellipse class="lid" cx="181" cy="114" rx="7.5" ry="9" fill="{c['skin']}" transform="scale(1 0)" style="transform-box:fill-box;transform-origin:50% 0%"/>
+    </g>
+    <path id="{p}-brows" d="M147 101 Q154 97 162 100 M173 99 Q181 94 190 98" stroke="{c['hair']}" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+    {glasses}
+    <path d="M191 118 Q199 129 190 132" stroke="{c['skin_sh']}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path id="{p}-mouth" d="M170 141 Q181 150 191 139 Q181 145 170 141Z" fill="#8e3b3b" stroke="{OUT}" stroke-width="2"/>
+  </g>"""
+    tie = (f'<path d="M146 192 L154 192 L157 212 L151 262 L148 266 L145 262 L143 212Z" fill="{c["tie"]}" stroke="{OUT}" stroke-width="2"/>'
+           if c.get("tie") else "")
+    torso = f"""
+  <g id="{p}-torso">
+    <path d="M110 198 C118 182 182 182 192 198 L198 302 C198 322 188 336 180 338 L120 338 C112 336 102 322 102 302Z" fill="{c['jacket']}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M110 198 C106 240 104 290 106 320 C112 330 118 336 124 338 L122 250Z" fill="{c['jacket_sh']}" opacity=".8"/>
+    <path d="M180 200 C186 240 190 280 188 318" stroke="{c['jacket_hi']}" stroke-width="5" fill="none" stroke-linecap="round" opacity=".6"/>
+    <path d="M136 188 L164 188 L150 238Z" fill="{c['shirt']}" stroke="{OUT}" stroke-width="2.5"/>
+    {tie}
+    <path d="M136 188 L150 238 L140 254 L126 200Z" fill="{c['jacket_sh']}" stroke="{OUT}" stroke-width="2.5"/>
+    <path d="M164 188 L150 238 L160 254 L174 200Z" fill="{c['jacket_hi']}" stroke="{OUT}" stroke-width="2.5"/>
+  </g>"""
+
+    def leg(which):
+        fill = c["pants_sh"] if which == "back" else c["pants"]
+        return f"""
+  <g id="{p}-leg-{which}">
+    <path d="M134 326 L166 326 L165 470 L139 470Z" fill="{fill}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M135 468 L167 468 C183 470 190 480 188 490 L135 490Z" fill="{c['shoe']}" stroke="{OUT}" stroke-width="3"/>
+    <rect x="135" y="486" width="53" height="6" rx="3" fill="{c['sole']}" stroke="{OUT}" stroke-width="2"/>
+  </g>"""
+
+    def arm(which, prop=""):
+        fill = c["jacket_sh"] if which == "back" else c["jacket"]
+        return f"""
+  <g id="{p}-arm-{which}">
+    <path d="M138 198 C150 192 164 198 166 208 L160 304 L140 304 L134 208Z" fill="{fill}" stroke="{OUT}" stroke-width="3"/>
+    <path d="M140 296 L160 296 L160 306 L140 306Z" fill="{c['shirt']}" stroke="{OUT}" stroke-width="2"/>
+    {prop}
+    <ellipse cx="150" cy="318" rx="11" ry="13" fill="{c['skin']}" stroke="{OUT}" stroke-width="3"/>
+  </g>"""
+    box = (f'<g id="{p}-box"><rect x="108" y="300" width="96" height="62" rx="4" fill="#c8a06a" stroke="{OUT}" stroke-width="3"/>'
+           f'<path d="M108 314 H204" stroke="#a5814f" stroke-width="3"/><rect x="128" y="286" width="22" height="18" fill="#e9e3d6" stroke="{OUT}" stroke-width="2"/>'
+           f'<circle cx="176" cy="292" r="10" fill="#4aa57c" stroke="{OUT}" stroke-width="2"/></g>') if mode == "box" else ""
+    parts = [arm("back")]
+    if mode in ("walk", "box"):
+        parts += [leg("back"), leg("front")]
+    parts += [f'<g id="{p}-upper">', torso, head, box, arm("front"), "</g>"]
+    vb = "0 0 300 500" if mode in ("walk", "box") else "0 0 300 360"
+    return (f'<svg id="{p}" class="char {cls}" viewBox="{vb}" xmlns="http://www.w3.org/2000/svg" overflow="visible">'
+            + "".join(parts) + "</svg>")

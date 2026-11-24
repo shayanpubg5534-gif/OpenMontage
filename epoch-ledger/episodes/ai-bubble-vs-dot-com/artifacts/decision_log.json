@@ -1,0 +1,132 @@
+{
+ "version": "1.0",
+ "project_id": "ai-bubble-vs-dot-com",
+ "decisions": [
+  {
+   "decision_id": "d-001",
+   "stage": "proposal",
+   "category": "pipeline_selection",
+   "subject": "Pipeline",
+   "options_considered": [
+    {
+     "option_id": "animation",
+     "label": "animation (atelier, Epoch Ledger kit)",
+     "score": 1,
+     "reason": "Series standard; motion-design documentary"
+    },
+    {
+     "option_id": "documentary-montage",
+     "label": "documentary-montage",
+     "score": 0.3,
+     "reason": "Needs real archival footage; brief is illustrated/3D"
+    }
+   ],
+   "selected": "animation",
+   "reason": "Epoch Ledger series kit runs on the animation pipeline."
+  },
+  {
+   "decision_id": "d-002",
+   "stage": "proposal",
+   "category": "voice_selection",
+   "subject": "Narration TTS provider",
+   "options_considered": [
+    {
+     "option_id": "kokoro_bm_george",
+     "label": "Kokoro bm_george @0.95",
+     "score": 1,
+     "reason": "Pre-approved series voice; free, local"
+    }
+   ],
+   "selected": "kokoro_bm_george",
+   "reason": "User instruction and config/production.json."
+  },
+  {
+   "decision_id": "d-003",
+   "stage": "proposal",
+   "category": "render_runtime_selection",
+   "subject": "Composition runtime",
+   "options_considered": [
+    {
+     "option_id": "hyperframes",
+     "label": "HyperFrames + Three.js",
+     "score": 1,
+     "reason": "Hand-authored motion design, 3D, scene cache"
+    },
+    {
+     "option_id": "remotion",
+     "label": "Remotion",
+     "score": 0.6,
+     "reason": "Caption pass / chart option; slower full-length pass"
+    },
+    {
+     "option_id": "ffmpeg",
+     "label": "FFmpeg only",
+     "score": 0.05,
+     "reason": "Would downgrade to stills"
+    }
+   ],
+   "selected": "hyperframes",
+   "reason": "Series standard; user asked for HyperFrames + Three.js with Remotion/FFmpeg where appropriate."
+  },
+  {
+   "decision_id": "d-004",
+   "stage": "proposal",
+   "category": "composition_mode",
+   "subject": "Authoring mode",
+   "options_considered": [
+    {
+     "option_id": "atelier",
+     "label": "Atelier with series kit",
+     "score": 1,
+     "reason": "Fresh scenes, reused series identity"
+    }
+   ],
+   "selected": "atelier",
+   "reason": "Series rule: reuse kit components, author every scene fresh."
+  },
+  {
+   "decision_id": "d-005",
+   "stage": "proposal",
+   "category": "approval_policy",
+   "subject": "Stage gates for this episode",
+   "options_considered": [
+    {
+     "option_id": "gated",
+     "label": "Stop after pre-production for approval",
+     "score": 1,
+     "reason": "User instruction"
+    }
+   ],
+   "selected": "gated",
+   "reason": "User: stop after pre-production; no full render before storyboard and plan approval."
+  },
+  {
+   "decision_id": "d-006",
+   "stage": "proposal",
+   "category": "music_source",
+   "subject": "Background music",
+   "options_considered": [
+    {
+     "option_id": "none_sfx",
+     "label": "No music; subtle original SFX",
+     "score": 0.8,
+     "reason": "No licensed track supplied; music_library empty"
+    },
+    {
+     "option_id": "user_track",
+     "label": "User-supplied licensed track",
+     "score": 0.9,
+     "reason": "Pending user"
+    },
+    {
+     "option_id": "generated",
+     "label": "Generated music API",
+     "score": 0,
+     "reason": "Paid APIs excluded"
+    }
+   ],
+   "selected": "pending_user",
+   "reason": "Awaiting user choice at proposal."
+  }
+ ]
+}

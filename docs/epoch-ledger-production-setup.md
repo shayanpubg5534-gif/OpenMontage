@@ -64,3 +64,209 @@ Kokoro narration → Whisper word timings → Remotion or HyperFrames compositio
 charts, map and timeline, archival imagery, burned-in captions → 1080p H.264 MP4, no watermark.
 The only missing pieces for the full brief are generated illustrations/characters (see 1) and
 music (see 4).
+
+## Premium motion-design tooling — feasibility (2026-11-24)
+
+Goal: documentary motion design where every animation explains the narration (see
+`epoch-ledger/QUALITY.md`), not more camera moves or decoration. Probed in this environment
+(4 vCPU, 15 GB RAM, no GPU, software WebGL); nothing new was installed.
+
+**Main finding:** the biggest quality gains in the AI-bubble revisions came from authoring, not
+from new software: a written scene brief per scene, illustrated cutaways that show each mechanism
+(construction gang, fab line, coolant loop, compute grid), rigged characters doing the work, and
+ledgers and charts that build on the spoken words. New tools mostly add material quality and
+speed up asset creation.
+
+### Capability matrix
+
+| Capability | Best route in our stack | Status / evidence | Cost & CPU impact |
+|---|---|---|---|
+| Premium cinematic 3D | Three.js r160 (in use) + CC0 glTF models + HDRI lighting + selective post-processing | three addons (GLTFLoader, RGBELoader, RoomEnvironment, EffectComposer, SSAO/GTAO, Bokeh, SMAA) reachable via cdn.jsdelivr.net (HTTP 200); MIT | free; post-processing ≈ +50–150 % render time, so use only on hero shots |
+| Kinetic typography | GSAP 3.15 (vendored) + SplitText / DrawSVG / MotionPath | plugins reachable (200); GSAP's standard no-charge licence allows commercial use | free; negligible CPU (DOM) |
+| Smooth morphing, transitions | GSAP MorphSVGPlugin, clip-path irises (in use), shared-element match cuts | reachable (200) | free; negligible |
+| Isometric economic worlds | Three.js orthographic camera (diorama in use) + CC0 low-poly models (Kenney/Quaternius) or hand-drawn SVG isometric sets | model hosts not reachable from this environment (see below) | free; models cut authoring time per building from ~1 h to minutes |
+| Detailed hand-drawn illustration | SVG sets + jointed rig v2 (in use); optional rough.js (MIT 4.6.6) for a hand-inked line | rough.js reachable (200) | free; cheap to render |
+| Blueprint / exploded views | Three.js exploded assemblies (chip, rack in use) + SVG blueprint overlays with DrawSVG | — | free |
+| Meaningful particles / simulation | instanced particles driven by the quantity they represent (coolant, money, data — in use); physics (cannon-es 0.20, MIT) only as *baked* trajectories | live physics is not seek-safe in frame-accurate renders; bake in Python/Node, play back by time | free |
+| Materials, lighting, shadows, reflections | PBR + procedural canvas textures (in use) → CC0 PBR textures and HDRIs (Poly Haven, ambientCG) | hosts not reachable (blocked by network policy) | free (CC0); allowlisting needs your approval |
+| Natural characters + interaction | rig v2 (elbows, knees, props, work poses, `rcycle`) — in use | — | free; crowds raise render cost (trading floor 26× real time) |
+| Dynamic financial charts | SVG/HTML + GSAP (in use); d3-scale/shape for exact axes (d3 skill present) | — | free |
+
+### Tool-by-tool
+
+- **Blender** — the highest material and lighting ceiling, but not practical as the main
+  renderer here: `download.blender.org` is blocked, there is no `bpy` wheel for our Python
+  versions (pip: "no matching distribution"), and CPU Cycles at 1080p would need ≈ 1–3 min per
+  frame on 4 vCPU (an 18-minute film is about 33,000 frames, i.e. weeks). EEVEE on software
+  OpenGL would also be slow and unreliable. Blender is GPL; its rendered output is free to use. **Recommendation:** use it only
+  later, if approved, to model or bake hero assets exported to glTF, or to pre-render a few
+  seconds of hero plates. Needs an allowlisted download (~350 MB).
+- **Three.js enhancements** — **recommended first.** Add GLTFLoader (CC0 models), HDRI image-based lighting for real
+  reflections, and an optional EffectComposer pass (GTAO ambient occlusion + SMAA, light depth
+  of field) applied only to hero shots, behind a per-shot flag so drafts stay fast.
+- **GSAP plugins** — **recommended.** SplitText for narration-synced kinetic type (words land on
+  Whisper times), MorphSVG for object morphs (chip → icon → bar), DrawSVG for blueprint line
+  drawing. Already licensed for free commercial use; it means adding plugin files to the vendored set.
+- **Manim CE 0.19.1** (PyPI reachable; MIT) — excellent for equation-led maths, but it renders
+  outside HyperFrames, in a different visual language, and our charts already build in SVG.
+  **Not recommended** for the series now; revisit for a maths-heavy episode.
+- **Lottie** (lottie-web 5.13.0, MIT; HyperFrames has a Lottie adapter) — good for small icon
+  animations, but authoring needs After Effects + Bodymovin (paid) or third-party files
+  (licence per file). **Low priority.**
+- **Open-source 3D/texture libraries** — Poly Haven and ambientCG (CC0 textures, HDRIs, models),
+  Kenney and Quaternius (CC0 low-poly models). All are blocked from this environment today.
+  **Recommended:** allow `dl.polyhaven.org`, `api.polyhaven.com`, `ambientcg.com` (and optionally
+  `kenney.nl`). Record each asset's source and licence in the decision log; download once into a
+  versioned asset cache.
+- **UI UX Pro Max** (MIT; web UI design-intelligence skill: palettes, font pairings, UX rules) —
+  built for app and website interfaces, not motion graphics. It could inform typography for
+  on-screen panels, but adds little to documentary animation. **Not recommended** as a pipeline
+  component; the series already has a locked type and palette system.
+
+### Recommended plan (in order of impact per hour)
+
+1. Keep the authoring standard: scene brief → cause, mechanism, consequence, with
+   introduce → operate → transact for every object (done; enforced by `QUALITY.md`).
+2. With your approval, allowlist the CC0 asset hosts and build a small licensed library
+   (≈ 40 models: vehicles, cranes, transformers, chillers, office and shop interiors, trees) plus
+   6–8 HDRIs. This replaces hand-built box geometry in 3D shots.
+3. Add GSAP SplitText / MorphSVG / DrawSVG to the vendored runtime for kinetic type, morphs and
+   blueprint draws.
+4. Add a per-shot "hero" post-processing flag (GTAO + SMAA ± depth of field) and measure the render cost on
+   one 10-second shot before using it widely.
+5. Defer Blender, Manim and Lottie unless a specific episode needs them.
+
+Costs: no money (all free or CC0); the costs are authoring time and CPU render time. Measured
+draft rates on this machine are 11–26× real time at 540p, depending on 3D load and crowd size.
+
+## Claude Code optimisation tools — Graphify, RTK, Ponytail (2026-11-24)
+
+Checked against each project's own README, licence and package registry from this cloud session.
+Nothing was installed. Priority: documentary quality first, token efficiency second.
+
+| | Graphify | RTK | Ponytail |
+|---|---|---|---|
+| What it is | Claude Code skill + Python CLI that builds a knowledge graph of a folder (tree-sitter AST for code, Claude reads docs/images) | Rust CLI + Claude Code hook that compresses shell-command output before the agent reads it | One always-on prompt (skill/plugin) for "smallest complete change" coding, plus review/audit commands |
+| Licence | Apache-2.0 | CLI Apache-2.0; optional proxy BUSL-1.1 (excluded) | MIT |
+| Install path here | `pip install graphifyy` (PyPI reachable, 0.9.110) + skill file | install script and release downloads are not reachable from this environment; `cargo` is present, so a source build is possible | npm `@dietrichgebert/ponytail` 5.3.3 reachable; Claude Code plugin marketplace |
+| Cloud compatibility | works (Python, local files) | hook works in Claude Code CLI sessions; it only rewrites Bash commands, so Read/Grep/Glob are untouched | prompt works; its status band does not show in cloud sessions |
+| Persistence across sessions | **no** by default: the container is fresh each session, so you reinstall via the environment setup script; the graph output must be committed or rebuilt | **no**: binary + `~/.claude` hook vanish; needs a setup-script build (several minutes) or a cached binary | plugin/skill must be reinstalled or committed into the repo's `.claude/` |
+| Privacy / security | code AST stays local; docs and images are sent to Claude during extraction (same model we already use); note: the README links to `safishamsi/graphify`, so confirm which repository is canonical before trusting the package | telemetry **off by default** (opt-in); local history database kept 90 days; the optional pipelines can send file contents to third-party models with your API key (excluded); RTK Pro is a paid upsell (excluded) | prompt only; no network; only install from the author's GitHub/npm |
+| Extra processing cost | the first build reads every doc with the model; OpenMontage has hundreds of markdown skill files, so a full-repo build costs **many tokens up front**. Code-only, `epoch-ledger/`-scoped runs are cheap | < 25 ms per command | ≈ 1 k tokens of always-on instructions per session |
+| Realistic token saving for us | small: its own benchmark is ~1× at 6 files and 5–70× only on large mixed corpora. Our working set is ~40 kit/episode files that I already read selectively | moderate on noisy commands (pytest, git, npm, ls). Our biggest costs are snapshot images and file writes, which RTK does not touch. Expected: modest single-digit % of session tokens | real on routine code, but its core rule ("skip features nobody asked for", "deletion beats addition", ultra mode pushes back) **directly conflicts** with authored animation detail |
+| Conflicts | adds a second navigation index next to AGENT_GUIDE/skills; a post-commit hook would add rebuilds on every commit | rewrites Bash commands globally: render/ffmpeg/HyperFrames logs pass through unfiltered (not in its filter list), but compressed pytest/git output must never hide a failure — RTK promises raw fallback and `rtk bypass` | session-wide behaviour change; would bias scene code toward minimal motion; its `shortcut:` comments add noise to scene files |
+
+**Recommendation (for your approval):**
+
+1. **Adopt now, no install:** a maintained `epoch-ledger/COMPONENTS.md` index of reusable kit parts
+   (rig, poses, sets, 3D worlds, cutaways, ledgers, helpers) with one line each. It gives
+   Graphify's main benefit (find components without re-reading files) at zero cost, it persists in git,
+   and every session can use it.
+2. **Optional trial: RTK (CLI only, telemetry off, no pipelines, no proxy).** Build it in the
+   environment setup script, enable the Claude Code hook for one development session, and compare
+   `rtk gain` against the quality checks; keep it only if no diagnostic information is lost.
+   Expected benefit: modest.
+3. **Not now: Graphify.** Low benefit at our repository scope and a large first-build token cost on
+   OpenMontage's documentation; reconsider as a code-only (AST) graph of `epoch-ledger/` if the kit
+   grows several-fold.
+4. **Do not install Ponytail as always-on.** Its minimal-code rules conflict with QUALITY.md
+   (purposeful detail and animation complexity are the product). At most, run a manual
+   `/ponytail-review` (lite) on non-creative Python tooling (`scripts/`, tests), never on scene
+   or animation code. We already apply its useful rules: reuse existing helpers, grep callers
+   before editing.
+
+Best combination: **component index (now) + optional RTK trial**, with Graphify and Ponytail
+deferred. No change to production rules or quality standards.
+
+**RTK trial result (2026-11-24):** built and tested safely with telemetry disabled, no pipelines, no proxy and no global
+hook. It saved 86–97 % on test and log output, but only about 68 K tokens over this entire session
+(under 1 %), and its pytest filter hid a failing assertion's message. Not adopted as a hook;
+optional manual `rtk log` for long render logs. Details and preserved outputs:
+`docs/rtk-trial-2026-11-24.md`.
+
+## iart-ai motion-skills packs — evaluation (2026-11-24)
+
+Source: `github.com/iart-ai/motion-skills` (MIT index repo). Each pack is a separate repository.
+Twelve packs were cloned read-only into the session scratchpad: 37 skills, about 130 k words. I read
+each pack's skill instructions, references, scripts, dependencies and licence. Nothing was
+installed, and nothing in the repo or `.claude/` changed.
+
+**What they are:** prompt-only craft guides. Each one outputs either a standalone HTML file with
+a `?t=` seek harness, or a Remotion/Manim project. Each has a render → freeze → screenshot → check
+verification loop. The core techniques need no paid service. Some packs advertise the paid iArt
+service or MCP, and a few optional paths use paid APIs (listed below).
+
+**Fit with our architecture:** the GSAP, SVG and Three.js techniques map directly onto our
+HyperFrames master timeline, so no new rendering engine is needed. Installing the packs as skills
+is **not** advisable, for four reasons:
+- their broad trigger descriptions ("animate a chart", "make an explainer video") would
+  auto-activate alongside our existing remotion, gsap, threejs, hyperframes and manim skills
+  (duplicates);
+- each skill requires its own output contract (standalone HTML or a Remotion project), which
+  conflicts with our scene-cached HyperFrames build;
+- several are written for Remotion or After Effects;
+- loading them costs about 1.5–2.3 k words per skill.
+
+The value is in specific craft rules. Those can be distilled, with MIT attribution, into one
+Epoch Ledger reference loaded only while building scenes.
+
+| Pack (skills) | What is genuinely useful for us | Paid / conflicts | Recommendation |
+|---|---|---|---|
+| **motion-design-skills** (9) | `motion-art-direction`: a per-episode *motion-language spec* (one easing family, base timing unit, transition family, stagger rhythm); restraint rules ("no overshoot on financial content", one hero per frame, one "wow" per piece). `animation-principles`: three motion layers (primary, secondary, ambient); the 1/3 rule (no unbroken travel over a third of the frame; no more than a third of elements moving at once); anticipation and follow-through; named easing values. `shot-composition`: focal point on thirds, layer map, one camera move per shot, enter/exit direction carries meaning | `after-effects` and parts of `logo-animation` assume Adobe (paid); `remotion-video` duplicates our skill; `motion-background` is mostly decorative | **Selectively adapt** (art direction, principles, composition; color-motion's OKLCH interpolation). Reject AE, logo, remotion, background |
+| **explainer-video-skills** (5) | `diagram-animation`: progressive disclosure (nodes → edges → labels), active item lit with context dimmed, flowing connectors (marching dash + travelling dot), 0.5–1.5 s read holds. `isometric-animation`: true iso ±30° axes, one fixed light with top/side/dark shading, lift along Z instead of scaling, bottom-up builds, exploded views. `whiteboard-animation`: stroke draw-on in narration order, fills after outlines (blueprint and hand-drawn beats) | `explainer-video` overlaps our pipeline; `wrapped-video` is off-topic | **Selectively adapt** diagram, isometric and whiteboard rules |
+| **data-animation-skills** (3) | values as pure functions of time (we already do this); `tabular-nums` and `Intl.NumberFormat` for counters; an intro hold and a final hold of at least 2 s; rank transitions; design the static frame first; reveal order follows visual hierarchy | Remotion-based contract | **Selectively adapt** the rules; reject the Remotion templates |
+| **webgl-animation-skills** (3) | Three.js performance for CPU rendering (merge static geometry, prefer baked or matcap light and emissive motion over many lights and shadows, instancing); seeded particles with a fixed timestep, curl-noise flow for meaningful flows (airflow, coolant, capital) | `shader-glsl` is mostly backgrounds and transitions; post-effects are costly in software GL | **Selectively adapt** the performance and particle determinism rules |
+| **map-animation-skills** (1) | Path B vector maps: d3-geo projection, route draw-on, region highlight with context dimmed, pins and labels locked to the projection, slow establishing moves, optional 12 fps "editorial" stutter on overlays. Data: Natural Earth / world-atlas (public domain / ISC, reachable via jsDelivr) | Path A needs Google Earth Studio + After Effects (paid AE) | **Selectively adapt** Path B for future geography beats (supply chains, ripple maps); reject Path A |
+| **kinetic-typography-skills** (1) | split by line, word or character; mask/clip reveals; stagger values (lines 60–100 ms, words 40–70 ms, characters 20–40 ms); cap a group reveal at about 0.8 s; split after `document.fonts.ready` | none (GSAP SplitText is free) | **Integrate** as rules for narration-synced key-phrase type |
+| **javascript-animation-skills** (2) | `layout-check`: every text box and key object registers a box, and an automated pass flags text collisions over time (a QA gap we have). Also: "a hand-drawn line boils, it doesn't jitter" (change the wobble every 4 frames), draw back to front, events/cues list | `soundtrack` (synthesised music) conflicts with our no-music rule | **Selectively adapt**: build our own HyperFrames layout/collision check from the idea; reject the canvas engine and the soundtrack |
+| **b-roll-skills** (1) | per-word timing and "show vs say" treatment logic (we already key to words) | built for talking-head footage; transcription path mentions ElevenLabs (paid) | **Reject** (not our format); one rule, "a full-frame cover lasts 3–8 s before returning", is noted |
+| **generative-illustration-skills** (1) | "animate many small independent elements, never one big image" (we already work this way) | asset generation needs OpenRouter/Replicate keys (**paid**); **no licence file or licence statement** in the repo | **Reject** |
+| **manim-skills** (1) | solid Manim CE basics | separate engine and visual language | **Defer** (only for an equation-heavy episode) |
+| **youtube-video-skills** (2) | end-screen element zones (the last 5–20 s) for later; audiogram is off-format | the intro "logo sting" conflicts with our hook-first, no-logo rule | **Defer** (end-screen layout only) |
+| **freelance-motion-skills** (5) | `video-delivery-specs` (YouTube export/QC checklist); `brand-motion-guidelines` motion-token template (feeds our motion-language spec) | pricing, client revisions and creative brief are not relevant | **Selectively adapt** two references; reject the rest |
+
+### Proposed integration (on your approval)
+
+1. Add **one** file, `skills/creative/epoch-ledger-motion-craft.md` (≈ 2–3 k tokens), with MIT
+   attribution to iart-ai. It covers: the series motion-language spec (easing family, timing unit,
+   stagger rhythm, restraint for financial content), the motion layers and 1/3 rule, the
+   composition plan per shot, diagram and isometric construction rules, kinetic-type timing,
+   chart and number formatting, vector-map recipe, and Three.js CPU performance rules. It is linked
+   from the Epoch Ledger skill and `QUALITY.md`, and loaded only when building or revising scenes
+   (selective loading, no duplicate auto-triggering skills).
+2. Add a **layout/collision QA check** to our toolkit (our own code, inspired by `layout-check`).
+   It samples the timeline and flags text that overlaps other text, the caption band or key
+   objects. It runs on DOM boxes only, so it adds seconds to a review, not render time.
+3. Vendor GSAP SplitText and DrawSVG (free licence) when the first kinetic-type or blueprint beat
+   needs them. Add the Natural Earth/world-atlas data only when an episode needs a map.
+4. Everything persists through git (repo files only). There are no plugin or marketplace
+   installs, and nothing is fetched at session start. CPU impact: none for the rules themselves.
+   Blur-based text reveals and large particle systems are the only techniques with measurable
+   render cost, so use them sparingly.
+
+## Motion-skills integration — implemented (2026-11-24)
+
+Approved: integrate and selectively adapt motion-design, explainer-video, data-animation,
+webgl-animation, map-animation, kinetic-typography, javascript-animation and the relevant
+freelance (motion system, delivery QC) references. YouTube end-screen layout adapted (no logo
+intro). b-roll and generative-illustration not integrated. Manim documented as an optional future
+capability. No packs were installed; everything is original code and wording in this repository.
+
+| Capability | Implementation |
+|---|---|
+| Series motion language | `config/production.json → production.motion_language`; `MOTION` tokens in `kit/motion.js` |
+| Kinetic typography | `ktext` (motion.py) + `mReveal` / `mUnreveal` / `mWordsAt` (motion.js) |
+| Diagrams / blueprints | `mDiagram`, `mFocus`, `mUnfocus`, `mFlow`, `mDrawOn`, `mBoil`; `diagram_node`, `diagram_edge` |
+| Data | `mCount` (Intl, tabular figures), `mBars`, `mLine` |
+| Environment / camera | `mAmbient`, `mParallax`, `mPush`, `mStutter` |
+| Isometric | `iso`, `iso_box`, `iso_grid`, `shade` |
+| Maps | `world_map_svg`, `projection`, `route_path`, `countries` + `kit/data/countries-110m.json` (Natural Earth, public domain; world-atlas, ISC) |
+| 3D on CPU | `kit/three_kit.js` (`ELK3D`: `keyCam`, `surface`, `flowAlong`, `flowField`, `shadowFollow`) |
+| End screen | `endscreen_html` + `mEndScreen` (last 5–20 s, live background, no logo) |
+| QA | `scripts/layout_check.mjs` (text collisions, caption band, off-frame, key objects; DOM only) |
+| Reference | `scripts/motion_demo.py` (30 s composition using every helper) |
+| Guidance | `skills/creative/epoch-ledger-motion-craft.md` + auto-discovered skill `.claude/skills/epoch-ledger-motion-craft` |
+
+Not implemented: GSAP SplitText/DrawSVG vendoring (our own split and draw-on cover the need without
+another dependency), Manim (deferred), CC0 3D asset downloads (hosts not approved), Remotion
+standalone templates from the packs (conflict with our scene-cached HyperFrames build).

@@ -1,0 +1,1499 @@
+{
+ "total": 1099.52,
+ "segments": [
+  {
+   "id": "c01_01",
+   "text": "In 1999, investors believed the internet was going to change the world.",
+   "spoken": "In 1999, investors believed the internet was going to change the world.",
+   "key": "df418d23ebd3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_df418d23ebd3.wav",
+   "start": 0.1,
+   "end": 6.36
+  },
+  {
+   "id": "c01_02",
+   "text": "They were right.",
+   "spoken": "They were right.",
+   "key": "6a9e858042c5",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6a9e858042c5.wav",
+   "start": 6.81,
+   "end": 7.774
+  },
+  {
+   "id": "c01_03",
+   "text": "But that didn't stop trillions of dollars in market value from disappearing.",
+   "spoken": "But that didn't stop trillions of dollars in market value from disappearing.",
+   "key": "b5b5a5c3eb6e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b5b5a5c3eb6e.wav",
+   "start": 8.374,
+   "end": 13.239
+  },
+  {
+   "id": "c01_04",
+   "text": "Companies collapsed. Investors lost fortunes. And one of the greatest technological revolutions in history became associated with one of its most spectacular financial disasters.",
+   "spoken": "Companies collapsed. Investors lost fortunes. And one of the greatest technological revolutions in history became associated with one of its most spectacular financial disasters.",
+   "key": "f2cbac845f60",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f2cbac845f60.wav",
+   "start": 13.689,
+   "end": 26.363
+  },
+  {
+   "id": "c01_05",
+   "text": "More than two decades later, another technological revolution is attracting extraordinary amounts of money.",
+   "spoken": "More than two decades later, another technological revolution is attracting extraordinary amounts of money.",
+   "key": "c59bcc84b0b7",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c59bcc84b0b7.wav",
+   "start": 26.813,
+   "end": 33.789
+  },
+  {
+   "id": "c01_06",
+   "text": "Artificial intelligence.",
+   "spoken": "Artificial intelligence.",
+   "key": "cc0b1d43845a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_cc0b1d43845a.wav",
+   "start": 34.239,
+   "end": 36.181
+  },
+  {
+   "id": "c01_07",
+   "text": "Technology giants are constructing enormous data centres. Semiconductor companies are selling advanced processors. Investors are betting on a future where intelligent machines transform nearly every industry.",
+   "spoken": "Technology giants are constructing enormous data centres. Semiconductor companies are selling advanced processors. Investors are betting on a future where intelligent machines transform nearly every industry.",
+   "key": "6a3e0aedbf9f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6a3e0aedbf9f.wav",
+   "start": 36.781,
+   "end": 51.897
+  },
+  {
+   "id": "c01_08",
+   "text": "But beneath this historic investment boom lies an uncomfortable question.",
+   "spoken": "But beneath this historic investment boom lies an uncomfortable question.",
+   "key": "dbce85842a7b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_dbce85842a7b.wav",
+   "start": 52.347,
+   "end": 57.287
+  },
+  {
+   "id": "c01_09",
+   "text": "Is humanity building its next great economic revolution, or repeating one of its most expensive financial mistakes?",
+   "spoken": "Is humanity building its next great economic revolution, or repeating one of its most expensive financial mistakes?",
+   "key": "be82c3cc3721",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_be82c3cc3721.wav",
+   "start": 57.737,
+   "end": 65.857
+  },
+  {
+   "id": "c01_10",
+   "text": "To understand the answer, we need to travel back to a time when the internet was still new.",
+   "spoken": "To understand the answer, we need to travel back to a time when the internet was still new.",
+   "key": "2bcadd2a60bd",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2bcadd2a60bd.wav",
+   "start": 66.307,
+   "end": 71.926
+  },
+  {
+   "id": "c02_01",
+   "text": "During the early 1990s, the internet began to change from a specialized network into something ordinary people could use.",
+   "spoken": "During the early 1990s, the internet began to change from a specialized network into something ordinary people could use.",
+   "key": "deb9d9db30a1",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_deb9d9db30a1.wav",
+   "start": 73.726,
+   "end": 82.81
+  },
+  {
+   "id": "c02_02",
+   "text": "For the first time, businesses could communicate with customers around the world without opening physical stores in every country.",
+   "spoken": "For the first time, businesses could communicate with customers around the world without opening physical stores in every country.",
+   "key": "7e9fc3a38cd3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7e9fc3a38cd3.wav",
+   "start": 83.26,
+   "end": 91.441
+  },
+  {
+   "id": "c02_03",
+   "text": "Information could travel almost instantly.",
+   "spoken": "Information could travel almost instantly.",
+   "key": "e46c81767290",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_e46c81767290.wav",
+   "start": 91.891,
+   "end": 95.04
+  },
+  {
+   "id": "c02_04",
+   "text": "Entire industries suddenly appeared vulnerable to disruption.",
+   "spoken": "Entire industries suddenly appeared vulnerable to disruption.",
+   "key": "58630575a694",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_58630575a694.wav",
+   "start": 95.64,
+   "end": 99.967
+  },
+  {
+   "id": "c02_05",
+   "text": "Entrepreneurs recognized an enormous opportunity.",
+   "spoken": "Entrepreneurs recognized an enormous opportunity.",
+   "key": "bd672d6df7b4",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_bd672d6df7b4.wav",
+   "start": 100.417,
+   "end": 104.329
+  },
+  {
+   "id": "c02_06",
+   "text": "Online shopping, digital advertising, internet banking and electronic communication promised to change the way economies operated.",
+   "spoken": "Online shopping, digital advertising, internet banking and electronic communication promised to change the way economies operated.",
+   "key": "dd5d347e01db",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_dd5d347e01db.wav",
+   "start": 104.929,
+   "end": 114.321
+  },
+  {
+   "id": "c02_07",
+   "text": "Investors wanted to be part of that future.",
+   "spoken": "Investors wanted to be part of that future.",
+   "key": "1ae156f493b9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1ae156f493b9.wav",
+   "start": 114.771,
+   "end": 117.746
+  },
+  {
+   "id": "c02_08",
+   "text": "Money began flowing into internet companies at a remarkable pace.",
+   "spoken": "Money began flowing into internet companies at a remarkable pace.",
+   "key": "37aef4dc461d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_37aef4dc461d.wav",
+   "start": 118.196,
+   "end": 122.806
+  },
+  {
+   "id": "c02_09",
+   "text": "But something unusual happened.",
+   "spoken": "But something unusual happened.",
+   "key": "1a757c04b99d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1a757c04b99d.wav",
+   "start": 123.256,
+   "end": 125.418
+  },
+  {
+   "id": "c02_10",
+   "text": "Instead of valuing businesses primarily on their profits, investors increasingly valued them on their potential.",
+   "spoken": "Instead of valuing businesses primarily on their profits, investors increasingly valued them on their potential.",
+   "key": "4a552b2ed80b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_4a552b2ed80b.wav",
+   "start": 126.018,
+   "end": 133.4
+  },
+  {
+   "id": "c02_11",
+   "text": "Website visitors, user growth and market share became important indicators of success, even when companies were losing money.",
+   "spoken": "Website visitors, user growth and market share became important indicators of success, even when companies were losing money.",
+   "key": "a85c36cceacc",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_a85c36cceacc.wav",
+   "start": 133.85,
+   "end": 142.373
+  },
+  {
+   "id": "c02_12",
+   "text": "Many businesses believed that profitability could come later.",
+   "spoken": "Many businesses believed that profitability could come later.",
+   "key": "5adae883d65e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_5adae883d65e.wav",
+   "start": 142.823,
+   "end": 146.947
+  },
+  {
+   "id": "c02_13",
+   "text": "The immediate priority was expansion.",
+   "spoken": "The immediate priority was expansion.",
+   "key": "7c84726d800d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7c84726d800d.wav",
+   "start": 147.397,
+   "end": 150.166
+  },
+  {
+   "id": "c02_14",
+   "text": "Imagine launching an online store that loses money on every order.",
+   "spoken": "Imagine launching an online store that loses money on every order.",
+   "key": "1554a701d377",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1554a701d377.wav",
+   "start": 150.766,
+   "end": 155.834
+  },
+  {
+   "id": "c02_15",
+   "text": "Under normal circumstances, investors would question whether such a business could survive.",
+   "spoken": "Under normal circumstances, investors would question whether such a business could survive.",
+   "key": "461b56ffbc9a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_461b56ffbc9a.wav",
+   "start": 156.284,
+   "end": 162.068
+  },
+  {
+   "id": "c02_16",
+   "text": "But during the dot-com boom, rapid expansion could attract additional investment and push a company's valuation even higher.",
+   "spoken": "But during the dot-com boom, rapid expansion could attract additional investment and push a company's valuation even higher.",
+   "key": "6b01e01dd575",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6b01e01dd575.wav",
+   "start": 162.518,
+   "end": 170.919
+  },
+  {
+   "id": "c02_17",
+   "text": "The expectation was that once the company became large enough, profits would eventually follow.",
+   "spoken": "The expectation was that once the company became large enough, profits would eventually follow.",
+   "key": "1de5a898e985",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1de5a898e985.wav",
+   "start": 171.369,
+   "end": 177.677
+  },
+  {
+   "id": "c02_18",
+   "text": "Sometimes, that expectation was reasonable.",
+   "spoken": "Sometimes, that expectation was reasonable.",
+   "key": "de88c59fdbc8",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_de88c59fdbc8.wav",
+   "start": 178.127,
+   "end": 181.179
+  },
+  {
+   "id": "c02_19",
+   "text": "Sometimes, it was little more than speculation.",
+   "spoken": "Sometimes, it was little more than speculation.",
+   "key": "a6bb11d54094",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_a6bb11d54094.wav",
+   "start": 181.779,
+   "end": 184.856
+  },
+  {
+   "id": "c02_20",
+   "text": "And as stock prices continued rising, distinguishing between the two became increasingly difficult.",
+   "spoken": "And as stock prices continued rising, distinguishing between the two became increasingly difficult.",
+   "key": "bfb21c81b971",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_bfb21c81b971.wav",
+   "start": 185.306,
+   "end": 192.067
+  },
+  {
+   "id": "c03_01",
+   "text": "By the beginning of 2000, enthusiasm for internet companies had reached fever pitch.",
+   "spoken": "By the beginning of 2000, enthusiasm for internet companies had reached fever pitch.",
+   "key": "0bca995c3018",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0bca995c3018.wav",
+   "start": 193.867,
+   "end": 199.999
+  },
+  {
+   "id": "c03_02",
+   "text": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed roughly eighty-six percent in 1999 alone.",
+   "spoken": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed roughly eighty-six percent in 1999 alone.",
+   "key": "8d88d931d352",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8d88d931d352.wav",
+   "start": 200.449,
+   "end": 210.177
+  },
+  {
+   "id": "c03_03",
+   "text": "But beneath the rising stock prices, many businesses were struggling.",
+   "spoken": "But beneath the rising stock prices, many businesses were struggling.",
+   "key": "83b77ad204ff",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_83b77ad204ff.wav",
+   "start": 210.627,
+   "end": 214.945
+  },
+  {
+   "id": "c03_04",
+   "text": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves.",
+   "spoken": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves.",
+   "key": "0b1852df478f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0b1852df478f.wav",
+   "start": 215.395,
+   "end": 223.46
+  },
+  {
+   "id": "c03_05",
+   "text": "Their survival depended on investors continuing to provide capital.",
+   "spoken": "Their survival depended on investors continuing to provide capital.",
+   "key": "c3a4a044e05d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c3a4a044e05d.wav",
+   "start": 223.91,
+   "end": 228.731
+  },
+  {
+   "id": "c03_06",
+   "text": "Then confidence began to disappear.",
+   "spoken": "Then confidence began to disappear.",
+   "key": "cc7028ef9b38",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_cc7028ef9b38.wav",
+   "start": 229.181,
+   "end": 231.863
+  },
+  {
+   "id": "c03_07",
+   "text": "Investors began to worry about company valuations and profitability.",
+   "spoken": "Investors began to worry about company valuations and profitability.",
+   "key": "289c35dd5bb4",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_289c35dd5bb4.wav",
+   "start": 232.463,
+   "end": 237.642
+  },
+  {
+   "id": "c03_08",
+   "text": "Stock prices started falling.",
+   "spoken": "Stock prices started falling.",
+   "key": "546b09f38a67",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_546b09f38a67.wav",
+   "start": 238.092,
+   "end": 240.302
+  },
+  {
+   "id": "c03_09",
+   "text": "For businesses that depended on external financing, declining investor confidence became an existential threat.",
+   "spoken": "For businesses that depended on external financing, declining investor confidence became an existential threat.",
+   "key": "f90fb009b17e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f90fb009b17e.wav",
+   "start": 240.902,
+   "end": 248.643
+  },
+  {
+   "id": "c03_10",
+   "text": "Without fresh capital, they could no longer finance their operations.",
+   "spoken": "Without fresh capital, they could no longer finance their operations.",
+   "key": "a0985050b441",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_a0985050b441.wav",
+   "start": 249.093,
+   "end": 253.566
+  },
+  {
+   "id": "c03_11",
+   "text": "Companies began shutting down. Employees lost their jobs. Investors watched their savings evaporate.",
+   "spoken": "Companies began shutting down. Employees lost their jobs. Investors watched their savings evaporate.",
+   "key": "15a445b8318a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_15a445b8318a.wav",
+   "start": 254.016,
+   "end": 260.856
+  },
+  {
+   "id": "c03_12",
+   "text": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-eight percent of its value.",
+   "spoken": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-eight percent of its value.",
+   "key": "6b0538d5e14b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6b0538d5e14b.wav",
+   "start": 261.306,
+   "end": 271.487
+  },
+  {
+   "id": "c03_13",
+   "text": "Imagine investing ten thousand dollars near the peak in a portfolio that tracked the index.",
+   "spoken": "Imagine investing ten thousand dollars near the peak in a portfolio that tracked the index.",
+   "key": "f5cb4a7df2ba",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f5cb4a7df2ba.wav",
+   "start": 271.937,
+   "end": 278.213
+  },
+  {
+   "id": "c03_14",
+   "text": "Ignoring dividends and fees, that investment would have fallen to about two thousand two hundred dollars.",
+   "spoken": "Ignoring dividends and fees, that investment would have fallen to about two thousand two hundred dollars.",
+   "key": "3c64df13c48b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3c64df13c48b.wav",
+   "start": 278.663,
+   "end": 285.188
+  },
+  {
+   "id": "c03_15",
+   "text": "Yet something remarkable happened after the crash.",
+   "spoken": "Yet something remarkable happened after the crash.",
+   "key": "f0a7f81b581c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f0a7f81b581c.wav",
+   "start": 285.638,
+   "end": 288.714
+  },
+  {
+   "id": "c03_16",
+   "text": "The internet continued growing.",
+   "spoken": "The internet continued growing.",
+   "key": "310496e1c507",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_310496e1c507.wav",
+   "start": 289.164,
+   "end": 291.45
+  },
+  {
+   "id": "c03_17",
+   "text": "Online shopping expanded. Digital advertising grew in importance. Businesses built successful models around technologies that had once attracted excessive speculation.",
+   "spoken": "Online shopping expanded. Digital advertising grew in importance. Businesses built successful models around technologies that had once attracted excessive speculation.",
+   "key": "7b523e9bfd61",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7b523e9bfd61.wav",
+   "start": 292.05,
+   "end": 304.21
+  },
+  {
+   "id": "c03_18",
+   "text": "The internet was not the illusion.",
+   "spoken": "The internet was not the illusion.",
+   "key": "6c20ab93dfea",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6c20ab93dfea.wav",
+   "start": 304.66,
+   "end": 306.952
+  },
+  {
+   "id": "c03_19",
+   "text": "The unrealistic financial expectations surrounding many internet companies were.",
+   "spoken": "The unrealistic financial expectations surrounding many internet companies were.",
+   "key": "476f4fcf99aa",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_476f4fcf99aa.wav",
+   "start": 307.552,
+   "end": 313.196
+  },
+  {
+   "id": "c03_20",
+   "text": "And that distinction is essential to understanding artificial intelligence today.",
+   "spoken": "And that distinction is essential to understanding artificial intelligence today.",
+   "key": "3f3353a7a243",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3f3353a7a243.wav",
+   "start": 313.646,
+   "end": 319.301
+  },
+  {
+   "id": "c04_01",
+   "text": "The modern AI boom accelerated sharply once generative AI systems became widely accessible.",
+   "spoken": "The modern AI boom accelerated sharply once generative AI systems became widely accessible.",
+   "key": "0616f120f4b0",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0616f120f4b0.wav",
+   "start": 321.101,
+   "end": 328.537
+  },
+  {
+   "id": "c04_02",
+   "text": "Suddenly, ordinary people could interact with machines capable of generating text, writing software, creating images and assisting with complex tasks.",
+   "spoken": "Suddenly, ordinary people could interact with machines capable of generating text, writing software, creating images and assisting with complex tasks.",
+   "key": "3945bd967017",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3945bd967017.wav",
+   "start": 328.987,
+   "end": 339.548
+  },
+  {
+   "id": "c04_03",
+   "text": "Businesses began exploring how artificial intelligence could improve productivity, reduce costs and create entirely new services.",
+   "spoken": "Businesses began exploring how artificial intelligence could improve productivity, reduce costs and create entirely new services.",
+   "key": "238181f0a2af",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_238181f0a2af.wav",
+   "start": 339.998,
+   "end": 349.05
+  },
+  {
+   "id": "c04_04",
+   "text": "Technology companies saw a potentially vast market.",
+   "spoken": "Technology companies saw a potentially vast market.",
+   "key": "ec91d29ff5a9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ec91d29ff5a9.wav",
+   "start": 349.5,
+   "end": 353.231
+  },
+  {
+   "id": "c04_05",
+   "text": "But artificial intelligence requires more than software.",
+   "spoken": "But artificial intelligence requires more than software.",
+   "key": "6fa43ba448b9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6fa43ba448b9.wav",
+   "start": 353.681,
+   "end": 357.488
+  },
+  {
+   "id": "c04_06",
+   "text": "Behind every advanced AI system lies a vast physical infrastructure.",
+   "spoken": "Behind every advanced AI system lies a vast physical infrastructure.",
+   "key": "846df548d205",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_846df548d205.wav",
+   "start": 357.938,
+   "end": 363.014
+  },
+  {
+   "id": "c04_07",
+   "text": "Specialized processors perform enormous numbers of calculations.",
+   "spoken": "Specialized processors perform enormous numbers of calculations.",
+   "key": "d0c874c6103c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_d0c874c6103c.wav",
+   "start": 363.464,
+   "end": 368.163
+  },
+  {
+   "id": "c04_08",
+   "text": "Servers operate inside sophisticated data centres.",
+   "spoken": "Servers operate inside sophisticated data centres.",
+   "key": "d5729c246afb",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_d5729c246afb.wav",
+   "start": 368.613,
+   "end": 372.486
+  },
+  {
+   "id": "c04_09",
+   "text": "Cooling systems prevent equipment from overheating.",
+   "spoken": "Cooling systems prevent equipment from overheating.",
+   "key": "35f3f9ef235f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_35f3f9ef235f.wav",
+   "start": 373.086,
+   "end": 376.538
+  },
+  {
+   "id": "c04_10",
+   "text": "Electricity networks supply the energy necessary to keep these facilities running.",
+   "spoken": "Electricity networks supply the energy necessary to keep these facilities running.",
+   "key": "3515b8575b65",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3515b8575b65.wav",
+   "start": 377.138,
+   "end": 382.761
+  },
+  {
+   "id": "c04_11",
+   "text": "Building this infrastructure requires substantial investment.",
+   "spoken": "Building this infrastructure requires substantial investment.",
+   "key": "c7f9aba8292a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c7f9aba8292a.wav",
+   "start": 383.211,
+   "end": 387.259
+  },
+  {
+   "id": "c04_12",
+   "text": "In November 2026, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030.",
+   "spoken": "In November twenty twenty-six, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030.",
+   "key": "a31cd2ce2211",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_a31cd2ce2211.wav",
+   "start": 387.859,
+   "end": 405.686
+  },
+  {
+   "id": "c04_13",
+   "text": "That is a forecast, not money that has already been spent, and it includes broader company investment rather than exclusively AI expenditure.",
+   "spoken": "That is a forecast, not money that has already been spent, and it includes broader company investment rather than exclusively AI expenditure.",
+   "key": "874503036d66",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_874503036d66.wav",
+   "start": 406.136,
+   "end": 415.558
+  },
+  {
+   "id": "c04_14",
+   "text": "Even so, it shows the sheer scale of the expansion.",
+   "spoken": "Even so, it shows the sheer scale of the expansion.",
+   "key": "0ac112eef80c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0ac112eef80c.wav",
+   "start": 416.008,
+   "end": 419.538
+  },
+  {
+   "id": "c04_15",
+   "text": "Companies are spending today because they expect AI services to generate substantial economic value tomorrow.",
+   "spoken": "Companies are spending today because they expect AI services to generate substantial economic value tomorrow.",
+   "key": "fffcf388b60c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_fffcf388b60c.wav",
+   "start": 419.988,
+   "end": 427.978
+  },
+  {
+   "id": "c04_16",
+   "text": "But spending money and earning profitable returns on that money are two very different things.",
+   "spoken": "But spending money and earning profitable returns on that money are two very different things.",
+   "key": "f8936c4624f7",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f8936c4624f7.wav",
+   "start": 428.428,
+   "end": 434.304
+  },
+  {
+   "id": "c05_01",
+   "text": "To understand the financial risks, imagine a simplified artificial intelligence economy.",
+   "spoken": "To understand the financial risks, imagine a simplified artificial intelligence economy.",
+   "key": "61627bc26593",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_61627bc26593.wav",
+   "start": 436.104,
+   "end": 442.476
+  },
+  {
+   "id": "c05_02",
+   "text": "A semiconductor manufacturer produces advanced computing chips.",
+   "spoken": "A semiconductor manufacturer produces advanced computing chips.",
+   "key": "1afa6c508295",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1afa6c508295.wav",
+   "start": 442.926,
+   "end": 447.515
+  },
+  {
+   "id": "c05_03",
+   "text": "A cloud computing company purchases those chips and installs them inside a data centre.",
+   "spoken": "A cloud computing company purchases those chips and installs them inside a data centre.",
+   "key": "53df1a49e90c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_53df1a49e90c.wav",
+   "start": 447.965,
+   "end": 454.161
+  },
+  {
+   "id": "c05_04",
+   "text": "An AI developer rents computing capacity from that cloud company to train and operate its models.",
+   "spoken": "An AI developer rents computing capacity from that cloud company to train and operate its models.",
+   "key": "5756161c9d9a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_5756161c9d9a.wav",
+   "start": 454.611,
+   "end": 462.202
+  },
+  {
+   "id": "c05_05",
+   "text": "Finally, businesses and individual customers pay to use the resulting AI services.",
+   "spoken": "Finally, businesses and individual customers pay to use the resulting AI services.",
+   "key": "55d3c21c558d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_55d3c21c558d.wav",
+   "start": 462.652,
+   "end": 468.691
+  },
+  {
+   "id": "c05_06",
+   "text": "Money moves through the system, supporting revenue at every stage.",
+   "spoken": "Money moves through the system, supporting revenue at every stage.",
+   "key": "ac4e986b6e2c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ac4e986b6e2c.wav",
+   "start": 469.141,
+   "end": 473.534
+  },
+  {
+   "id": "c05_07",
+   "text": "When customer demand expands, the entire network can benefit.",
+   "spoken": "When customer demand expands, the entire network can benefit.",
+   "key": "6eec7ee304d8",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_6eec7ee304d8.wav",
+   "start": 473.984,
+   "end": 478.436
+  },
+  {
+   "id": "c05_08",
+   "text": "Chip manufacturers sell more processors.",
+   "spoken": "Chip manufacturers sell more processors.",
+   "key": "aed8904b4db9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_aed8904b4db9.wav",
+   "start": 478.886,
+   "end": 481.885
+  },
+  {
+   "id": "c05_09",
+   "text": "Cloud companies rent more computing capacity.",
+   "spoken": "Cloud companies rent more computing capacity.",
+   "key": "0f582b90073d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0f582b90073d.wav",
+   "start": 482.485,
+   "end": 485.92
+  },
+  {
+   "id": "c05_10",
+   "text": "AI developers attract more customers.",
+   "spoken": "AI developers attract more customers.",
+   "key": "e05f6e7e622b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_e05f6e7e622b.wav",
+   "start": 486.52,
+   "end": 489.492
+  },
+  {
+   "id": "c05_11",
+   "text": "And investors anticipate higher future profits.",
+   "spoken": "And investors anticipate higher future profits.",
+   "key": "4bf44a369e13",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_4bf44a369e13.wav",
+   "start": 490.092,
+   "end": 493.581
+  },
+  {
+   "id": "c05_12",
+   "text": "But what happens when businesses within this ecosystem also finance one another?",
+   "spoken": "But what happens when businesses within this ecosystem also finance one another?",
+   "key": "d95823332c63",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_d95823332c63.wav",
+   "start": 494.181,
+   "end": 499.914
+  },
+  {
+   "id": "c05_13",
+   "text": "Imagine a chip manufacturer investing one billion dollars in an AI developer.",
+   "spoken": "Imagine a chip manufacturer investing one billion dollars in an AI developer.",
+   "key": "1e5a8a05049c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1e5a8a05049c.wav",
+   "start": 500.364,
+   "end": 506.288
+  },
+  {
+   "id": "c05_14",
+   "text": "That developer uses part of its funding to purchase computing services.",
+   "spoken": "That developer uses part of its funding to purchase computing services.",
+   "key": "24bf3888cdf3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_24bf3888cdf3.wav",
+   "start": 506.738,
+   "end": 511.646
+  },
+  {
+   "id": "c05_15",
+   "text": "The computing provider then purchases more chips from the original manufacturer.",
+   "spoken": "The computing provider then purchases more chips from the original manufacturer.",
+   "key": "2d4dd2194a2b",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2d4dd2194a2b.wav",
+   "start": 512.096,
+   "end": 517.358
+  },
+  {
+   "id": "c05_16",
+   "text": "Each company may benefit from the resulting activity.",
+   "spoken": "Each company may benefit from the resulting activity.",
+   "key": "44aa2710e854",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_44aa2710e854.wav",
+   "start": 517.808,
+   "end": 521.436
+  },
+  {
+   "id": "c05_17",
+   "text": "But analysts must ask how much demand is ultimately supported by paying customers, rather than continued financing from within the industry itself.",
+   "spoken": "But analysts must ask how much demand is ultimately supported by paying customers, rather than continued financing from within the industry itself.",
+   "key": "7ebec8a11fd3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7ebec8a11fd3.wav",
+   "start": 521.886,
+   "end": 532.447
+  },
+  {
+   "id": "c05_18",
+   "text": "Such arrangements do not automatically indicate fraud or financial manipulation.",
+   "spoken": "Such arrangements do not automatically indicate fraud or financial manipulation.",
+   "key": "696c42ea8d90",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_696c42ea8d90.wav",
+   "start": 532.897,
+   "end": 538.667
+  },
+  {
+   "id": "c05_19",
+   "text": "Strategic partnerships can help businesses develop useful technologies.",
+   "spoken": "Strategic partnerships can help businesses develop useful technologies.",
+   "key": "456c4e4234ec",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_456c4e4234ec.wav",
+   "start": 539.117,
+   "end": 544.071
+  },
+  {
+   "id": "c05_20",
+   "text": "However, they make it especially important to examine the underlying sources of revenue.",
+   "spoken": "However, they make it especially important to examine the underlying sources of revenue.",
+   "key": "8fe8712ed155",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8fe8712ed155.wav",
+   "start": 544.521,
+   "end": 550.534
+  },
+  {
+   "id": "c05_21",
+   "text": "In the end, the entire investment chain must generate enough external economic value to support the money being invested.",
+   "spoken": "In the end, the entire investment chain must generate enough external economic value to support the money being invested.",
+   "key": "2522b7735c8a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2522b7735c8a.wav",
+   "start": 550.984,
+   "end": 559.405
+  },
+  {
+   "id": "c05_22",
+   "text": "Otherwise, the system becomes increasingly dependent on expectations about the future.",
+   "spoken": "Otherwise, the system becomes increasingly dependent on expectations about the future.",
+   "key": "cfd1cfa981c0",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_cfd1cfa981c0.wav",
+   "start": 559.855,
+   "end": 565.866
+  },
+  {
+   "id": "c05_23",
+   "text": "And expectations can change frighteningly quickly.",
+   "spoken": "And expectations can change frighteningly quickly.",
+   "key": "7e123ea211fc",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7e123ea211fc.wav",
+   "start": 566.316,
+   "end": 569.87
+  },
+  {
+   "id": "c06_01",
+   "text": "Another important development is the way AI infrastructure is being financed.",
+   "spoken": "Another important development is the way AI infrastructure is being financed.",
+   "key": "ab12fdb3b63d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ab12fdb3b63d.wav",
+   "start": 571.67,
+   "end": 577.316
+  },
+  {
+   "id": "c06_02",
+   "text": "Imagine a technology company that generates ten billion dollars in operating cash flow.",
+   "spoken": "Imagine a technology company that generates ten billion dollars in operating cash flow.",
+   "key": "86591d475a4c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_86591d475a4c.wav",
+   "start": 577.766,
+   "end": 584.064
+  },
+  {
+   "id": "c06_03",
+   "text": "After spending six billion dollars on buildings, equipment and other capital investments, it has four billion dollars left over: a simplified measure of free cash flow.",
+   "spoken": "After spending six billion dollars on buildings, equipment and other capital investments, it has four billion dollars left over: a simplified measure of free cash flow.",
+   "key": "516c1d138e17",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_516c1d138e17.wav",
+   "start": 584.514,
+   "end": 595.898
+  },
+  {
+   "id": "c06_04",
+   "text": "Now imagine its investment requirements rise to fourteen billion dollars while operating cash flow remains unchanged.",
+   "spoken": "Now imagine its investment requirements rise to fourteen billion dollars while operating cash flow remains unchanged.",
+   "key": "7bc6428656c3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7bc6428656c3.wav",
+   "start": 596.348,
+   "end": 604.774
+  },
+  {
+   "id": "c06_05",
+   "text": "Its free cash flow becomes negative.",
+   "spoken": "Its free cash flow becomes negative.",
+   "key": "b53e39dc1b15",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b53e39dc1b15.wav",
+   "start": 605.224,
+   "end": 607.908
+  },
+  {
+   "id": "c06_06",
+   "text": "The company must use existing cash reserves, sell assets, raise equity or borrow money to cover the difference.",
+   "spoken": "The company must use existing cash reserves, sell assets, raise equity or borrow money to cover the difference.",
+   "key": "d00464383d22",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_d00464383d22.wav",
+   "start": 608.508,
+   "end": 616.208
+  },
+  {
+   "id": "c06_07",
+   "text": "In October 2026, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+   "spoken": "In October twenty twenty-six, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+   "key": "b1d7706a10d8",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b1d7706a10d8.wav",
+   "start": 616.658,
+   "end": 631.999
+  },
+  {
+   "id": "c06_08",
+   "text": "This matters because debt creates obligations that do not disappear simply because customer demand weakens.",
+   "spoken": "This matters because debt creates obligations that do not disappear simply because customer demand weakens.",
+   "key": "5c9326fc254d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_5c9326fc254d.wav",
+   "start": 632.449,
+   "end": 640.415
+  },
+  {
+   "id": "c06_09",
+   "text": "Lenders still expect repayment.",
+   "spoken": "Lenders still expect repayment.",
+   "key": "8a9825e7a847",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8a9825e7a847.wav",
+   "start": 640.865,
+   "end": 643.181
+  },
+  {
+   "id": "c06_10",
+   "text": "Interest payments must still be made.",
+   "spoken": "Interest payments must still be made.",
+   "key": "3b60d0bc19ab",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3b60d0bc19ab.wav",
+   "start": 643.781,
+   "end": 646.242
+  },
+  {
+   "id": "c06_11",
+   "text": "And long-term financial commitments can remain in place even when technology becomes outdated.",
+   "spoken": "And long-term financial commitments can remain in place even when technology becomes outdated.",
+   "key": "9e41d399a4e2",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_9e41d399a4e2.wav",
+   "start": 646.842,
+   "end": 653.652
+  },
+  {
+   "id": "c06_12",
+   "text": "Consider a data centre financed with a long-term loan.",
+   "spoken": "Consider a data centre financed with a long-term loan.",
+   "key": "765856bfa855",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_765856bfa855.wav",
+   "start": 654.102,
+   "end": 658.145
+  },
+  {
+   "id": "c06_13",
+   "text": "If newer processors make its equipment less competitive before the investment has earned back its original cost, the owner could face financial difficulties.",
+   "spoken": "If newer processors make its equipment less competitive before the investment has earned back its original cost, the owner could face financial difficulties.",
+   "key": "1aec515f4b71",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1aec515f4b71.wav",
+   "start": 658.595,
+   "end": 669.067
+  },
+  {
+   "id": "c06_14",
+   "text": "The technology may have improved.",
+   "spoken": "The technology may have improved.",
+   "key": "48236f6a0737",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_48236f6a0737.wav",
+   "start": 669.517,
+   "end": 671.836
+  },
+  {
+   "id": "c06_15",
+   "text": "But the economics of the original investment may have deteriorated.",
+   "spoken": "But the economics of the original investment may have deteriorated.",
+   "key": "30686b0dc2d4",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_30686b0dc2d4.wav",
+   "start": 672.436,
+   "end": 677.222
+  },
+  {
+   "id": "c06_16",
+   "text": "This creates a fundamental tension between the rapid evolution of artificial intelligence and the financial commitments required to build its infrastructure.",
+   "spoken": "This creates a fundamental tension between the rapid evolution of artificial intelligence and the financial commitments required to build its infrastructure.",
+   "key": "bc85789e66e7",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_bc85789e66e7.wav",
+   "start": 677.672,
+   "end": 688.183
+  },
+  {
+   "id": "c07_01",
+   "text": "The answer depends on how we measure the size of a bubble.",
+   "spoken": "The answer depends on how we measure the size of a bubble.",
+   "key": "c69d5c521af9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c69d5c521af9.wav",
+   "start": 689.983,
+   "end": 693.946
+  },
+  {
+   "id": "c07_02",
+   "text": "Are we measuring the amount of infrastructure being built?",
+   "spoken": "Are we measuring the amount of infrastructure being built?",
+   "key": "645d49b02ef4",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_645d49b02ef4.wav",
+   "start": 694.396,
+   "end": 698.12
+  },
+  {
+   "id": "c07_03",
+   "text": "The market value of technology companies?",
+   "spoken": "The market value of technology companies?",
+   "key": "14da298d14e5",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_14da298d14e5.wav",
+   "start": 698.57,
+   "end": 701.549
+  },
+  {
+   "id": "c07_04",
+   "text": "The amount of debt supporting the expansion?",
+   "spoken": "The amount of debt supporting the expansion?",
+   "key": "7d92eb6b9776",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7d92eb6b9776.wav",
+   "start": 702.149,
+   "end": 704.833
+  },
+  {
+   "id": "c07_05",
+   "text": "Or the difference between company valuations and their underlying economic value?",
+   "spoken": "Or the difference between company valuations and their underlying economic value?",
+   "key": "f48d53c386f0",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f48d53c386f0.wav",
+   "start": 705.283,
+   "end": 710.825
+  },
+  {
+   "id": "c07_06",
+   "text": "These measurements can produce very different answers.",
+   "spoken": "These measurements can produce very different answers.",
+   "key": "652954f38f84",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_652954f38f84.wav",
+   "start": 711.275,
+   "end": 714.526
+  },
+  {
+   "id": "c07_07",
+   "text": "Research cited by the European Central Bank in November 2026 estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032.",
+   "spoken": "Research cited by the European Central Bank in November twenty twenty-six estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032.",
+   "key": "1d5fca90e37f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1d5fca90e37f.wav",
+   "start": 714.976,
+   "end": 732.185
+  },
+  {
+   "id": "c07_08",
+   "text": "For comparison, the internet boom between 1996 and 2003 took up about one point one percent.",
+   "spoken": "For comparison, the internet boom between 1996 and 2003 took up about one point one percent.",
+   "key": "2ff861c72a18",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2ff861c72a18.wav",
+   "start": 732.635,
+   "end": 741.88
+  },
+  {
+   "id": "c07_09",
+   "text": "These are not perfectly equivalent historical measurements, and the AI figures depend on forecasts.",
+   "spoken": "These are not perfectly equivalent historical measurements, and the AI figures depend on forecasts.",
+   "key": "b054902a620f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b054902a620f.wav",
+   "start": 742.33,
+   "end": 748.635
+  },
+  {
+   "id": "c07_10",
+   "text": "Nevertheless, they suggest that today's infrastructure expansion could be considerably larger relative to the economy.",
+   "spoken": "Nevertheless, they suggest that today's infrastructure expansion could be considerably larger relative to the economy.",
+   "key": "216f6ec2940f",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_216f6ec2940f.wav",
+   "start": 749.085,
+   "end": 757.221
+  },
+  {
+   "id": "c07_11",
+   "text": "But larger investment does not automatically mean a larger financial bubble.",
+   "spoken": "But larger investment does not automatically mean a larger financial bubble.",
+   "key": "c97403a39bbc",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c97403a39bbc.wav",
+   "start": 757.671,
+   "end": 763.011
+  },
+  {
+   "id": "c07_12",
+   "text": "A railway connecting productive cities may require enormous investment and still generate substantial long-term returns.",
+   "spoken": "A railway connecting productive cities may require enormous investment and still generate substantial long-term returns.",
+   "key": "183675a237ba",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_183675a237ba.wav",
+   "start": 763.461,
+   "end": 772.115
+  },
+  {
+   "id": "c07_13",
+   "text": "An expensive railway connecting places with insufficient demand may become a financial disaster.",
+   "spoken": "An expensive railway connecting places with insufficient demand may become a financial disaster.",
+   "key": "c1f6bfc42fc4",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c1f6bfc42fc4.wav",
+   "start": 772.565,
+   "end": 779.501
+  },
+  {
+   "id": "c07_14",
+   "text": "The critical question is not simply how much money is being spent.",
+   "spoken": "The critical question is not simply how much money is being spent.",
+   "key": "873223585e81",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_873223585e81.wav",
+   "start": 779.951,
+   "end": 784.335
+  },
+  {
+   "id": "c07_15",
+   "text": "It is whether the economic returns will justify that spending.",
+   "spoken": "It is whether the economic returns will justify that spending.",
+   "key": "f4a402295612",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f4a402295612.wav",
+   "start": 784.785,
+   "end": 788.984
+  },
+  {
+   "id": "c08_01",
+   "text": "There are several important differences between the dot-com era and the current AI boom.",
+   "spoken": "There are several important differences between the dot-com era and the current AI boom.",
+   "key": "b03c38a8a0a7",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b03c38a8a0a7.wav",
+   "start": 790.784,
+   "end": 796.575
+  },
+  {
+   "id": "c08_02",
+   "text": "Many of the internet startups that attracted sky-high valuations during the late 1990s had weak business models and limited financial resources.",
+   "spoken": "Many of the internet startups that attracted sky-high valuations during the late 1990s had weak business models and limited financial resources.",
+   "key": "bdb7f567f448",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_bdb7f567f448.wav",
+   "start": 797.025,
+   "end": 808.507
+  },
+  {
+   "id": "c08_03",
+   "text": "Today, several of the largest companies investing in artificial intelligence already operate highly profitable businesses.",
+   "spoken": "Today, several of the largest companies investing in artificial intelligence already operate highly profitable businesses.",
+   "key": "2446568581fc",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2446568581fc.wav",
+   "start": 808.957,
+   "end": 817.063
+  },
+  {
+   "id": "c08_04",
+   "text": "They generate revenue from cloud computing, advertising, software, subscriptions and digital commerce.",
+   "spoken": "They generate revenue from cloud computing, advertising, software, subscriptions and digital commerce.",
+   "key": "2285a558aad2",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_2285a558aad2.wav",
+   "start": 817.513,
+   "end": 824.692
+  },
+  {
+   "id": "c08_05",
+   "text": "This gives them resources that many speculative dot-com companies never possessed.",
+   "spoken": "This gives them resources that many speculative dot-com companies never possessed.",
+   "key": "1153da97639e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1153da97639e.wav",
+   "start": 825.142,
+   "end": 830.719
+  },
+  {
+   "id": "c08_06",
+   "text": "Artificial intelligence also has practical applications that extend beyond future promises.",
+   "spoken": "Artificial intelligence also has practical applications that extend beyond future promises.",
+   "key": "86bd30d12bfb",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_86bd30d12bfb.wav",
+   "start": 831.169,
+   "end": 837.857
+  },
+  {
+   "id": "c08_07",
+   "text": "Businesses are already using AI systems to assist with software development, customer support, research and administrative work.",
+   "spoken": "Businesses are already using AI systems to assist with software development, customer support, research and administrative work.",
+   "key": "4ab29562b51d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_4ab29562b51d.wav",
+   "start": 838.307,
+   "end": 847.137
+  },
+  {
+   "id": "c08_08",
+   "text": "These applications can create genuine economic benefits.",
+   "spoken": "These applications can create genuine economic benefits.",
+   "key": "74440caec09a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_74440caec09a.wav",
+   "start": 847.587,
+   "end": 851.756
+  },
+  {
+   "id": "c08_09",
+   "text": "However, profitable companies can still make unprofitable investments.",
+   "spoken": "However, profitable companies can still make unprofitable investments.",
+   "key": "c98576caa505",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_c98576caa505.wav",
+   "start": 852.206,
+   "end": 857.039
+  },
+  {
+   "id": "c08_10",
+   "text": "And a useful technology does not guarantee attractive returns for every company involved in developing it.",
+   "spoken": "And a useful technology does not guarantee attractive returns for every company involved in developing it.",
+   "key": "441bdbf67383",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_441bdbf67383.wav",
+   "start": 857.489,
+   "end": 864.907
+  },
+  {
+   "id": "c08_11",
+   "text": "During the internet boom, businesses constructed extensive fibre-optic networks to prepare for future internet traffic.",
+   "spoken": "During the internet boom, businesses constructed extensive fibre-optic networks to prepare for future internet traffic.",
+   "key": "ec3aa8a8d45d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ec3aa8a8d45d.wav",
+   "start": 865.357,
+   "end": 872.986
+  },
+  {
+   "id": "c08_12",
+   "text": "Some infrastructure investments were financially unsuccessful because demand developed more slowly than expected.",
+   "spoken": "Some infrastructure investments were financially unsuccessful because demand developed more slowly than expected.",
+   "key": "92620c7d6cc6",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_92620c7d6cc6.wav",
+   "start": 873.436,
+   "end": 881.538
+  },
+  {
+   "id": "c08_13",
+   "text": "Yet those networks eventually helped support the expansion of the digital economy.",
+   "spoken": "Yet those networks eventually helped support the expansion of the digital economy.",
+   "key": "714b157ef4b3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_714b157ef4b3.wav",
+   "start": 881.988,
+   "end": 887.566
+  },
+  {
+   "id": "c08_14",
+   "text": "It is entirely possible that artificial intelligence follows a similar pattern.",
+   "spoken": "It is entirely possible that artificial intelligence follows a similar pattern.",
+   "key": "ff15aa066ced",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ff15aa066ced.wav",
+   "start": 888.016,
+   "end": 893.562
+  },
+  {
+   "id": "c08_15",
+   "text": "Society could benefit enormously from infrastructure that produces disappointing financial returns for some of its original investors.",
+   "spoken": "Society could benefit enormously from infrastructure that produces disappointing financial returns for some of its original investors.",
+   "key": "1e1ebf7f0123",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1e1ebf7f0123.wav",
+   "start": 894.012,
+   "end": 903.54
+  },
+  {
+   "id": "c08_16",
+   "text": "Technological success and investment success are not necessarily the same thing.",
+   "spoken": "Technological success and investment success are not necessarily the same thing.",
+   "key": "9a02b0fbd6f8",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_9a02b0fbd6f8.wav",
+   "start": 903.99,
+   "end": 909.78
+  },
+  {
+   "id": "c09_01",
+   "text": "Imagine that AI adoption continues growing, but customers are unwilling to pay enough to justify the industry's enormous investments.",
+   "spoken": "Imagine that AI adoption continues growing, but customers are unwilling to pay enough to justify the industry's enormous investments.",
+   "key": "e69b46436e11",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_e69b46436e11.wav",
+   "start": 911.58,
+   "end": 921.65
+  },
+  {
+   "id": "c09_02",
+   "text": "Cloud companies may reduce their expansion plans.",
+   "spoken": "Cloud companies may reduce their expansion plans.",
+   "key": "b4bbf5067f73",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b4bbf5067f73.wav",
+   "start": 922.1,
+   "end": 925.844
+  },
+  {
+   "id": "c09_03",
+   "text": "Semiconductor manufacturers may receive fewer orders.",
+   "spoken": "Semiconductor manufacturers may receive fewer orders.",
+   "key": "1ae96365aafc",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1ae96365aafc.wav",
+   "start": 926.294,
+   "end": 930.294
+  },
+  {
+   "id": "c09_04",
+   "text": "Data centre developers may struggle to attract tenants.",
+   "spoken": "Data centre developers may struggle to attract tenants.",
+   "key": "f2b98557471a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_f2b98557471a.wav",
+   "start": 930.894,
+   "end": 934.676
+  },
+  {
+   "id": "c09_05",
+   "text": "Businesses with substantial financial obligations could face mounting pressure.",
+   "spoken": "Businesses with substantial financial obligations could face mounting pressure.",
+   "key": "883081f535a6",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_883081f535a6.wav",
+   "start": 935.126,
+   "end": 940.601
+  },
+  {
+   "id": "c09_06",
+   "text": "Investors would begin revising their expectations.",
+   "spoken": "Investors would begin revising their expectations.",
+   "key": "49106c9a9a74",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_49106c9a9a74.wav",
+   "start": 941.051,
+   "end": 944.954
+  },
+  {
+   "id": "c09_07",
+   "text": "And because financial markets anticipate future earnings, company valuations could fall before the full economic consequences become visible.",
+   "spoken": "And because financial markets anticipate future earnings, company valuations could fall before the full economic consequences become visible.",
+   "key": "648dc83fb09d",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_648dc83fb09d.wav",
+   "start": 945.554,
+   "end": 955.599
+  },
+  {
+   "id": "c09_08",
+   "text": "The effects might extend beyond technology companies.",
+   "spoken": "The effects might extend beyond technology companies.",
+   "key": "33db4ce71d47",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_33db4ce71d47.wav",
+   "start": 956.049,
+   "end": 959.64
+  },
+  {
+   "id": "c09_09",
+   "text": "Retirement funds, investment portfolios and financial institutions hold exposure to technology-related assets.",
+   "spoken": "Retirement funds, investment portfolios and financial institutions hold exposure to technology-related assets.",
+   "key": "1f54cc532560",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1f54cc532560.wav",
+   "start": 960.09,
+   "end": 968.674
+  },
+  {
+   "id": "c09_10",
+   "text": "Construction companies, electricity providers and equipment manufacturers may also depend on continued infrastructure expansion.",
+   "spoken": "Construction companies, electricity providers and equipment manufacturers may also depend on continued infrastructure expansion.",
+   "key": "8989b7aa3c9e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8989b7aa3c9e.wav",
+   "start": 969.124,
+   "end": 978.234
+  },
+  {
+   "id": "c09_11",
+   "text": "But a collapse is not inevitable.",
+   "spoken": "But a collapse is not inevitable.",
+   "key": "707d1257ac9c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_707d1257ac9c.wav",
+   "start": 978.684,
+   "end": 981.051
+  },
+  {
+   "id": "c09_12",
+   "text": "Demand could grow sufficiently to justify the investments.",
+   "spoken": "Demand could grow sufficiently to justify the investments.",
+   "key": "3c02642bb894",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_3c02642bb894.wav",
+   "start": 981.651,
+   "end": 985.909
+  },
+  {
+   "id": "c09_13",
+   "text": "Technological improvements could reduce operating costs.",
+   "spoken": "Technological improvements could reduce operating costs.",
+   "key": "4e48280c882e",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_4e48280c882e.wav",
+   "start": 986.359,
+   "end": 990.33
+  },
+  {
+   "id": "c09_14",
+   "text": "New applications could create revenue streams that are difficult to anticipate today.",
+   "spoken": "New applications could create revenue streams that are difficult to anticipate today.",
+   "key": "039acbcc649a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_039acbcc649a.wav",
+   "start": 990.93,
+   "end": 996.782
+  },
+  {
+   "id": "c09_15",
+   "text": "The investment boom could also experience a gradual adjustment rather than a dramatic crash.",
+   "spoken": "The investment boom could also experience a gradual adjustment rather than a dramatic crash.",
+   "key": "b8a7249ad2c5",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_b8a7249ad2c5.wav",
+   "start": 997.232,
+   "end": 1003.632
+  },
+  {
+   "id": "c09_16",
+   "text": "The future depends on how these competing forces develop.",
+   "spoken": "The future depends on how these competing forces develop.",
+   "key": "0d8e2d62a2c3",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_0d8e2d62a2c3.wav",
+   "start": 1004.082,
+   "end": 1008.215
+  },
+  {
+   "id": "c10_01",
+   "text": "The dot-com bubble demonstrated that investors can correctly identify a revolutionary technology and still misunderstand its financial value.",
+   "spoken": "The dot-com bubble demonstrated that investors can correctly identify a revolutionary technology and still misunderstand its financial value.",
+   "key": "8f8eec1fe42a",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8f8eec1fe42a.wav",
+   "start": 1010.015,
+   "end": 1020.457
+  },
+  {
+   "id": "c10_02",
+   "text": "The internet changed the world.",
+   "spoken": "The internet changed the world.",
+   "key": "8f682fbc20de",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8f682fbc20de.wav",
+   "start": 1020.907,
+   "end": 1022.924
+  },
+  {
+   "id": "c10_03",
+   "text": "But not every internet company deserved its valuation.",
+   "spoken": "But not every internet company deserved its valuation.",
+   "key": "33ca18b8ca78",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_33ca18b8ca78.wav",
+   "start": 1023.524,
+   "end": 1027.367
+  },
+  {
+   "id": "c10_04",
+   "text": "Artificial intelligence may also transform the global economy.",
+   "spoken": "Artificial intelligence may also transform the global economy.",
+   "key": "084851ba191c",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_084851ba191c.wav",
+   "start": 1027.817,
+   "end": 1032.389
+  },
+  {
+   "id": "c10_05",
+   "text": "It could reshape industries, create new businesses and fundamentally alter how people work.",
+   "spoken": "It could reshape industries, create new businesses and fundamentally alter how people work.",
+   "key": "dac72506eff7",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_dac72506eff7.wav",
+   "start": 1032.839,
+   "end": 1038.961
+  },
+  {
+   "id": "c10_06",
+   "text": "Yet none of that eliminates the possibility of excessive speculation, overinvestment or disappointing returns.",
+   "spoken": "Yet none of that eliminates the possibility of excessive speculation, overinvestment or disappointing returns.",
+   "key": "8190c9e3e5d9",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_8190c9e3e5d9.wav",
+   "start": 1039.411,
+   "end": 1047.252
+  },
+  {
+   "id": "c10_07",
+   "text": "The most important question is not whether artificial intelligence is useful.",
+   "spoken": "The most important question is not whether artificial intelligence is useful.",
+   "key": "7587c02639fd",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7587c02639fd.wav",
+   "start": 1047.702,
+   "end": 1052.951
+  },
+  {
+   "id": "c10_08",
+   "text": "It is whether the profits generated by artificial intelligence will ultimately justify the extraordinary financial commitments being made today.",
+   "spoken": "It is whether the profits generated by artificial intelligence will ultimately justify the extraordinary financial commitments being made today.",
+   "key": "166a6f8cafe5",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_166a6f8cafe5.wav",
+   "start": 1053.401,
+   "end": 1063.115
+  },
+  {
+   "id": "c10_09",
+   "text": "History does not tell us exactly what will happen next.",
+   "spoken": "History does not tell us exactly what will happen next.",
+   "key": "31c5010d3063",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_31c5010d3063.wav",
+   "start": 1063.565,
+   "end": 1067.311
+  },
+  {
+   "id": "c10_10",
+   "text": "But it reminds us that even the most convincing vision of the future can become dangerous when financial expectations move too far ahead of economic reality.",
+   "spoken": "But it reminds us that even the most convincing vision of the future can become dangerous when financial expectations move too far ahead of economic reality.",
+   "key": "1aaffcb42c53",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_1aaffcb42c53.wav",
+   "start": 1067.761,
+   "end": 1079.088
+  },
+  {
+   "id": "c10_11",
+   "text": "The dot-com generation learned that lesson the hard way.",
+   "spoken": "The dot-com generation learned that lesson the hard way.",
+   "key": "ba4a5a99e668",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_ba4a5a99e668.wav",
+   "start": 1079.538,
+   "end": 1083.514
+  },
+  {
+   "id": "c10_12",
+   "text": "Whether the artificial intelligence generation will learn it differently remains one of the most important financial questions of our time.",
+   "spoken": "Whether the artificial intelligence generation will learn it differently remains one of the most important financial questions of our time.",
+   "key": "5f8ba433cb56",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_5f8ba433cb56.wav",
+   "start": 1083.964,
+   "end": 1092.8
+  },
+  {
+   "id": "c10_13",
+   "text": "This is The Epoch Ledger.",
+   "spoken": "This is The Epoch Ledger.",
+   "key": "7012c7538f00",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_7012c7538f00.wav",
+   "start": 1093.25,
+   "end": 1095.292
+  },
+  {
+   "id": "c10_14",
+   "text": "Understanding the past. Decoding the present.",
+   "spoken": "Understanding the past. Decoding the present.",
+   "key": "e924d0e06a89",
+   "file": "/home/user/OpenMontage/projects/ai-bubble-vs-dot-com/assets/audio/vt_e924d0e06a89.wav",
+   "start": 1095.892,
+   "end": 1098.821
+  }
+ ]
+}

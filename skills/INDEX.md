@@ -324,7 +324,7 @@ Load via `styles/playbook_loader.py`: `load_playbook("clean-professional")`. `li
 
 `ink-sketch` (Ink Theater) is a **style id** handled by `creative/ink-theater.md` and the `ink-theater/` engine, not a YAML playbook.
 
-The Epoch Ledger series look is handled by `creative/epoch-ledger.md` and the `epoch-ledger/` kit (characters, sets, Three.js vault, captions, render cache), not a YAML playbook.
+The Epoch Ledger series look is handled by `creative/epoch-ledger.md`, `creative/epoch-ledger-motion-craft.md` (motion language, kinetic type, diagrams, data, isometric, maps, 3D on CPU, end screen) and the `epoch-ledger/` kit (characters, sets, Three.js vault, captions, render cache), not a YAML playbook.
 
 ## Installed Agent Skills (Layer 3)
 

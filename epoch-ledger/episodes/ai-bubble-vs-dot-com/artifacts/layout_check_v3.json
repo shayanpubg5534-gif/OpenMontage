@@ -1,0 +1,459 @@
+{
+ "note": "layout_check findings on the v3 draft (not yet fixed; fix in the next preview revision)",
+ "ranges": {
+  "opening 0-52": [
+   {
+    "from": 0.5,
+    "to": 3.5,
+    "t": 0.5,
+    "kind": "text-overlap",
+    "a": "fl-c1",
+    "b": "o1-tag",
+    "text": "NTVX / New York · 1999",
+    "area": 1351
+   },
+   {
+    "from": 3.5,
+    "to": 4.5,
+    "t": 3.5,
+    "kind": "text-overlap",
+    "a": "fl-c2",
+    "b": "o1-tag",
+    "text": "117⅞ / New York · 1999",
+    "area": 901
+   },
+   {
+    "from": 4,
+    "to": 4.5,
+    "t": 4,
+    "kind": "text-overlap",
+    "a": "fl-c10",
+    "b": "o1-tag",
+    "text": "LINX / New York · 1999",
+    "area": 90
+   },
+   {
+    "from": 10,
+    "to": 13.5,
+    "t": 10,
+    "kind": "text-overlap",
+    "a": "fp-c1",
+    "b": "o3-y99",
+    "text": "▼29 / 1999",
+    "area": 1480
+   },
+   {
+    "from": 10,
+    "to": 13.5,
+    "t": 10,
+    "kind": "text-overlap",
+    "a": "fp-c9",
+    "b": "o3-y99",
+    "text": "BYTE / 1999",
+    "area": 2379
+   },
+   {
+    "from": 10.5,
+    "to": 13,
+    "t": 10.5,
+    "kind": "text-overlap",
+    "a": "fp-c14",
+    "b": "o3-y26",
+    "text": "PGVU / 2026",
+    "area": 195
+   },
+   {
+    "from": 11,
+    "to": 12.5,
+    "t": 11,
+    "kind": "text-overlap",
+    "a": "fp-c6",
+    "b": "o3-y26",
+    "text": "▼45⅞ / 2026",
+    "area": 988
+   }
+  ],
+  "infra 353-388": [
+   {
+    "from": 365,
+    "to": 365,
+    "t": 365,
+    "kind": "text-overlap",
+    "a": "i3-cam",
+    "b": "i3-tag",
+    "text": "Memory / Illustrative",
+    "area": 645
+   },
+   {
+    "from": 366,
+    "to": 367,
+    "t": 366,
+    "kind": "text-overlap",
+    "a": "i3-tiles",
+    "b": "i3-tag",
+    "text": "The same block, repeated across the chip / Illustrative",
+    "area": 2235
+   }
+  ],
+  "money 435.7-518": [
+   {
+    "from": 448.7,
+    "to": 448.7,
+    "t": 448.7,
+    "kind": "off-frame",
+    "a": "mf-fab",
+    "text": "Chip makerdesigns & sells chips"
+   },
+   {
+    "from": 451.7,
+    "to": 454.2,
+    "t": 451.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mcc",
+    "text": "Chip makerdesigns & sells chips / Inside the cloud provider",
+    "area": 643
+   },
+   {
+    "from": 451.7,
+    "to": 454.2,
+    "t": 451.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mcc-s0",
+    "text": "Chip makerdesigns & sells chips / 1Unpack the purchased chips",
+    "area": 78
+   },
+   {
+    "from": 454.7,
+    "to": 455.7,
+    "t": 454.7,
+    "kind": "off-frame",
+    "a": "mf-fab",
+    "text": "Chip makerdesigns & sells chips"
+   },
+   {
+    "from": 454.7,
+    "to": 455.7,
+    "t": 454.7,
+    "kind": "off-frame",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 455.7,
+    "to": 455.7,
+    "t": 455.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-tag1",
+    "text": "Chip makerdesigns & sells chips / Simplified model",
+    "area": 4316
+   },
+   {
+    "from": 458.7,
+    "to": 462.7,
+    "t": 458.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-tag1",
+    "text": "Chip makerdesigns & sells chips / Simplified model",
+    "area": 511
+   },
+   {
+    "from": 459.7,
+    "to": 462.2,
+    "t": 459.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mcl",
+    "text": "Chip makerdesigns & sells chips / Inside the AI developer",
+    "area": 5811
+   },
+   {
+    "from": 459.7,
+    "to": 462.2,
+    "t": 459.7,
+    "kind": "text-overlap",
+    "a": "mf-lab",
+    "b": "mcl",
+    "text": "trains models / errors fall as it learns",
+    "area": 3482
+   },
+   {
+    "from": 463.2,
+    "to": 468.7,
+    "t": 463.2,
+    "kind": "off-frame",
+    "a": "mf-fab",
+    "text": "Chip makerdesigns & sells chips"
+   },
+   {
+    "from": 463.2,
+    "to": 468.2,
+    "t": 463.2,
+    "kind": "off-frame",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 466.2,
+    "to": 468.2,
+    "t": 466.2,
+    "kind": "text-overlap",
+    "a": "mf-lab",
+    "b": "mcu-s1",
+    "text": "AI developertrains models / 2Use it for real work",
+    "area": 1480
+   },
+   {
+    "from": 468.7,
+    "to": 468.7,
+    "t": 468.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mcu",
+    "text": "Chip makerdesigns & sells chips / Customers using AI",
+    "area": 5154
+   },
+   {
+    "from": 474.7,
+    "to": 474.7,
+    "t": 474.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-tag1",
+    "text": "Chip makerdesigns & sells chips / Simplified model",
+    "area": 2771
+   },
+   {
+    "from": 475.2,
+    "to": 479.2,
+    "t": 475.2,
+    "kind": "off-frame",
+    "a": "mf-fab",
+    "text": "Chip makerdesigns & sells chips"
+   },
+   {
+    "from": 475.2,
+    "to": 479.2,
+    "t": 475.2,
+    "kind": "off-frame",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 477.7,
+    "to": 478.7,
+    "t": 477.7,
+    "kind": "off-frame",
+    "a": "mf-lab",
+    "text": "AI developertrains models"
+   },
+   {
+    "from": 479.7,
+    "to": 479.7,
+    "t": 479.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-tag1",
+    "text": "Chip makerdesigns & sells chips / Simplified model",
+    "area": 1589
+   },
+   {
+    "from": 479.7,
+    "to": 479.7,
+    "t": 479.7,
+    "kind": "caption-band",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 479.7,
+    "to": 479.7,
+    "t": 479.7,
+    "kind": "text-overlap",
+    "a": "mf-cloud",
+    "b": "cap178",
+    "text": "data centres / Chip",
+    "area": 594
+   },
+   {
+    "from": 479.7,
+    "to": 487.2,
+    "t": 479.7,
+    "kind": "off-frame",
+    "a": "mf-lab",
+    "text": "AI developertrains models"
+   },
+   {
+    "from": 479.7,
+    "to": 489.2,
+    "t": 479.7,
+    "kind": "off-frame",
+    "a": "mf-cust",
+    "text": "Customersbusinesses & people"
+   },
+   {
+    "from": 480.2,
+    "to": 482.7,
+    "t": 480.2,
+    "kind": "off-frame",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 483.2,
+    "to": 489.2,
+    "t": 483.2,
+    "kind": "off-frame",
+    "a": "mf-fab",
+    "text": "Chip makerdesigns & sells chips"
+   },
+   {
+    "from": 487.7,
+    "to": 488.2,
+    "t": 487.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-tag1",
+    "text": "designs & sells chips / Simplified model",
+    "area": 179
+   },
+   {
+    "from": 487.7,
+    "to": 489.2,
+    "t": 487.7,
+    "kind": "off-frame",
+    "a": "mf-cloud",
+    "text": "Cloud providerdata centres"
+   },
+   {
+    "from": 489.7,
+    "to": 489.7,
+    "t": 489.7,
+    "kind": "caption-band",
+    "a": "mf-cust",
+    "text": "Customersbusinesses & people"
+   },
+   {
+    "from": 489.7,
+    "to": 489.7,
+    "t": 489.7,
+    "kind": "text-overlap",
+    "a": "mf-cust",
+    "b": "cap180",
+    "text": "businesses & people / customers.",
+    "area": 205
+   },
+   {
+    "from": 502.7,
+    "to": 506.2,
+    "t": 502.7,
+    "kind": "off-frame",
+    "a": "mf-cust",
+    "text": "businesses & people"
+   },
+   {
+    "from": 506.7,
+    "to": 506.7,
+    "t": 506.7,
+    "kind": "text-overlap",
+    "a": "mf-lab",
+    "b": "mf-packet",
+    "text": "AI developertrains models / $1 billion",
+    "area": 294
+   },
+   {
+    "from": 507.2,
+    "to": 507.2,
+    "t": 507.2,
+    "kind": "text-overlap",
+    "a": "mf-cloud",
+    "b": "mf-packet",
+    "text": "Cloud providerdata centres / $1 billion",
+    "area": 167
+   },
+   {
+    "from": 513.2,
+    "to": 513.7,
+    "t": 513.2,
+    "kind": "text-overlap",
+    "a": "mf-lab",
+    "b": "mf-packet",
+    "text": "AI developertrains models / $1 billion",
+    "area": 1171
+   },
+   {
+    "from": 513.7,
+    "to": 516.2,
+    "t": 513.7,
+    "kind": "off-frame",
+    "a": "mf-cust",
+    "text": "Customersbusinesses & people"
+   },
+   {
+    "from": 514.2,
+    "to": 514.7,
+    "t": 514.2,
+    "kind": "text-overlap",
+    "a": "mf-rev-cloud",
+    "b": "mf-packet",
+    "text": "+ revenue / $1 billion",
+    "area": 6895
+   },
+   {
+    "from": 516.7,
+    "to": 517.7,
+    "t": 516.7,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-packet",
+    "text": "Chip makerdesigns & sells chips / $1 billion",
+    "area": 86
+   },
+   {
+    "from": 517.2,
+    "to": 517.2,
+    "t": 517.2,
+    "kind": "text-overlap",
+    "a": "mf-fab",
+    "b": "mf-rev-fab",
+    "text": "Chip makerdesigns & sells chips / + revenue",
+    "area": 352
+   },
+   {
+    "from": 517.2,
+    "to": 517.2,
+    "t": 517.2,
+    "kind": "text-overlap",
+    "a": "mf-rev-fab",
+    "b": "mf-packet",
+    "text": "+ revenue / $1 billion",
+    "area": 2310
+   }
+  ],
+  "railway 762.9-789": [
+   {
+    "from": 766.4,
+    "to": 766.4,
+    "t": 766.4,
+    "kind": "text-overlap",
+    "a": "rwa-tag",
+    "b": "rwb-tag",
+    "text": "Analogy / Building the line",
+    "area": 4853
+   },
+   {
+    "from": 771.4,
+    "to": 772.4,
+    "t": 771.4,
+    "kind": "text-overlap",
+    "a": "rwc-yr",
+    "b": "rwc-st",
+    "text": "Year 30 / Cost recovered",
+    "area": 464
+   }
+  ]
+ }
+}

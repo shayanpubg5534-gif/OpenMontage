@@ -3,6 +3,7 @@
   python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/__SLUG__     # narration + timings first
   python epoch-ledger/episodes/__SLUG__/build.py                          # → projects/__SLUG__/hyperframes/index.html
   EPOCH_RESOLUTION=1440p python epoch-ledger/episodes/__SLUG__/build.py WS  # optional 2560x1440 build
+  EPOCH_RESOLUTION=540p python epoch-ledger/episodes/__SLUG__/build.py projects/__SLUG__/draft  # 960x540 draft
 
 Every scene is a kit.assemble.Scene with its own html/css/js so render.py can cache it.
 Key every animation to narration times (`line(id)`) or Whisper word times (`word(...)`),

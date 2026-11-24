@@ -1,0 +1,134 @@
+[
+ {
+  "id": "c02_01",
+  "before": "During the early 1990s, the internet began transforming from a relatively specialized network into something ordinary people could access.",
+  "after": "During the early 1990s, the internet began to change from a specialized network into something ordinary people could use.",
+  "reason": "Wordy phrasing"
+ },
+ {
+  "id": "c02_08",
+  "before": "Money began flowing into internet companies at an extraordinary pace.",
+  "after": "Money began flowing into internet companies at a remarkable pace.",
+  "reason": "'extraordinary' used 6 times"
+ },
+ {
+  "id": "c03_01",
+  "before": "By the beginning of 2000, enthusiasm surrounding internet companies had reached extraordinary levels.",
+  "after": "By the beginning of 2000, enthusiasm for internet companies had reached fever pitch.",
+  "reason": "'extraordinary' repetition; tighter"
+ },
+ {
+  "id": "c03_02",
+  "before": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed approximately eighty-six percent during 1999 alone.",
+  "after": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed roughly eighty-six percent in 1999 alone.",
+  "reason": "'approximately' repetition"
+ },
+ {
+  "id": "c03_04",
+  "before": "They were spending enormous amounts of money on advertising, employees and infrastructure without generating enough revenue to sustain themselves.",
+  "after": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves.",
+  "reason": "'enormous amounts of money' repetition"
+ },
+ {
+  "id": "c03_07",
+  "before": "Investors became increasingly concerned about company valuations and profitability.",
+  "after": "Investors began to worry about company valuations and profitability.",
+  "reason": "'increasingly' used 7 times"
+ },
+ {
+  "id": "c03_12",
+  "before": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-seven percent of its value.",
+  "after": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-eight percent of its value.",
+  "reason": "FACT: closes 5,048.62 \u2192 1,114.11 = \u221277.9%"
+ },
+ {
+  "id": "c03_14",
+  "before": "Ignoring dividends and fees, that investment would have fallen to approximately two thousand three hundred dollars.",
+  "after": "Ignoring dividends and fees, that investment would have fallen to about two thousand two hundred dollars.",
+  "reason": "FACT: $10,000 \u00d7 1,114.11 / 5,048.62 = $2,207"
+ },
+ {
+  "id": "c03_17",
+  "before": "Online shopping expanded. Digital advertising became increasingly important. Businesses built successful models around technologies that had once attracted excessive speculation.",
+  "after": "Online shopping expanded. Digital advertising grew in importance. Businesses built successful models around technologies that had once attracted excessive speculation.",
+  "reason": "'increasingly' repetition"
+ },
+ {
+  "id": "c04_01",
+  "before": "The modern AI boom accelerated dramatically following the introduction of widely accessible generative AI systems.",
+  "after": "The modern AI boom accelerated sharply once generative AI systems became widely accessible.",
+  "reason": "Wordy phrasing"
+ },
+ {
+  "id": "c04_04",
+  "before": "Technology companies recognized a potentially enormous market.",
+  "after": "Technology companies saw a potentially vast market.",
+  "reason": "'enormous' used 7 times"
+ },
+ {
+  "id": "c04_12",
+  "before": "(spoken) 2026 \u2192 'two thousand and twenty-six'",
+  "after": "(spoken) 'twenty twenty-six'; captions keep '2026'",
+  "reason": "PRONUNCIATION"
+ },
+ {
+  "id": "c04_14",
+  "before": "Nevertheless, it illustrates the extraordinary scale of the expansion.",
+  "after": "Even so, it shows the sheer scale of the expansion.",
+  "reason": "'Nevertheless'/'extraordinary' repetition"
+ },
+ {
+  "id": "c05_21",
+  "before": "Because ultimately, the entire investment chain must generate enough external economic value to support the money being invested.",
+  "after": "In the end, the entire investment chain must generate enough external economic value to support the money being invested.",
+  "reason": "'ultimately' repetition"
+ },
+ {
+  "id": "c06_03",
+  "before": "After spending six billion dollars on buildings, equipment and other capital investments, it has approximately four billion dollars remaining under a simplified definition of free cash flow.",
+  "after": "After spending six billion dollars on buildings, equipment and other capital investments, it has four billion dollars left over: a simplified measure of free cash flow.",
+  "reason": "Awkward phrasing"
+ },
+ {
+  "id": "c06_07",
+  "before": "In October 2026, the International Monetary Fund highlighted the increasing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+  "after": "In October 2026, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+  "reason": "'increasing' repetition"
+ },
+ {
+  "id": "c06_07",
+  "before": "(spoken) 2026 \u2192 'two thousand and twenty-six'",
+  "after": "(spoken) 'twenty twenty-six'; captions keep '2026'",
+  "reason": "PRONUNCIATION"
+ },
+ {
+  "id": "c07_07",
+  "before": "Research cited by the European Central Bank in November 2026 estimated that annual AI investment requirements could exceed three percent of American economic output over the investment period.",
+  "after": "Research cited by the European Central Bank in November 2026 estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032.",
+  "reason": "PRECISION: ECB FSR Nov 2026 gives the 2025\u20132032 period"
+ },
+ {
+  "id": "c07_07",
+  "before": "(spoken) 2026 \u2192 'two thousand and twenty-six'",
+  "after": "(spoken) 'twenty twenty-six'; captions keep '2026'",
+  "reason": "PRONUNCIATION"
+ },
+ {
+  "id": "c07_08",
+  "before": "For comparison, investment during the internet boom was estimated at approximately one point one percent.",
+  "after": "For comparison, the internet boom between 1996 and 2003 took up about one point one percent.",
+  "reason": "PRECISION: ECB gives 1.10% for 1996\u20132003"
+ },
+ {
+  "id": "c08_02",
+  "before": "Many of the internet startups that attracted extraordinary valuations during the late 1990s had weak business models and limited financial resources.",
+  "after": "Many of the internet startups that attracted sky-high valuations during the late 1990s had weak business models and limited financial resources.",
+  "reason": "'extraordinary' repetition"
+ },
+ {
+  "id": "c09_05",
+  "before": "Businesses with substantial financial obligations could face increasing pressure.",
+  "after": "Businesses with substantial financial obligations could face mounting pressure.",
+  "reason": "'increasing' repetition"
+ }
+]
