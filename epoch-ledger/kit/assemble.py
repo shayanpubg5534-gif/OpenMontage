@@ -62,7 +62,7 @@ def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | 
     out_w, out_h = RESOLUTIONS[resolution]
     zoom = out_w / 1920
     theme = (KIT / "theme.css").read_text()
-    helpers = (KIT / "helpers.js").read_text() + "\n" + (KIT / "rig.js").read_text()
+    helpers = "\n".join((KIT / f).read_text() for f in ("helpers.js", "rig.js", "motion.js"))
     css_parts, clips, js_parts = [theme, extra_css], list(layers or []), [shared_js] if shared_js else []
     for rid, spans, code in js_regions or []:
         sp = ",".join(f"{a}-{min(b, duration)}" for a, b in spans)
