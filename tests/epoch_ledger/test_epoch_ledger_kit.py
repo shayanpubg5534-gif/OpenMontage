@@ -100,7 +100,38 @@ def test_caption_layer_matches_remotion_page_timing():
     assert "/*scene:cap000*/" in js and "#f2c66d" in js
 
 
-def test_config_matches_approved_pilot():
+def test_config_matches_approved_decisions():
     cfg = json.loads((KIT / "config" / "production.json").read_text())
     assert cfg["narration"]["voice"] == "bm_george" and cfg["narration"]["speed"] == 0.95
-    assert (cfg["render"]["width"], cfg["render"]["height"], cfg["render"]["fps"]) == (1920, 1080, 30)
+    r = cfg["render"]
+    assert (r["width"], r["height"], r["fps"], r["default_resolution"]) == (1920, 1080, 30, "1080p")
+    assert r["optional_resolutions"]["1440p"]["width"] == 2560 and "not the default" in r["optional_resolutions"]["1440p"]["status"]
+    prod = cfg["production"]
+    assert (prod["cadence"]["episodes_per_week_min"], prod["cadence"]["episodes_per_week_max"]) == (2, 3)
+    d = prod["duration_minutes"]
+    assert (d["target_min"], d["target_max"], d["extended_max"]) == (8, 10, 13) and "filler" in d["rule"]
+    assert "logo" in prod["opening"] and "paid" in prod["cost_policy"]
+
+
+def test_assemble_defaults_to_1080p_and_supports_1440p():
+    html = _doc()
+    assert 'data-width="1920" data-height="1080"' in html and "zoom" not in html
+    qhd = assemble(title="t", duration=10, audio="", vignette=False, resolution="1440p",
+                   vault={"shots": [{"start": 0, "end": 10, "dur": 5, "camFrom": [0, 0, 9], "camTo": [0, 0, 8],
+                                     "lookAt": [0, 0, 0]}]},
+                   scenes=[Scene("s1", 0, 10, "<div></div>")])
+    assert 'data-width="2560" data-height="1440"' in qhd
+    assert "#root{width:1920px;height:1080px;zoom:1.3333333333}" in qhd
+    assert '"width": 2560, "height": 1440' in qhd  # 3D renders at full 1440p, not upscaled
+    with pytest.raises(ValueError):
+        assemble(title="t", duration=1, scenes=[], resolution="4k")
+
+
+def test_render_plan_reports_output_size(tmp_path):
+    r = _render_mod()
+    (tmp_path / "index.html").write_text(_doc())
+    assert (r.plan(tmp_path, r.FINAL, 4)["width"], r.plan(tmp_path, r.FINAL, 4)["height"]) == (1920, 1080)
+    (tmp_path / "index.html").write_text(assemble(title="t", duration=10, audio="", resolution="1440p",
+                                                  scenes=[Scene("s1", 0, 10, "<div></div>")]))
+    p = r.plan(tmp_path, r.FINAL, 4)
+    assert (p["width"], p["height"]) == (2560, 1440)

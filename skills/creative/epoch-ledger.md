@@ -13,10 +13,29 @@ Read `epoch-ledger/README.md` (series bible, layout, workflow, performance) befo
 For HyperFrames mechanics read `skills/core/hyperframes.md`; for motion principles see
 `skills/meta/bespoke-composition.md`.
 
+## Production targets (approved — `config/production.json → production`)
+
+- **Cadence:** 2–3 high-quality documentaries per week (replaces the earlier 20-per-month plan).
+  Quality beats volume: never trade accuracy, visuals or story for speed.
+- **Length:** 8–10 minutes by default. Extend to 12–13 minutes only when the topic genuinely
+  needs deeper explanation, historical context or detailed storytelling. **Never add filler**:
+  no repeated points, padded recaps, slow holds or tangents to reach a length. Shorter and
+  tight beats longer and slack.
+- **Output:** 1920×1080, 16:9, 30 fps by default. 2560×1440 (1440p/QHD) is supported but
+  optional; do not make it the default until it has been benchmarked on a real episode.
+- **Narration:** Kokoro `bm_george` at 0.95 — unchanged.
+- **Priorities, in order:** visual quality, factual accuracy, storytelling, audience retention.
+- **Visual priorities:** detailed full-colour illustration, cinematic 3D, animated charts and
+  diagrams, every visual synchronized to the narration.
+- **Opening:** a powerful hook in the first seconds; never a logo intro or title card.
+- **Cost:** free local tools only; no paid external APIs; avoid unnecessary AI usage
+  (snapshot before rendering, preview single scenes, rely on the render cache, no speculative
+  full re-renders).
+
 ## When to use
 
 - The user asks for an Epoch Ledger episode, a "documentary for the channel", or a finance /
-  economics / history explainer in the approved pilot's style.
+  economics / history explainer in the approved pilot's style (8–13 min long-form).
 - Any request that names the series characters (Maya, the loan officer) or the ledger look.
 
 ## Pre-approved decisions (do not re-ask; do log them)
@@ -44,8 +63,11 @@ Scenes, compositions, metaphors and the signature device are still authored fres
 1. **Research** (animation pipeline research stage): 3–5 sourced data points; finance claims
    must be correct (cite central-bank, government or academic sources).
 2. **Script** → `epoch-ledger/episodes/<slug>/script.json`: one entry per narration line
-   (`id`, `text`, optional `pause_after`). 6–10 min ≈ 900–1,450 words at 0.95 speed
-   (the pilot ran ≈ 2.4 words/s). Open on the hook — never a logo or title card.
+   (`id`, `text`, optional `pause_after`). Budget ≈ 150 words per minute at 0.95 speed (the
+   pilot measured 156 incl. pauses): 8–10 min ≈ 1,200–1,500 words; 12–13 min ≈ 1,800–1,950.
+   Justify any length over 10 minutes in the proposal (what depth or context needs it).
+   Open on the hook — never a logo or title card. Structure for retention: hook → stakes →
+   mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
 3. **Art direction** → `art-direction.md`: scene table with one distinct primary subject per
    scene, the word each beat syncs to, and the episode's signature device (1–2 beats).
 4. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`
@@ -61,8 +83,33 @@ Scenes, compositions, metaphors and the signature device are still authored fres
 8. **Final** → `render.py render WS -o projects/<slug>/renders/final.mp4`. With the
    `remotion` caption engine, then run `remotion_caption_burn` with
    `config → captions.remotion_burn_inputs` and re-encode to `yuv420p` (pilot path).
+   Optional 1440p: build with `EPOCH_RESOLUTION=1440p` (scenes stay authored at 1920×1080;
+   the page is zoomed 4/3 so vectors and 3D re-rasterise sharply) and use the `hyperframes`
+   caption engine. HyperFrames lint reports `root_zoom_rescales_a_fixed_canvas` for this build;
+   it is expected — confirm in a snapshot that the frame is filled edge to edge.
 9. **Verify** → `ffprobe` (1920×1080, 30 fps, yuv420p, AAC 48 kHz), loudness ≈ −16 LUFS,
    `blackdetect`/`freezedetect` clean, sampled frame sheet reviewed, captions match script.
+
+## Reuse without repetition
+
+Reusing kit components is expected; looking the same every week is not. Per episode:
+
+- Re-stage kit pieces: new camera moves, framing, scale, lighting and accent colours; new
+  vault shots rather than the pilot's; characters in new poses, places and props.
+- Every scene's primary subject differs from its neighbours; no episode reuses a previous
+  episode's hero shot or signature device.
+- Each episode gets at least one new illustrated set or 3D scene and its own signature device.
+- Charts and diagrams are built for this episode's data (accurate scales, labelled sources),
+  never copied from a previous episode.
+- Distinctness review before final render: "Could this frame belong to last week's episode?"
+  If yes, re-stage it.
+
+## Factual accuracy
+
+- Every number, date and claim in narration or on screen traces to a cited source recorded in
+  the research brief; prefer central banks, statistics offices, official histories and
+  peer-reviewed work. Charts show real data with correct units and time ranges.
+- Simplify without misleading: name the important caveat when a simplification hides one.
 
 ## Authoring rules that keep renders cheap
 
@@ -77,4 +124,5 @@ Scenes, compositions, metaphors and the signature device are still authored fres
 - Characters are clean flat-cartoon vector, not painterly; hands are simple shapes; the walk
   cycle swings from the hip; mouths flap rather than lip-sync.
 - No free music source in the cloud environment; no GPU, so CPU rendering ≈ 14 min per minute
-  of video for a first render (see the kit README for the cached path).
+  of video for a first render at 1080p (≈ 2–3 h for a 10-minute episode; see the kit README
+  for the cached path). 1440p has 1.78× the pixels and is not yet benchmarked.

@@ -20,6 +20,12 @@ from .captions import caption_layer
 
 KIT = Path(__file__).resolve().parent
 
+# Output sizes. Scenes are always authored on a 1920x1080 design canvas; for 1440p the page and
+# root are 2560x1440 and the root is CSS-zoomed by 4/3, so vectors, text and SVG re-rasterise
+# crisply (HyperFrames' own --resolution upscale rejects the non-integer 1080p→1440p factor).
+# 1080p is the default; 1440p is optional until it has been benchmarked on a real episode.
+RESOLUTIONS = {"1080p": (1920, 1080), "1440p": (2560, 1440)}
+
 
 @dataclass
 class Scene:
@@ -40,15 +46,23 @@ def prepare_workspace(ws: Path, vendor_dir: Path | None = None) -> None:
 
 def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | None = None,
              caption_pages: list[dict] | None = None, caption_style: dict | None = None,
-             extra_css: str = "", audio: str = "narration.wav", fps: int = 30, vignette: bool = True) -> str:
+             extra_css: str = "", audio: str = "narration.wav", fps: int = 30, vignette: bool = True,
+             resolution: str = "1080p") -> str:
+    if resolution not in RESOLUTIONS:
+        raise ValueError(f"unsupported resolution {resolution!r}; choose from {sorted(RESOLUTIONS)}")
+    out_w, out_h = RESOLUTIONS[resolution]
+    zoom = out_w / 1920
     theme = (KIT / "theme.css").read_text()
     helpers = (KIT / "helpers.js").read_text()
     css_parts, clips, js_parts = [theme, extra_css], [], []
+    if zoom != 1:
+        css_parts.append(f"html,body{{width:{out_w}px;height:{out_h}px}}"
+                         f"#root{{width:1920px;height:1080px;zoom:{zoom:.10f}}}")
     if vault is not None:
         clips.append(f'<canvas id="gl" class="clip" data-start="0" data-duration="{duration}" '
                      f'data-track-index="0" width="1920" height="1080"></canvas>')
         spans = ",".join(f"{s['start']}-{min(s['end'], duration)}" for s in vault["shots"])
-        opts = json.dumps({k: v for k, v in vault.items()}).replace("Infinity", "1e9")
+        opts = json.dumps({"width": out_w, "height": out_h, **vault}).replace("Infinity", "1e9")
         js_parts.append(f"/*scene:vault3d spans={spans}*/\n"
                         f"const vault=EpochVault3D.create(Object.assign({{canvas:document.getElementById('gl')}},{opts}));\n"
                         f"const P={{t:0}}; tl.to(P,{{t:{duration},duration:{duration},ease:'none',onUpdate:()=>vault.draw(P.t)}},0);\n"
@@ -85,7 +99,7 @@ def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | 
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="{duration}" data-width="1920" data-height="1080">
+<div id="root" data-composition-id="main" data-start="0" data-duration="{duration}" data-width="{out_w}" data-height="{out_h}">
 {body}
 </div>
 <script>

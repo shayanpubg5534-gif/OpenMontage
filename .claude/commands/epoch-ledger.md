@@ -9,6 +9,7 @@ Read `AGENT_GUIDE.md`, then `skills/creative/epoch-ledger.md` (pre-approved deci
 - New episode: `python epoch-ledger/scripts/new_episode.py "<Title>"` → write `script.json` + `art-direction.md` → `scripts/narrate.py` → `build.py` → lint + snapshot → `scripts/render.py`.
 - Reuse the kit (`kit/characters.py`, `kit/sets.py`, `kit/vault3d.js`, `kit/helpers.js`, `kit/captions.py`); author every scene fresh and key it to narration word times.
 - Revisions: change only the affected scene and re-render with `scripts/render.py` (cached chunks are reused). Never re-render the whole film for a one-scene change.
-- Keep 1920×1080, 30 fps, yuv420p, no watermark. No paid APIs. Ask before changing voice, runtime, caption engine or resolution.
+- Targets: 2–3 episodes/week, 8–10 min (12–13 min only when depth or context requires it; never filler); powerful hook, no logo intro; priorities are visual quality, factual accuracy, storytelling, retention.
+- Keep 1920×1080, 30 fps, yuv420p, no watermark by default; 1440p only on request (`EPOCH_RESOLUTION=1440p`). Kokoro bm_george at 0.95. No paid APIs; avoid unnecessary AI usage. Ask before changing voice, runtime, caption engine or default resolution.
 
 Request: $ARGUMENTS

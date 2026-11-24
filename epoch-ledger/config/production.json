@@ -1,6 +1,18 @@
 {
   "series": "The Epoch Ledger",
   "approved_pilot": "episodes/how-banks-create-money",
+  "production": {
+    "cadence": {"episodes_per_week_min": 2, "episodes_per_week_max": 3, "note": "Quality first: 2–3 high-quality documentaries per week (replaces the earlier 20-per-month target)."},
+    "duration_minutes": {"target_min": 8, "target_max": 10, "extended_max": 13,
+      "extended_when": ["the topic needs deeper explanation", "essential historical context", "detailed storytelling the argument depends on"],
+      "rule": "Length follows the story: never pad with filler, repeated points, slow holds or recap to reach a target."},
+    "narration_words_per_minute": 150,
+    "priorities": ["visual quality", "factual accuracy", "storytelling", "audience retention"],
+    "visual_priorities": ["detailed full-colour illustration", "cinematic 3D visuals", "animated charts and diagrams", "narration-synchronized storytelling"],
+    "opening": "Open on a powerful hook in the first seconds; no logo intro or title card.",
+    "reuse_policy": "Reuse kit components (characters, sets, vault, helpers) but re-stage them: new compositions, camera moves, palettes accents and metaphors per episode; no two consecutive scenes share a primary subject, and no episode repeats a previous episode's hero shot.",
+    "cost_policy": "Free local tools only: no paid external APIs; avoid unnecessary AI usage (snapshots before renders, cached scene renders, no speculative full re-renders)."
+  },
   "narration": {
     "tool": "kokoro_tts",
     "voice": "bm_george",
@@ -34,6 +46,13 @@
     "width": 1920,
     "height": 1080,
     "fps": 30,
+    "default_resolution": "1080p",
+    "optional_resolutions": {
+      "1440p": {"width": 2560, "height": 1440, "hyperframes_resolution": "landscape-1440p",
+        "status": "optional — not the default until benchmarked on a real episode",
+        "how": "render.py render WS -o OUT --resolution 1440p (separate cache keys; compositions stay authored at 1920x1080 and are rasterised at 2560x1440)",
+        "captions": "use captions.engine = hyperframes (rendered with the frames); the Remotion burn pass has not been validated at 1440p"}
+    },
     "hyperframes_version": "0.9.88",
     "final_quality": "looks",
     "final_quality_note": "HyperFrames 'looks' = H.264 CRF 16, yuv420p tv-range — the approved pilot setting",
