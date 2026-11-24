@@ -1,0 +1,1052 @@
+[
+ {
+  "id": "s001",
+  "lines": [
+   "c01_01"
+  ],
+  "start": 0.0,
+  "end": 6.66,
+  "era": "V",
+  "subject": "Hook: 1999 trading-floor ticker wall",
+  "beats": "Cold open, no title. Camera pushes through a glowing 1999 exchange floor: amber LED ticker rows of invented dot-com tickers scroll; traders' silhouettes; CRT monitors. On 'change the world' the ticker turns green and accelerates.",
+  "method": "HF + 3D",
+  "assets": "N: exchange floor set, ticker wall (deterministic tickers), trader silhouettes",
+  "label": ""
+ },
+ {
+  "id": "s002",
+  "lines": [
+   "c01_02"
+  ],
+  "start": 6.21,
+  "end": 8.07,
+  "era": "V",
+  "subject": "Beige 1999 PC boots a web page",
+  "beats": "Hard cut to a beige tower + CRT on a desk; dial-up handshake lights blink; a generic 1999 portal page draws line by line. Short, punchy beat on 'They were right.'",
+  "method": "HF",
+  "assets": "N: 1999 desktop (CRT, tower, modem, mouse), generic browser chrome (no real brands)",
+  "label": ""
+ },
+ {
+  "id": "s003",
+  "lines": [
+   "c01_03",
+   "c01_04"
+  ],
+  "start": 7.77,
+  "end": 26.66,
+  "era": "V",
+  "subject": "Market value evaporating",
+  "beats": "The ticker wall from s001 freezes, then numbers turn red and dissolve into falling amber particles. Office lights switch off row by row; a founder character (Dot-Com Dan, new) lowers his head over a cardboard box of belongings. 'Spectacular disaster' lands on a slow dolly back.",
+  "method": "HF + 3D particles",
+  "assets": "N: character 'Dan' (1999 founder: khakis, fleece vest), office row; R: helpers blink/talk",
+  "label": ""
+ },
+ {
+  "id": "s004",
+  "lines": [
+   "c01_05",
+   "c01_06"
+  ],
+  "start": 26.21,
+  "end": 36.48,
+  "era": "M",
+  "subject": "Era cross-fade: 1999 \u2192 today",
+  "beats": "A wipe sweeps left\u2192right: the amber office ages into a dark steel data-centre corridor (palette shift vintage\u2192modern). 'Artificial intelligence.' \u2014 single cyan light pulse travels down the corridor. Era tag '1999 \u2192 2026' small, top-left.",
+  "method": "3D",
+  "assets": "N: data-centre aisle (instanced racks, LEDs, cold-aisle light)",
+  "label": ""
+ },
+ {
+  "id": "s005",
+  "lines": [
+   "c01_07"
+  ],
+  "start": 36.18,
+  "end": 52.2,
+  "era": "M",
+  "subject": "Three-beat montage of the boom",
+  "beats": "Beat 1 'data centres': aerial 3D of a hyperscale campus being built (cranes, rows of halls). Beat 2 'semiconductor': macro orbit over an AI accelerator chip (die, HBM stacks). Beat 3 'investors': modern trading screens with Maya (series character, re-staged in modern office) watching charts rise.",
+  "method": "3D + HF",
+  "assets": "N: campus diorama, accelerator chip model; R: Maya (new pose/outfit accent)",
+  "label": ""
+ },
+ {
+  "id": "s006",
+  "lines": [
+   "c01_08",
+   "c01_09"
+  ],
+  "start": 51.75,
+  "end": 66.16,
+  "era": "L",
+  "subject": "The question",
+  "beats": "Split screen: left half vintage amber (1999 ticker), right half modern navy (2026 chip). A brass ledger line draws between them. Question resolves as two short HTML labels 'Revolution?' / 'Repeat?' (not the full sentence). Slow push in.",
+  "method": "HF",
+  "assets": "R: theme, ledger-line device",
+  "label": ""
+ },
+ {
+  "id": "s007",
+  "lines": [
+   "c01_10"
+  ],
+  "start": 65.71,
+  "end": 72.23,
+  "era": "V",
+  "subject": "Travel back in time",
+  "beats": "Camera rushes backwards through the corridor; racks morph into CRT monitors; a calendar flips 2026\u21921993; warm grain fades in.",
+  "method": "3D + HF",
+  "assets": "N: calendar flip, film-grain overlay (deterministic)",
+  "label": ""
+ },
+ {
+  "id": "s010",
+  "lines": [
+   "c02_01",
+   "c02_02"
+  ],
+  "start": 73.13,
+  "end": 93.24,
+  "era": "V",
+  "subject": "Chapter card + early-90s home",
+  "beats": "Chapter card 'Chapter 2 \u2014 The Birth of a Financial Bubble' (2 s, over image). A 1993 family room: modem cable to a phone socket, a teenager logs on; the screen's text world opens into a globe of connections.",
+  "method": "HF",
+  "assets": "N: 90s living room set; character 'teen' (oversized flannel)",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s011",
+  "lines": [
+   "c02_03",
+   "c02_04"
+  ],
+  "start": 92.79,
+  "end": 101.77,
+  "era": "V",
+  "subject": "Information travelling instantly",
+  "beats": "Pull out to an illustrated globe; amber light-packets arc between cities; storefront icons topple like dominoes on 'vulnerable to disruption' (bookshop, travel agent, record store).",
+  "method": "HF + DG",
+  "assets": "N: vintage globe map (d3-geo / world-atlas), storefront icons",
+  "label": ""
+ },
+ {
+  "id": "s012",
+  "lines": [
+   "c02_05",
+   "c02_06",
+   "c02_07"
+  ],
+  "start": 101.32,
+  "end": 119.55,
+  "era": "V",
+  "subject": "Entrepreneurs and investors",
+  "beats": "Dan (founder) in a garage startup pitches to two investors (new characters) around a whiteboard; four icons pop on the whiteboard as each sector is named (cart, billboard, bank card, envelope). Investors lean in on 'part of that future'.",
+  "method": "HF",
+  "assets": "N: garage set, investor characters (1999 suits); R: talk/blink helpers",
+  "label": ""
+ },
+ {
+  "id": "s013",
+  "lines": [
+   "c02_08"
+  ],
+  "start": 119.1,
+  "end": 124.61,
+  "era": "V",
+  "subject": "Money flowing in",
+  "beats": "Gold banknote streams pour from a 1999 venture-capital office building across the street into the garage; counter ticks up (unlabelled stylised, no fake figures).",
+  "method": "HF + particles",
+  "assets": "N: VC building facade; R: coin/note particle helper",
+  "label": ""
+ },
+ {
+  "id": "s014",
+  "lines": [
+   "c02_09",
+   "c02_10",
+   "c02_11"
+  ],
+  "start": 124.16,
+  "end": 144.18,
+  "era": "L",
+  "subject": "Profits vs potential (scale)",
+  "beats": "A brass balance scale: left pan 'Profits' (small), right pan 'Potential' (a glowing cloud) \u2014 the scale tips. Labels 'Visitors \u00b7 Users \u00b7 Market share' drop in as the right pan fills while a red 'Losses' stamp appears below.",
+  "method": "HF + DG",
+  "assets": "N: balance-scale illustration",
+  "label": ""
+ },
+ {
+  "id": "s015",
+  "lines": [
+   "c02_12",
+   "c02_13"
+  ],
+  "start": 143.73,
+  "end": 151.97,
+  "era": "V",
+  "subject": "Expansion first",
+  "beats": "Dan's startup map: pins multiply across a US map faster than a 'Profit' meter moves (it stays at zero).",
+  "method": "HF + DG",
+  "assets": "N: US map pins",
+  "label": ""
+ },
+ {
+  "id": "s016",
+  "lines": [
+   "c02_14",
+   "c02_15",
+   "c02_16",
+   "c02_17"
+  ],
+  "start": 151.67,
+  "end": 179.48,
+  "era": "L",
+  "subject": "Hypothetical: online store losing money on every order",
+  "beats": "Labelled 'Hypothetical'. A cartoon online pet-food store (invented 'BarkBox99'-style generic name avoided \u2014 use 'Store.com') ships boxes; each box shows +$10 revenue, \u2212$13 cost; a loss counter grows with every order while the valuation balloon above inflates anyway as investors pump air.",
+  "method": "HF + DG",
+  "assets": "N: store/warehouse vignette, valuation balloon",
+  "label": "Hypothetical"
+ },
+ {
+  "id": "s017",
+  "lines": [
+   "c02_18",
+   "c02_19",
+   "c02_20"
+  ],
+  "start": 179.03,
+  "end": 193.87,
+  "era": "V",
+  "subject": "Reasonable vs speculation",
+  "beats": "Two paths fork from the garage: one leads to a sturdy warehouse (reasonable), one to a house of cards (speculation). As 'stock prices continued rising' a rising line chart overlays both, and fog rolls in until the paths become indistinguishable.",
+  "method": "HF",
+  "assets": "N: fork-in-path diorama, fog layers",
+  "label": ""
+ },
+ {
+  "id": "s020",
+  "lines": [
+   "c03_01",
+   "c03_02"
+  ],
+  "start": 194.77,
+  "end": 213.59,
+  "era": "V",
+  "subject": "Chapter card + Nasdaq 1999 chart",
+  "beats": "Chapter card. Animated Nasdaq Composite line (real monthly closes, Jan 1995\u2013Dec 1999) draws on a cream chart; 1999 segment highlighted with '+85.6% in 1999' callout.",
+  "method": "CH",
+  "assets": "N: Nasdaq dataset (FRED NASDAQCOM, monthly close)",
+  "label": "Source: Nasdaq / FRED (NASDAQCOM)"
+ },
+ {
+  "id": "s021",
+  "lines": [
+   "c03_03",
+   "c03_04",
+   "c03_05"
+  ],
+  "start": 213.15,
+  "end": 234.0,
+  "era": "V",
+  "subject": "Burning cash",
+  "beats": "Inside a lavish 1999 startup office (foosball, Aeron-style chairs generic): a cash pile on a desk shrinks as three spend arrows pull from it (Ads \u00b7 Staff \u00b7 Servers); a small 'Revenue' trickle can't keep up. A runway clock counts down.",
+  "method": "HF + DG",
+  "assets": "N: lavish dot-com office set",
+  "label": ""
+ },
+ {
+  "id": "s022",
+  "lines": [
+   "c03_06",
+   "c03_07",
+   "c03_08"
+  ],
+  "start": 233.55,
+  "end": 246.8,
+  "era": "V",
+  "subject": "Confidence breaks",
+  "beats": "Investors from s012 now frown at a valuation report; a glass 'confidence' meter cracks; the chart from s020 continues past March 2000 and tips over.",
+  "method": "HF + CH",
+  "assets": "R: investor characters; N: crack effect",
+  "label": "Source: Nasdaq / FRED"
+ },
+ {
+  "id": "s023",
+  "lines": [
+   "c03_09",
+   "c03_10",
+   "c03_11"
+  ],
+  "start": 246.5,
+  "end": 267.35,
+  "era": "V",
+  "subject": "Shutdown",
+  "beats": "Dan locks the garage; 'CLOSED' sign; employees with boxes walk out under rain (parallax rain layer); a 1999 investor watches a brokerage statement go red.",
+  "method": "HF",
+  "assets": "R: Dan, office; N: rain layer",
+  "label": ""
+ },
+ {
+  "id": "s024",
+  "lines": [
+   "c03_12"
+  ],
+  "start": 266.9,
+  "end": 278.17,
+  "era": "V",
+  "subject": "Peak to trough chart",
+  "beats": "Full Nasdaq chart 1995\u20132003: peak marker 5,048.62 (10 Mar 2000) and trough 1,114.11 (9 Oct 2002); a red bracket draws the decline '\u221278%'.",
+  "method": "CH",
+  "assets": "R: s020 chart",
+  "label": "Nasdaq Composite closes \u00b7 Source: Nasdaq / FRED"
+ },
+ {
+  "id": "s025",
+  "lines": [
+   "c03_13",
+   "c03_14"
+  ],
+  "start": 277.72,
+  "end": 292.32,
+  "era": "L",
+  "subject": "$10,000 illustration",
+  "beats": "Labelled 'Illustration'. A stack of ten $1,000 bills placed at the peak marker shrinks to a \u2248 $2,200 stack at the trough as the line falls; counter animates $10,000 \u2192 $2,207.",
+  "method": "CH + HF",
+  "assets": "R: count() helper",
+  "label": "Illustration: index level only, no dividends or fees"
+ },
+ {
+  "id": "s026",
+  "lines": [
+   "c03_15",
+   "c03_16",
+   "c03_17"
+  ],
+  "start": 291.87,
+  "end": 312.33,
+  "era": "V",
+  "subject": "The internet keeps growing",
+  "beats": "Same rainy street at dawn: streetlights on, a delivery van with parcels, a household PC with a broadband modem; a soft green 'internet users' growth curve (real ITU data 1995\u20132010) rises behind.",
+  "method": "HF + CH",
+  "assets": "N: ITU users dataset",
+  "label": "Source: ITU / World Bank internet users"
+ },
+ {
+  "id": "s027",
+  "lines": [
+   "c03_18",
+   "c03_19",
+   "c03_20"
+  ],
+  "start": 311.88,
+  "end": 327.42,
+  "era": "L",
+  "subject": "The illusion vs the expectations",
+  "beats": "A magician's curtain drops away from the internet globe (real, glowing) revealing the balloon of expectations popping instead. Transition: balloon fragments become cyan particles \u2192 modern era.",
+  "method": "HF + particles",
+  "assets": "R: globe from s011; balloon from s016",
+  "label": ""
+ },
+ {
+  "id": "s030",
+  "lines": [
+   "c04_01",
+   "c04_02"
+  ],
+  "start": 328.32,
+  "end": 349.13,
+  "era": "M",
+  "subject": "Chapter card + generative AI arrives",
+  "beats": "Chapter card in modern palette. A modern kitchen: Maya types a prompt on a laptop; the screen streams text, code and an image (generic UI, no brand).",
+  "method": "HF",
+  "assets": "R: Maya (modern home set, new)",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s031",
+  "lines": [
+   "c04_03",
+   "c04_04"
+  ],
+  "start": 348.68,
+  "end": 363.64,
+  "era": "M",
+  "subject": "Businesses adopt",
+  "beats": "Office floor of glass desks; holographic dashboards bloom over teams (productivity, costs, new services); the camera rises to a skyline where giant company towers light up (no logos).",
+  "method": "HF + 3D",
+  "assets": "N: modern office, skyline towers",
+  "label": ""
+ },
+ {
+  "id": "s032",
+  "lines": [
+   "c04_05",
+   "c04_06"
+  ],
+  "start": 363.19,
+  "end": 373.42,
+  "era": "M",
+  "subject": "Software \u2192 hardware reveal",
+  "beats": "A chat window on screen dissolves into a cable that the camera follows underground into infrastructure \u2014 the 'iceberg' reveal: small software tip, vast physical base.",
+  "method": "3D",
+  "assets": "N: iceberg cross-section",
+  "label": ""
+ },
+ {
+  "id": "s033",
+  "lines": [
+   "c04_07"
+  ],
+  "start": 372.97,
+  "end": 378.57,
+  "era": "M",
+  "subject": "The processor",
+  "beats": "Hero macro: AI accelerator chip in Three.js \u2014 exploded view (substrate, interposer, die, HBM stacks) assembling; light streaks race across the die.",
+  "method": "3D",
+  "assets": "N: accelerator chip (procedural geometry, PBR metal)",
+  "label": ""
+ },
+ {
+  "id": "s034",
+  "lines": [
+   "c04_08"
+  ],
+  "start": 378.12,
+  "end": 382.9,
+  "era": "M",
+  "subject": "The server and the hall",
+  "beats": "Chip seats into a server sled \u2192 sled slides into a rack \u2192 camera pulls back down a data-hall aisle.",
+  "method": "3D",
+  "assets": "N: server sled, rack, data hall (instanced)",
+  "label": ""
+ },
+ {
+  "id": "s035",
+  "lines": [
+   "c04_09"
+  ],
+  "start": 382.6,
+  "end": 386.95,
+  "era": "M",
+  "subject": "Cooling",
+  "beats": "Thermal view: racks glow orange; cold blue air flows from floor vents (animated particles); liquid-cooling pipes pulse.",
+  "method": "3D",
+  "assets": "N: airflow particles, pipe shader",
+  "label": ""
+ },
+ {
+  "id": "s036",
+  "lines": [
+   "c04_10",
+   "c04_11"
+  ],
+  "start": 386.65,
+  "end": 397.67,
+  "era": "M",
+  "subject": "Power",
+  "beats": "Pull up through the roof: substation, transmission lines to the horizon carry pulses of energy into the campus at dusk.",
+  "method": "3D",
+  "assets": "N: substation + pylons",
+  "label": ""
+ },
+ {
+  "id": "s037",
+  "lines": [
+   "c04_12",
+   "c04_13",
+   "c04_14"
+  ],
+  "start": 397.37,
+  "end": 431.67,
+  "era": "M",
+  "subject": "$5.5 trillion forecast",
+  "beats": "Labelled 'FORECAST'. Seven anonymous company towers (no logos) each extrude a column of capex; columns merge into one \u2248 $5.5 trillion stack against a 2030 marker. Caveat line appears under it: 'Forecast \u00b7 includes non-AI capex'.",
+  "method": "CH + 3D",
+  "assets": "N: capex stack chart",
+  "label": "FORECAST \u00b7 ECB FSR Nov 2026 (broker estimates)"
+ },
+ {
+  "id": "s038",
+  "lines": [
+   "c04_15",
+   "c04_16"
+  ],
+  "start": 431.22,
+  "end": 446.43,
+  "era": "L",
+  "subject": "Spending today, value tomorrow",
+  "beats": "Two-sided ledger page: 'Spent today' fills fast in coral; 'Returns tomorrow' is a dotted, unfilled outline with a question mark.",
+  "method": "HF + DG",
+  "assets": "R: ledger sheet (re-styled modern)",
+  "label": ""
+ },
+ {
+  "id": "s040",
+  "lines": [
+   "c05_01",
+   "c05_02",
+   "c05_03",
+   "c05_04",
+   "c05_05"
+  ],
+  "start": 447.33,
+  "end": 480.82,
+  "era": "M",
+  "subject": "Simplified AI economy chain",
+  "beats": "Labelled 'Simplified model'. Isometric 3D diorama: chip fab \u2192 cloud data centre \u2192 AI lab \u2192 customers (homes and offices). Each node builds on its narration line; glowing money arrows travel customer\u2192lab\u2192cloud\u2192fab.",
+  "method": "3D + DG",
+  "assets": "N: isometric node buildings, flow arrows",
+  "label": "Simplified model"
+ },
+ {
+  "id": "s041",
+  "lines": [
+   "c05_06",
+   "c05_07",
+   "c05_08",
+   "c05_09",
+   "c05_10",
+   "c05_11"
+  ],
+  "start": 480.37,
+  "end": 505.71,
+  "era": "M",
+  "subject": "Demand expands",
+  "beats": "More customers appear; every node grows a level (more fab output, more racks, more users); a small 'investor expectations' gauge rises.",
+  "method": "3D + DG",
+  "assets": "R: s040 diorama",
+  "label": ""
+ },
+ {
+  "id": "s042",
+  "lines": [
+   "c05_12",
+   "c05_13",
+   "c05_14",
+   "c05_15"
+  ],
+  "start": 505.41,
+  "end": 529.49,
+  "era": "M",
+  "subject": "Circular financing",
+  "beats": "Labelled 'Hypothetical'. The chip maker sends a $1 billion arrow to the AI developer; part flows to the cloud company; the cloud company flows back to the chip maker \u2014 the loop glows and spins, highlighting that money circulates inside the industry.",
+  "method": "DG + 3D",
+  "assets": "R: s040 diorama",
+  "label": "Hypothetical \u2014 not a specific company"
+ },
+ {
+  "id": "s043",
+  "lines": [
+   "c05_16",
+   "c05_17"
+  ],
+  "start": 529.04,
+  "end": 544.58,
+  "era": "M",
+  "subject": "Outside demand vs inside financing",
+  "beats": "Split meters: 'Paid by customers' vs 'Financed within the industry'; an analyst character (new: modern analyst 'Ade') examines with a magnifier.",
+  "method": "HF + DG",
+  "assets": "N: analyst character",
+  "label": ""
+ },
+ {
+  "id": "s044",
+  "lines": [
+   "c05_18",
+   "c05_19",
+   "c05_20"
+  ],
+  "start": 544.13,
+  "end": 562.66,
+  "era": "L",
+  "subject": "Not fraud \u2014 but check the revenue",
+  "beats": "Handshake between two partner buildings (positive framing), then the camera tilts down to the foundations labelled 'external revenue'.",
+  "method": "HF",
+  "assets": "N: handshake illustration",
+  "label": ""
+ },
+ {
+  "id": "s045",
+  "lines": [
+   "c05_21",
+   "c05_22",
+   "c05_23"
+  ],
+  "start": 562.21,
+  "end": 582.58,
+  "era": "M",
+  "subject": "Chain held up by expectations",
+  "beats": "The whole diorama rises on a pillar of glowing 'expectations' clouds; on 'frighteningly quickly' the clouds flicker and the structure wobbles.",
+  "method": "3D",
+  "assets": "R: s040",
+  "label": ""
+ },
+ {
+  "id": "s050",
+  "lines": [
+   "c06_01"
+  ],
+  "start": 583.48,
+  "end": 590.03,
+  "era": "M",
+  "subject": "Chapter card + debt",
+  "beats": "Chapter card. Bond certificates (stylised) stack into the foundations of a data-centre construction site.",
+  "method": "HF + 3D",
+  "assets": "N: bond certificate",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s051",
+  "lines": [
+   "c06_02",
+   "c06_03",
+   "c06_04",
+   "c06_05"
+  ],
+  "start": 589.58,
+  "end": 622.08,
+  "era": "L",
+  "subject": "Hypothetical cash-flow waterfall",
+  "beats": "Labelled 'Hypothetical company'. Waterfall chart: $10B operating cash flow \u2212 $6B capex = $4B free cash flow (green). Capex bar extends to $14B \u2192 free cash flow drops to \u2212$4B (red), crossing zero on 'becomes negative'.",
+  "method": "CH",
+  "assets": "N: waterfall chart",
+  "label": "Hypothetical company"
+ },
+ {
+  "id": "s052",
+  "lines": [
+   "c06_06"
+  ],
+  "start": 621.78,
+  "end": 630.38,
+  "era": "L",
+  "subject": "Four ways to cover the gap",
+  "beats": "Four doors open around the \u2212$4B gap: Cash reserves \u00b7 Sell assets \u00b7 Raise equity \u00b7 Borrow; the 'Borrow' door glows.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s053",
+  "lines": [
+   "c06_07"
+  ],
+  "start": 629.93,
+  "end": 647.07,
+  "era": "M",
+  "subject": "IMF warning",
+  "beats": "A modern conference room; report cover reading 'Global Financial Stability Report \u00b7 Oct 2026' (text only, no logo) on a table; a debt-gauge needle climbs into amber.",
+  "method": "HF",
+  "assets": "N: report cover, debt gauge (re-styled credit gauge)",
+  "label": "Source: IMF GFSR, Oct 2026"
+ },
+ {
+  "id": "s054",
+  "lines": [
+   "c06_08",
+   "c06_09",
+   "c06_10",
+   "c06_11"
+  ],
+  "start": 646.62,
+  "end": 668.72,
+  "era": "L",
+  "subject": "Obligations don't disappear",
+  "beats": "The series loan officer (kit character, re-staged in a modern bank) stamps a repayment schedule; calendar pages tick regardless of a falling demand line beside him.",
+  "method": "HF",
+  "assets": "R: loan officer, stamp(), office set (new lighting/palette)",
+  "label": ""
+ },
+ {
+  "id": "s055",
+  "lines": [
+   "c06_12",
+   "c06_13",
+   "c06_14",
+   "c06_15"
+  ],
+  "start": 668.27,
+  "end": 692.29,
+  "era": "M",
+  "subject": "Ageing data centre",
+  "beats": "Labelled 'Hypothetical'. A data hall ages: its chips dim as a newer, brighter generation glows next door; a loan-balance bar declines slower than the equipment's value bar.",
+  "method": "3D + CH",
+  "assets": "R: data hall from s034",
+  "label": "Hypothetical"
+ },
+ {
+  "id": "s056",
+  "lines": [
+   "c06_16"
+  ],
+  "start": 691.85,
+  "end": 703.26,
+  "era": "L",
+  "subject": "The tension",
+  "beats": "Two clocks: a fast-spinning 'technology' clock and a slow 'loan' clock, joined by a taut rope.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s060",
+  "lines": [
+   "c07_01",
+   "c07_02",
+   "c07_03",
+   "c07_04",
+   "c07_05",
+   "c07_06"
+  ],
+  "start": 704.16,
+  "end": 729.6,
+  "era": "L",
+  "subject": "Four ways to measure",
+  "beats": "Chapter card. A brass measuring kit on the ledger desk: tape (infrastructure), scale (market value), chain (debt), magnifier (valuation vs value) \u2014 each lifts as its question is asked.",
+  "method": "HF",
+  "assets": "N: measuring tools illustration",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s061",
+  "lines": [
+   "c07_07",
+   "c07_08",
+   "c07_09"
+  ],
+  "start": 729.15,
+  "end": 760.5,
+  "era": "L",
+  "subject": "GDP share comparison",
+  "beats": "Two bars on a clean chart: Internet boom 1996\u20132003 \u2248 1.1% of US GDP (amber) and AI build-out 2025\u20132032 > 3% (cyan, dashed top = estimate). Caveat line on 'not perfectly equivalent'.",
+  "method": "CH",
+  "assets": "N: bar chart",
+  "label": "ESTIMATE \u00b7 research cited by ECB FSR Nov 2026"
+ },
+ {
+  "id": "s062",
+  "lines": [
+   "c07_10",
+   "c07_11"
+  ],
+  "start": 760.05,
+  "end": 774.88,
+  "era": "M",
+  "subject": "Larger investment \u2260 larger bubble",
+  "beats": "The cyan bar becomes a scaffold; text label 'Investment \u2260 bubble' in small caps.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s063",
+  "lines": [
+   "c07_12",
+   "c07_13"
+  ],
+  "start": 774.43,
+  "end": 791.37,
+  "era": "V",
+  "subject": "Railway analogy",
+  "beats": "Labelled 'Analogy'. 19th-century railway diorama (sepia-gold): a train linking busy cities (lights, cargo) vs a gleaming line to an empty plain where tumbleweeds roll.",
+  "method": "3D + HF",
+  "assets": "N: railway diorama (low-poly, warm)",
+  "label": "Analogy"
+ },
+ {
+  "id": "s064",
+  "lines": [
+   "c07_14",
+   "c07_15"
+  ],
+  "start": 790.92,
+  "end": 800.85,
+  "era": "L",
+  "subject": "Returns justify spending?",
+  "beats": "Ledger scale balances 'Spending' vs 'Returns'; the needle hovers, undecided.",
+  "method": "HF",
+  "assets": "R: balance scale from s014 (modern skin)",
+  "label": ""
+ },
+ {
+  "id": "s070",
+  "lines": [
+   "c08_01",
+   "c08_02"
+  ],
+  "start": 801.75,
+  "end": 820.42,
+  "era": "V",
+  "subject": "Chapter card + then",
+  "beats": "Chapter card. Left panel: 1999 startup with empty bank vault icon and a 'thin' business plan.",
+  "method": "HF",
+  "assets": "R: Dan",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s071",
+  "lines": [
+   "c08_03",
+   "c08_04",
+   "c08_05"
+  ],
+  "start": 819.97,
+  "end": 842.63,
+  "era": "M",
+  "subject": "Now: profitable giants",
+  "beats": "Right panel: modern towers with revenue streams flowing in (cloud, ads, software, subscriptions, commerce) \u2014 five labelled pipes.",
+  "method": "HF + DG",
+  "assets": "R: skyline towers",
+  "label": ""
+ },
+ {
+  "id": "s072",
+  "lines": [
+   "c08_06",
+   "c08_07",
+   "c08_08"
+  ],
+  "start": 842.18,
+  "end": 863.67,
+  "era": "M",
+  "subject": "AI already in use",
+  "beats": "Quick vignettes (3\u20134 s each): developer pair-programming with AI, support agent with AI assistant, researcher with charts, admin automating forms \u2014 Maya appears in one.",
+  "method": "HF",
+  "assets": "N: 3 workplace vignettes; R: Maya",
+  "label": ""
+ },
+ {
+  "id": "s073",
+  "lines": [
+   "c08_09",
+   "c08_10"
+  ],
+  "start": 863.22,
+  "end": 876.82,
+  "era": "L",
+  "subject": "Profitable \u2260 good investment",
+  "beats": "A wealthy tower drops coins into a well marked 'returns?'; some echo back, some don't.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s074",
+  "lines": [
+   "c08_11",
+   "c08_12",
+   "c08_13"
+  ],
+  "start": 876.37,
+  "end": 899.48,
+  "era": "V",
+  "subject": "Fibre-optic precedent",
+  "beats": "3D: fibre cables laid in trenches (vintage dusk), most strands dark; time-lapse to modern night \u2014 the same strands light up with traffic.",
+  "method": "3D",
+  "assets": "N: fibre trench, light-strand shader",
+  "label": ""
+ },
+ {
+  "id": "s075",
+  "lines": [
+   "c08_14",
+   "c08_15",
+   "c08_16"
+  ],
+  "start": 899.03,
+  "end": 921.69,
+  "era": "L",
+  "subject": "Society wins, investors may not",
+  "beats": "Split: thriving city using the network (lights) vs an investor's ledger in red for the original builder.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s080",
+  "lines": [
+   "c09_01"
+  ],
+  "start": 922.59,
+  "end": 933.56,
+  "era": "M",
+  "subject": "Scenario framing",
+  "beats": "Chapter card + 'SCENARIO \u2014 not a forecast' tag. Many users on devices, but a small revenue cup only partly fills.",
+  "method": "HF",
+  "assets": "",
+  "label": "Scenario \u2014 not a forecast"
+ },
+ {
+  "id": "s081",
+  "lines": [
+   "c09_02",
+   "c09_03",
+   "c09_04",
+   "c09_05"
+  ],
+  "start": 933.11,
+  "end": 952.77,
+  "era": "M",
+  "subject": "Domino chain",
+  "beats": "Return to s040 diorama at night: the cloud node dims (plans cut), fab orders drop, a data centre with 'For lease' banner, a debt-laden building creaks \u2014 dominoes tip one by one.",
+  "method": "3D",
+  "assets": "R: s040 diorama",
+  "label": "Scenario"
+ },
+ {
+  "id": "s082",
+  "lines": [
+   "c09_06",
+   "c09_07"
+  ],
+  "start": 952.32,
+  "end": 967.77,
+  "era": "M",
+  "subject": "Markets move first",
+  "beats": "A valuation line falls ahead of a slower 'economy' line \u2014 showing markets anticipate.",
+  "method": "CH (schematic, unlabelled axes, 'illustrative')",
+  "assets": "",
+  "label": "Illustrative"
+ },
+ {
+  "id": "s083",
+  "lines": [
+   "c09_08",
+   "c09_09",
+   "c09_10"
+  ],
+  "start": 967.32,
+  "end": 990.4,
+  "era": "M",
+  "subject": "Ripple effects",
+  "beats": "Camera pulls out: ripples travel from the tech district to pension buildings, banks, construction cranes, power plants.",
+  "method": "3D",
+  "assets": "N: city ripple map",
+  "label": "Scenario"
+ },
+ {
+  "id": "s084",
+  "lines": [
+   "c09_11",
+   "c09_12",
+   "c09_13",
+   "c09_14",
+   "c09_15"
+  ],
+  "start": 989.95,
+  "end": 1015.8,
+  "era": "L",
+  "subject": "Not inevitable \u2014 other outcomes",
+  "beats": "The dominoes freeze; three alternate paths branch: demand grows (lights return), costs fall (efficiency meter), new apps (new buildings), plus a gentle slope 'gradual adjustment' instead of a cliff.",
+  "method": "HF + DG",
+  "assets": "",
+  "label": "Scenario"
+ },
+ {
+  "id": "s085",
+  "lines": [
+   "c09_16"
+  ],
+  "start": 1015.35,
+  "end": 1020.38,
+  "era": "L",
+  "subject": "Competing forces",
+  "beats": "A tug-of-war rope between 'Returns' and 'Investment' \u2014 balanced.",
+  "method": "HF",
+  "assets": "",
+  "label": ""
+ },
+ {
+  "id": "s090",
+  "lines": [
+   "c10_01",
+   "c10_02",
+   "c10_03"
+  ],
+  "start": 1021.28,
+  "end": 1039.53,
+  "era": "V",
+  "subject": "The lesson from 1999",
+  "beats": "Chapter card. Return to the 1999 exchange floor from s001, now empty and quiet at night; one CRT still shows the internet globe glowing.",
+  "method": "HF + 3D",
+  "assets": "R: s001 set (night)",
+  "label": "Chapter card"
+ },
+ {
+  "id": "s091",
+  "lines": [
+   "c10_04",
+   "c10_05",
+   "c10_06"
+  ],
+  "start": 1039.08,
+  "end": 1059.42,
+  "era": "M",
+  "subject": "AI could transform",
+  "beats": "Dawn over a modern city: AI data centres hum on the horizon; Maya walks to work (walk cycle, new street). Fog of 'speculation' hovers above the towers.",
+  "method": "HF + 3D",
+  "assets": "R: Maya walk(), new modern street set",
+  "label": ""
+ },
+ {
+  "id": "s092",
+  "lines": [
+   "c10_07",
+   "c10_08"
+  ],
+  "start": 1058.97,
+  "end": 1075.28,
+  "era": "L",
+  "subject": "The real question",
+  "beats": "Ledger scale (s064) close-up: 'Profits' vs 'Commitments'.",
+  "method": "HF",
+  "assets": "R: scale",
+  "label": ""
+ },
+ {
+  "id": "s093",
+  "lines": [
+   "c10_09",
+   "c10_10"
+  ],
+  "start": 1074.83,
+  "end": 1091.25,
+  "era": "L",
+  "subject": "Expectations ahead of reality",
+  "beats": "Two lines race: 'expectations' pulls far ahead of 'economic reality' until the gap glows red.",
+  "method": "CH (schematic, 'illustrative')",
+  "assets": "",
+  "label": "Illustrative"
+ },
+ {
+  "id": "s094",
+  "lines": [
+   "c10_11",
+   "c10_12"
+  ],
+  "start": 1090.81,
+  "end": 1104.97,
+  "era": "L",
+  "subject": "Two generations",
+  "beats": "Split: Dan in 1999 (vintage) and Maya in 2026 (modern) look at each other across the ledger line from s006 \u2014 the opening device returns.",
+  "method": "HF",
+  "assets": "R: Dan, Maya, s006 device",
+  "label": ""
+ },
+ {
+  "id": "s095",
+  "lines": [
+   "c10_13",
+   "c10_14"
+  ],
+  "start": 1104.52,
+  "end": 1110.99,
+  "era": "L",
+  "subject": "Sign-off",
+  "beats": "Ledger book closes; brass embossed 'The Epoch Ledger'; tagline 'Understanding the past. Decoding the present.' End on held frame (2 s).",
+  "method": "HF",
+  "assets": "N: closing book",
+  "label": ""
+ }
+]

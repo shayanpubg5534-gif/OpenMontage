@@ -32,7 +32,7 @@ def _dur(path: Path) -> float:
                                           "-of", "csv=p=0", str(path)]))
 
 
-def synthesize(lines: list[dict], work: Path, cfg: dict) -> list[dict]:
+def synthesize(lines: list[dict], work: Path, cfg: dict, reuse: bool = False) -> list[dict]:
     from tools.tool_registry import registry
     registry.discover()
     tts = registry._tools["tts_selector"]
@@ -40,6 +40,12 @@ def synthesize(lines: list[dict], work: Path, cfg: dict) -> list[dict]:
     work.mkdir(parents=True, exist_ok=True)
     for i, line in enumerate(lines):
         raw, trimmed = work / f"line_{i:03d}_{line['id']}.wav", work / f"t_line_{i:03d}_{line['id']}.wav"
+        if reuse and trimmed.exists():
+            d = _dur(trimmed)
+            segs.append({"id": line["id"], "text": line["text"], "file": str(trimmed),
+                         "start": round(t, 3), "end": round(t + d, 3)})
+            t += d + line.get("pause_after", cfg["gap_seconds"])
+            continue
         r = tts.execute({"text": line["text"], "preferred_tool": cfg["tool"], "voice": cfg["voice"],
                          "speed": cfg["speed"], "output_path": str(raw)})
         if not r.success:
@@ -68,17 +74,23 @@ def mix(segs: list[dict], out: Path, cfg: dict) -> float:
     return total
 
 
-def transcribe(audio: Path, model: str, outdir: Path) -> list[dict]:
-    from tools.tool_registry import registry
-    registry.discover()
-    r = registry._tools["transcriber"].execute({"input_path": str(audio), "model_size": model,
-                                                 "output_dir": str(outdir)})
-    if not r.success:
-        raise RuntimeError(f"transcription failed: {r.error}")
+def transcribe(audio: Path, model: str, outdir: Path, reuse: bool = False) -> list[dict]:
+    cached = outdir / f"{audio.stem}_transcript.json"
+    if reuse and cached.exists() and cached.stat().st_mtime >= audio.stat().st_mtime:
+        raw = json.loads(cached.read_text())["word_timestamps"]
+    else:
+        from tools.tool_registry import registry
+        registry.discover()
+        r = registry._tools["transcriber"].execute({"input_path": str(audio), "model_size": model,
+                                                     "output_dir": str(outdir)})
+        if not r.success:
+            raise RuntimeError(f"transcription failed: {r.error}")
+        raw = r.data["word_timestamps"]
     merged = []
-    for x in r.data["word_timestamps"]:
+    for x in raw:
         w = x["word"].strip()
-        if merged and w.startswith(","):  # Whisper splits "$10" ",000"
+        # Whisper splits numbers: "$10" ",000" · "86" "%" · "$5" ".5"
+        if merged and (w.startswith(",") or w == "%" or (w[:1] in ".%" and merged[-1]["word"][-1:].isdigit())):
             merged[-1]["word"] += w
             merged[-1]["end"] = x["end"]
         else:
@@ -91,21 +103,136 @@ def _norm(s: str) -> str:
 
 
 def align_lines(words: list[dict], segs: list[dict]) -> list[dict]:
-    """Assign words to script lines by first word; pin each line's onset to the real audio start."""
-    idx, i = [], 0
-    for s in segs:
-        first = _norm(s["text"].split()[0])
-        while i < len(words) and _norm(words[i]["word"]) != first:
-            i += 1
-        if i == len(words):
-            raise RuntimeError(f"could not align line {s['id']!r} — check the transcript")
-        idx.append(i)
-        i += 1
-    idx.append(len(words))
+    """Assign Whisper words to script lines with a global sequence alignment.
+
+    Script and transcript tokens are aligned with difflib (robust to Whisper spelling numbers
+    differently, merging or splitting words); each line starts at the transcript position of
+    its first aligned token, shifted back by any unaligned tokens before it. Line onsets are
+    pinned to the real audio start of that line.
+    """
+    import difflib
+    toks, owner = [], []
+    for k, s in enumerate(segs):
+        for w in s["text"].split():
+            toks.append(_norm(w))
+            owner.append(k)
+    heard = [_norm(w["word"]) for w in words]
+    mapping = {}
+    for a, b, n in difflib.SequenceMatcher(None, toks, heard, autojunk=False).get_matching_blocks():
+        for j in range(n):
+            mapping[a + j] = b + j
+    if not mapping:
+        raise RuntimeError("transcript does not match the script at all")
+    # estimated transcript index for every script token: exact where aligned, otherwise offset
+    # from the nearest aligned token before it (or after it, at the very start)
+    est, last = [], None
+    first_mapped = min(mapping)
+    for t in range(len(toks)):
+        if t in mapping:
+            last = t
+            est.append(mapping[t])
+        elif last is None:
+            est.append(max(0, mapping[first_mapped] - (first_mapped - t)))
+        else:
+            est.append(mapping[last] + (t - last))
+    starts, prev, first_tok = [], 0, 0
+    for k, s in enumerate(segs):
+        start = min(max(prev, est[first_tok]), len(words) - 1)
+        starts.append(start)
+        prev, first_tok = start + 1, first_tok + len(s["text"].split())
+    starts.append(len(words))
     lines = []
     for k, s in enumerate(segs):
-        ws = [dict(w) for w in words[idx[k]:idx[k + 1]]]
+        ws = [dict(w) for w in words[starts[k]:starts[k + 1]]]
+        if not ws:
+            raise RuntimeError(f"line {s['id']!r} received no transcript words")
         ws[0]["start"] = max(ws[0]["start"], s["start"])
+        lines.append({"id": s["id"], "start": ws[0]["start"], "end": ws[-1]["end"], "words": ws})
+    return lines
+
+
+NUMBER_WORDS = set("zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
+                   "sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety "
+                   "hundred thousand million billion trillion point percent dollars dollar".split())
+
+
+def _is_number_words(tokens: list[str]) -> bool:
+    parts = [p for t in tokens for p in re.split(r"[-\s]", re.sub(r"[^a-z\- ]", "", t.lower())) if p]
+    return bool(parts) and all(p in NUMBER_WORDS for p in parts)
+
+
+def reconcile(words: list[dict], segs: list[dict]) -> list[dict]:
+    """Caption words per line: the approved script's text on Whisper's timing.
+
+    * matching words → script spelling and punctuation, Whisper times;
+    * Whisper heard a different spelling (centers/centres, fiber/fibre, a mumbled word) → script words
+      spread over the heard span;
+    * the script spells a number in words and Whisper wrote numerals ("86%", "$5.5") → keep the
+      numerals (more readable); years and figures written as digits in the script stay as written;
+    * script words Whisper missed → placed in the gap they occupy, inside their line's audio window;
+      a bare "dollars"/"percent" already folded into "$…"/"…%" is dropped.
+    Each word stays inside its own line's audio window, so captions never straddle lines.
+    """
+    import difflib
+    toks, owner = [], []
+    for k, s in enumerate(segs):
+        for w in s["text"].split():
+            toks.append(w)
+            owner.append(k)
+    nt = [_norm(t) for t in toks]
+    nh = [_norm(w["word"]) for w in words]
+    out = [[] for _ in segs]
+
+    def put(k, text, a, b):
+        lo, hi = segs[k]["start"], segs[k]["end"]
+        a = min(max(a, lo), hi)
+        b = min(max(b, a), hi)
+        out[k].append({"word": text, "start": round(a, 3), "end": round(b, 3)})
+
+    def spread(idx, a, b):
+        weights = [max(1, len(toks[i])) for i in idx]
+        tot, t = sum(weights), a
+        for i, wgt in zip(idx, weights):
+            d = (b - a) * wgt / tot
+            put(owner[i], toks[i], t, t + d)
+            t += d
+
+    ops = difflib.SequenceMatcher(None, nt, nh, autojunk=False).get_opcodes()
+    for n, (op, a1, a2, b1, b2) in enumerate(ops):
+        if op == "equal":
+            for i, j in zip(range(a1, a2), range(b1, b2)):
+                put(owner[i], toks[i], words[j]["start"], words[j]["end"])
+        elif op == "replace":
+            heard = words[b1:b2]
+            span = (heard[0]["start"], heard[-1]["end"])
+            if _is_number_words(toks[a1:a2]) and any(c.isdigit() for w in heard for c in w["word"]):
+                k = owner[a1]
+                for w in heard:
+                    put(k, w["word"], w["start"], w["end"])
+                if toks[a2 - 1][-1] in ".,;:?!" and not out[k][-1]["word"].endswith(toks[a2 - 1][-1]):
+                    out[k][-1]["word"] += toks[a2 - 1][-1]
+            else:
+                spread(list(range(a1, a2)), *span)
+        elif op == "delete":
+            if all(_norm(t) in ("dollars", "dollar", "percent") for t in toks[a1:a2]):
+                k = owner[a1 - 1] if a1 else owner[a1]
+                if out[k] and toks[a2 - 1][-1] in ".,;:?!" and not out[k][-1]["word"].endswith(toks[a2 - 1][-1]):
+                    out[k][-1]["word"] += toks[a2 - 1][-1]
+                continue
+            prev_end = words[b1 - 1]["end"] if b1 > 0 else 0.0
+            next_start = words[b1]["start"] if b1 < len(words) else segs[-1]["end"]
+            k0, k1 = owner[a1], owner[a2 - 1]
+            a = max(prev_end, segs[k0]["start"])
+            b = min(next_start, segs[k1]["end"])
+            if b - a < 0.1 * (a2 - a1):  # no usable gap: fall back to the line window
+                a, b = segs[k0]["start"], segs[k1]["end"]
+            spread(list(range(a1, a2)), a, b)
+        # "insert": words Whisper heard that are not in the script (rare) are dropped
+    lines = []
+    for k, s in enumerate(segs):
+        ws = sorted(out[k], key=lambda w: w["start"])
+        if not ws:
+            raise RuntimeError(f"line {s['id']!r} has no caption words")
         lines.append({"id": s["id"], "start": ws[0]["start"], "end": ws[-1]["end"], "words": ws})
     return lines
 
@@ -118,7 +245,8 @@ def caption_pages(lines: list[dict], max_words: int) -> list[dict]:
         for i, w in enumerate(ws):
             cur.append(w)
             tail_next = i == len(ws) - 2 and ws[-1]["word"][-1] in ".?!"
-            if w["word"][-1] in ",.:;?!" or (len(cur) >= max_words and not tail_next):
+            unit_next = i + 1 < len(ws) and _norm(ws[i + 1]["word"]) in ("million", "billion", "trillion", "percent")
+            if w["word"][-1] in ",.:;?!" or (len(cur) >= max_words and not tail_next and not unit_next):
                 pages.append(cur)
                 cur = []
         if cur:
@@ -139,6 +267,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("episode", type=Path)
     ap.add_argument("--workspace", type=Path)
+    ap.add_argument("--reuse", action="store_true",
+                    help="keep already-voiced lines and a transcript newer than the mix (re-voice only changed/missing lines)")
     a = ap.parse_args(argv)
     ep = a.episode.resolve()
     ws = (a.workspace or REPO / "projects" / ep.name / "hyperframes").resolve()
@@ -146,10 +276,14 @@ def main(argv=None):
     art.mkdir(exist_ok=True)
     lines = json.loads((ep / "script.json").read_text())["lines"]
     ncfg, ccfg = CONFIG["narration"], CONFIG["captions"]
-    segs = synthesize(lines, ws.parent / "assets" / "audio", ncfg)
-    total = mix(segs, ws / "narration.wav", ncfg)
-    words = transcribe(ws / "narration.wav", ccfg["whisper_model"], ws.parent / "artifacts" / "transcript")
-    aligned = align_lines(words, segs)
+    segs = synthesize(lines, ws.parent / "assets" / "audio", ncfg, reuse=a.reuse)
+    wav = ws / "narration.wav"
+    if a.reuse and wav.exists() and all(Path(s["file"]).stat().st_mtime <= wav.stat().st_mtime for s in segs):
+        total = round(segs[-1]["end"] + ncfg["tail_seconds"], 2)  # mix is already up to date
+    else:
+        total = mix(segs, wav, ncfg)
+    words = transcribe(wav, ccfg["whisper_model"], ws.parent / "artifacts" / "transcript", reuse=a.reuse)
+    aligned = reconcile(words, segs)
     pages = caption_pages(aligned, ccfg["max_words_per_page"])
     (art / "narration_timing.json").write_text(json.dumps({"total": total, "segments": segs}, indent=1))
     (art / "words.json").write_text(json.dumps(words, indent=0))

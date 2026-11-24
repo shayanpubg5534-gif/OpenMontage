@@ -1,0 +1,1612 @@
+1
+00:00:00,100 --> 00:00:01,580
+In 1999,
+
+2
+00:00:02,480 --> 00:00:04,980
+investors believed the internet was going
+
+3
+00:00:04,980 --> 00:00:06,260
+to change the world.
+
+4
+00:00:06,820 --> 00:00:07,520
+They were right.
+
+5
+00:00:08,374 --> 00:00:10,100
+But that didn't stop trillions of
+
+6
+00:00:10,100 --> 00:00:13,060
+dollars in market value from disappearing.
+
+7
+00:00:14,160 --> 00:00:14,720
+Companies collapsed.
+
+8
+00:00:15,580 --> 00:00:17,100
+Investors lost fortunes.
+
+9
+00:00:17,760 --> 00:00:19,600
+And one of the greatest technological
+
+10
+00:00:19,600 --> 00:00:23,260
+revolutions in history became associated with
+
+11
+00:00:23,260 --> 00:00:26,160
+one of its most spectacular financial disasters.
+
+12
+00:00:26,813 --> 00:00:28,360
+More than two decades later,
+
+13
+00:00:28,880 --> 00:00:32,560
+another technological revolution is attracting extraordinary
+
+14
+00:00:32,560 --> 00:00:33,720
+amounts of money.
+
+15
+00:00:34,239 --> 00:00:36,181
+Artificial intelligence.
+
+16
+00:00:36,781 --> 00:00:39,940
+Technology giants are constructing enormous data
+
+17
+00:00:39,940 --> 00:00:40,540
+centres.
+
+18
+00:00:41,280 --> 00:00:44,660
+Semiconductor companies are selling advanced processors.
+
+19
+00:00:45,640 --> 00:00:47,340
+Investors are betting on a future
+
+20
+00:00:47,340 --> 00:00:51,740
+where intelligent machines transform nearly every industry.
+
+21
+00:00:52,347 --> 00:00:54,980
+But beneath this historic investment boom
+
+22
+00:00:55,380 --> 00:00:57,120
+lies an uncomfortable question.
+
+23
+00:00:57,740 --> 00:01:00,320
+Is humanity building its next great
+
+24
+00:01:00,320 --> 00:01:01,600
+economic revolution,
+
+25
+00:01:02,120 --> 00:01:03,600
+or repeating one of its most
+
+26
+00:01:03,600 --> 00:01:05,600
+expensive financial mistakes?
+
+27
+00:01:06,307 --> 00:01:07,640
+To understand the answer,
+
+28
+00:01:07,980 --> 00:01:09,280
+we need to travel back to
+
+29
+00:01:09,280 --> 00:01:11,100
+a time when the internet was
+
+30
+00:01:11,100 --> 00:01:11,800
+still new.
+
+31
+00:01:13,726 --> 00:01:16,220
+During the early 1990s,
+
+32
+00:01:16,520 --> 00:01:18,980
+the internet began transforming from a
+
+33
+00:01:18,980 --> 00:01:22,540
+relatively specialized network into something ordinary
+
+34
+00:01:22,540 --> 00:01:24,060
+people could access.
+
+35
+00:01:24,820 --> 00:01:25,740
+For the first time,
+
+36
+00:01:26,220 --> 00:01:28,640
+businesses could communicate with customers around
+
+37
+00:01:28,640 --> 00:01:31,440
+the world without opening physical stores
+
+38
+00:01:31,440 --> 00:01:32,780
+in every country.
+
+39
+00:01:33,980 --> 00:01:36,340
+Information could travel almost instantly.
+
+40
+00:01:37,220 --> 00:01:41,300
+Entire industries suddenly appeared vulnerable to disruption.
+
+41
+00:01:42,200 --> 00:01:45,620
+Entrepreneurs recognized an enormous opportunity.
+
+42
+00:01:46,429 --> 00:01:47,380
+Online shopping,
+
+43
+00:01:47,880 --> 00:01:48,900
+digital advertising,
+
+44
+00:01:49,620 --> 00:01:53,000
+internet banking and electronic communication promised
+
+45
+00:01:53,000 --> 00:01:55,700
+to change the way economies operated.
+
+46
+00:01:56,360 --> 00:01:58,400
+Investors wanted to be part of
+
+47
+00:01:58,400 --> 00:01:59,060
+that future.
+
+48
+00:01:59,780 --> 00:02:02,260
+Money began flowing into internet companies
+
+49
+00:02:02,260 --> 00:02:04,160
+at an extraordinary pace.
+
+50
+00:02:04,760 --> 00:02:06,740
+But something unusual happened.
+
+51
+00:02:07,522 --> 00:02:10,040
+Instead of valuing businesses primarily on
+
+52
+00:02:10,040 --> 00:02:10,700
+their profits,
+
+53
+00:02:11,500 --> 00:02:14,760
+investors increasingly valued them on their potential.
+
+54
+00:02:15,354 --> 00:02:16,300
+Website visitors,
+
+55
+00:02:16,940 --> 00:02:19,060
+user growth and market share became
+
+56
+00:02:19,060 --> 00:02:21,100
+important indicators of success,
+
+57
+00:02:21,680 --> 00:02:23,780
+even when companies were losing money.
+
+58
+00:02:24,400 --> 00:02:27,640
+Many businesses believed that profitability could
+
+59
+00:02:27,640 --> 00:02:28,280
+come later.
+
+60
+00:02:28,901 --> 00:02:31,440
+The immediate priority was expansion.
+
+61
+00:02:32,270 --> 00:02:35,120
+Imagine launching an online store that
+
+62
+00:02:35,120 --> 00:02:37,240
+loses money on every order.
+
+63
+00:02:37,788 --> 00:02:39,260
+Under normal circumstances,
+
+64
+00:02:39,940 --> 00:02:42,200
+investors would question whether such a
+
+65
+00:02:42,200 --> 00:02:43,360
+business could survive.
+
+66
+00:02:44,022 --> 00:02:45,500
+But during the dot-com boom,
+
+67
+00:02:46,080 --> 00:02:49,060
+rapid expansion could attract additional investment
+
+68
+00:02:49,060 --> 00:02:52,320
+and push a company's valuation even higher.
+
+69
+00:02:52,873 --> 00:02:55,100
+The expectation was that once the
+
+70
+00:02:55,100 --> 00:02:56,680
+company became large enough,
+
+71
+00:02:57,160 --> 00:02:58,960
+profits would eventually follow.
+
+72
+00:02:59,631 --> 00:03:00,160
+Sometimes,
+
+73
+00:03:00,400 --> 00:03:02,440
+that expectation was reasonable.
+
+74
+00:03:03,300 --> 00:03:03,800
+Sometimes,
+
+75
+00:03:03,980 --> 00:03:06,000
+it was little more than speculation.
+
+76
+00:03:06,810 --> 00:03:09,240
+And as stock prices continued rising,
+
+77
+00:03:09,240 --> 00:03:13,400
+distinguishing between the two became increasingly difficult.
+
+78
+00:03:15,440 --> 00:03:17,040
+By the beginning of 2000,
+
+79
+00:03:17,600 --> 00:03:21,040
+enthusiasm surrounding internet companies had reached
+
+80
+00:03:21,040 --> 00:03:22,420
+extraordinary levels.
+
+81
+00:03:22,967 --> 00:03:24,100
+The Nasdaq Composite,
+
+82
+00:03:24,580 --> 00:03:27,020
+heavily influenced by technology stocks,
+
+83
+00:03:27,440 --> 00:03:33,120
+had climbed approximately 86% during 1999 alone.
+
+84
+00:03:33,745 --> 00:03:35,840
+But beneath the rising stock prices,
+
+85
+00:03:36,380 --> 00:03:37,900
+many businesses were struggling.
+
+86
+00:03:38,514 --> 00:03:40,440
+They were spending enormous amounts of
+
+87
+00:03:40,440 --> 00:03:41,880
+money on advertising,
+
+88
+00:03:42,660 --> 00:03:46,200
+employees and infrastructure without generating enough
+
+89
+00:03:46,200 --> 00:03:48,280
+revenue to sustain themselves.
+
+90
+00:03:48,877 --> 00:03:52,080
+Their survival depended on investors continuing
+
+91
+00:03:52,080 --> 00:03:53,560
+to provide capital.
+
+92
+00:03:54,180 --> 00:03:56,620
+Then confidence began to disappear.
+
+93
+00:03:57,520 --> 00:04:01,340
+Investors became increasingly concerned about company
+
+94
+00:04:01,340 --> 00:04:03,400
+valuations and profitability.
+
+95
+00:04:04,440 --> 00:04:06,260
+Stock prices started falling.
+
+96
+00:04:07,098 --> 00:04:09,300
+For businesses that depended on external
+
+97
+00:04:09,300 --> 00:04:10,140
+financing,
+
+98
+00:04:10,740 --> 00:04:14,760
+declining investor confidence became an existential threat.
+
+99
+00:04:15,289 --> 00:04:16,540
+Without fresh capital,
+
+100
+00:04:17,020 --> 00:04:19,460
+they could no longer finance their operations.
+
+101
+00:04:20,260 --> 00:04:21,920
+Companies began shutting down.
+
+102
+00:04:22,380 --> 00:04:23,860
+Employees lost their jobs.
+
+103
+00:04:24,960 --> 00:04:27,040
+Investors watched their savings evaporate.
+
+104
+00:04:27,502 --> 00:04:29,540
+Between its peak in March 2000
+
+105
+00:04:29,540 --> 00:04:31,960
+and the subsequent market bottom in
+
+106
+00:04:31,960 --> 00:04:33,200
+2002,
+
+107
+00:04:33,200 --> 00:04:37,140
+the Nasdaq lost roughly 77% of
+
+108
+00:04:37,140 --> 00:04:37,800
+its value.
+
+109
+00:04:38,800 --> 00:04:41,860
+Imagine investing $10,000 near the peak
+
+110
+00:04:41,860 --> 00:04:44,520
+in a portfolio that tracked the index.
+
+111
+00:04:45,047 --> 00:04:47,080
+Ignoring dividends and fees,
+
+112
+00:04:47,580 --> 00:04:49,460
+that investment would have fallen to
+
+113
+00:04:49,460 --> 00:04:51,420
+approximately $2,300.
+
+114
+00:04:52,470 --> 00:04:55,360
+Yet something remarkable happened after the crash.
+
+115
+00:04:55,997 --> 00:04:58,120
+The internet continued growing.
+
+116
+00:04:58,920 --> 00:05:00,540
+Online shopping expanded.
+
+117
+00:05:00,540 --> 00:05:04,720
+Digital advertising became increasingly important.
+
+118
+00:05:05,440 --> 00:05:08,400
+Businesses built successful models around technologies
+
+119
+00:05:08,400 --> 00:05:11,720
+that had once attracted excessive speculation.
+
+120
+00:05:12,476 --> 00:05:14,520
+The internet was not the illusion.
+
+121
+00:05:15,368 --> 00:05:19,400
+The unrealistic financial expectations surrounding many
+
+122
+00:05:19,400 --> 00:05:20,940
+internet companies were.
+
+123
+00:05:21,462 --> 00:05:24,160
+And that distinction is essential to
+
+124
+00:05:24,160 --> 00:05:26,920
+understanding artificial intelligence today.
+
+125
+00:05:28,917 --> 00:05:32,320
+The modern AI boom accelerated dramatically
+
+126
+00:05:32,320 --> 00:05:35,760
+following the introduction of widely accessible
+
+127
+00:05:35,760 --> 00:05:37,560
+generative AI systems.
+
+128
+00:05:38,680 --> 00:05:38,700
+Suddenly,
+
+129
+00:05:38,960 --> 00:05:41,280
+ordinary people could interact with machines
+
+130
+00:05:41,280 --> 00:05:43,260
+capable of generating text,
+
+131
+00:05:43,820 --> 00:05:44,840
+writing software,
+
+132
+00:05:45,360 --> 00:05:48,740
+creating images and assisting with complex tasks.
+
+133
+00:05:49,300 --> 00:05:52,400
+Businesses began exploring how artificial intelligence
+
+134
+00:05:52,400 --> 00:05:53,820
+could improve productivity,
+
+135
+00:05:54,340 --> 00:05:58,180
+reduce costs and create entirely new services.
+
+136
+00:05:58,920 --> 00:06:03,200
+Technology companies recognized a potentially enormous market.
+
+137
+00:06:03,791 --> 00:06:07,460
+But artificial intelligence requires more than software.
+
+138
+00:06:08,060 --> 00:06:11,060
+Behind every advanced AI system lies
+
+139
+00:06:11,060 --> 00:06:12,980
+a vast physical infrastructure.
+
+140
+00:06:13,800 --> 00:06:17,980
+Specialized processors perform enormous numbers of calculations.
+
+141
+00:06:18,900 --> 00:06:22,480
+Servers operate inside sophisticated data centres.
+
+142
+00:06:23,196 --> 00:06:26,648
+Cooling systems prevent equipment from overheating.
+
+143
+00:06:27,440 --> 00:06:30,340
+Electricity networks supply the energy necessary
+
+144
+00:06:30,340 --> 00:06:32,720
+to keep these facilities running.
+
+145
+00:06:33,380 --> 00:06:37,240
+Building this infrastructure requires substantial investment.
+
+146
+00:06:37,969 --> 00:06:40,100
+In November 2026,
+
+147
+00:06:40,780 --> 00:06:43,720
+the European Central Bank highlighted estimates
+
+148
+00:06:43,720 --> 00:06:47,640
+suggesting that cumulative capital expenditure by
+
+149
+00:06:47,640 --> 00:06:51,060
+seven major American technology companies could
+
+150
+00:06:51,060 --> 00:06:56,160
+reach approximately $5.5 trillion by 2030.
+
+151
+00:06:56,966 --> 00:06:57,880
+That is a forecast,
+
+152
+00:06:58,360 --> 00:06:59,880
+not money that has already been
+
+153
+00:06:59,880 --> 00:07:00,360
+spent,
+
+154
+00:07:00,880 --> 00:07:03,120
+and it includes broader company investment
+
+155
+00:07:03,120 --> 00:07:06,160
+rather than exclusively AI expenditure.
+
+156
+00:07:06,838 --> 00:07:07,200
+Nevertheless,
+
+157
+00:07:07,880 --> 00:07:10,420
+it illustrates the extraordinary scale of
+
+158
+00:07:10,420 --> 00:07:11,160
+the expansion.
+
+159
+00:07:12,260 --> 00:07:14,440
+Companies are spending today because they
+
+160
+00:07:14,440 --> 00:07:17,820
+expect AI services to generate substantial
+
+161
+00:07:17,820 --> 00:07:19,600
+economic value tomorrow.
+
+162
+00:07:20,258 --> 00:07:22,500
+But spending money and earning profitable
+
+163
+00:07:22,500 --> 00:07:24,700
+returns on that money are two
+
+164
+00:07:24,700 --> 00:07:26,000
+very different things.
+
+165
+00:07:27,934 --> 00:07:30,280
+To understand the financial risks,
+
+166
+00:07:31,020 --> 00:07:34,200
+imagine a simplified artificial intelligence economy.
+
+167
+00:07:34,756 --> 00:07:39,220
+A semiconductor manufacturer produces advanced computing chips.
+
+168
+00:07:39,795 --> 00:07:42,360
+A cloud computing company purchases those
+
+169
+00:07:42,360 --> 00:07:45,360
+chips and installs them inside a
+
+170
+00:07:45,360 --> 00:07:45,820
+data centre.
+
+171
+00:07:46,441 --> 00:07:49,540
+An AI developer rents computing capacity
+
+172
+00:07:49,540 --> 00:07:52,280
+from that cloud company to train
+
+173
+00:07:52,280 --> 00:07:53,820
+and operate its models.
+
+174
+00:07:54,940 --> 00:07:54,940
+Finally,
+
+175
+00:07:55,240 --> 00:07:58,000
+businesses and individual customers pay to
+
+176
+00:07:58,000 --> 00:08:00,340
+use the resulting AI services.
+
+177
+00:08:01,100 --> 00:08:02,640
+Money moves through the system,
+
+178
+00:08:03,000 --> 00:08:05,200
+supporting revenue at every stage.
+
+179
+00:08:05,814 --> 00:08:07,620
+When customer demand expands,
+
+180
+00:08:08,200 --> 00:08:10,080
+the entire network can benefit.
+
+181
+00:08:10,880 --> 00:08:13,400
+Chip manufacturers sell more processors.
+
+182
+00:08:14,315 --> 00:08:17,580
+Cloud companies rent more computing capacity.
+
+183
+00:08:18,480 --> 00:08:21,180
+AI developers attract more customers.
+
+184
+00:08:21,921 --> 00:08:25,240
+And investors anticipate higher future profits.
+
+185
+00:08:26,011 --> 00:08:28,220
+But what happens when businesses within
+
+186
+00:08:28,220 --> 00:08:31,620
+this ecosystem also finance one another?
+
+187
+00:08:32,194 --> 00:08:35,720
+Imagine a chip manufacturer investing $1 billion
+
+188
+00:08:35,720 --> 00:08:38,020
+in an AI developer.
+
+189
+00:08:38,568 --> 00:08:40,620
+That developer uses part of its
+
+190
+00:08:40,620 --> 00:08:43,240
+funding to purchase computing services.
+
+191
+00:08:44,020 --> 00:08:46,580
+The computing provider then purchases more
+
+192
+00:08:46,580 --> 00:08:48,920
+chips from the original manufacturer.
+
+193
+00:08:49,638 --> 00:08:51,880
+Each company may benefit from the
+
+194
+00:08:51,880 --> 00:08:53,080
+resulting activity.
+
+195
+00:08:53,716 --> 00:08:55,580
+But analysts must ask how much
+
+196
+00:08:55,580 --> 00:08:58,800
+demand is ultimately supported by paying
+
+197
+00:08:58,800 --> 00:08:59,440
+customers,
+
+198
+00:08:59,440 --> 00:09:02,800
+rather than continued financing from within
+
+199
+00:09:02,800 --> 00:09:04,020
+the industry itself.
+
+200
+00:09:04,727 --> 00:09:07,780
+Such arrangements do not automatically indicate
+
+201
+00:09:07,780 --> 00:09:10,320
+fraud or financial manipulation.
+
+202
+00:09:11,460 --> 00:09:14,320
+Strategic partnerships can help businesses develop
+
+203
+00:09:14,320 --> 00:09:15,700
+useful technologies.
+
+204
+00:09:16,351 --> 00:09:16,620
+However,
+
+205
+00:09:17,000 --> 00:09:19,240
+they make it especially important to
+
+206
+00:09:19,240 --> 00:09:22,200
+examine the underlying sources of revenue.
+
+207
+00:09:22,814 --> 00:09:23,680
+Because ultimately,
+
+208
+00:09:24,200 --> 00:09:26,960
+the entire investment chain must generate
+
+209
+00:09:26,960 --> 00:09:30,240
+enough external economic value to support
+
+210
+00:09:30,240 --> 00:09:31,680
+the money being invested.
+
+211
+00:09:32,267 --> 00:09:32,680
+Otherwise,
+
+212
+00:09:33,140 --> 00:09:35,980
+the system becomes increasingly dependent on
+
+213
+00:09:35,980 --> 00:09:38,180
+expectations about the future.
+
+214
+00:09:38,800 --> 00:09:42,080
+And expectations can change frighteningly quickly.
+
+215
+00:09:44,083 --> 00:09:46,640
+Another important development is the way
+
+216
+00:09:46,640 --> 00:09:49,580
+AI infrastructure is being financed.
+
+217
+00:09:50,180 --> 00:09:53,080
+Imagine a technology company that generates
+
+218
+00:09:53,080 --> 00:09:56,360
+$10 billion in operating cash flow.
+
+219
+00:09:56,926 --> 00:09:59,600
+After spending $6 billion on buildings,
+
+220
+00:10:00,160 --> 00:10:02,520
+equipment and other capital investments,
+
+221
+00:10:03,020 --> 00:10:05,960
+it has approximately $4 billion remaining
+
+222
+00:10:05,960 --> 00:10:08,900
+under a simplified definition of free
+
+223
+00:10:08,900 --> 00:10:09,620
+cash flow.
+
+224
+00:10:10,221 --> 00:10:13,440
+Now imagine its investment requirements rise
+
+225
+00:10:13,440 --> 00:10:16,600
+to $14 billion while operating cash
+
+226
+00:10:16,600 --> 00:10:18,340
+flow remains unchanged.
+
+227
+00:10:19,097 --> 00:10:21,560
+Its free cash flow becomes negative.
+
+228
+00:10:22,381 --> 00:10:24,320
+The company must use existing cash
+
+229
+00:10:24,320 --> 00:10:24,880
+reserves,
+
+230
+00:10:24,880 --> 00:10:26,160
+sell assets,
+
+231
+00:10:26,560 --> 00:10:29,000
+raise equity or borrow money to
+
+232
+00:10:29,000 --> 00:10:29,840
+cover the difference.
+
+233
+00:10:30,531 --> 00:10:32,620
+In October 2026,
+
+234
+00:10:33,260 --> 00:10:36,180
+the International Monetary Fund highlighted the
+
+235
+00:10:36,180 --> 00:10:38,500
+increasing use of debt across the
+
+236
+00:10:38,500 --> 00:10:41,780
+AI ecosystem and warned that disappointing
+
+237
+00:10:41,780 --> 00:10:45,180
+returns could place additional pressure on
+
+238
+00:10:45,180 --> 00:10:46,540
+financing arrangements.
+
+239
+00:10:47,222 --> 00:10:50,140
+This matters because debt creates obligations
+
+240
+00:10:50,140 --> 00:10:53,080
+that do not disappear simply because
+
+241
+00:10:53,080 --> 00:10:55,188
+customer demand weakens.
+
+242
+00:10:55,800 --> 00:10:57,760
+Lenders still expect repayment.
+
+243
+00:10:58,900 --> 00:11:00,900
+Interest payments must still be made.
+
+244
+00:11:01,620 --> 00:11:04,640
+And long-term financial commitments can remain
+
+245
+00:11:04,640 --> 00:11:08,140
+in place even when technology becomes outdated.
+
+246
+00:11:08,940 --> 00:11:11,580
+Consider a data centre financed with
+
+247
+00:11:11,580 --> 00:11:12,720
+a long-term loan.
+
+248
+00:11:13,368 --> 00:11:15,760
+If newer processors make its equipment
+
+249
+00:11:15,760 --> 00:11:18,720
+less competitive before the investment has
+
+250
+00:11:18,720 --> 00:11:20,440
+earned back its original cost,
+
+251
+00:11:21,000 --> 00:11:23,560
+the owner could face financial difficulties.
+
+252
+00:11:24,290 --> 00:11:26,460
+The technology may have improved.
+
+253
+00:11:27,209 --> 00:11:29,240
+But the economics of the original
+
+254
+00:11:29,240 --> 00:11:31,460
+investment may have deteriorated.
+
+255
+00:11:32,445 --> 00:11:35,160
+This creates a fundamental tension between
+
+256
+00:11:35,160 --> 00:11:38,120
+the rapid evolution of artificial intelligence
+
+257
+00:11:38,120 --> 00:11:41,480
+and the financial commitments required to
+
+258
+00:11:41,480 --> 00:11:42,600
+build its infrastructure.
+
+259
+00:11:44,756 --> 00:11:46,900
+The answer depends on how we
+
+260
+00:11:46,900 --> 00:11:48,560
+measure the size of a bubble.
+
+261
+00:11:49,200 --> 00:11:51,020
+Are we measuring the amount of
+
+262
+00:11:51,020 --> 00:11:52,760
+infrastructure being built?
+
+263
+00:11:53,343 --> 00:11:56,060
+The market value of technology companies?
+
+264
+00:11:56,922 --> 00:11:59,300
+The amount of debt supporting the expansion?
+
+265
+00:12:00,056 --> 00:12:02,620
+Or the difference between company valuations
+
+266
+00:12:02,620 --> 00:12:05,480
+and their underlying economic value?
+
+267
+00:12:06,048 --> 00:12:09,180
+These measurements can produce very different answers.
+
+268
+00:12:09,749 --> 00:12:12,080
+Research cited by the European Central
+
+269
+00:12:12,080 --> 00:12:17,160
+Bank in November 2026 estimated that
+
+270
+00:12:17,160 --> 00:12:20,540
+annual AI investment requirements could exceed
+
+271
+00:12:20,540 --> 00:12:24,160
+3% of American economic output over
+
+272
+00:12:24,160 --> 00:12:25,400
+the investment period.
+
+273
+00:12:25,920 --> 00:12:26,640
+For comparison,
+
+274
+00:12:27,360 --> 00:12:29,640
+investment during the internet boom was
+
+275
+00:12:29,640 --> 00:12:32,700
+estimated at approximately 1.1%.
+
+276
+00:12:33,895 --> 00:12:36,220
+These are not perfectly equivalent historical
+
+277
+00:12:36,220 --> 00:12:36,800
+measurements,
+
+278
+00:12:37,440 --> 00:12:39,940
+and the AI figures depend on forecasts.
+
+279
+00:12:40,720 --> 00:12:40,960
+Nevertheless,
+
+280
+00:12:41,780 --> 00:12:44,680
+they suggest that today's infrastructure expansion
+
+281
+00:12:44,680 --> 00:12:48,020
+could be considerably larger relative to
+
+282
+00:12:48,020 --> 00:12:48,620
+the economy.
+
+283
+00:12:49,235 --> 00:12:52,060
+But larger investment does not automatically
+
+284
+00:12:52,060 --> 00:12:54,420
+mean a larger financial bubble.
+
+285
+00:12:55,026 --> 00:12:57,740
+A railway connecting productive cities may
+
+286
+00:12:57,740 --> 00:13:01,280
+require enormous investment and still generate
+
+287
+00:13:01,280 --> 00:13:03,440
+substantial long-term returns.
+
+288
+00:13:04,140 --> 00:13:07,040
+An expensive railway connecting places with
+
+289
+00:13:07,040 --> 00:13:10,760
+insufficient demand may become a financial disaster.
+
+290
+00:13:11,516 --> 00:13:13,720
+The critical question is not simply
+
+291
+00:13:13,720 --> 00:13:15,780
+how much money is being spent.
+
+292
+00:13:16,350 --> 00:13:18,360
+It is whether the economic returns
+
+293
+00:13:18,360 --> 00:13:20,420
+will justify that spending.
+
+294
+00:13:22,349 --> 00:13:24,920
+There are several important differences between
+
+295
+00:13:24,920 --> 00:13:26,940
+the dot-com era and the current
+
+296
+00:13:26,940 --> 00:13:27,980
+AI boom.
+
+297
+00:13:28,660 --> 00:13:30,860
+Many of the internet startups that
+
+298
+00:13:30,860 --> 00:13:34,060
+attracted extraordinary valuations during the late
+
+299
+00:13:34,060 --> 00:13:38,160
+1990s had weak business models and
+
+300
+00:13:38,160 --> 00:13:39,940
+limited financial resources.
+
+301
+00:13:40,600 --> 00:13:40,900
+Today,
+
+302
+00:13:41,220 --> 00:13:43,680
+several of the largest companies investing
+
+303
+00:13:43,680 --> 00:13:47,260
+in artificial intelligence already operate highly
+
+304
+00:13:47,260 --> 00:13:48,440
+profitable businesses.
+
+305
+00:13:49,124 --> 00:13:51,480
+They generate revenue from cloud computing,
+
+306
+00:13:52,060 --> 00:13:52,580
+advertising,
+
+307
+00:13:53,680 --> 00:13:53,680
+software,
+
+308
+00:13:54,080 --> 00:13:56,040
+subscriptions and digital commerce.
+
+309
+00:13:56,752 --> 00:13:59,080
+This gives them resources that many
+
+310
+00:13:59,080 --> 00:14:02,140
+speculative dot-com companies never possessed.
+
+311
+00:14:03,240 --> 00:14:06,420
+Artificial intelligence also has practical applications
+
+312
+00:14:06,420 --> 00:14:09,260
+that extend beyond future promises.
+
+313
+00:14:09,940 --> 00:14:12,320
+Businesses are already using AI systems
+
+314
+00:14:12,320 --> 00:14:14,460
+to assist with software development,
+
+315
+00:14:15,120 --> 00:14:16,020
+customer support,
+
+316
+00:14:16,440 --> 00:14:18,640
+research and administrative work.
+
+317
+00:14:19,300 --> 00:14:23,220
+These applications can create genuine economic benefits.
+
+318
+00:14:23,860 --> 00:14:24,240
+However,
+
+319
+00:14:24,740 --> 00:14:28,420
+profitable companies can still make unprofitable investments.
+
+320
+00:14:29,100 --> 00:14:31,360
+And a useful technology does not
+
+321
+00:14:31,360 --> 00:14:34,400
+guarantee attractive returns for every company
+
+322
+00:14:34,400 --> 00:14:36,517
+involved in developing it.
+
+323
+00:14:36,967 --> 00:14:38,140
+During the internet boom,
+
+324
+00:14:38,680 --> 00:14:42,440
+businesses constructed extensive fibre-optic networks to
+
+325
+00:14:42,440 --> 00:14:44,480
+prepare for future internet traffic.
+
+326
+00:14:45,047 --> 00:14:48,900
+Some infrastructure investments were financially unsuccessful
+
+327
+00:14:48,900 --> 00:14:53,040
+because demand developed more slowly than expected.
+
+328
+00:14:53,620 --> 00:14:56,400
+Yet those networks eventually helped support
+
+329
+00:14:56,400 --> 00:14:58,980
+the expansion of the digital economy.
+
+330
+00:14:59,626 --> 00:15:02,080
+It is entirely possible that artificial
+
+331
+00:15:02,080 --> 00:15:05,060
+intelligence follows a similar pattern.
+
+332
+00:15:05,760 --> 00:15:08,760
+Society could benefit enormously from infrastructure
+
+333
+00:15:08,760 --> 00:15:13,020
+that produces disappointing financial returns for
+
+334
+00:15:13,020 --> 00:15:14,940
+some of its original investors.
+
+335
+00:15:15,720 --> 00:15:19,080
+Technological success and investment success are
+
+336
+00:15:19,080 --> 00:15:21,391
+not necessarily the same thing.
+
+337
+00:15:23,191 --> 00:15:26,300
+Imagine that AI adoption continues growing,
+
+338
+00:15:26,580 --> 00:15:29,040
+but customers are unwilling to pay
+
+339
+00:15:29,040 --> 00:15:33,080
+enough to justify the industry's enormous investments.
+
+340
+00:15:33,710 --> 00:15:37,400
+Cloud companies may reduce their expansion plans.
+
+341
+00:15:38,020 --> 00:15:41,780
+Semiconductor manufacturers may receive fewer orders.
+
+342
+00:15:42,660 --> 00:15:45,240
+Data centre developers may struggle to
+
+343
+00:15:45,240 --> 00:15:46,160
+attract tenants.
+
+344
+00:15:46,800 --> 00:15:50,460
+Businesses with substantial financial obligations could
+
+345
+00:15:50,460 --> 00:15:52,360
+face increasing pressure.
+
+346
+00:15:52,980 --> 00:15:56,480
+Investors would begin revising their expectations.
+
+347
+00:15:57,421 --> 00:16:00,360
+And because financial markets anticipate future
+
+348
+00:16:00,360 --> 00:16:01,000
+earnings,
+
+349
+00:16:01,000 --> 00:16:04,100
+company valuations could fall before the
+
+350
+00:16:04,100 --> 00:16:07,360
+full economic consequences become visible.
+
+351
+00:16:07,980 --> 00:16:11,420
+The effects might extend beyond technology companies.
+
+352
+00:16:12,460 --> 00:16:12,880
+Retirement funds,
+
+353
+00:16:13,620 --> 00:16:17,500
+investment portfolios and financial institutions hold
+
+354
+00:16:17,500 --> 00:16:20,420
+exposure to technology-related assets.
+
+355
+00:16:21,080 --> 00:16:22,120
+Construction companies,
+
+356
+00:16:22,900 --> 00:16:26,480
+electricity providers and equipment manufacturers may
+
+357
+00:16:26,480 --> 00:16:29,980
+also depend on continued infrastructure expansion.
+
+358
+00:16:30,580 --> 00:16:32,660
+But a collapse is not inevitable.
+
+359
+00:16:33,740 --> 00:16:36,580
+Demand could grow sufficiently to justify
+
+360
+00:16:36,580 --> 00:16:37,620
+the investments.
+
+361
+00:16:38,340 --> 00:16:42,040
+Technological improvements could reduce operating costs.
+
+362
+00:16:42,797 --> 00:16:45,720
+New applications could create revenue streams
+
+363
+00:16:45,720 --> 00:16:48,460
+that are difficult to anticipate today.
+
+364
+00:16:49,100 --> 00:16:51,760
+The investment boom could also experience
+
+365
+00:16:51,760 --> 00:16:54,400
+a gradual adjustment rather than a
+
+366
+00:16:54,400 --> 00:16:55,300
+dramatic crash.
+
+367
+00:16:55,949 --> 00:16:58,160
+The future depends on how these
+
+368
+00:16:58,160 --> 00:16:59,920
+competing forces develop.
+
+369
+00:17:01,882 --> 00:17:04,880
+The dot-com bubble demonstrated that investors
+
+370
+00:17:04,880 --> 00:17:08,380
+can correctly identify a revolutionary technology
+
+371
+00:17:08,380 --> 00:17:12,240
+and still misunderstand its financial value.
+
+372
+00:17:12,780 --> 00:17:14,640
+The internet changed the world.
+
+373
+00:17:15,391 --> 00:17:18,000
+But not every internet company deserved
+
+374
+00:17:18,000 --> 00:17:18,980
+its valuation.
+
+375
+00:17:19,820 --> 00:17:23,100
+Artificial intelligence may also transform the
+
+376
+00:17:23,100 --> 00:17:24,080
+global economy.
+
+377
+00:17:24,706 --> 00:17:26,000
+It could reshape industries,
+
+378
+00:17:26,540 --> 00:17:29,640
+create new businesses and fundamentally alter
+
+379
+00:17:29,640 --> 00:17:30,720
+how people work.
+
+380
+00:17:31,279 --> 00:17:33,240
+Yet none of that eliminates the
+
+381
+00:17:33,240 --> 00:17:35,540
+possibility of excessive speculation,
+
+382
+00:17:36,180 --> 00:17:38,820
+overinvestment or disappointing returns.
+
+383
+00:17:39,569 --> 00:17:41,880
+The most important question is not
+
+384
+00:17:41,880 --> 00:17:44,660
+whether artificial intelligence is useful.
+
+385
+00:17:45,268 --> 00:17:47,080
+It is whether the profits generated
+
+386
+00:17:47,080 --> 00:17:50,880
+by artificial intelligence will ultimately justify
+
+387
+00:17:50,880 --> 00:17:54,860
+the extraordinary financial commitments being made today.
+
+388
+00:17:55,700 --> 00:17:57,480
+History does not tell us exactly
+
+389
+00:17:57,480 --> 00:17:59,100
+what will happen next.
+
+390
+00:17:59,628 --> 00:18:01,360
+But it reminds us that even
+
+391
+00:18:01,360 --> 00:18:03,200
+the most convincing vision of the
+
+392
+00:18:03,200 --> 00:18:06,500
+future can become dangerous when financial
+
+393
+00:18:06,500 --> 00:18:09,620
+expectations move too far ahead of
+
+394
+00:18:09,620 --> 00:18:10,820
+economic reality.
+
+395
+00:18:11,405 --> 00:18:14,320
+The dot-com generation learned that lesson
+
+396
+00:18:14,320 --> 00:18:15,360
+the hard way.
+
+397
+00:18:15,831 --> 00:18:18,780
+Whether the artificial intelligence generation will
+
+398
+00:18:18,780 --> 00:18:21,140
+learn it differently remains one of
+
+399
+00:18:21,140 --> 00:18:23,920
+the most important financial questions of
+
+400
+00:18:23,920 --> 00:18:24,560
+our time.
+
+401
+00:18:25,117 --> 00:18:26,980
+This is The Epoch Ledger.
+
+402
+00:18:27,820 --> 00:18:29,120
+Understanding the past.
+
+403
+00:18:29,540 --> 00:18:30,460
+Decoding the present.
+

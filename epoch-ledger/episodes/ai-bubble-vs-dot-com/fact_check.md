@@ -41,3 +41,13 @@ The script already frames a crash as possible, not certain (c09_11 "a collapse i
 2. c03_14: "approximately two thousand three hundred dollars" → **"approximately two thousand two hundred dollars"**.
 
 Only these two lines are re-voiced if approved (≈ 10 s each); later timestamps shift by at most a fraction of a second and the storyboard regenerates automatically.
+
+## Narration audio review (Whisper cross-check of the generated voice)
+
+| Line | Finding | Proposed fix (needs approval) |
+|---|---|---|
+| c01_07 | "advanced **processors**" is heard as "processes" in both full-length and isolated transcriptions (the same word is clear in c04_07). Likely a pronunciation slip. | Re-voice c01_07 with a pronunciation hint (TTS text only, e.g. "advanced pro-cessors"), or keep. Captions already show the script word. |
+| c04_12, c06_07, c07_07 | "2026" is read as "two thousand and twenty-six" (heard as "2000 and 26" in c07_07). Acceptable British usage. | Optional: voice it as "twenty twenty-six" (TTS text only; captions keep "2026"). |
+| c01_06 | "Artificial intelligence." is spoken correctly but skipped by full-length Whisper. | None — caption placed from the script within the line's audio window. |
+
+Captions use the approved script's wording on Whisper's timing (British spelling kept: centres, fibre-optic); numbers the script spells out appear as numerals ("86%", "$5.5 trillion", "$10,000").
