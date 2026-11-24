@@ -152,7 +152,7 @@ tl.fromTo('#c24-br',{{opacity:0,x:-20}},{{opacity:1,x:0,duration:.45,ease:'power
 tl.fromTo('#c24-cam',{{scale:1.12,x:120,y:80}},{{scale:1.0,x:0,y:0,duration:{w_bottom - c12s + 1},ease:'power2.inOut'}},{c12s - .45});
 show('#c24-after',{w_78 + .8},.6);
 // $10,000 illustration
-show('#c25-tag',{c13s}); show('#c25-stack',{c13s + .3}); show('#c25-ctr',{c13s + .5});
+show('#c25-tag',{W('Imagine', 'c03_13')}); show('#c25-stack',{W('$10', 'c03_13')}); show('#c25-ctr',{W('$10', 'c03_13') + .2});
 tl.to('#c24-br',{{opacity:.25,duration:.4}},{c13s});
 const c25={{v:10000}}; tl.to(c25,{{v:2207,duration:2.2,ease:'power2.inOut',onUpdate:()=>{{document.getElementById('c25-num').textContent='$'+Math.round(c25.v).toLocaleString('en-US')}}}},{w_fallen});
 document.querySelectorAll('.c25-bill').forEach((b,i)=>{{if(i>=2) tl.to(b,{{opacity:0,y:-40,duration:.35}},{w_fallen}+(9-i)*.24);}});
