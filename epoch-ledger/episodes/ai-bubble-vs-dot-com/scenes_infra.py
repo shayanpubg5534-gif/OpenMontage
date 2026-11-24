@@ -108,8 +108,54 @@ tl.fromTo('#i1-cam',{{scale:1}},{{scale:5.5,transformOrigin:'960px 520px',durati
 tl.fromTo('#i1-flash',{{opacity:0}},{{opacity:1,duration:.35}},{w_phys});
 """))
     # chip (physical infrastructure + processors), data hall (servers + cooling), campus (power + investment)
-    regions.append(("chip-infra", [(w_phys + .4, a8s)], f"""AI3D.add('chip-infra',{{start:{w_phys + .4},end:{a8s},world:'chip',
- cam:{{from:[1.2,7.5,1.4],to:[5.2,3.6,5.4],look:[0,.3,0],dur:{a8s - w_phys - .4}}},spin:.1,explode:[{a7s + .6},{w_calc}],glow:{a7s}}});"""))
+    # Processors (c04_07) — 3D chip reveal on "processors", then the die cutaway (die.py brief).
+    w_proc, w_perf, w_enorm, w_calc2 = W("processors", "c04_07"), W("perform", "c04_07"), W("enormous", "c04_07"), W("calculations", "c04_07")
+    regions.append(("chip-infra", [(w_phys + .4, w_perf + .2)], f"""AI3D.add('chip-infra',{{start:{w_phys + .4},end:{w_perf + .2},world:'chip',
+ cam:{{from:[5.2,5.0,5.6],to:[3.0,3.6,3.3],look:[0,.3,0],dur:{w_perf + .2 - w_phys - .4}}},spin:.1,explode:[{w_proc - .4},{w_perf}],glow:{a7s}}});"""))
+    from die import N, die_svg, tiles_svg
+    i3s = w_perf - .25
+    blocks_ov = "".join(f'<rect class="i3-blk" x="{60 + c * 182}" y="{40 + r * 170}" width="172" height="160" rx="8" fill="#38d6ff" opacity="0"/>' for r in range(6) for c in range(10))
+    toks = "".join(f'<rect class="i3-tok" data-r="{r}" data-k="{k}" x="-14" y="-10" width="28" height="20" rx="4" fill="#9ff3ff" opacity="0"/>' for r in range(N) for k in range(3))
+    otoks = "".join(f'<rect class="i3-otok" data-r="{r}" x="-14" y="-10" width="28" height="20" rx="4" fill="#f2c66d" opacity="0"/>' for r in range(N))
+    scenes.append(Scene("i3", round(i3s, 3), round(a8s + .2 - i3s, 3),
+        f'<div id="i3-cam" class="cam" style="transform-origin:860px 450px">{die_svg("i3")}'
+        f'<svg viewBox="0 0 1920 1080" class="full" style="overflow:visible">{toks}{otoks}</svg>'
+        '<div class="lbl" id="i3-l1" style="left:340px;top:120px;font-size:40px">Data in</div>'
+        '<div class="lbl" id="i3-l2" style="left:640px;top:62px;font-size:40px">Compute units — each one multiplies and adds</div>'
+        '<div class="lbl" id="i3-l3" style="left:1560px;top:700px;font-size:40px">Results out</div>'
+        '<div id="i3-mag" style="position:absolute;left:1180px;top:150px;width:330px;padding:18px 22px;border-radius:16px;background:rgba(5,10,22,.92);border:3px solid #38d6ff;opacity:0;font:800 40px Inter;color:#e8f3ff;text-align:center">'
+        '<div style="font:700 24px Inter;color:#7fd8ff;margin-bottom:6px">one unit, one step</div><span id="i3-op">3 × 4 + 7 = 19</span></div></div>'
+        f'<div id="i3-tiles" class="fill" style="opacity:0">{tiles_svg("i3t")}<svg viewBox="0 0 1920 1080" class="full">{blocks_ov}</svg>'
+        '<div class="lbl" style="left:50%;top:40px;transform:translateX(-50%);opacity:1;font-size:46px;background:rgba(5,10,22,.8);padding:8px 24px;border-radius:12px">'
+        'The same block, repeated across the chip — all working at once</div></div>'
+        '<div id="i3-flash" class="fill" style="background:#cfffff;opacity:0"></div><div class="tag l" id="i3-tag">Illustrative</div>',
+        js=f"""
+tl.fromTo('#i3',{{opacity:0}},{{opacity:1,duration:.2}},{i3s}); tl.fromTo('#i3-flash',{{opacity:.9}},{{opacity:0,duration:.4}},{i3s});
+tl.fromTo('#i3-cam',{{scale:2.6}},{{scale:1.0,duration:.7,ease:'power3.out'}},{i3s}); show('#i3-tag',{i3s + .3});
+show('#i3-l1',{w_perf}); show('#i3-l2',{w_perf + .3});
+// data leaves memory along each bus and enters its row of the grid
+document.querySelectorAll('.i3-tok').forEach(e=>{{const r=+e.dataset.r,k=+e.dataset.k,p=document.getElementById('i3-bus'+r),n=p.getTotalLength(),o={{u:0}},t0={w_perf}+k*.42+r*.04;
+ tl.set(e,{{opacity:1}},t0); tl.to(o,{{u:1,duration:.55,ease:'none',onUpdate:()=>{{const q=p.getPointAtLength(o.u*n);e.setAttribute('x',q.x-14);e.setAttribute('y',q.y-10);}}}},t0); tl.set(e,{{opacity:0}},t0+.56);}});
+// waves of multiply-add ripple diagonally across the grid (values pass from neighbour to neighbour)
+document.querySelectorAll('.i3-cell rect').forEach(e=>{{const g=e.parentNode,r=+g.dataset.r,c=+g.dataset.c;
+ for(let w=0;w<5;w++){{const t={w_perf + .45}+w*.42+(r+c)*.06; tl.to(e,{{fill:'#38d6ff',duration:.08}},t); tl.to(e,{{fill:'#0f2238',duration:.25}},t+.1);}}}});
+tl.fromTo('#i3-mag',{{opacity:0,scale:.7}},{{opacity:1,scale:1,duration:.25}},{w_calc2 - .05});
+const ops=['3 × 4 + 7 = 19','5 × 2 + 19 = 29','6 × 3 + 29 = 47','2 × 8 + 47 = 63'];
+ops.forEach((o,i)=>tl.call(()=>{{document.getElementById('i3-op').textContent=o;}},[],{w_calc2 + .1}+i*.33));
+// "enormous numbers": pull back — the block is one of many, all busy
+hide(['#i3-l1','#i3-l2'],{w_enorm - .3},.2);
+tl.to('#i3-cam',{{scale:.22,duration:.6,ease:'power2.in'}},{w_enorm - .2}); tl.to('#i3-tiles',{{opacity:1,duration:.3}},{w_enorm + .2});
+document.querySelectorAll('.i3-blk').forEach((b,i)=>{{for(let w=0;w<3;w++){{const t={w_enorm + .3}+w*.4+((i*37)%60)*.006;tl.to(b,{{opacity:.55,duration:.08}},t);tl.to(b,{{opacity:0,duration:.25}},t+.1);}}}});
+tl.fromTo('#i3-tiles svg:first-child',{{scale:1.25}},{{scale:1,transformOrigin:'50% 50%',duration:1.2,ease:'power2.out'}},{w_enorm + .2});
+// "calculations": back into the block — results stream out to the output buffer
+tl.to('#i3-tiles',{{opacity:0,duration:.25}},{w_calc2 - .25}); tl.to('#i3-cam',{{scale:1,duration:.45,ease:'power2.out'}},{w_calc2 - .3});
+show('#i3-l3',{w_calc2});
+document.querySelectorAll('.i3-otok').forEach(e=>{{const r=+e.dataset.r,p=document.getElementById('i3-out'+r),n=p.getTotalLength(),o={{u:0}},t0={w_calc2 + .1}+r*.08;
+ tl.set(e,{{opacity:1}},t0); tl.to(o,{{u:1,duration:.6,ease:'power1.in',onUpdate:()=>{{const q=p.getPointAtLength(o.u*n);e.setAttribute('x',q.x-14);e.setAttribute('y',q.y-10);}}}},t0); tl.set(e,{{opacity:0}},t0+.61);
+ tl.to('#i3-res'+r,{{fill:'#f2c66d',duration:.15}},t0+.6);}});
+document.querySelectorAll('.i3-cell rect').forEach(e=>{{const g=e.parentNode,c=+g.dataset.c;tl.to(e,{{fill:'#2a5a3a',duration:.1}},{w_calc2}+c*.05);tl.to(e,{{fill:'#0f2238',duration:.3}},{w_calc2 + .2}+c*.05);}});
+tl.to('#i3',{{opacity:0,duration:.2}},{a8s});
+"""))
     # Servers + cooling: a macro on ONE rack (not the opening's data-hall corridor) — the hero sled slides out
     # as "servers" is spoken, heat blooms on the GPUs just before "cooling", and coolant flows on "prevent".
     w_serv, w_cool, w_prev = W("Servers", "c04_08"), W("Cooling", "c04_09"), W("prevent", "c04_09")
@@ -127,7 +173,7 @@ tl.fromTo('#i1-flash',{{opacity:0}},{{opacity:1,duration:.35}},{w_phys});
         js=f"""
 tl.fromTo('#i2-flash',{{opacity:1}},{{opacity:0,duration:.6,ease:'power2.out'}},{w_phys + .4});
 [[{a8s},.22],[{a10s},.22]].forEach(([t,d])=>{{tl.fromTo('#i2-dip',{{opacity:0}},{{opacity:1,duration:d}},t-d);tl.to('#i2-dip',{{opacity:0,duration:.3}},t);}});
-show('#i2-t1',{W('processors', 'c04_07')}); hide('#i2-t1',{a8s - .3},.2); show('#i2-t2',{W('Servers', 'c04_08')}); hide('#i2-t2',{a9s - .2},.2);
+show('#i2-t1',{W('processors', 'c04_07')}); hide('#i2-t1',{W('perform', 'c04_07') - .3},.2); show('#i2-t2',{W('Servers', 'c04_08')}); hide('#i2-t2',{a9s - .2},.2);
 show('#i2-t3',{W('Cooling', 'c04_09')}); hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
 """))
     return scenes, regions, ""
