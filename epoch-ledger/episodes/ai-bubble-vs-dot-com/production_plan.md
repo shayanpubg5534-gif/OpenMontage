@@ -172,3 +172,14 @@ and % of near-static frames (< 0.4), same windows as the original previews.
 Open items: the laptop chat (r3, first 9 s) is still near-static; money-flow camera holds are
 too still between beats; railway horizon hill is a featureless slab and the falling sign is
 off-camera; the 2026 half of the split screen is too dark; the rigged crowd doubles render cost.
+
+## Revised samples v3 — semantic storytelling pass (2026-11-24) — awaiting approval
+
+960×540, 30 fps, draft. Clips are in `projects/ai-bubble-vs-dot-com/previews/v3/`.
+
+| Sample | Window | Length | Render | × real time |
+|---|---|---|---|---|
+| Opening hook (floor → internet montage → seam → 2026 hall) | 0:00–0:34 | 34.0 s | 645 s | 19× |
+| AI infrastructure (laptop → processors → cooling → power → capex) | 5:53–6:28 | 35.0 s | 607 s | 17× |
+| Money flow, complete (introduce → operate → transact, loop) | 7:15.7–8:38 | 82.2 s | 949 s | 11.5× |
+| Railway (construction → returns → losses → decay → comparison) | 12:42.9–13:09.5 | 26.6 s | 482 s | 18× |
