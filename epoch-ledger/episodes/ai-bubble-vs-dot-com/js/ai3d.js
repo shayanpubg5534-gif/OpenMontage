@@ -381,6 +381,14 @@
     box(fab, 4.6, 1.6, 3, 0xd7dbe3); for (let i = 0; i < 4; i++) { const r = box(fab, 1.1, .6, 3, 0x9aa8bc, -1.7 + i * 1.15, 1.6); r.rotation.z = .35; }
     box(fab, .4, 2.6, .4, 0x6b7484, 1.8, 0, -1); box(fab, .4, 2.2, .4, 0x6b7484, 1.2, 0, -1);
     const fabExt = box(fab, 2.4, 1.2, 2.6, 0xc7ccd6, -3.6, 0, 0);
+    // facade detail (procedural textures): cleanroom panels + window band; louvred data-centre walls; lab floor plates
+    const fabTex = canvasTex(512, 128, (g, w, h) => { g.fillStyle = '#d7dbe3'; g.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 24) { g.fillStyle = x % 48 ? '#cdd2db' : '#e1e5ec'; g.fillRect(x, 0, 24, h); }
+      g.fillStyle = '#5a7aa8'; g.fillRect(0, 30, w, 18); g.fillStyle = '#9ab8e0'; for (let x = 4; x < w; x += 24) g.fillRect(x, 32, 16, 14); g.fillStyle = '#8a92a0'; for (let k = 0; k < 3; k++) g.fillRect(60 + k * 170, 80, 60, 48); });
+    const dcTex = canvasTex(512, 128, (g, w, h) => { g.fillStyle = '#3a4458'; g.fillRect(0, 0, w, h); g.fillStyle = '#2a3242'; for (let x = 0; x < w; x += 4) g.fillRect(x, 10, 2, 60);
+      g.fillStyle = '#38d6ff'; g.fillRect(0, 84, w, 5); g.fillStyle = '#4a5468'; for (let k = 0; k < 4; k++) g.fillRect(30 + k * 130, 96, 70, 32); });
+    fab.children[0].material = new THREE.MeshStandardMaterial({ map: fabTex, roughness: .55, metalness: .25 });
+    fabTex.wrapS = THREE.RepeatWrapping;
+    cloud.children.forEach(c => { if (c.geometry && c.geometry.parameters && c.geometry.parameters.width === 5) c.material = new THREE.MeshStandardMaterial({ map: dcTex, roughness: .5, metalness: .4 }); });
     // cloud: data centre with rooftop fans
     box(cloud, 5, 1.4, 3.2, 0x3a4458); for (let i = 0; i < 5; i++) box(cloud, .7, .3, .7, 0x7a8698, -1.9 + i * .95, 1.4, 0);
     box(cloud, 5.02, .12, .05, 0x38d6ff, 0, .5, 1.62, 0x38d6ff);
@@ -446,11 +454,13 @@
         core.scale.setScalar(1 + gr('lab') * .35 + .06 * Math.sin(t * 3)); core.rotation.y = t * .6;
         // flows: s.flow[i] = start time of product flow on link i, s.pay = start time of money flow
         for (let li = 0; li < 3; li++) {
-          const on = s.flow ? clamp((t - s.flow[li]) / .5) : 0, mon = s.pay ? clamp((t - s.pay) / .6) : 0;
+          const payT = Array.isArray(s.pay) ? s.pay[li] : s.pay, on = s.flow ? clamp((t - s.flow[li]) / .5) : 0, mon = s.pay ? clamp((t - payT) / .6) : 0;
+          // growth: after s.boost[li] the link carries more (faster, continuous phase)
+          const bT = s.boost ? s.boost[li] : 1e9, ph = t + 1.2 * Math.max(0, t - bT);
           tubes[li].material.opacity = .35 * Math.max(on, mon);
           for (let j = 0; j < PER; j++) {
-            const f = (j / PER + t * .22) % 1; links[li].getPointAt(f, v); m4.makeScale(on, on, on); m4.setPosition(v.x, v.y + .05, v.z); prod.setMatrixAt(li * PER + j, m4);
-            const g = (j / PER + t * .18) % 1; links[li].getPointAt(1 - g, v); m4.makeScale(mon, mon, mon); m4.setPosition(v.x, v.y + .35, v.z); money.setMatrixAt(li * PER + j, m4);
+            const f = (j / PER + ph * .22) % 1; links[li].getPointAt(f, v); m4.makeScale(on, on, on); m4.setPosition(v.x, v.y + .05, v.z); prod.setMatrixAt(li * PER + j, m4);
+            const g = (j / PER + ph * .18) % 1; links[li].getPointAt(1 - g, v); m4.makeScale(mon, mon, mon); m4.setPosition(v.x, v.y + .35, v.z); money.setMatrixAt(li * PER + j, m4);
           }
         }
         prod.instanceMatrix.needsUpdate = true; money.instanceMatrix.needsUpdate = true;
