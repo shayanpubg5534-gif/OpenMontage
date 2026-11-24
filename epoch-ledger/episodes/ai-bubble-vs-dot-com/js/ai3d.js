@@ -231,10 +231,25 @@
     const k1 = new THREE.DirectionalLight(0xffffff, 2.2); k1.position.set(4, 6, 3); S.add(k1);
     const rim = new THREE.PointLight(0x38d6ff, 40, 20, 2); rim.position.set(-4, 2, -4); S.add(rim);
     const warm = new THREE.PointLight(0xffb066, 20, 20, 2); warm.position.set(5, 1, -2); S.add(warm);
+    // batch mode (opening, "selling advanced processors"): finished packaged chips ride a lit conveyor into
+    // shipping trays — a different action and scale from the single exploded chip used in Chapter 4.
+    const line = [];
+    if (s.batch) {
+      const belt = new THREE.Mesh(new THREE.BoxGeometry(60, .1, 2.2), new THREE.MeshStandardMaterial({ color: 0x1a2230, metalness: .6, roughness: .4 })); belt.position.set(0, -.12, 0); S.add(belt);
+      for (let r = 0; r < 30; r++) { const roll = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, 2.3, 10), new THREE.MeshStandardMaterial({ color: 0x8a95a6, metalness: .9, roughness: .25 })); roll.rotation.x = Math.PI / 2; roll.position.set(-30 + r * 2, -.2, 0); S.add(roll); }
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(60, .05, .05), new THREE.MeshBasicMaterial({ color: 0x38d6ff })); rail.position.set(0, -.04, 1.12); S.add(rail);
+      const tray = new THREE.Group(); tray.position.set(0, -.1, -3.2); S.add(tray);
+      const trayM = new THREE.MeshStandardMaterial({ color: 0x101820, metalness: .3, roughness: .6 });
+      const tb = new THREE.Mesh(new THREE.BoxGeometry(12, .1, 2.6), trayM); tray.add(tb);
+      for (let i = 0; i < 14; i++) { const c = G.clone(); c.scale.setScalar(.27); line.push(c); S.add(c); }
+      for (let i = 0; i < 10; i++) { const c = G.clone(); c.scale.setScalar(.27); c.position.set(-5 + (i % 5) * 2.5, .02, -3.2 + (i < 5 ? -.6 : .6)); S.add(c); }
+      G.visible = false;
+    }
     return {
       scene: S, camera: cam, update(t, u) {
         moveCam(cam, s.cam, u);
         G.rotation.y = s.spin ? u * s.spin : 0;
+        line.forEach((c, i) => { c.position.set(((i * 2.1 + t * 1.6) % 29.4) - 14.7, 0, 0); });
         const ex = s.explode ? ease(win(t, s.explode[0], s.explode[1])) : 0;
         lid.position.y = .75 + ex * 2.2; lid.material.opacity = 1;
         die.position.y = .28 + ex * .6; hbm.forEach((h, i) => h.position.y = .26 + ex * (.9 + (i % 2) * .15));
@@ -242,6 +257,78 @@
         die.material[2].emissiveIntensity = .4 + glow * 1.4;
         streaks.forEach(([m, ph, off, axis]) => { const f = ((ph + t * .9) % 1) * 2.6 - 1.3; m.visible = glow > 0;
           if (axis) { m.position.set(f, die.position.y + .06, off); m.rotation.y = 0; } else { m.position.set(off, die.position.y + .06, f); m.rotation.y = Math.PI / 2; } });
+      }
+    };
+  }
+
+
+  // ── world: one server rack, macro — sled slides out, GPU boards, fans spin, liquid cooling flows ──
+  function serverRack(s) {
+    const rnd = RNG(77), S = new THREE.Scene();
+    S.background = new THREE.Color(0x03060d); S.fog = new THREE.Fog(0x03060d, 6, 22); S.environment = ENV;
+    const cam = new THREE.PerspectiveCamera(42, W / H, .05, 100);
+    const M = (c, m = .7, r = .35, e) => new THREE.MeshStandardMaterial({ color: c, metalness: m, roughness: r, emissive: e || 0 });
+    const B = (p, w, h, d, m, x, y, z) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z); o.castShadow = o.receiveShadow = true; p.add(o); return o; };
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), M(0x0a0f18, .6, .25)); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; S.add(floor);
+    // neighbouring racks recede into darkness (out of focus context, not the subject)
+    for (let i = -4; i <= 4; i++) if (i) { const r = B(S, 1.0, 2.4, 1.2, M(0x0d131d, .8, .4), i * 1.08, 1.2, 0);
+      for (let k = 0; k < 10; k++) { const led = new THREE.Mesh(new THREE.BoxGeometry(.03, .03, .01), new THREE.MeshBasicMaterial({ color: rnd() < .8 ? 0x38d6ff : 0x6dff9b })); led.position.set(i * 1.08 + .35, .3 + k * .2, .61); S.add(led); } }
+    // the hero rack: frame + 8 sleds
+    const rack = new THREE.Group(); S.add(rack);
+    const fm = M(0x1a2230, .85, .3);
+    B(rack, .06, 2.4, 1.2, fm, -.5, 1.2, 0); B(rack, .06, 2.4, 1.2, fm, .5, 1.2, 0); B(rack, 1.06, .06, 1.2, fm, 0, 2.4, 0);
+    const sleds = [], fans = [], pipes = [];
+    const fanGeo = new THREE.CylinderGeometry(.075, .075, .02, 7), hub = new THREE.CylinderGeometry(.02, .02, .03, 8);
+    const coolM = new THREE.MeshStandardMaterial({ color: 0x2a9bd6, emissive: 0x0d5d8c, emissiveIntensity: .4, metalness: .2, roughness: .2 });
+    for (let k = 0; k < 8; k++) {
+      const g = new THREE.Group(); g.position.set(0, .35 + k * .25, 0); rack.add(g); sleds.push(g);
+      B(g, .92, .2, 1.1, M(0x2a3444, .8, .35), 0, 0, 0);
+      const front = B(g, .92, .2, .02, M(0x323f52, .8, .3), 0, 0, .56);
+      for (let v = 0; v < 6; v++) B(g, .06, .12, .005, M(0x0a0e14, .2, .8), -.36 + v * .1, 0, .572);
+      const led = new THREE.Mesh(new THREE.BoxGeometry(.04, .04, .01), new THREE.MeshBasicMaterial({ color: 0x38d6ff })); led.position.set(.38, .05, .575); g.add(led);
+      if (k === 4) { // hero sled interior: 4 GPU boards with cold plates, fan row, coolant loop
+        const tray = new THREE.Group(); tray.position.y = .11; g.add(tray);
+        B(tray, .86, .01, 1.0, M(0x0f5132, .1, .6), 0, 0, 0);  // PCB
+        for (let j = 0; j < 4; j++) {
+          const x = -.3 + j * .2; B(tray, .14, .02, .2, M(0x1b1f27, .6, .4), x, .015, .1);              // GPU package
+          B(tray, .15, .035, .21, M(0xc8ccd4, .95, .18), x, .045, .1);                                // copper/steel cold plate
+          for (let h = 0; h < 4; h++) B(tray, .02, .015, .05, M(0x222833, .3, .5), x - .045 + h * .03, .01, -.12); // HBM
+        }
+        for (let j = 0; j < 5; j++) { const f = new THREE.Group(); f.position.set(-.34 + j * .17, .07, -.42); tray.add(f);
+          const blade = new THREE.Mesh(fanGeo, M(0x151a22, .4, .5)); blade.rotation.x = Math.PI / 2; f.add(blade);
+          for (let b = 0; b < 5; b++) { const bl = B(f, .015, .06, .005, M(0x5b6678, .5, .4), 0, 0, .012); bl.rotation.z = b * 1.2566; bl.position.set(Math.sin(b * 1.2566) * .03, Math.cos(b * 1.2566) * .03, .012); }
+          fans.push(f); }
+        // coolant manifold: tube along the cold plates (curve), with flowing droplets
+        const pts = [new THREE.Vector3(-.45, .08, .38), new THREE.Vector3(-.3, .09, .18), new THREE.Vector3(-.1, .09, .18), new THREE.Vector3(.1, .09, .18), new THREE.Vector3(.3, .09, .18), new THREE.Vector3(.45, .08, .38)];
+        const curve = new THREE.CatmullRomCurve3(pts); tray.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 60, .012, 8, false), coolM));
+        const drops = new THREE.InstancedMesh(new THREE.SphereGeometry(.011, 8, 6), new THREE.MeshBasicMaterial({ color: 0x9ff3ff }), 24); tray.add(drops);
+        pipes.push({ curve, drops });
+        g.userData.hero = true; g.userData.tray = tray;
+      }
+    }
+    // heat shimmer sprites over the GPUs (thermal beat), cooled as coolant flows
+    const heat = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(360), 3)),
+      new THREE.PointsMaterial({ color: 0xff7a3d, size: .06, map: dotTex(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
+    const hp = heat.geometry.attributes.position; for (let i = 0; i < 120; i++) hp.setXYZ(i, -.3 + (i % 4) * .2 + (rnd() - .5) * .08, rnd() * .3, .1 + (rnd() - .5) * .15);
+    sleds[4].userData.tray.add(heat);
+    // lighting: cool overhead, warm rim, a soft key from the aisle
+    S.add(new THREE.HemisphereLight(0x8fb4ff, 0x101622, .8));
+    const key = new THREE.SpotLight(0xdfefff, 45, 14, .6, .6); key.position.set(2.2, 3.2, 3.2); key.target.position.set(0, 1.4, 0); key.castShadow = true; key.shadow.mapSize.set(1024, 1024); S.add(key, key.target);
+    const rim = new THREE.PointLight(0x38d6ff, 6, 5); rim.position.set(-1.2, 1.6, 1.4); S.add(rim);
+    const warm = new THREE.PointLight(0xff7a3d, 0, 2.5); warm.position.set(0, 1.6, .4); S.add(warm);
+    const m4 = new THREE.Matrix4(), v = new THREE.Vector3();
+    return {
+      scene: S, camera: cam, update(t, u) {
+        if (s.keys) keyCam(cam, s.keys, t); else moveCam(cam, s.cam, u);
+        // the hero sled slides out on s.slide = [start, end]
+        const so = s.slide ? ease(clamp((t - s.slide[0]) / (s.slide[1] - s.slide[0]))) : 1; sleds[4].position.z = so * .75;
+        fans.forEach((f, i) => { f.rotation.z = t * (22 + i * 1.7); });
+        // thermal: heat builds on s.thermal, coolant starts on s.cool and pulls it back down
+        const th = s.thermal ? clamp((t - s.thermal) / 1.0) : 0, cl = s.cool ? clamp((t - s.cool) / 1.4) : 0;
+        heat.material.opacity = .9 * th * (1 - .85 * cl); warm.intensity = 5 * th * (1 - .8 * cl);
+        for (let i = 0; i < 120; i++) hp.setY(i, ((i * .137 + t * .35) % .35)); hp.needsUpdate = true;
+        pipes.forEach(({ curve, drops }) => { for (let j = 0; j < 24; j++) { curve.getPointAt(((j / 24) + t * .25) % 1, v); m4.makeScale(cl, cl, cl); m4.setPosition(v); drops.setMatrixAt(j, m4); } drops.instanceMatrix.needsUpdate = true; });
+        coolM.emissiveIntensity = .4 + 1.2 * cl;
       }
     };
   }
@@ -428,7 +515,7 @@
     };
   }
 
-  const WORLDS = { dataHall, campus, chip, diorama, railway };
+  const WORLDS = { dataHall, campus, chip, diorama, railway, serverRack };
   function draw(t) {
     const s = shots.find(x => t >= x.start && t < x.end);
     if (!s || !R) return;

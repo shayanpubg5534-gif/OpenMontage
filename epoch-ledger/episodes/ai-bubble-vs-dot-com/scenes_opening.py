@@ -290,9 +290,9 @@ hide('#o3-y99',{t05s + .2}); tl.to('#o3-y26',{{x:-1560,duration:1.6,ease:'power2
 
     # ── s005: campus → chip → investors & industries ──────────────────
     regions.append(("campus-open", [(t07s, w_semi)], f"""AI3D.add('campus-open',{{start:{t07s},end:{w_semi},world:'campus',
- cam:{{from:[-150,72,160],to:[-95,48,112],look:[10,8,-35],lookTo:[18,6,-38],dur:{w_semi - t07s}}},build:[{t07s},{w_semi - .9}]}});"""))
+ cam:{{from:[-112,2.4,52],to:[-90,3.6,45],look:[-60,7,0],lookTo:[-38,22,-58],dur:{w_semi - t07s}}},build:[{W('constructing', 'c01_07') - .3},{w_semi - .9}]}});"""))
     regions.append(("chip-open", [(w_semi, w_inv7)], f"""AI3D.add('chip-open',{{start:{w_semi},end:{w_inv7},world:'chip',
- cam:{{from:[6.2,5.2,6.4],to:[4.2,3.4,4.4],look:[0,.5,0],dur:{w_inv7 - w_semi}}},spin:.12,explode:[{w_semi + .9},{w_inv7 - .9}],glow:{w_semi + .3}}});"""))
+ cam:{{from:[-6,2.6,5.2],to:[1.5,2.0,4.4],look:[-3,0,-.6],lookTo:[3.5,0,-.8],dur:{w_inv7 - w_semi}}},batch:true,glow:{w_semi}}});"""))
     scenes.append(Scene("o5dip", round(t07s - .25, 3), round(w_inv7 - t07s + .5, 3),
         '<div id="o5-dip" class="fill" style="background:#02040a;opacity:0"></div>'
         '<div class="tag m" id="o5-tag1">Data centres</div><div class="tag m" id="o5-tag2" style="top:52px">Processors</div>',

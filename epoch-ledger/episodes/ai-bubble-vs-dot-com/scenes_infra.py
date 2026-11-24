@@ -48,8 +48,14 @@ tl.fromTo('#i1-flash',{{opacity:0}},{{opacity:1,duration:.35}},{w_phys});
     # chip (physical infrastructure + processors), data hall (servers + cooling), campus (power + investment)
     regions.append(("chip-infra", [(w_phys + .4, a8s)], f"""AI3D.add('chip-infra',{{start:{w_phys + .4},end:{a8s},world:'chip',
  cam:{{from:[1.2,7.5,1.4],to:[5.2,3.6,5.4],look:[0,.3,0],dur:{a8s - w_phys - .4}}},spin:.1,explode:[{a7s + .6},{w_calc}],glow:{a7s}}});"""))
-    regions.append(("hall-infra", [(a8s, a10s)], f"""AI3D.add('hall-infra',{{start:{a8s},end:{a10s},world:'dataHall',
- cam:{{from:[0,1.7,-1.5],to:[.3,1.35,-16],look:[0,1.35,-30],lookTo:[1.4,1.2,-30],dur:{a10s - a8s}}},thermal:{a9s + .2}}});"""))
+    # Servers + cooling: a macro on ONE rack (not the opening's data-hall corridor) — the hero sled slides out
+    # as "servers" is spoken, heat blooms on the GPUs just before "cooling", and coolant flows on "prevent".
+    w_serv, w_cool, w_prev = W("Servers", "c04_08"), W("Cooling", "c04_09"), W("prevent", "c04_09")
+    keys = [[a8s, [3.2, 2.2, 4.6], [0, 1.3, 0], 46], [w_serv + .5, [2.0, 1.9, 3.0], [0, 1.4, .2], 40],
+            [a9s - .9, [1.1, 1.85, 2.0], [0, 1.45, .6], 36], [w_cool + .2, [.5, 2.15, 1.45], [0, 1.47, .7], 34],
+            [a10s, [-.35, 1.95, 1.55], [.05, 1.46, .65], 34]]
+    regions.append(("rack-infra", [(a8s, a10s)], f"""AI3D.add('rack-infra',{{start:{a8s},end:{a10s},world:'serverRack',
+ keys:{keys},slide:[{w_serv},{w_serv + 1.4}],thermal:{w_cool - .8},cool:{w_prev}}});"""))
     regions.append(("campus-infra", [(a10s, a11e + .6)], f"""AI3D.add('campus-infra',{{start:{a10s},end:{a11e + .6},world:'campus',
  cam:{{from:[150,22,95],to:[-70,70,150],look:[85,14,20],lookTo:[0,6,-25],dur:{a11e + .6 - a10s}}},power:{w_energy},invest:[{a11s},{a11e + .6}]}});"""))
     scenes.append(Scene("i2", round(w_phys + .3, 3), round(a11e + .6 - w_phys - .3, 3),
@@ -59,7 +65,7 @@ tl.fromTo('#i1-flash',{{opacity:0}},{{opacity:1,duration:.35}},{w_phys});
         js=f"""
 tl.fromTo('#i2-flash',{{opacity:1}},{{opacity:0,duration:.6,ease:'power2.out'}},{w_phys + .4});
 [[{a8s},.22],[{a10s},.22]].forEach(([t,d])=>{{tl.fromTo('#i2-dip',{{opacity:0}},{{opacity:1,duration:d}},t-d);tl.to('#i2-dip',{{opacity:0,duration:.3}},t);}});
-show('#i2-t1',{a7s}); hide('#i2-t1',{a8s - .3},.2); show('#i2-t2',{a8s + .2}); hide('#i2-t2',{a9s - .2},.2);
-show('#i2-t3',{a9s + .1}); hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{a11s + .2});
+show('#i2-t1',{W('processors', 'c04_07')}); hide('#i2-t1',{a8s - .3},.2); show('#i2-t2',{W('Servers', 'c04_08')}); hide('#i2-t2',{a9s - .2},.2);
+show('#i2-t3',{W('Cooling', 'c04_09')}); hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
 """))
     return scenes, regions, ""
