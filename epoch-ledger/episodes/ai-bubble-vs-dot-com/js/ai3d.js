@@ -286,31 +286,55 @@
       const front = B(g, .92, .2, .02, M(0x323f52, .8, .3), 0, 0, .56);
       for (let v = 0; v < 6; v++) B(g, .06, .12, .005, M(0x0a0e14, .2, .8), -.36 + v * .1, 0, .572);
       const led = new THREE.Mesh(new THREE.BoxGeometry(.04, .04, .01), new THREE.MeshBasicMaterial({ color: 0x38d6ff })); led.position.set(.38, .05, .575); g.add(led);
-      if (k === 4) { // hero sled interior: 4 GPU boards with cold plates, fan row, coolant loop
+      if (k === 4) { // hero sled interior: GPU packages under finned cold plates, supply/return coolant lines
         const tray = new THREE.Group(); tray.position.y = .11; g.add(tray);
         B(tray, .86, .01, 1.0, M(0x0f5132, .1, .6), 0, 0, 0);  // PCB
-        for (let j = 0; j < 4; j++) {
-          const x = -.3 + j * .2; B(tray, .14, .02, .2, M(0x1b1f27, .6, .4), x, .015, .1);              // GPU package
-          B(tray, .15, .035, .21, M(0xc8ccd4, .95, .18), x, .045, .1);                                // copper/steel cold plate
-          for (let h = 0; h < 4; h++) B(tray, .02, .015, .05, M(0x222833, .3, .5), x - .045 + h * .03, .01, -.12); // HBM
-        }
-        for (let j = 0; j < 5; j++) { const f = new THREE.Group(); f.position.set(-.34 + j * .17, .07, -.42); tray.add(f);
-          const blade = new THREE.Mesh(fanGeo, M(0x151a22, .4, .5)); blade.rotation.x = Math.PI / 2; f.add(blade);
-          for (let b = 0; b < 5; b++) { const bl = B(f, .015, .06, .005, M(0x5b6678, .5, .4), 0, 0, .012); bl.rotation.z = b * 1.2566; bl.position.set(Math.sin(b * 1.2566) * .03, Math.cos(b * 1.2566) * .03, .012); }
-          fans.push(f); }
-        // coolant manifold: tube along the cold plates (curve), with flowing droplets
-        const pts = [new THREE.Vector3(-.45, .08, .38), new THREE.Vector3(-.3, .09, .18), new THREE.Vector3(-.1, .09, .18), new THREE.Vector3(.1, .09, .18), new THREE.Vector3(.3, .09, .18), new THREE.Vector3(.45, .08, .38)];
-        const curve = new THREE.CatmullRomCurve3(pts); tray.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 60, .012, 8, false), coolM));
-        const drops = new THREE.InstancedMesh(new THREE.SphereGeometry(.011, 8, 6), new THREE.MeshBasicMaterial({ color: 0x9ff3ff }), 24); tray.add(drops);
-        pipes.push({ curve, drops });
-        g.userData.hero = true; g.userData.tray = tray;
+        g.userData.tray = tray;
       }
     }
-    // heat shimmer sprites over the GPUs (thermal beat), cooled as coolant flows
-    const heat = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(360), 3)),
-      new THREE.PointsMaterial({ color: 0xff7a3d, size: .06, map: dotTex(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 }));
-    const hp = heat.geometry.attributes.position; for (let i = 0; i < 120; i++) hp.setXYZ(i, -.3 + (i % 4) * .2 + (rnd() - .5) * .08, rnd() * .3, .1 + (rnd() - .5) * .15);
-    sleds[4].userData.tray.add(heat);
+    const tray = sleds[4].userData.tray, GX = [-.3, -.1, .1, .3], GZ = .1;
+    // thermal map painted onto the board: heat spreads from each GPU; coolant pulls it back down
+    const hc = document.createElement('canvas'); hc.width = 112; hc.height = 128; const hx = hc.getContext('2d'), himg = hx.createImageData(112, 128);
+    const htex = new THREE.CanvasTexture(hc); htex.colorSpace = THREE.SRGBColorSpace;
+    const hplane = new THREE.Mesh(new THREE.PlaneGeometry(.86, 1.0), new THREE.MeshBasicMaterial({ map: htex, transparent: true, opacity: 0, depthWrite: false }));
+    hplane.rotation.x = -Math.PI / 2; hplane.position.y = .007; tray.add(hplane);
+    const CMAP = [[20, 50, 140], [30, 160, 220], [250, 220, 60], [250, 130, 30], [220, 40, 30]];
+    const cmap = (v) => { v = clamp(v) * 4; const i = Math.min(3, Math.floor(v)), f = v - i, a = CMAP[i], b = CMAP[i + 1]; return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f]; };
+    function paintHeat(level) {
+      const d = himg.data;
+      for (let y = 0; y < 128; y++) for (let x = 0; x < 112; x++) {
+        const px = x / 112 * .86 - .43, pz = y / 128 * 1.0 - .5; let h = 0;
+        for (let j = 0; j < 4; j++) { const dx = px - GX[j], dz = pz - GZ; h += Math.exp(-(dx * dx + dz * dz) / .012); }
+        const c = cmap(h * level), i = (y * 112 + x) * 4; d[i] = c[0]; d[i + 1] = c[1]; d[i + 2] = c[2]; d[i + 3] = 170 + 80 * clamp(h);
+      }
+      hx.putImageData(himg, 0, 0); htex.needsUpdate = true;
+    }
+    const copper = M(0xc9824a, .3, .95), nickel = M(0xc8ccd4, .25, .95);
+    for (let j = 0; j < 4; j++) {
+      const x = GX[j]; B(tray, .14, .02, .2, M(0x1b1f27, .6, .4), x, .015, GZ);                       // GPU package
+      for (let h = 0; h < 6; h++) B(tray, .02, .015, .04, M(0x222833, .3, .5), x - .06 + (h % 3) * .06, .012, GZ + (h < 3 ? -.13 : .13)); // HBM / VRM
+      B(tray, .15, .022, .19, copper, x, .036, GZ);                                                       // cold plate base
+      for (let f = 0; f < 7; f++) B(tray, .012, .022, .17, nickel, x - .06 + f * .02, .058, GZ);         // internal fins (cutaway top)
+      [-.04, .04].forEach((dx, n) => { const c = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, .04, 10), n ? M(0xd06a2a, .4, .5) : M(0x2a7ad6, .4, .5)); c.position.set(x + dx, .07, GZ + .1); tray.add(c); });
+    }
+    for (let j = 0; j < 5; j++) { const f = new THREE.Group(); f.position.set(-.34 + j * .17, .07, -.42); tray.add(f);
+      const blade = new THREE.Mesh(fanGeo, M(0x151a22, .4, .5)); blade.rotation.x = Math.PI / 2; f.add(blade);
+      for (let b = 0; b < 5; b++) { const bl = B(f, .015, .06, .005, M(0x5b6678, .5, .4), 0, 0, .012); bl.rotation.z = b * 1.2566; bl.position.set(Math.sin(b * 1.2566) * .03, Math.cos(b * 1.2566) * .03, .012); }
+      fans.push(f); }
+    // supply (cold) and return (warm) lines: manifold → every cold plate → manifold → out of the sled to the rack loop
+    const lineMat = (c) => new THREE.MeshStandardMaterial({ color: c, transparent: true, opacity: .45, roughness: .1, metalness: .1 });
+    const supply = new THREE.CatmullRomCurve3([[-.5, .05, .52], [-.42, .08, .26], [-.3, .08, .23], [.3, .08, .23], [.36, .08, .23]].map(V3));
+    const ret = new THREE.CatmullRomCurve3([[-.36, .095, .27], [.3, .095, .27], [.42, .095, .3], [.5, .06, .52]].map(V3));
+    tray.add(new THREE.Mesh(new THREE.TubeGeometry(supply, 60, .014, 10, false), lineMat(0x4aa8ff)));
+    tray.add(new THREE.Mesh(new THREE.TubeGeometry(ret, 60, .014, 10, false), lineMat(0xff9a5a)));
+    GX.forEach(x => { [[-.04, .23, 0x4aa8ff], [.04, .27, 0xff9a5a]].forEach(([dx, z, c]) => {
+      const h = new THREE.CatmullRomCurve3([[x + dx, .08, z], [x + dx, .09, GZ + .16], [x + dx, .07, GZ + .11]].map(V3));
+      tray.add(new THREE.Mesh(new THREE.TubeGeometry(h, 12, .009, 8, false), lineMat(c))); }); });
+    // rack-level loop: blue supply riser and orange return riser on the rack posts
+    const riserS = B(S, .05, 2.3, .05, M(0x2a7ad6, .3, .6), -.53, 1.2, .55), riserR = B(S, .05, 2.3, .05, M(0xd06a2a, .3, .6), .53, 1.2, .55);
+    const NT = 40, tokS = new THREE.InstancedMesh(new THREE.SphereGeometry(.0085, 8, 6), new THREE.MeshBasicMaterial({ color: 0x9fd8ff }), NT); tray.add(tokS);
+    const tokR = new THREE.InstancedMesh(new THREE.SphereGeometry(.0085, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffb070 }), NT); tray.add(tokR);
+    const warmLight = new THREE.PointLight(0xff6a3a, 0, 1.2); warmLight.position.set(0, .3, GZ); tray.add(warmLight);
     // lighting: cool overhead, warm rim, a soft key from the aisle
     S.add(new THREE.HemisphereLight(0x8fb4ff, 0x101622, .8));
     const key = new THREE.SpotLight(0xdfefff, 45, 14, .6, .6); key.position.set(2.2, 3.2, 3.2); key.target.position.set(0, 1.4, 0); key.castShadow = true; key.shadow.mapSize.set(1024, 1024); S.add(key, key.target);
@@ -323,12 +347,18 @@
         // the hero sled slides out on s.slide = [start, end]
         const so = s.slide ? ease(clamp((t - s.slide[0]) / (s.slide[1] - s.slide[0]))) : 1; sleds[4].position.z = so * .75;
         fans.forEach((f, i) => { f.rotation.z = t * (22 + i * 1.7); });
-        // thermal: heat builds on s.thermal, coolant starts on s.cool and pulls it back down
-        const th = s.thermal ? clamp((t - s.thermal) / 1.0) : 0, cl = s.cool ? clamp((t - s.cool) / 1.4) : 0;
-        heat.material.opacity = .9 * th * (1 - .85 * cl); warm.intensity = 5 * th * (1 - .8 * cl);
-        for (let i = 0; i < 120; i++) hp.setY(i, ((i * .137 + t * .35) % .35)); hp.needsUpdate = true;
-        pipes.forEach(({ curve, drops }) => { for (let j = 0; j < 24; j++) { curve.getPointAt(((j / 24) + t * .25) % 1, v); m4.makeScale(cl, cl, cl); m4.setPosition(v); drops.setMatrixAt(j, m4); } drops.instanceMatrix.needsUpdate = true; });
-        coolM.emissiveIntensity = .4 + 1.2 * cl;
+        // thermal: servers working (s.run) heat the GPUs; coolant (s.cool) carries the heat away
+        const run = s.run ? clamp((t - s.run) / (s.peak - s.run)) : 0, cl = s.cool ? clamp((t - s.cool) / 2.2) : 0;
+        const level = .95 * Math.pow(run, .8) * (1 - .72 * ease(cl));
+        hplane.material.opacity = Math.min(1, run * 3);
+        if (run > 0) paintHeat(level);
+        warmLight.intensity = 2.5 * level;
+        const flow = clamp((t - (s.cool || 1e9)) / .4);
+        for (let j = 0; j < NT; j++) { const f = (j / NT + t * .35) % 1;
+          supply.getPointAt(f, v); m4.makeScale(flow, flow, flow); m4.setPosition(v); tokS.setMatrixAt(j, m4);
+          ret.getPointAt(f, v); m4.makeScale(flow, flow, flow); m4.setPosition(v); tokR.setMatrixAt(j, m4); }
+        tokS.instanceMatrix.needsUpdate = true; tokR.instanceMatrix.needsUpdate = true;
+        tokR.material.color.setRGB(1, .45 + .4 * (1 - level), .25 + .5 * (1 - level));
       }
     };
   }

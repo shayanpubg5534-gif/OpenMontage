@@ -159,21 +159,50 @@ tl.to('#i3',{{opacity:0,duration:.2}},{a8s});
     # Servers + cooling: a macro on ONE rack (not the opening's data-hall corridor) — the hero sled slides out
     # as "servers" is spoken, heat blooms on the GPUs just before "cooling", and coolant flows on "prevent".
     w_serv, w_cool, w_prev = W("Servers", "c04_08"), W("Cooling", "c04_09"), W("prevent", "c04_09")
-    keys = [[a8s, [3.2, 2.2, 4.6], [0, 1.3, 0], 46], [w_serv + .5, [2.0, 1.9, 3.0], [0, 1.4, .2], 40],
-            [a9s - .9, [1.1, 1.85, 2.0], [0, 1.45, .6], 36], [w_cool + .2, [.5, 2.15, 1.45], [0, 1.47, .7], 34],
-            [a10s, [-.35, 1.95, 1.55], [.05, 1.46, .65], 34]]
+    # Scene brief (c04_08–09): servers working make heat (cause) → cold plates and liquid coolant carry it
+    # away to a heat exchanger (mechanism) → chip temperature falls back into the safe range (consequence).
+    w_oper, w_data = W("operate", "c04_08"), W("data", "c04_08")
+    keys = [[a8s, [3.2, 2.2, 4.6], [0, 1.3, 0], 46], [w_serv + .6, [1.6, 2.0, 2.6], [0, 1.45, .5], 40],
+            [w_data, [.9, 2.25, 1.95], [0, 1.46, .72], 36], [w_cool - .2, [.15, 2.45, 1.6], [0, 1.46, .76], 34],
+            [a10s, [-.25, 2.35, 1.5], [0, 1.46, .74], 33]]
     regions.append(("rack-infra", [(a8s, a10s)], f"""AI3D.add('rack-infra',{{start:{a8s},end:{a10s},world:'serverRack',
- keys:{keys},slide:[{w_serv},{w_serv + 1.4}],thermal:{w_cool - .8},cool:{w_prev}}});"""))
+ keys:{keys},slide:[{w_serv},{w_serv + 1.4}],run:{w_oper},peak:{w_cool - .1},cool:{w_cool}}});"""))
+    cool_html = f"""<div id="i2-gauge" style="position:absolute;left:56px;top:150px;width:230px;opacity:0;font:800 32px Inter;color:#e8f3ff;text-align:center">
+ GPU temperature<div style="position:relative;margin:12px auto 0;width:60px;height:480px;border-radius:30px;border:3px solid #8fa3b8;
+ background:linear-gradient(#e0402a 0%,#f2a541 30%,#38d6ff 55%,#1f4a8a 100%)">
+ <div style="position:absolute;left:-10px;right:-10px;top:44%;bottom:12%;border:3px dashed #7fdc8a;border-radius:10px"></div>
+ <div id="i2-mk" style="position:absolute;left:-16px;width:76px;height:8px;border-radius:4px;background:#fff;box-shadow:0 0 10px #fff;top:92%"></div></div>
+ <div style="margin-top:8px;color:#7fdc8a">safe range</div><div id="i2-hot" style="position:absolute;top:44px;left:0;right:0;color:#ff7a66;opacity:0">too hot</div></div>
+<div id="i2-loop" style="position:absolute;right:56px;top:40px;width:700px;opacity:0;padding:16px 20px;border-radius:14px;background:rgba(5,10,22,.86);border:3px solid #38d6ff">
+ <svg viewBox="0 0 520 250" width="660" height="318" style="overflow:visible;font-family:Inter;font-weight:800">
+  <rect x="10" y="90" width="130" height="80" rx="10" fill="#1b1f27" stroke="#c9824a" stroke-width="4"/><text x="75" y="138" text-anchor="middle" fill="#e8f3ff" font-size="24">Chip</text>
+  <rect x="370" y="90" width="140" height="80" rx="10" fill="#14243a" stroke="#8fa3b8" stroke-width="4"/>
+  <text x="440" y="124" text-anchor="middle" fill="#e8f3ff" font-size="20">Heat</text><text x="440" y="150" text-anchor="middle" fill="#e8f3ff" font-size="20">exchanger</text>
+  <path id="i2-warm" d="M140 110 C230 40 290 40 370 110" stroke="#ff9a5a" stroke-width="8" fill="none" stroke-dasharray="16 12"/>
+  <path id="i2-coolp" d="M370 150 C290 220 230 220 140 150" stroke="#4aa8ff" stroke-width="8" fill="none" stroke-dasharray="16 12"/>
+  <text x="255" y="40" text-anchor="middle" fill="#ff9a5a" font-size="22">warm coolant</text><text x="255" y="246" text-anchor="middle" fill="#4aa8ff" font-size="22">cool coolant</text>
+  <g id="i2-out" opacity="0">{''.join(f'<path d="M{455 + k * 20} 86 q-8 -16 0 -30 q8 -16 0 -30" stroke="#e0402a" stroke-width="5" fill="none"/>' for k in range(3))}</g>
+  <text x="490" y="20" text-anchor="end" fill="#e0402a" font-size="20" id="i2-outl" opacity="0">heat out</text></svg></div>"""
+    cool_js = f"""
+show('#i2-gauge',{w_oper}); hide('#i2-gauge',{a10s - .2},.2);
+tl.fromTo('#i2-mk',{{top:'92%'}},{{top:'6%',duration:{w_cool - .1 - w_oper},ease:'power1.in'}},{w_oper}); show('#i2-hot',{w_cool - .8},.3);
+tl.to('#i2-mk',{{top:'58%',duration:2.2,ease:'power2.out'}},{w_cool + .2}); hide('#i2-hot',{w_prev + .3},.3);
+show('#i2-loop',{w_cool}); hide('#i2-loop',{a10s - .2},.2);
+tl.fromTo(['#i2-warm','#i2-coolp'],{{strokeDashoffset:0}},{{strokeDashoffset:-280,duration:{a10s - w_cool},ease:'none'}},{w_cool});
+show(['#i2-out','#i2-outl'],{w_prev + .2});
+tl.fromTo('#i2-out',{{y:0}},{{y:-14,duration:.5,yoyo:true,repeat:5}},{w_prev + .2});
+"""
     regions.append(("campus-infra", [(a10s, a11e + .6)], f"""AI3D.add('campus-infra',{{start:{a10s},end:{a11e + .6},world:'campus',
  cam:{{from:[150,22,95],to:[-70,70,150],look:[85,14,20],lookTo:[0,6,-25],dur:{a11e + .6 - a10s}}},power:{w_energy},invest:[{a11s},{a11e + .6}]}});"""))
     scenes.append(Scene("i2", round(w_phys + .3, 3), round(a11e + .6 - w_phys - .3, 3),
         '<div id="i2-flash" class="fill" style="background:#9ff3ff;opacity:0"></div><div id="i2-dip" class="fill" style="background:#02040a;opacity:0"></div>'
         '<div class="tag m" id="i2-t1">Processors</div><div class="tag m" id="i2-t2">Servers</div><div class="tag m" id="i2-t3">Cooling</div>'
-        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>',
+        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>' + cool_html,
         js=f"""
 tl.fromTo('#i2-flash',{{opacity:1}},{{opacity:0,duration:.6,ease:'power2.out'}},{w_phys + .4});
 [[{a8s},.22],[{a10s},.22]].forEach(([t,d])=>{{tl.fromTo('#i2-dip',{{opacity:0}},{{opacity:1,duration:d}},t-d);tl.to('#i2-dip',{{opacity:0,duration:.3}},t);}});
 show('#i2-t1',{W('processors', 'c04_07')}); hide('#i2-t1',{W('perform', 'c04_07') - .3},.2); show('#i2-t2',{W('Servers', 'c04_08')}); hide('#i2-t2',{a9s - .2},.2);
-show('#i2-t3',{W('Cooling', 'c04_09')}); hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
+show('#i2-t3',{W('Cooling', 'c04_09')});
+""" + cool_js + f""" hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{W('investment', 'c04_11')});
 """))
     return scenes, regions, ""
