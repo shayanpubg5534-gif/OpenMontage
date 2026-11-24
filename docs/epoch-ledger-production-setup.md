@@ -177,3 +177,9 @@ Nothing was installed. Priority: documentary quality first, token efficiency sec
 
 Best combination: **component index (now) + optional RTK trial**, with Graphify and Ponytail
 deferred. No change to production rules or quality standards.
+
+**RTK trial result (2026-11-24):** built and tested safely with telemetry disabled, no pipelines, no proxy and no global
+hook. It saved 86–97 % on test and log output, but only about 68 K tokens over this entire session
+(under 1 %), and its pytest filter hid a failing assertion's message. Not adopted as a hook;
+optional manual `rtk log` for long render logs. Details and preserved outputs:
+`docs/rtk-trial-2026-11-24.md`.
