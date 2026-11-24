@@ -183,3 +183,11 @@ off-camera; the 2026 half of the split screen is too dark; the rigged crowd doub
 | AI infrastructure (laptop → processors → cooling → power → capex) | 5:53–6:28 | 35.0 s | 607 s | 17× |
 | Money flow, complete (introduce → operate → transact, loop) | 7:15.7–8:38 | 82.2 s | 949 s | 11.5× |
 | Railway (construction → returns → losses → decay → comparison) | 12:42.9–13:09.5 | 26.6 s | 482 s | 18× |
+
+## Redesign direction preview (2026-11-24) — awaiting approval
+
+`previews/redesign/r1_cash_furnace.mp4` — 3:29.6–4:14.1 (44.5 s), 960×540, 30 fps, rendered in 608 s (13.7×).
+One illustrated world filmed by `mCamera`; scene brief in `scenes_burn.py`. layout_check: 0 issues at 0.1 s
+sampling; lint: 0 errors. Supersedes c23. The 48 issues logged in `artifacts/layout_check_v3.json` belong to
+the opening, Ch. 4, money-flow and railway scenes and are resolved by redesigning those scenes in this
+direction (each redesigned scene must pass layout_check before render).
