@@ -10,6 +10,7 @@ from pathlib import Path
 from kit.assemble import Scene
 from kit.characters import OUT, maya_svg, person_svg
 from timeline import L, W, WE
+from floor import CSS as FLOOR_CSS, BOARD_JS, floor_scene
 
 HERE = Path(__file__).resolve().parent
 GLOBE = json.loads((HERE / "assets" / "globe.json").read_text())
@@ -205,15 +206,12 @@ def build():
 
     # ── s001: 1999 trading floor ─────────────────────────────────────
     o1_end = t02s + .05
+    fl_html, fl_js = floor_scene("fl", 0, round(o1_end + .3, 3), "boom",
+                                 cam={"s0": 1.0, "s1": 1.16, "x0": 40, "x1": -60, "y0": 10, "y1": -20, "origin": "50% 42%"})
     scenes.append(Scene("o1", 0, round(o1_end + .3, 3),
-        f'<div id="o1-cam" class="cam">{floor_svg()}{ticker("o1-tk", 110, 120, 70)}{ticker("o1-tk2", 250, 70, 40, "#7cff9b", 4)}</div>'
-        f'<div class="tag v" id="o1-tag">New York · 1999</div>',
-        js=f"""
-tl.fromTo('#o1-cam',{{scale:1.0}},{{scale:1.14,duration:{o1_end},ease:'sine.inOut'}},0);
-tl.fromTo('#o1-tk .tk',{{x:0}},{{x:-1400,duration:{o1_end + .3},ease:'none'}},0);
-tl.fromTo('#o1-tk2 .tk',{{x:-600}},{{x:200,duration:{o1_end + .3},ease:'none'}},0);
-document.querySelectorAll('#o1-crowd .arm').forEach((a,i)=>tl.fromTo(a,{{rotation:-8}},{{rotation:10,duration:.35+(i%4)*.07,yoyo:true,repeat:Math.ceil({o1_end}/.4),ease:'sine.inOut',svgOrigin:'0 0',transformOrigin:'0% 100%'}},(i%5)*.08));
-document.querySelectorAll('#o1-slips .slip').forEach((s,i)=>tl.fromTo(s,{{y:-60-(i%7)*40}},{{y:620,rotation:'+=200',duration:{o1_end + .3},ease:'none'}},0));
+        fl_html + '<div class="tag v" id="o1-tag">New York · 1999</div>',
+        css=FLOOR_CSS,
+        js=fl_js + f"""
 show('#o1-tag',.4); hide('#o1-tag',{t01s + 4.2});
 """))
 
@@ -231,8 +229,10 @@ tl.fromTo('#o2-reflect',{{opacity:0}},{{opacity:1,duration:.4}},{t02e - .1});
     # ── s003: the seam — 1999 collapses beside a live AI data hall ─────
     seam_open = w_trill - .2
     s3_start, s3_end = t03s - .05, t05s + 1.7
+    fp_html, fp_js = floor_scene("fp", round(s3_start, 3), round(w_comp + .2, 3), "panic", crash_at=w_trill - .3,
+                                 cam={"s0": 1.12, "s1": 1.3, "x0": -80, "x1": 60, "y0": -30, "y1": 10, "origin": "30% 55%", "par": -.6})
     left = (f'<div id="o3-left" class="fill" style="background:#140d07">'
-            f'<div id="o3a" class="fill">{ticker("o3-tk", 220, 150, 92)}{ticker("o3-tk2", 420, 110, 64, "#f2a541", 4)}'
+            f'<div id="o3a" class="fill">{fp_html}'
             f'<div id="o3-digits" class="fill"></div></div>'
             f'<div id="o3b" class="fill" style="opacity:0">{office_svg()}'
             f'<div id="o3-dan-wrap" style="position:absolute;inset:0">{person_svg("dan", "dan_1999", "box").replace(chr(39)+"char "+chr(39), "char").replace(chr(34)+"char "+chr(34), chr(34)+"char"+chr(34)+" style=" + chr(34) + "left:1320px;top:360px;width:300px;height:500px" + chr(34))}</div>'
@@ -246,10 +246,7 @@ tl.fromTo('#o2-reflect',{{opacity:0}},{{opacity:1,duration:.4}},{t02e - .1});
         '<div class="year" id="o3-y99" style="left:70px;top:52px;color:#f2a541">1999</div>'
         '<div class="year" id="o3-y26" style="right:60px;top:52px;color:#38d6ff;text-shadow:0 0 18px rgba(56,214,255,.7)">2026</div>',
         css="#o3-left{clip-path:inset(0 0 0 0)}",
-        js=f"""
-tl.fromTo('#o3-tk .tk',{{x:-200}},{{x:-1600,duration:{w_dis - s3_start},ease:'none'}},{s3_start});
-tl.fromTo('#o3-tk2 .tk',{{x:-900}},{{x:-100,duration:{w_dis - s3_start},ease:'none'}},{s3_start});
-tl.to(['#o3-tk .tk','#o3-tk2 .tk'],{{color:'#ff5a46',textShadow:'0 0 18px #ff5a46',duration:.5}},{w_trill - .3});
+        js=fp_js + f"""
 (function(){{const box=document.getElementById('o3-digits');
  for(let i=0;i<40;i++){{const d=document.createElement('div');d.className='dg';d.textContent=['⅛','¼','½','$','▼','7','3','9','⅞','%'][i%10];
   d.style.cssText='position:absolute;left:'+((i*137)%1860)+'px;top:'+(240+(i%2)*200)+'px;font:800 '+(40+(i*7)%40)+'px Inter;color:#ff5a46;opacity:0';box.appendChild(d);

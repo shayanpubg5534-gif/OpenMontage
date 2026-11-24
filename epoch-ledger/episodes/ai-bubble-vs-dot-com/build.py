@@ -20,6 +20,7 @@ sys.path.insert(0, str(HERE))
 from kit.assemble import RESOLUTIONS, assemble, prepare_workspace  # noqa: E402
 
 import timeline  # noqa: E402
+import floor  # noqa: E402
 import scenes_opening, scenes_collapse, scenes_infra, scenes_money, scenes_debt, scenes_railway  # noqa: E402,E401
 
 WORKSPACE = Path(sys.argv[1]) if len(sys.argv) > 1 else KIT_ROOT.parent / "projects" / HERE.name / "hyperframes"
@@ -37,7 +38,7 @@ for m in MODULES:
 
 EPISODE_CSS = (HERE / "episode.css").read_text()
 SHARED_JS = (
-    (HERE / "js" / "episode_helpers.js").read_text()
+    (HERE / "js" / "episode_helpers.js").read_text() + floor.BOARD_JS
     + f"\nAI3D.init(document.getElementById('gl3d'), {{width:{OUT_W}, height:{OUT_H}}});\n"
     + "const P3={t:0}; tl.to(P3,{t:%s,duration:%s,ease:'none',onUpdate:()=>AI3D.draw(P3.t)},0);\n" % (timeline.D, timeline.D)
 )
