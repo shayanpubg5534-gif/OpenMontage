@@ -116,3 +116,34 @@ def test_component_index_lists_art_upgrade():
     for sym in ("scene3d.js", "S3.camera", "S3.facade", "S3.art", "S3.sprite", "lightfx.py", "rig3.py", "figure_svg", "closeup_svg", "ik(",
                 "diegetic.py", "whiteboard_chart", "crt_chart", "ticker_board", "gauge", "press_clip", "scene_plan.py", "still.mjs", "LICENSES.md"):
         assert sym in idx, sym
+
+
+# ── motion layer (rig3.js, animatable diegetic parts, motion-test plan) ───────────────────────────
+def test_pose_angles_take_the_short_arc():
+    for name in rig3.POSES:
+        ang = rig3.pose_angles(name)
+        assert set(ang) == set(rig3.JOINTS)
+        assert all(-180 <= v <= 180 for v in ang.values()), name
+
+
+def test_figures_expose_animatable_joints():
+    svg = rig3.figure_svg("q", "founder", pose="talk")
+    for j in rig3.JOINTS + ("eyes", "mouth", "brows"):
+        assert f'id="q-{j}"' in svg, j
+    js = (EL / "kit/rig3.js").read_text()
+    for fn in ("rot(", "pose(", "blinks(", "blink(", "breathe(", "talk(", "type(", "idle(", "walk("):
+        assert fn in js, fn
+    assert "Math.random" not in js
+
+
+def test_whiteboard_gap_parts_have_ids():
+    svg = diegetic.whiteboard_gap("T", [("A", 1, "#e07a5f"), ("B", .5, "#f2c66d")], ("REV", .3), uid="g")
+    for part in ("g-seg0", "g-seg1", "g-segl0", "g-rev", "g-gap", "g-gapl", "g-dash", "g-ring", "g-coll0", "g-coll1"):
+        assert f'id="{part}"' in svg, part
+    assert "ILLUSTRATIVE" in svg
+
+
+def test_motion_test_plan_is_valid():
+    plan = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/scene_plan.json").read_text())
+    assert scene_plan.validate(plan) == []
+    assert [s["shot"] for s in plan["shots"]] == ["establishing", "medium", "close-up"]

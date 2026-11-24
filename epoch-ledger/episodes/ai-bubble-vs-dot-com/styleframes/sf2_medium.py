@@ -13,13 +13,12 @@ import sys
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[2]))
 from kit.lightfx import beams, grade  # noqa: E402
-from kit.diegetic import whiteboard_chart, gauge, press_clip  # noqa: E402
+from kit.diegetic import whiteboard_gap, gauge, press_clip  # noqa: E402
 from styleframes.common import page, people_sprites  # noqa: E402
 
 O = "#1b1410"
 # illustrative proportions for the narration "spending heavily on advertising, employees and infrastructure" (no figures shown)
-BOARD = whiteboard_chart("THIS MONTH", [("ADS", 1.0, "#e07a5f"), ("STAFF", .81, "#f2c66d"), ("SERVERS", .67, "#7fd8ff"), ("REVENUE", .19, "#5fb36a")],
-                         note=["GAP =", "INVESTOR", "CASH"])
+BOARD = whiteboard_gap("THIS MONTH", [("ADS", 1.0, "#e07a5f"), ("STAFF", .81, "#f2c66d"), ("SERVERS", .67, "#7fd8ff")], ("REVENUE", .55), uid="wb")
 POSTER = f"""<rect width="600" height="800" fill="#2b4f9e"/><circle cx="300" cy="300" r="190" fill="#3a66c0"/>
 <g transform="translate(300 300) rotate(-18)"><path d="M0 -150 C70 -90 72 70 0 150 C-72 70 -70 -90 0 -150Z" fill="#f4ead5" stroke="{O}" stroke-width="7"/><circle cy="-30" r="36" fill="#7fc8ee" stroke="{O}" stroke-width="6"/>
 <path d="M-28 150 Q0 250 28 150Z" fill="#ffb03a"/></g>
@@ -77,7 +76,7 @@ const crt = (x, z, w) => { sc.box([x - .24, .76, z - .34], [x + .24, 1.16, z + .
 const bc = [1.35, 1.55, -.9], ya = .5, u = [Math.cos(ya), 0, Math.sin(ya)], bw = 2.0, bh = 1.2;
 const P = (s, t, d) => [bc[0] + u[0] * s - Math.sin(ya) * (d || 0), bc[1] + t, bc[2] + u[2] * s + Math.cos(ya) * (d || 0)];
 sc.quad(P(-bw / 2 - .05, -bh / 2 - .05, -.03), P(bw / 2 + .05, -bh / 2 - .05, -.03), P(bw / 2 + .05, bh / 2 + .05, -.03), P(-bw / 2 - .05, bh / 2 + .05, -.03), { color: '#a8aeb6', outline: '#2a2a30', doubleSided: true }, { allowBack: true });
-sc.art(P(-bw / 2, -bh / 2, 0), P(bw / 2, -bh / 2, 0), P(-bw / 2, bh / 2, 0), 1000, 560, ART2.board, { bias: .3 });
+sc.art(P(-bw / 2, -bh / 2, 0), P(bw / 2, -bh / 2, 0), P(-bw / 2, bh / 2, 0), 1000, 560, ART2.board, { bias: .3, id: 'wb-art' });
 sc.quad(P(-bw / 2, -bh / 2 - .02, .01), P(bw / 2, -bh / 2 - .02, .01), P(bw / 2, -bh / 2 - .08, .12), P(-bw / 2, -bh / 2 - .08, .12), { color: '#8a9098', outline: '#2a2a30', doubleSided: true }, { allowBack: true, bias: .35 });
 const leg = (a, b, w, m) => { const d = norm3(sub3(b, a)), side = [d[2] ? -d[2] : 1, 0, d[0] || 0]; const sl = Math.hypot(side[0], side[2]) || 1, s = [side[0] / sl * w, 0, side[2] / sl * w];
   sc.quad([a[0] - s[0], a[1], a[2] - s[2]], [a[0] + s[0], a[1], a[2] + s[2]], [b[0] + s[0], b[1], b[2] + s[2]], [b[0] - s[0], b[1], b[2] - s[2]], m, { allowBack: true, bias: -.2 }); };
@@ -93,8 +92,22 @@ sc.art([W1 - .04, 2.3, -3.7], [W1 - .04, 2.3, -4.2], [W1 - .04, 2.8, -3.7], 200,
 sc.box([-1.3, .44, -.2], [.1, .48, .5], { color: '#6a4a30' }, {}); [[-1.25, -.15], [.05, -.15], [-1.25, .45], [.05, .45]].forEach(([x, z]) => sc.box([x - .025, 0, z - .025], [x + .025, .44, z + .025], { color: '#2a2a30' }, { shadow: false }));
 sc.quad([-1.1, .481, .3], [-.75, .481, .22], [-.7, .481, .48], [-1.05, .481, .5], { color: '#fbf8f0', outline: '#8a8070' }, {}); sc.cyl([-.5, .48, 0], .05, .48, .6, { color: '#d9503f' }, { seg: 10 });
 sc.quad([-.3, .481, .1], [0, .481, .02], [.04, .481, .4], [-.26, .481, .46], { color: '#fbf8f0', outline: '#8a8070' }, {});
+// set dressing: low bookshelf with binders under the banner, printer cabinet, coat rack, desk lamps, paper stacks, bin
+sc.box([-4.4, 0, ZB + .02], [-2.0, 1.25, ZB + .4], { color: '#7a5636' }, {});
+for (let i = 0; i < 18; i++) { const x = -4.3 + i * .125, h = .3 + ((i * 7) % 5) * .02, y0 = (i % 2 ? .12 : .7);
+  sc.box([x, y0, ZB + .42], [x + .1, y0 + h, ZB + .43], { color: ['#2e5ab0', '#d9503f', '#3a6a3a', '#f2c66d', '#4a4a52'][i % 5], outline: false }, { shadow: false });
+  sc.box([x, (y0 > .5 ? .12 : .7), ZB + .42], [x + .1, (y0 > .5 ? .12 : .7) + .28, ZB + .43], { color: ['#c9a06a', '#2a2a30', '#8a5a3a'][i % 3], outline: false }, { shadow: false }); }
+sc.box([1.9, 0, ZB + .3], [2.9, .8, ZB + .9], { color: '#c8c4bc' }, {}); sc.box([2.0, .8, ZB + .35], [2.8, 1.1, ZB + .85], { color: '#e8e4dc', gloss: .2 }, {});
+sc.box([2.1, 1.1, ZB + .4], [2.7, 1.13, ZB + .8], { color: '#3a3a42' }, { shadow: false });
+sc.cyl([4.0, 0, -6.4], .03, 0, 1.75, { color: '#3a2a20' }, { seg: 6 }); sc.box([3.78, 1.25, -6.62], [4.2, 1.7, -6.42], { color: '#8a3a2a' }, { shadow: false });
+sc.box([3.85, 1.0, -6.46], [4.15, 1.6, -6.3], { color: '#3a4a6a' }, { shadow: false });
+sc.ground(-3.7, -7.4, .5, -3.7, .006, 1.2, { color: '#6a6a7a', tex: T('carpet'), texScale: 1.2, sub: 2, texMix: .55, receiver: true, outline: false });
+[[-3.25, -4.4], [-1.05, -6.4]].forEach(([x, z]) => { sc.cyl([x, .76, z], .07, .76, .79, { color: '#2a2a2a' }, { seg: 8 }); sc.cyl([x, .79, z], .015, .79, 1.1, { color: '#2a2a2a' }, { seg: 5, shadow: false });
+  sc.cyl([x + .06, 1.05, z], .11, 1.05, 1.17, { color: '#3a5a3a', emissive: .2 }, { seg: 10 }); });
+[[-2.2, -4.5], [.1, -4.45], [-2.0, -6.5]].forEach(([x, z], i) => { for (let k = 0; k < 3 + i; k++) sc.box([x - .15 + k * .01, .76 + k * .012, z - .12], [x + .15 + k * .01, .772 + k * .012, z + .12], { color: '#fbf8f0', outline: '#9a9080' }, { shadow: false }); });
+sc.cyl([.55, 0, -4.1], .14, 0, .34, { color: '#4a4a52' }, { seg: 10 });
 // plants
-[[-4.1, -2.9], [4.0, -3.6]].forEach(([x, z]) => { sc.cyl([x, 0, z], .2, 0, .45, { color: '#8a5a3a' }, { seg: 10 }); sc.sprite([x, .45, z], 1.2, ART2.plant, .9, { viewBox: '0 0 90 100' }); });
+[[-4.1, -2.9], [4.0, -3.6], [-4.1, -8.6], [3.6, -8.9]].forEach(([x, z]) => { sc.cyl([x, 0, z], .2, 0, .45, { color: '#8a5a3a' }, { seg: 10 }); sc.sprite([x, .45, z], 1.2, ART2.plant, .9, { viewBox: '0 0 90 100' }); });
 """ + "\n{people}"
 
 
@@ -115,9 +128,15 @@ def build(out: Path):
             ("e2", "casual2", [-1.55, 0, -1.9], "worry", 4, 6, "buzz", False, "worried", False),
             ("e3", "trader", [-2.6, 0, -5.15], "type", 2, 0, "short", False, "neutral", False),
             ("e5", "suit_w", [-.6, 0, -5.15], "type", 5, 1, "bun", True, "neutral", False),
-            ("mgr", "founder", [2.75, 0, -.35], "point", 0, 2, "parted", False, "talk", True)]
+            ("mgr", "founder", [2.75, 0, -.35], "point", 0, 2, "parted", False, "talk", True),
+            ("e6", "suit", [2.45, 0, -7.6], "phone", 1, 5, "short", False, "neutral", False),
+            ("w1", "casual2", [-1.6, 0, -7.75], "carry", 2, 1, "short", False, "neutral", False)]
     for pid, cos, foot, pose, sk, hr, st, gl, ex, flip in cast:
         mk = figure_svg(pid, cos, skin=sk, hair=hr, style=st, pose=pose, expr=ex, glasses=gl, inner=True)
+        if pid == "w1":   # carton of BigCart promotional merchandise (ad spending) held in both hands
+            mk += ('<g id="w1-box"><path d="M232 318 L352 318 L352 430 L232 430Z" fill="#c9a06a" stroke="#1b1410" stroke-width="4"/>'
+                   '<path d="M232 318 L292 300 L352 318" fill="#b08a56" stroke="#1b1410" stroke-width="3"/><rect x="250" y="356" width="84" height="30" fill="#2e5ab0"/>'
+                   '<text x="292" y="378" text-anchor="middle" font-family="Fraunces" font-weight="800" font-size="20" fill="#fff">BigCart</text></g>')
         if flip:
             mk = f'<g transform="translate(400 0) scale(-1 1)">{mk}</g>'
         people.append(f"sc.sprite({foot}, 1.76, {json.dumps(mk)}, {ASPECT}, {{ viewBox: '{VIEWBOX}', id: '{pid}' }});")

@@ -55,8 +55,11 @@ Use these for new or regenerated scenes. Approval stills live in `episodes/ai-bu
 | `sky`, `haze`, `beams`, `glow`, `depth_blur`, `grade` | `kit/lightfx.py` | graded skies, atmospheric haze, light shafts, bloom, depth of field, vignette + grain + colour grade |
 | `figure_svg(p, costume, pose, expr, ...)`, `POSES`, `REACH`, `ik(` | `kit/rig3.py` | 7.5-head characters (three-quarter), detailed faces/hands/costumes; two-bone IK places hands on targets; FK groups compatible with `rig.js` |
 | `closeup_svg(p, expr, hand, key, ...)` | `kit/rig3.py` | modelled close-up head + shoulders (expression, tired lids, stubble, key/rim light, hand with phone or on chin); ids `-brows`, `-mouth`, `-lids`, `-hand` animate |
+| `R3.rot`, `R3.pose`, `R3.blinks`, `R3.breathe`, `R3.talk`, `R3.type`, `R3.idle`, `R3.walk` | `kit/rig3.js` (opt-in head script) | rig v3 acting on the master timeline: exact joint angles (`pose_angles` from Python, shortest arc), irregular blinks, breathing, speech flaps, typing, weight shifts, and walking a scene3d sprite between two 3D points with perspective scale |
+| `pose_angles`, `JOINTS` | `kit/rig3.py` | IK-resolved joint angles per pose for `R3.P` |
+| `make_motiontest.py` | episode `motiontest/` | reference for animating style-frame sets: captures a style frame's `page()` call, renders the set per shot (`uid`), adds narration-locked acting, diagrams and 2.5D camera; slices the episode narration and builds captions |
 | `portrait_svg` | `kit/rig3.py` | medium-close bust for inserts and over-shoulder shots |
-| `whiteboard_chart`, `crt_chart`, `ticker_board`, `gauge`, `press_clip` | `kit/diegetic.py` | financial data drawn on objects in the scene (map with `S3.art` or place in a 2.5D layer) |
+| `whiteboard_chart`, `whiteboard_gap`, `crt_chart`, `ticker_board`, `gauge`, `press_clip` | `kit/diegetic.py` | financial data drawn on objects in the scene (map with `S3.art` or place in a 2.5D layer); parts carry ids (`{uid}-seg0`, `-gap`, `-line`, `-fig`...) for word-locked builds |
 | CC0 textures + `LICENSES.md` | `kit/assets/textures/`, `kit/assets/LICENSES.md` | brick, wood_floor, plaster, asphalt, concrete, carpet (Poly Haven, CC0); every new asset gets its own licence row |
 | `still.mjs` | `scripts/still.mjs` | `node scripts/still.mjs page.html out.png` — 1920×1080 style-frame stills (no video render) |
 

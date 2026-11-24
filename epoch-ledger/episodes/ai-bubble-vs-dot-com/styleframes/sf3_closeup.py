@@ -52,7 +52,7 @@ sc.cyl([2.8, .76, -7.3], .05, .76, 1.2, { color: '#2a2a2a', outline: false }, { 
 def crt_svg() -> str:
     """Hand-drawn CRT in three-quarter view (screen turned toward the founder), with the falling cash chart."""
     # illustrative cash curve for "...the money ran out" (shape, not a sourced figure)
-    chart = crt_chart("BigCart — CASH BALANCE", [100, 98, 93, 85, 74, 61, 46, 32, 18], "RUNWAY LEFT", "3 MONTHS", uid="sf3crt")
+    chart = crt_chart("BigCart — CASH BALANCE", [100, 98, 93, 85, 74, 61, 46, 32, 18], "RUNWAY LEFT", "3 MONTHS", uid="sf3crt", note="ILLUSTRATIVE")
     return f"""<svg viewBox="0 0 900 900" width="900" height="900" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <radialGradient id="scrglow" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
@@ -105,8 +105,8 @@ def build(out: Path):
                 'background:linear-gradient(90deg,rgba(40,48,110,.55) 0%,rgba(40,48,110,.25) 32%,rgba(255,255,255,0) 55%)"></div>')
     lamp = ('<div style="position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;'
             'background:radial-gradient(ellipse 520px 300px at 300px 1060px,rgba(255,180,90,.35),rgba(255,180,90,0) 75%)"></div>')
-    crt = f'<div style="position:absolute;left:1150px;top:250px;width:900px;height:900px">{crt_svg()}</div>'
-    desk = f'<div style="position:absolute;left:0;top:860px;width:1920px;height:300px">{desk_svg()}</div>'
+    crt = f'<div id="crt" style="position:absolute;left:1150px;top:250px;width:900px;height:900px">{crt_svg()}</div>'
+    desk = f'<div id="desk3" style="position:absolute;left:0;top:860px;width:1920px;height:300px">{desk_svg()}</div>'
     front = bokeh + founder + desk + crt + keylight + lamp + glow([(1560, 560, 520, "#ff6a5a")], opacity=.35, id_="crtglow") + over
     page(out, "Style frame 3 — close-up", '<div style="position:absolute;inset:0;background:#0c0e1c"></div>',
          f"const ART3 = {json.dumps(art3)};\n" + SCENE, cam, light, front, root,

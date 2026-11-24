@@ -103,7 +103,7 @@ def _face(p, skin, sh, hi, hair, style, expr="neutral", glasses=False, beard=Fal
   <path d="M246 62 C254 84 254 112 244 138" fill="none" stroke="{hi}" stroke-width="5" opacity=".8" stroke-linecap="round"/>
   <ellipse cx="152" cy="104" rx="11" ry="17" fill="{skin}" stroke="{O}" stroke-width="2.8"/><path d="M150 96 Q156 104 150 114" fill="none" stroke="{sh}" stroke-width="2.4"/>
   {stubble}
-  {eye(212, 96, 13, 8, 2.5)}{eye(173, 97, 9, 7, 2)}
+  <g id="{p}-eyes">{eye(212, 96, 13, 8, 2.5)}{eye(173, 97, 9, 7, 2)}</g>
   <path id="{p}-brows" d="{brows[0]} M{brows[1][1:]}" fill="none" stroke="{hair if style != 'bald' else sh}" stroke-width="{5 if not female else 3.6}" stroke-linecap="round"/>
   <path d="M220 98 C226 110 232 118 234 124 C232 128 226 130 220 128" fill="none" stroke="{O}" stroke-width="2.4" stroke-linecap="round"/>
   <path d="M218 128 Q222 131 226 129" fill="none" stroke="{sh}" stroke-width="2"/>
@@ -183,6 +183,22 @@ POSES = {
     "fold":    (0, 2, -18, -112, "fist", -12, -108, "fist", 0, 0, 0, 0),
     "carry":   (3, 4, -56, -38, "grip", -50, -44, "grip", 0, 0, 0, 0),
 }
+
+
+JOINTS = ("upper", "neck", "uarm-front", "farm-front", "uarm-back", "farm-back", "thigh-front", "shin-front", "thigh-back", "shin-back")
+
+
+def pose_angles(pose: str) -> dict:
+    """Joint angles (deg) of a named pose after IK, keyed by joint id suffix — feeds kit/rig3.js R3.pose()."""
+    tor, hd, uf, ff, hf, ub, fb, hb, tf, sf, tb, sb = POSES.get(pose, POSES["stand"])
+    for side, (tgt, bend) in REACH.get(pose, {}).items():
+        a, b = ik(J["sh_f"] if side == "front" else J["sh_b"], tgt, L["uarm"], L["farm"] - 10, bend)
+        if side == "front":
+            uf, ff = a, b
+        else:
+            ub, fb = a, b
+    wrap = lambda a: ((a + 180) % 360) - 180      # shortest-arc angles so blends never spin the long way round
+    return {k: round(wrap(v), 2) for k, v in zip(JOINTS, (tor, hd, uf, ff, ub, fb, tf, sf, tb, sb))}
 
 
 def figure_svg(p: str, costume: str = "suit", skin: int = 0, hair: int = 0, style: str = "short", pose: str = "stand",
@@ -267,7 +283,7 @@ def figure_svg(p: str, costume: str = "suit", skin: int = 0, hair: int = 0, styl
              f'<path d="M238 214 C248 260 250 320 244 400" fill="none" stroke="#ffffff" stroke-width="4" opacity=".18" stroke-linecap="round"/>{lapel}</g>')
     body = (arm("back", ub, fb, hb) + leg("back", tb, sb) + leg("front", tf, sf)
             + f'<g id="{p}-upper" transform="rotate({tor} {J["waist"][0]} {J["waist"][1]})">{hips}{torso}'
-            + f'<g transform="rotate({hd} {nx} {ny})">{_face(p, sk, sks, skh, hc, style, expr, glasses, beard, female)}</g>'
+            + f'<g id="{p}-neck" transform="rotate({hd} {nx} {ny})">{_face(p, sk, sks, skh, hc, style, expr, glasses, beard, female)}</g>'
             + arm("front", uf, ff, hf) + "</g>")
     shadow = '<ellipse cx="210" cy="994" rx="120" ry="12" fill="#000" opacity=".25"/>'
     g = f'<g class="rig3" id="{p}">{shadow}{body}</g>'

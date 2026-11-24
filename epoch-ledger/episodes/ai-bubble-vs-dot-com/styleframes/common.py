@@ -50,8 +50,8 @@ def _lobby(i: int) -> str:
     tank = ""
     if i == 1:
         tank = (f'<rect x="230" y="40" width="150" height="250" rx="40" fill="#0e1a16" stroke="#dfe6ea" stroke-width="7"/>'
-                f'<rect x="236" y="150" width="138" height="134" rx="30" fill="#e8b440"/>'
-                + "".join(f'<ellipse cx="{252 + (k * 29) % 110}" cy="{170 + (k * 23) % 100}" rx="14" ry="5" fill="#ffe08a" stroke="#a07a20" stroke-width="2"/>' for k in range(12))
+                f'<rect id="tank-fill" x="236" y="150" width="138" height="134" rx="30" fill="#e8b440"/>'
+                + '<g id="tank-coins">' + "".join(f'<ellipse cx="{252 + (k * 29) % 110}" cy="{170 + (k * 23) % 100}" rx="14" ry="5" fill="#ffe08a" stroke="#a07a20" stroke-width="2"/>' for k in range(12)) + '</g>'
                 + '<rect x="236" y="44" width="40" height="240" rx="18" fill="#fff" opacity=".18"/>'
                 f'<rect x="268" y="16" width="74" height="26" rx="4" fill="{O}"/><text x="305" y="35" text-anchor="middle" font-family="Inter" font-weight="800" font-size="18" fill="#f2c66d">CASH</text>')
     desk = '<rect x="40" y="200" width="170" height="80" fill="#7a5236" stroke="#2a1a12" stroke-width="4"/><rect x="40" y="194" width="176" height="12" fill="#a07850"/>' if i == 0 else ""

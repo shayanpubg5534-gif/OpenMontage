@@ -64,7 +64,7 @@ def whiteboard_chart(title: str, bars: list[tuple[str, float, str]], note: list[
 
 
 def crt_chart(title: str, values: list[float], label: str = "", figure: str = "", color: str = "#ff5a4a",
-              w: int = 640, h: int = 480, bg: str = "#120708", uid: str = "crt") -> str:
+              w: int = 640, h: int = 480, bg: str = "#120708", uid: str = "crt", note: str = "") -> str:
     """Line chart on a CRT (scanlines). values are plotted left→right, scaled to the panel."""
     lo, hi = min(values), max(values)
     span = (hi - lo) or 1
@@ -75,15 +75,16 @@ def crt_chart(title: str, values: list[float], label: str = "", figure: str = ""
     return (f'<defs><pattern id="{uid}-scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000"/></pattern></defs>'
             f'<rect width="{w}" height="{h}" fill="{bg}"/><rect width="{w}" height="56" fill="{color}" fill-opacity=".14"/>'
             f'<text x="22" y="40" font-family="Inter" font-weight="800" font-size="30" fill="{color}" fill-opacity=".85">{title}</text>{grid}'
-            f'<path d="{d} L{pts[-1][0]:.0f} {y1 + 20} L{pts[0][0]:.0f} {y1 + 20}Z" fill="{color}" opacity=".16"/>'
-            f'<path d="{d}" stroke="{color}" stroke-width="10" fill="none" stroke-linejoin="round"/>'
-            f'<circle cx="{pts[-1][0]:.0f}" cy="{pts[-1][1]:.0f}" r="12" fill="#ffe0d8"/>'
+            f'<path id="{uid}-area" d="{d} L{pts[-1][0]:.0f} {y1 + 20} L{pts[0][0]:.0f} {y1 + 20}Z" fill="{color}" opacity=".16"/>'
+            f'<path id="{uid}-line" d="{d}" stroke="{color}" stroke-width="10" fill="none" stroke-linejoin="round"/>'
+            f'<circle id="{uid}-dot" cx="{pts[-1][0]:.0f}" cy="{pts[-1][1]:.0f}" r="12" fill="#ffe0d8"/>'
             + (f'<text x="{w * .52:.0f}" y="112" font-family="Inter" font-weight="800" font-size="26" fill="{color}" fill-opacity=".8">{label}</text>' if label else "")
-            + (f'<text x="{w * .52:.0f}" y="168" font-family="Inter" font-weight="800" font-size="54" fill="{color}">{figure}</text>' if figure else "")
+            + (f'<text id="{uid}-fig" x="{w * .52:.0f}" y="168" font-family="Inter" font-weight="800" font-size="54" fill="{color}">{figure}</text>' if figure else "")
+            + (f'<text x="{w - 24}" y="{h - 18}" text-anchor="end" font-family="Inter" font-weight="800" font-size="20" fill="{color}" fill-opacity=".7">{note}</text>' if note else "")
             + f'<rect width="{w}" height="{h}" fill="url(#{uid}-scan)" opacity=".35"/>')
 
 
-def ticker_board(title: str, values: list[float], color: str = "#7cff9b", w: int = 1400, h: int = 1000) -> str:
+def ticker_board(title: str, values: list[float], color: str = "#7cff9b", w: int = 1400, h: int = 1000, uid: str = "tick") -> str:
     lo, hi = min(values), max(values)
     span = (hi - lo) or 1
     pts = [(90 + (w - 230) * i / (len(values) - 1), h - 140 - (h - 400) * (v - lo) / span) for i, v in enumerate(values)]
@@ -92,9 +93,49 @@ def ticker_board(title: str, values: list[float], color: str = "#7cff9b", w: int
     return (f'<rect width="{w}" height="{h}" fill="#060d0a"/><rect x="20" y="20" width="{w - 40}" height="{h - 40}" fill="none" stroke="#1e3a2a" stroke-width="6"/>'
             + "".join(f'<path d="M80 {180 + k * 140} H{w - 80}" stroke="#12301e" stroke-width="3"/>' for k in range(6))
             + f'<text x="90" y="120" font-family="Inter" font-weight="800" font-size="72" fill="{color}" letter-spacing="8">{title}</text>'
-            f'<path d="{d}" stroke="{color}" stroke-width="16" fill="none" stroke-linejoin="round"/>'
-            f'<circle cx="{pts[-1][0]:.0f}" cy="{pts[-1][1]:.0f}" r="26" fill="#c8ffd8"/>'
+            f'<path id="{uid}-line" d="{d}" stroke="{color}" stroke-width="16" fill="none" stroke-linejoin="round"/>'
+            f'<circle id="{uid}-dot" cx="{pts[-1][0]:.0f}" cy="{pts[-1][1]:.0f}" r="26" fill="#c8ffd8"/>'
             f'<text x="{w - 360}" y="140" font-family="Inter" font-weight="800" font-size="80" fill="{color}">{"▲" if up else "▼"}</text>')
+
+
+def whiteboard_gap(title: str, spend: list[tuple[str, float, str]], revenue: tuple[str, float], gap_label: str = "INVESTOR CASH",
+                   note: str = "ILLUSTRATIVE", uid: str = "wbg", w: int = 1000, h: int = 560, seed: int = 6) -> str:
+    """Marker diagram of a cash gap: a stacked SPENDING column (one segment per category) beside a short REVENUE
+    column; the gap between them is a gold block (investor cash). Every part has an id for narration-locked builds:
+    {uid}-seg{i}, {uid}-segl{i}, {uid}-rev, {uid}-revl, {uid}-gap, {uid}-gapl, {uid}-dash, {uid}-ring, {uid}-coll{0,1}."""
+    total = sum(v for _, v, _ in spend) or 1
+    base, top = h - 96, 150
+    k = (base - top) / total
+    out = [f'<rect width="{w}" height="{h}" fill="#f6f4ee"/><rect width="{w}" height="{h}" fill="none" stroke="#9aa0a8" stroke-width="18"/>',
+           f'<text x="60" y="88" font-family="Inter" font-weight="800" font-size="50" fill="#1f3a7a">{title}</text>',
+           f'<path d="M60 108 C200 100 330 112 {60 + len(title) * 29} 104" stroke="#1f3a7a" stroke-width="5" fill="none"/>',
+           f'<path d="M110 {base} H{w - 120}" stroke="#2a2a30" stroke-width="5"/>']
+    darks = {"#e07a5f": "#b0402a", "#f2c66d": "#a07a20", "#7fd8ff": "#2a7aa0", "#5fb36a": "#2a6a2a"}
+    x0, x1 = 300, 470
+    y = base
+    for i, (lab, v, col) in enumerate(spend):
+        y0 = y - v * k
+        out.append(f'<g id="{uid}-seg{i}">{_marker_rect(x0, y0, x1, y, col, darks.get(col, INK), seed + i)}</g>')
+        out.append(f'<text id="{uid}-segl{i}" x="{x0 - 18}" y="{(y0 + y) / 2 + 12:.0f}" text-anchor="end" font-family="Inter" font-weight="800" font-size="34" fill="{darks.get(col, INK)}">{lab}</text>')
+        y = y0
+    spend_top = y
+    out.append(f'<text id="{uid}-coll0" x="{(x0 + x1) / 2:.0f}" y="{base + 52}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="34" fill="#2a2a30">SPENDING</text>')
+    rx0, rx1 = 610, 780
+    rlab, rv = revenue
+    ry = base - rv * k
+    out.append(f'<g id="{uid}-rev">{_marker_rect(rx0, ry, rx1, base, "#5fb36a", "#2a6a2a", seed + 9)}</g>')
+    out.append(f'<text id="{uid}-coll1" x="{(rx0 + rx1) / 2:.0f}" y="{base + 52}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="34" fill="#2a6a2a">{rlab}</text>')
+    out.append(f'<ellipse id="{uid}-ring" cx="{(rx0 + rx1) / 2:.0f}" cy="{(ry + base) / 2:.0f}" rx="{(rx1 - rx0) / 2 + 34:.0f}" ry="{(base - ry) / 2 + 30:.0f}" fill="none" stroke="#d9503f" stroke-width="6" transform="rotate(-6 {(rx0 + rx1) / 2:.0f} {(ry + base) / 2:.0f})"/>')
+    out.append(f'<path id="{uid}-dash" d="M{x1 + 8} {spend_top:.0f} H{rx1 + 10}" stroke="#2a2a30" stroke-width="4" stroke-dasharray="14 10" fill="none"/>')
+    gap = (f'<path d="M{rx0} {spend_top:.0f} H{rx1} V{ry:.0f} H{rx0}Z" fill="#f2c66d" fill-opacity=".7" stroke="#a07a20" stroke-width="5"/>'
+           + "".join(f'<path d="M{rx0 + 6} {yy:.0f} L{rx1 - 6} {yy - 26:.0f}" stroke="#a07a20" stroke-width="3" opacity=".45"/>' for yy in range(int(spend_top) + 30, int(ry), 24)))
+    out.append(f'<g id="{uid}-gap">{gap}</g>')
+    out.append(f'<g id="{uid}-gapl"><text x="{rx1 + 26}" y="{(spend_top + ry) / 2 - 8:.0f}" font-family="Inter" font-weight="800" font-size="36" fill="#a0601a">{gap_label.split(" ")[0]}</text>'
+               f'<text x="{rx1 + 26}" y="{(spend_top + ry) / 2 + 36:.0f}" font-family="Inter" font-weight="800" font-size="36" fill="#a0601a">{" ".join(gap_label.split(" ")[1:])}</text></g>')
+    if note:
+        out.append(f'<text x="{w - 40}" y="{h - 30}" text-anchor="end" font-family="Inter" font-weight="800" font-size="22" fill="#7a7a80">{note}</text>')
+    out.append(f'<rect x="60" y="{h - 22}" width="120" height="12" rx="6" fill="#2a2a30"/><rect x="200" y="{h - 22}" width="120" height="12" rx="6" fill="#d9503f"/>')
+    return "".join(out)
 
 
 def gauge(label: str, frac: float, w: int = 200, danger: str = "#d9503f") -> str:
