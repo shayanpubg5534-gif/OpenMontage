@@ -528,7 +528,7 @@
     const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
     // terrain: flat corridor along the track, rolling hills beside it, mountains on the horizon
     function heightAt(x, z, ox) { const lx = x - ox, d = Math.abs(z);
-      return fbm(lx * .018, z * .018) * 16 * smooth(9, 70, d) + Math.max(0, -z - 260) * .38 * (.6 + fbm(lx * .006, z * .01)) + (fbm(lx * .1, z * .1) - .5) * .6; }
+      return fbm(lx * .018, z * .018) * 16 * smooth(9, 70, d) + Math.max(0, -z - 300) * .16 * (.4 + fbm(lx * .01, z * .01)) + (fbm(lx * .1, z * .1) - .5) * .6; }
     function terrain(ox, pal) {
       const geo = new THREE.PlaneGeometry(900, 900, 150, 150); geo.rotateX(-Math.PI / 2);
       const p = geo.attributes.position, col = new Float32Array(p.count * 3), c = new THREE.Color(), cA = new THREE.Color(pal[0]), cB = new THREE.Color(pal[1]), cC = new THREE.Color(pal[2]);

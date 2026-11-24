@@ -15,11 +15,19 @@ const RIG_POSES = {
   slump:   { uf: 6, ff: -6, ub: 6, fb: -6, head: 16, torso: 7 },
   shrug:   { uf: -12, ff: -96, ub: 10, fb: -92, head: -6, torso: 0 },
   hold:    { uf: -30, ff: -64, ub: 4, fb: -8, head: 4, torso: 1 },
+  hammerUp: { uf: -165, ff: -40, ub: -150, fb: -40, head: -6, torso: -6 },
+  hammerDown: { uf: -40, ff: -10, ub: -30, fb: -12, head: 10, torso: 14 },
+  carry:   { uf: -58, ff: -40, ub: -52, fb: -44, head: 2, torso: 3 },
+  lift:    { uf: -150, ff: -20, ub: -140, fb: -24, head: -8, torso: -2 },
+  wave:    { uf: -150, ff: -50, ub: 4, fb: -8, head: -4, torso: -1 },
+  sit:     { uf: -30, ff: -50, ub: -20, fb: -40, head: 8, torso: 6, th: -80, sh: 80 },
+  pay:     { uf: -70, ff: -30, ub: 4, fb: -10, head: 2, torso: 2 },
 };
 function rigSeed(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function rpose(p, name, t, d, ease) {
   const q = RIG_POSES[name] || name, e = ease || 'power2.inOut', D = d === undefined ? .35 : d;
   const J = [['uarm-front', 'uf', 'sh'], ['farm-front', 'ff', 'el'], ['uarm-back', 'ub', 'sh'], ['farm-back', 'fb', 'el'], ['head', 'head', 'neck'], ['upper', 'torso', 'hip']];
+  if (q.th !== undefined) J.push(['thigh-front', 'th', 'hip'], ['thigh-back', 'th', 'hip'], ['shin-front', 'sh', 'kn'], ['shin-back', 'sh', 'kn']);
   J.forEach(([part, k, piv]) => { if (q[k] === undefined) return; const el = document.getElementById(p + '-' + part); if (el) tl.to(el, { rotation: q[k], svgOrigin: RIG_PIV[piv], duration: D, ease: e }, t); });
 }
 // Natural walk: hip swing, knee flex on the passing leg, counter-swinging arms with bent elbows, body bob.
@@ -65,4 +73,8 @@ function rexpress(p, kind, t) {  // brows + mouth: 'worry' | 'shock' | 'joy' | '
   tl.to('#' + p + '-brows', Object.assign({ duration: .25 }, br), t);
   tl.to('#' + p + '-open', { opacity: kind === 'shock' ? 1 : 0, duration: .2 }, t);
   tl.to('#' + p + '-mouth', { scaleY: kind === 'worry' ? -1 : 1, transformOrigin: '50% 50%', duration: .25 }, t);
+}
+// Repeated work cycle (hammering, shovelling, typing): alternate two poses every `period` seconds.
+function rcycle(p, a, b, start, end, period, offset) {
+  for (let t = start + (offset || 0); t < end - period * .5; t += period) { rpose(p, a, t, period * .45, 'power2.in'); rpose(p, b, t + period * .5, period * .4, 'power2.out'); }
 }

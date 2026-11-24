@@ -70,6 +70,12 @@ PROPS = {
     "pad": '<g><rect x="128" y="300" width="44" height="54" rx="3" fill="#fff6d8" stroke="{o}" stroke-width="2.5"/><path d="M134 314 H164 M134 324 H160 M134 334 H164" stroke="#7a8aa0" stroke-width="2"/></g>',
     "pen": '<path d="M150 300 L156 336" stroke="#1f3a7a" stroke-width="5" stroke-linecap="round"/>',
     "newspaper": '<g><rect x="118" y="292" width="70" height="52" fill="#efe9da" stroke="{o}" stroke-width="2.5"/><path d="M124 302 H180 M124 312 H170 M124 322 H176" stroke="#6b6b6b" stroke-width="3"/></g>',
+    "hammer": '<g><path d="M150 318 L150 206" stroke="#7a5230" stroke-width="7" stroke-linecap="round"/><rect x="132" y="190" width="36" height="20" rx="3" fill="#4a4e56" stroke="{o}" stroke-width="2.5"/></g>',
+    "shovel": '<g><path d="M150 318 L150 420" stroke="#7a5230" stroke-width="6" stroke-linecap="round"/><path d="M138 418 L162 418 L158 450 Q150 458 142 450Z" fill="#6b7078" stroke="{o}" stroke-width="2.5"/></g>',
+    "suitcase": '<g><rect x="126" y="326" width="50" height="38" rx="5" fill="#7a4a2a" stroke="{o}" stroke-width="2.5"/><path d="M142 326 Q150 316 158 326" stroke="{o}" stroke-width="3" fill="none"/><path d="M126 340 H176" stroke="#c9a15a" stroke-width="3"/></g>',
+    "sack": '<g><path d="M128 300 Q124 352 150 356 Q178 352 172 300 Q150 290 128 300Z" fill="#c9b48a" stroke="{o}" stroke-width="2.5"/><path d="M140 300 L160 300" stroke="#8a7350" stroke-width="3"/></g>',
+    "coin": '<circle cx="150" cy="306" r="9" fill="#f2c66d" stroke="#8a6a1c" stroke-width="2.5"/>',
+    "tablet": '<g><rect x="126" y="292" width="52" height="38" rx="5" fill="#20242c" stroke="{o}" stroke-width="2.5"/><rect x="131" y="297" width="42" height="28" rx="2" fill="#7fd8ff"/></g>',
     "coffee": '<g><rect x="138" y="300" width="24" height="30" rx="3" fill="#f4ead5" stroke="{o}" stroke-width="2.5"/><path d="M162 306 C172 306 172 320 162 320" stroke="{o}" stroke-width="2.5" fill="none"/></g>',
 }
 
@@ -106,6 +112,13 @@ def rig_svg(p: str, c: dict, mode: str = "full", prop_front: str | None = None, 
            if c.get("tie") else "")
     badge = (f'<rect x="168" y="232" width="20" height="14" rx="2" fill="#fffaf0" stroke="{o}" stroke-width="1.5"/>'
              if c.get("badge") else "")
+    hc = c.get("hat_col")
+    hat = {"cap": f'<path d="M126 86 C132 58 186 54 198 84 L212 90 C200 96 150 96 126 92Z" fill="{hc or "#5a4a3a"}" stroke="{o}" stroke-width="3"/>',
+           "bowler": f'<path d="M122 90 L206 90 C204 96 124 98 122 90Z M134 90 C134 56 194 54 194 90Z" fill="{hc or "#2a2420"}" stroke="{o}" stroke-width="3"/>',
+           "top": f'<path d="M120 88 L208 88 C206 96 122 96 120 88Z M138 88 L142 34 L188 34 L190 88Z" fill="{hc or "#1e1c1c"}" stroke="{o}" stroke-width="3"/>',
+           "hard": f'<path d="M124 90 C124 52 200 50 202 90 L210 94 L118 94Z" fill="{hc or "#f2b632"}" stroke="{o}" stroke-width="3"/>',
+           "bonnet": f'<path d="M116 120 C104 60 170 40 206 80 C196 70 140 70 124 124Z" fill="{hc or "#c98a6a"}" stroke="{o}" stroke-width="3"/>',
+           }.get(c.get("hat"), "")
     glasses = (f'<rect x="146" y="105" width="20" height="17" rx="5" fill="#dff0ff" fill-opacity=".25" stroke="#22262e" stroke-width="2.5"/>'
                f'<rect x="172" y="105" width="20" height="17" rx="5" fill="#dff0ff" fill-opacity=".25" stroke="#22262e" stroke-width="2.5"/>'
                f'<path d="M166 112 L172 112" stroke="#22262e" stroke-width="2.5"/>') if c.get("glasses") else ""
@@ -122,7 +135,7 @@ def rig_svg(p: str, c: dict, mode: str = "full", prop_front: str | None = None, 
   <g class="lids"><ellipse class="lid" cx="155" cy="114" rx="6.5" ry="8" fill="{c['skin']}" transform="scale(1 0)" style="transform-box:fill-box;transform-origin:50% 0%"/>
    <ellipse class="lid" cx="181" cy="114" rx="7.5" ry="9" fill="{c['skin']}" transform="scale(1 0)" style="transform-box:fill-box;transform-origin:50% 0%"/></g>
   <path id="{p}-brows" d="M147 101 Q154 97 162 100 M173 99 Q181 94 190 98" stroke="{c['hair'] if c['hair_style'] != 'bald' else c['skin_sh']}" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-  {glasses}
+  {glasses}{hat}
   <path d="M191 118 Q199 129 190 132" stroke="{c['skin_sh']}" stroke-width="2.8" fill="none" stroke-linecap="round"/>
   <path id="{p}-mouth" d="M170 141 Q181 150 191 139 Q181 145 170 141Z" fill="#8e3b3b" stroke="{o}" stroke-width="2"/>
   <path id="{p}-open" d="M172 139 Q181 156 190 139Z" fill="#5a1f1f" stroke="{o}" stroke-width="2" opacity="0"/>
