@@ -289,7 +289,7 @@ def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int) -> dict:
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["plan", "render", "scene"])
+    ap.add_argument("cmd", choices=["plan", "render", "scene", "range"])
     ap.add_argument("workspace", type=Path)
     ap.add_argument("scene_id", nargs="?")
     ap.add_argument("-o", "--output", type=Path)
@@ -297,10 +297,37 @@ def main(argv=None):
     ap.add_argument("--preview", action="store_true", help="24 fps draft quality (separate cache keys)")
     ap.add_argument("--chunk-min", type=float, default=15.0, help="minimum chunk length in seconds")
     ap.add_argument("--jobs", type=int, default=1, help="chunks rendered in parallel (split CPU workers)")
+    ap.add_argument("--start", type=float, help="range: window start (s)")
+    ap.add_argument("--end", type=float, help="range: window end (s)")
+    ap.add_argument("--fps", type=int, help="override fps (24/25/30/60)")
+    ap.add_argument("--quality", choices=["draft", "looks", "delivery"], help="override quality")
     a = ap.parse_args(argv)
     ws = a.workspace.resolve()
-    settings = PREVIEW if a.preview else FINAL
+    settings = dict(PREVIEW if a.preview else FINAL)
+    if a.fps:
+        settings["fps"] = a.fps
+    if a.quality:
+        settings["quality"] = a.quality
     p = plan(ws, settings, a.chunk_min)
+    if a.cmd == "range":
+        if a.start is None or a.end is None or not a.output:
+            sys.exit("range needs --start, --end and -o")
+        p["chunks"] = [c for c in p["chunks"] if c["start"] < a.end and c["end"] > a.start]
+        p["total_frames"] = sum(c["end_frame"] - c["start_frame"] for c in p["chunks"])
+        audio = a.audio or next((ws / f for f in ("mix.wav", "narration.wav") if (ws / f).exists()), None)
+        tmp = a.output.with_suffix(".chunks.mp4")
+        rep = run(ws, p, tmp, None, a.jobs)
+        off = a.start - p["chunks"][0]["start"]
+        cmd = ["ffmpeg", "-nostdin", "-v", "error", "-y", "-ss", f"{off:.3f}", "-t", f"{a.end - a.start:.3f}", "-i", str(tmp)]
+        if audio:
+            cmd += ["-ss", f"{a.start:.3f}", "-t", f"{a.end - a.start:.3f}", "-i", str(audio), "-map", "0:v", "-map", "1:a",
+                    "-c:a", "aac", "-b:a", "160k"]
+        cmd += ["-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(a.output)]
+        subprocess.run(cmd, check=True)
+        tmp.unlink(missing_ok=True)
+        rep["output"] = str(a.output)
+        print(json.dumps(rep, indent=1))
+        return
     if a.cmd == "scene":
         comp = parse((ws / "index.html").read_text())
         clip = next((c for c in comp.clips if c.id == a.scene_id), None)

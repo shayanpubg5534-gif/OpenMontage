@@ -9,7 +9,13 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const win = (t, a, b) => clamp((t - a) / (b - a));
   const V3 = (a) => new THREE.Vector3(a[0], a[1], a[2]);
-  let R = null, W = 1920, H = 1080, ENV = null;
+  let R = null, W = 1920, H = 1080, ENV = null, DOT = null;
+  function dotTex() {
+    if (DOT) return DOT;
+    const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+    const r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(.35, 'rgba(255,255,255,.8)'); r.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = r; g.fillRect(0, 0, 64, 64); DOT = new THREE.CanvasTexture(c); return DOT;
+  }
   const shots = [];
 
   function init(canvas, o) {
@@ -46,13 +52,13 @@
     const grid = new THREE.GridHelper(160, 266, 0x16405a, 0x0d2233); grid.position.set(0, .01, -70); S.add(grid);
     // rack front texture: 1U server slots, vents and bezels (drawn once)
     const cv = document.createElement('canvas'); cv.width = 128; cv.height = 512; const c2 = cv.getContext('2d');
-    c2.fillStyle = '#0c1118'; c2.fillRect(0, 0, 128, 512);
-    for (let u = 0; u < 20; u++) { const y = 10 + u * 24.6; c2.fillStyle = u % 5 === 4 ? '#141b25' : '#1b2431'; c2.fillRect(6, y, 116, 20);
-      c2.fillStyle = '#0a0e14'; for (let v = 0; v < 9; v++) c2.fillRect(14 + v * 9, y + 5, 5, 10); c2.fillStyle = '#2c3a4c'; c2.fillRect(100, y + 4, 16, 12); }
+    c2.fillStyle = '#18202c'; c2.fillRect(0, 0, 128, 512);
+    for (let u = 0; u < 20; u++) { const y = 10 + u * 24.6; c2.fillStyle = u % 5 === 4 ? '#26303e' : '#323f52'; c2.fillRect(6, y, 116, 20);
+      c2.fillStyle = '#0a0e14'; for (let v = 0; v < 9; v++) c2.fillRect(14 + v * 9, y + 5, 5, 10); c2.fillStyle = '#4a5c74'; c2.fillRect(100, y + 4, 16, 12); }
     const faceTex = new THREE.CanvasTexture(cv); faceTex.colorSpace = THREE.SRGBColorSpace;
     const N = 64, D = 1.15, rackGeo = new THREE.BoxGeometry(1.0, 2.5, D);
     const bodyM = new THREE.MeshStandardMaterial({ color: 0x10161f, metalness: .8, roughness: .35 });
-    const faceM = new THREE.MeshStandardMaterial({ map: faceTex, metalness: .5, roughness: .5 });
+    const faceM = new THREE.MeshStandardMaterial({ map: faceTex, emissiveMap: faceTex, emissive: 0x1a2a3e, emissiveIntensity: .6, metalness: .4, roughness: .5 });
     const racks = [new THREE.InstancedMesh(rackGeo, [faceM, bodyM, bodyM, bodyM, bodyM, bodyM], N), new THREE.InstancedMesh(rackGeo, [bodyM, faceM, bodyM, bodyM, bodyM, bodyM], N)];  // face toward the aisle
     const LED_ROWS = 10, LED_COLS = 3, leds = new THREE.InstancedMesh(new THREE.BoxGeometry(.015, .035, .05), new THREE.MeshBasicMaterial({ color: 0xffffff }), N * 2 * LED_ROWS * LED_COLS);
     const m4 = new THREE.Matrix4(), ledZ = [], ledBase = [];
@@ -68,16 +74,17 @@
     const col = new THREE.Color();
     for (let i = 0; i < k; i++) leds.setColorAt(i, col.setRGB(0, .4, .6));
     [-1, 1].forEach(side => {
-      const tray = new THREE.Mesh(new THREE.BoxGeometry(.45, .1, 160), new THREE.MeshStandardMaterial({ color: 0xa8842e, metalness: .7, roughness: .4 }));
-      tray.position.set(side * 2.0, 3.1, -70); S.add(tray);
-      const strip = new THREE.Mesh(new THREE.BoxGeometry(.05, .03, 160), new THREE.MeshBasicMaterial({ color: 0x5f8fb8 }));
-      strip.position.set(side * .55, 3.7, -70); S.add(strip);
+      const tray = new THREE.Mesh(new THREE.BoxGeometry(.4, .08, 160), new THREE.MeshStandardMaterial({ color: 0x6a5a3a, metalness: .7, roughness: .5 }));
+      tray.position.set(side * 2.0, 3.35, -70); S.add(tray);
     });
+    const panels = new THREE.InstancedMesh(new THREE.BoxGeometry(1.1, .03, .5), new THREE.MeshBasicMaterial({ color: 0xa9cff0 }), 40);
+    for (let i = 0; i < 40; i++) { m4.makeTranslation(0, 3.9, -2 - i * 3); panels.setMatrixAt(i, m4); } S.add(panels);
+    for (let i = 0; i < 5; i++) { const pl = new THREE.PointLight(0x9fd0ff, 18, 16, 2); pl.position.set(0, 3.4, -4 - i * 12); S.add(pl); }
     S.add(new THREE.HemisphereLight(0x6fb6ff, 0x05070c, .6));
     const key = new THREE.PointLight(0x8fd8ff, 60, 30, 2); key.position.set(0, 3.5, -6); S.add(key);
     // gold money particles and cold airflow
     const pts = (n, color, size) => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
-      const p = new THREE.Points(g, new THREE.PointsMaterial({ color, size, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); S.add(p); return p; };
+      const p = new THREE.Points(g, new THREE.PointsMaterial({ color, size, map: dotTex(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); S.add(p); return p; };
     const GOLD = 500, gold = pts(GOLD, 0xffc766, .05), gseed = [];
     for (let i = 0; i < GOLD; i++) gseed.push([(rnd() - .5) * 3, .4 + rnd() * 2.8, rnd()]);
     const AIR = 700, air = pts(AIR, 0x6fd8ff, .06), aseed = [];
@@ -111,22 +118,24 @@
   // ── world: hyperscale campus at dusk ────────────────────────────────
   function campus(s) {
     const rnd = RNG(7), S = new THREE.Scene();
-    S.background = new THREE.Color(0x1a2138); S.fog = new THREE.Fog(0x1a2138, 60, 260); S.environment = ENV;
-    const cam = new THREE.PerspectiveCamera(40, W / H, .5, 600);
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), new THREE.MeshStandardMaterial({ color: 0x1d2534, roughness: .95 }));
+    S.background = new THREE.Color(0x1a2138); S.fog = new THREE.Fog(0x9a6a68, 220, 1300); S.environment = ENV;
+    const cam = new THREE.PerspectiveCamera(40, W / H, .5, 4000);
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000), new THREE.MeshStandardMaterial({ color: 0x45404a, roughness: .95 }));
     ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; S.add(ground);
-    const sky = new THREE.Mesh(new THREE.SphereGeometry(400, 32, 16), new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false,
+    const sky = new THREE.Mesh(new THREE.SphereGeometry(2600, 32, 16), new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false,
       uniforms: {}, vertexShader: 'varying vec3 v;void main(){v=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
       fragmentShader: 'varying vec3 v;void main(){float h=clamp(v.y*2.5,0.,1.);vec3 c=mix(vec3(.98,.55,.32),vec3(.07,.10,.22),pow(h,.6));gl_FragColor=vec4(c,1.);}' }));
     S.add(sky);
     const hallMat = new THREE.MeshStandardMaterial({ color: 0xd9dde4, roughness: .6, metalness: .2 });
     const halls = [];
-    for (let i = 0; i < 6; i++) {
+    // site roads
+    for (let r = 0; r < 3; r++) { const road = new THREE.Mesh(new THREE.BoxGeometry(220, .1, 6), new THREE.MeshStandardMaterial({ color: 0x6a6672, roughness: .9 })); road.position.set(0, .05, 22 - r * 32); S.add(road); }
+    for (let i = 0; i < 8; i++) {
       const g = new THREE.Group(), body = new THREE.Mesh(new THREE.BoxGeometry(44, 9, 18), hallMat);
       body.position.y = 4.5; body.castShadow = true; body.receiveShadow = true; g.add(body);
       for (let j = 0; j < 10; j++) { const c = new THREE.Mesh(new THREE.BoxGeometry(3, 1.4, 3), new THREE.MeshStandardMaterial({ color: 0x8a95a6, metalness: .6, roughness: .4 })); c.position.set(-18 + j * 4, 9.7, 0); g.add(c); }
       const strip = new THREE.Mesh(new THREE.BoxGeometry(44.2, .3, .2), new THREE.MeshBasicMaterial({ color: 0x5fe0ff })); strip.position.set(0, 2.2, 9.05); g.add(strip);
-      g.position.set((i % 3) * 52 - 52, 0, Math.floor(i / 3) * -30); S.add(g); halls.push(g);
+      g.position.set((i % 4) * 52 - 78, 0, Math.floor(i / 4) * -32 + 6); S.add(g); halls.push(g);
     }
     const cranes = [];
     for (let i = 0; i < 3; i++) {
@@ -155,14 +164,22 @@
       S.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 200, .12, 6, false), new THREE.MeshBasicMaterial({ color: 0x5f7fa0 })));
       for (let q = 0; q < 6; q++) { const p = new THREE.Mesh(new THREE.SphereGeometry(.7, 12, 8), new THREE.MeshBasicMaterial({ color: 0x9ff3ff })); S.add(p); pulses.push([p, curve, q / 6]); }
     }
-    S.add(new THREE.HemisphereLight(0xffc9a0, 0x101420, .9));
+    const GP = 900, gseed = [];
+    const gg = new THREE.BufferGeometry(); gg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(GP * 3), 3));
+    const goldPts = new THREE.Points(gg, new THREE.PointsMaterial({ color: 0xffc766, size: 1.6, map: dotTex(), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); S.add(goldPts);
+    for (let i = 0; i < GP; i++) gseed.push([(rnd() - .5) * 200, 0, (rnd() - .5) * 70 - 10, rnd()]);
+    S.add(new THREE.HemisphereLight(0xffc9a0, 0x30303a, 1.1));
     const sun = new THREE.DirectionalLight(0xffb27a, 2.2); sun.position.set(-120, 60, 80); sun.castShadow = true;
     sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -150, right: 150, top: 150, bottom: -150, far: 500 }); S.add(sun);
     return {
       scene: S, camera: cam, update(t, u) {
         moveCam(cam, s.cam, u);
         const build = s.build ? clamp((t - s.build[0]) / (s.build[1] - s.build[0])) : 1;
-        halls.forEach((h, i) => { const f = ease(clamp(build * 1.6 - i * .12)); h.scale.set(1, Math.max(.02, f), 1); });
+        halls.forEach((h, i) => { const f = ease(clamp(build * 1.8 - i * .1)); h.scale.set(1, Math.max(.02, f), 1); });
+        const inv = s.invest ? clamp((t - s.invest[0]) / .6) * clamp((s.invest[1] - t) / .6) : 0; goldPts.material.opacity = inv;
+        const gp = goldPts.geometry.attributes.position.array;
+        for (let i = 0; i < GP; i++) { const q = gseed[i], f = (q[3] + t * .35) % 1; gp[i * 3] = q[0]; gp[i * 3 + 1] = 90 * (1 - f) + 2; gp[i * 3 + 2] = q[2]; }
+        goldPts.geometry.attributes.position.needsUpdate = true;
         cranes.forEach((c, i) => c.rotation.y = Math.sin(t * .25 + i * 2) * .6);
         const on = s.power ? clamp((t - s.power) / .8) : 0;
         pulses.forEach(([p, c, ph]) => { p.visible = on > 0; p.position.copy(c.getPointAt((ph + t * .18) % 1)); p.scale.setScalar(.5 + on * .7); });
@@ -265,14 +282,16 @@
     sun.shadow.mapSize.set(1024, 1024); Object.assign(sun.shadow.camera, { left: -16, right: 16, top: 16, bottom: -16 }); S.add(sun);
     const nodes = { fab, cloud, lab, cust };
     const v = new THREE.Vector3();
-    function label(id, obj, dy) { const el = document.getElementById(id); if (!el) return; v.copy(obj.position); v.y += dy; v.project(cam);
-      el.style.transform = `translate(${(v.x * .5 + .5) * 1920}px, ${(-v.y * .5 + .5) * 1080}px) translate(-50%,-100%)`; }
+    const ANCH = { top: 'translate(-50%,-100%)', left: 'translate(-100%,-50%) translate(-40px,0)', right: 'translate(40px,-50%)', bottom: 'translate(-50%,30px)' };
+    function label(id, obj, dy, a) { const el = document.getElementById(id); if (!el) return; v.copy(obj.position); v.y += dy; v.project(cam);
+      el.style.transform = `translate(${(v.x * .5 + .5) * 1920}px, ${(-v.y * .5 + .5) * 1080}px) ${ANCH[a || 'top']}`; }
     const m4 = new THREE.Matrix4();
     return {
       scene: S, camera: cam, update(t, u) {
         const a = s.orbit ? s.orbit[0] + (s.orbit[1] - s.orbit[0]) * clamp(u / s.dur) : .78;
-        cam.position.set(Math.sin(a) * 30, 22, Math.cos(a) * 30); cam.lookAt(0, 0, 0);
+        cam.position.set(Math.sin(a) * 30 + .5, 22, Math.cos(a) * 30 + 1); cam.lookAt(.5, -.5, 1);
         const zoom = s.zoom ? lerp(s.zoom[0], s.zoom[1], ease(clamp(u / s.dur))) : 1; cam.zoom = zoom; cam.updateProjectionMatrix();
+        cam.updateMatrixWorld(); // labels are projected before render: matrices must be current for cold seeks
         // build-in of nodes (s.rise = {fab:t, cloud:t, lab:t, cust:t})
         for (const k in nodes) { const f = s.rise ? ease(clamp((t - s.rise[k]) / .7)) : 1; nodes[k].scale.set(1, Math.max(.01, f), 1); nodes[k].visible = f > .01; }
         // demand growth (s.grow = {cust, fab, cloud, lab})
@@ -302,7 +321,7 @@
           const el = document.getElementById(s.packetLabel); if (el) { const p = packet.position.clone().project(cam);
             el.style.opacity = packet.visible ? 1 : 0; el.style.transform = `translate(${(p.x * .5 + .5) * 1920}px, ${(-p.y * .5 + .5) * 1080 - 34}px) translate(-50%,-100%)`; }
         }
-        label(s.labels.fab, fab, 4.0); label(s.labels.cloud, cloud, 2.8); label(s.labels.lab, lab, 4.3); label(s.labels.cust, cust, 3.4);
+        label(s.labels.fab, fab, 3.2, 'left'); label(s.labels.cloud, cloud, 1.0, 'left'); label(s.labels.lab, lab, 2.4, 'right'); label(s.labels.cust, cust, 1.2, 'right');
       }
     };
   }
@@ -310,7 +329,7 @@
   // ── world: 19th-century railway at golden hour ───────────────────────
   function railway(s) {
     const rnd = RNG(1870), S = new THREE.Scene();
-    S.background = new THREE.Color(0xe3bd7c); S.fog = new THREE.Fog(0xe3bd7c, 40, 190);
+    S.background = new THREE.Color(0xe3bd7c); S.fog = new THREE.Fog(0xe3bd7c, 70, 320);
     const cam = new THREE.PerspectiveCamera(38, W / H, .5, 500);
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600, 60, 60), new THREE.MeshStandardMaterial({ color: 0xb9904c, roughness: 1 }));
     const gp = ground.geometry.attributes.position; for (let i = 0; i < gp.count; i++) gp.setZ(i, (rnd() - .5) * .6);
@@ -368,7 +387,7 @@
         if (t < s.turn) moveCam(cam, s.camA, u); else moveCam(cam, s.camB, t - s.turn);
         const x = -70 + ((u * 9) % 150); train.position.set(x, 0, 0);
         let k = 0;
-        for (let i = 0; i < 60; i++, k++) { const f = ((i / 60) + u * .25) % 1; pos.set(x + 3.8 - f * 14, 4.6 + f * 7, (Math.sin(i * 3.1) * .5) * f * 3); sc.setScalar(.5 + f * 2.2);
+        for (let i = 0; i < 24; i++, k++) { const f = ((i / 24) + u * .5) % 1; pos.set(x + 3.8 - f * 16, 4.6 + f * 5, (Math.sin(i * 3.1) * .5) * f * 3); sc.setScalar(.35 + f * 1.1);
           m4.compose(pos, q, sc); puffs.setMatrixAt(k, m4); }
         chimneys.forEach((c, ci) => { for (let i = 0; i < 13; i++, k++) { const f = ((i / 13) + u * .12 + ci * .07) % 1; pos.set(c.x + f * 6, c.y + f * 14, c.z + f * 2); sc.setScalar(.6 + f * 2.6); m4.compose(pos, q, sc); puffs.setMatrixAt(k, m4); } });
         for (; k < PUFF; k++) { m4.makeScale(0, 0, 0); puffs.setMatrixAt(k, m4); }

@@ -10,7 +10,7 @@ def build():
     w_purch = W("purchases", "c05_15")
     w_pay = W("pay", "c05_05")
     labels = {"fab": "mf-fab", "cloud": "mf-cloud", "lab": "mf-lab", "cust": "mf-cust"}
-    regions = [("diorama", [(s, e)], f"""AI3D.add('diorama',{{start:{s},end:{e},world:'diorama',dur:{e - s},orbit:[.62,1.02],zoom:[.92,1.12],
+    regions = [("diorama", [(s, e)], f"""AI3D.add('diorama',{{start:{s},end:{e},world:'diorama',dur:{e - s},orbit:[.62,1.02],zoom:[.86,.98],
  rise:{{fab:{l['c05_02'][0]},cloud:{l['c05_03'][0]},lab:{l['c05_04'][0]},cust:{l['c05_05'][0]}}},
  flow:[{l['c05_03'][0] + 1.5},{l['c05_04'][0] + 1.5},{l['c05_05'][0] + .6}],pay:{w_pay},
  grow:{{cust:{l['c05_07'][0] + 1},fab:{l['c05_08'][0]},cloud:{l['c05_09'][0]},lab:{l['c05_10'][0]}}},

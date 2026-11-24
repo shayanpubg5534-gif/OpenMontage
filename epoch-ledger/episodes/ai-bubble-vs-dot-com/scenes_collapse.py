@@ -71,7 +71,7 @@ def chart_svg():
     return f"""<svg viewBox="0 0 1920 1080" class="full" xmlns="http://www.w3.org/2000/svg">
  <defs><radialGradient id="c24-paper" cx=".5" cy=".4" r=".8"><stop offset="0" stop-color="#f6ecd2"/><stop offset="1" stop-color="#e3cf9f"/></radialGradient></defs>
  <rect width="1920" height="1080" fill="url(#c24-paper)"/>{grid}<path d="M220 800 H1700" stroke="#6b5634" stroke-width="4"/>{years}
- <text x="220" y="120" font-family="Fraunces" font-weight="800" font-size="52" fill="#2a1d12">Nasdaq Composite</text>
+ <text x="220" y="150" font-family="Fraunces" font-weight="800" font-size="52" fill="#2a1d12">Nasdaq Composite</text>
  <polyline id="c24-up" points="{up}" fill="none" stroke="#2f7d5b" stroke-width="7" stroke-linejoin="round"/>
  <polyline id="c24-down" points="{down}" fill="none" stroke="#c0392b" stroke-width="7" stroke-linejoin="round"/>
  <polyline id="c24-after" points="{after}" fill="none" stroke="#8a7a5a" stroke-width="5" opacity="0"/>
@@ -83,7 +83,7 @@ def chart_svg():
   <text x="{LO[0] + 24:.0f}" y="{LO[1] + 6:.0f}" font-family="Inter" font-weight="700" font-size="30" fill="#6b5634">9 October 2002</text></g>
  <g id="c24-br" opacity="0"><path d="M{PK[0] - 40:.0f} {PK[1]:.0f} H{PK[0] - 70:.0f} V{LO[1]:.0f} H{PK[0] - 40:.0f}" fill="none" stroke="#c0392b" stroke-width="6"/>
   <text x="{PK[0] - 90:.0f}" y="{(PK[1] + LO[1]) / 2 + 20:.0f}" text-anchor="end" font-family="Fraunces" font-weight="800" font-size="84" fill="#c0392b">−78%</text></g>
- <g id="c25-stack" transform="translate({PK[0] - 70:.0f} {PK[1] - 150:.0f})" opacity="0">
+ <g id="c25-stack" transform="translate({PK[0] - 300:.0f} {PK[1] + 40:.0f})" opacity="0">
   {''.join(f'<rect class="c25-bill" x="0" y="{-i * 9}" width="150" height="62" rx="6" fill="#7fb07a" stroke="#2f5a32" stroke-width="3"/>' for i in range(10))}
  </g>
  <g id="c25-ctr" opacity="0"><rect x="1460" y="300" width="420" height="150" rx="18" fill="#2a1d12"/>

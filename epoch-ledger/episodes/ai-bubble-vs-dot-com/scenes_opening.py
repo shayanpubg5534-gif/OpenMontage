@@ -293,7 +293,7 @@ hide('#o3-y99',{t05s + .2}); tl.to('#o3-y26',{{x:-1560,duration:1.6,ease:'power2
 
     # ── s005: campus → chip → investors & industries ──────────────────
     regions.append(("campus-open", [(t07s, w_semi)], f"""AI3D.add('campus-open',{{start:{t07s},end:{w_semi},world:'campus',
- cam:{{from:[-110,62,120],to:[-60,40,92],look:[0,6,-20],lookTo:[10,4,-24],dur:{w_semi - t07s}}},build:[{t07s},{w_semi - .9}]}});"""))
+ cam:{{from:[-150,72,160],to:[-95,48,112],look:[10,8,-35],lookTo:[18,6,-38],dur:{w_semi - t07s}}},build:[{t07s},{w_semi - .9}]}});"""))
     regions.append(("chip-open", [(w_semi, w_inv7)], f"""AI3D.add('chip-open',{{start:{w_semi},end:{w_inv7},world:'chip',
  cam:{{from:[6.2,5.2,6.4],to:[4.2,3.4,4.4],look:[0,.5,0],dur:{w_inv7 - w_semi}}},spin:.12,explode:[{w_semi + .9},{w_inv7 - .9}],glow:{w_semi + .3}}});"""))
     scenes.append(Scene("o5dip", round(t07s - .25, 3), round(w_inv7 - t07s + .5, 3),
@@ -304,7 +304,7 @@ tl.fromTo('#o5-dip',{{opacity:0}},{{opacity:1,duration:.22}},{t07s - .25}); tl.t
 tl.fromTo('#o5-dip',{{opacity:0}},{{opacity:1,duration:.18}},{w_semi - .2}); tl.to('#o5-dip',{{opacity:0,duration:.25}},{w_semi});
 show('#o5-tag1',{t07s + .5}); hide('#o5-tag1',{w_semi - .4},.2); show('#o5-tag2',{w_semi + .4}); hide('#o5-tag2',{w_inv7 - .4},.2);
 """))
-    maya = maya_svg("mo", "bust").replace('class="char "', 'class="char" style="left:120px;top:470px;width:420px;height:504px"')
+    maya = maya_svg("mo", "bust").replace('class="char "', 'class="char" style="left:120px;top:330px;width:460px;height:552px"')
     scenes.append(Scene("o5", round(w_inv7 - .25, 3), round(t07e + .5 - w_inv7 + .25, 3),
         f'<div id="o5-cam" class="cam">{screens_svg()}{maya}</div><div class="tag m" id="o5-tag3">Illustrative</div>',
         js=f"""

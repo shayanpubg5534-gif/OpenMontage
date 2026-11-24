@@ -71,7 +71,7 @@ tl.to('#d-v3',{{attr:{{y:{Z + 4 * K + 60}}},fill:'#ff8a6a',duration:1.0,ease:'po
 tl.call(()=>{{}},[],{c5[0]}); const fv={{v:4}}; tl.to(fv,{{v:-4,duration:1.0,ease:'power2.inOut',onUpdate:()=>{{const e=document.getElementById('d-v3');e.textContent=(fv.v<0?'−':'')+'$'+Math.abs(Math.round(fv.v))+'B';}}}},{c5[0]});
 tl.to('#d-l3',{{attr:{{y:{Z - 22}}},duration:.6}},{c5[0]});
 tl.to('#cfo-brows',{{y:-6,duration:.3}},{c5[0] + .3}); tl.to('#cfo-mouth',{{scaleY:-1,transformOrigin:'50% 50%',duration:.3}},{c5[0] + .3}); blink('#cfo .lid',[{c2[0] + 1.2},{c4[0] + 2},{c5[0] + 1.4}]);
-tl.to('#d-chart',{{scale:.66,x:-140,y:-120,transformOrigin:'0px 0px',duration:.9,ease:'power2.inOut'}},{c6[0]});
+tl.to('#d-chart',{{scale:.62,x:-120,y:110,transformOrigin:'0px 0px',duration:.9,ease:'power2.inOut'}},{c6[0]});
 {"".join(f"pop('#d-tile{i}',{t});" for i, t in enumerate(opts))}
 tl.to('#d-tile3',{{borderColor:'#f2c66d',boxShadow:'0 0 40px rgba(242,198,109,.6)',duration:.5}},{opts[3] + .4});
 """

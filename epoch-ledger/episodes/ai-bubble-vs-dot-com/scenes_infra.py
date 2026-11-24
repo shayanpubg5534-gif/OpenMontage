@@ -49,21 +49,17 @@ tl.fromTo('#i1-flash',{{opacity:0}},{{opacity:1,duration:.35}},{w_phys});
     regions.append(("chip-infra", [(w_phys + .4, a8s)], f"""AI3D.add('chip-infra',{{start:{w_phys + .4},end:{a8s},world:'chip',
  cam:{{from:[1.2,7.5,1.4],to:[5.2,3.6,5.4],look:[0,.3,0],dur:{a8s - w_phys - .4}}},spin:.1,explode:[{a7s + .6},{w_calc}],glow:{a7s}}});"""))
     regions.append(("hall-infra", [(a8s, a10s)], f"""AI3D.add('hall-infra',{{start:{a8s},end:{a10s},world:'dataHall',
- cam:{{from:[0,2.6,3],to:[.4,1.3,-14],look:[0,1.3,-30],lookTo:[1.6,1.2,-30],dur:{a10s - a8s}}},thermal:{a9s + .2}}});"""))
+ cam:{{from:[0,1.7,-1.5],to:[.3,1.35,-16],look:[0,1.35,-30],lookTo:[1.4,1.2,-30],dur:{a10s - a8s}}},thermal:{a9s + .2}}});"""))
     regions.append(("campus-infra", [(a10s, a11e + .6)], f"""AI3D.add('campus-infra',{{start:{a10s},end:{a11e + .6},world:'campus',
- cam:{{from:[160,24,80],to:[-40,80,170],look:[90,14,10],lookTo:[0,4,-20],dur:{a11e + .6 - a10s}}},power:{w_energy},build:[{a11s - .2},{a11e}]}});"""))
+ cam:{{from:[150,22,95],to:[-70,70,150],look:[85,14,20],lookTo:[0,6,-25],dur:{a11e + .6 - a10s}}},power:{w_energy},invest:[{a11s},{a11e + .6}]}});"""))
     scenes.append(Scene("i2", round(w_phys + .3, 3), round(a11e + .6 - w_phys - .3, 3),
         '<div id="i2-flash" class="fill" style="background:#9ff3ff;opacity:0"></div><div id="i2-dip" class="fill" style="background:#02040a;opacity:0"></div>'
         '<div class="tag m" id="i2-t1">Processors</div><div class="tag m" id="i2-t2">Servers</div><div class="tag m" id="i2-t3">Cooling</div>'
-        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>'
-        '<div id="i2-coins" class="fill"></div>',
+        '<div class="tag m" id="i2-t4">Power</div><div class="tag m" id="i2-t5">Investment</div>',
         js=f"""
 tl.fromTo('#i2-flash',{{opacity:1}},{{opacity:0,duration:.6,ease:'power2.out'}},{w_phys + .4});
 [[{a8s},.22],[{a10s},.22]].forEach(([t,d])=>{{tl.fromTo('#i2-dip',{{opacity:0}},{{opacity:1,duration:d}},t-d);tl.to('#i2-dip',{{opacity:0,duration:.3}},t);}});
 show('#i2-t1',{a7s}); hide('#i2-t1',{a8s - .3},.2); show('#i2-t2',{a8s + .2}); hide('#i2-t2',{a9s - .2},.2);
 show('#i2-t3',{a9s + .1}); hide('#i2-t3',{a10s - .3},.2); show('#i2-t4',{w_energy}); hide('#i2-t4',{a11s - .1},.2); show('#i2-t5',{a11s + .2});
-(function(){{const b=document.getElementById('i2-coins');for(let i=0;i<26;i++){{const c=document.createElement('div');
- c.style.cssText='position:absolute;left:'+(760+(i*37)%400)+'px;top:-60px;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1c9,#f2c66d 45%,#b07a10);box-shadow:0 0 12px rgba(242,198,109,.8);opacity:0';b.appendChild(c);
- tl.fromTo(c,{{y:-60,opacity:0}},{{y:560+(i%5)*30,opacity:1,duration:1.1,ease:'power2.in'}},{a11s + .2}+i*.12); tl.to(c,{{opacity:0,duration:.3}},{a11s + 1.3}+i*.12);}}}})();
 """))
     return scenes, regions, ""
