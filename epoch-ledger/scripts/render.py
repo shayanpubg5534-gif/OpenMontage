@@ -244,7 +244,13 @@ def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
     tmp = cache_dir(ws) / f"{ch['key']}.tmp.mp4"
     cmd = render_command(ws, tmp, settings, ch["start"], ch["end"], workers)
     t = time.time()
-    subprocess.run(cmd, check=True, cwd=ws)
+    for attempt in (1, 2):  # HyperFrames occasionally exits non-zero after a good capture; retry once
+        r = subprocess.run(cmd, cwd=ws)
+        if r.returncode == 0:
+            break
+        if attempt == 2:
+            raise subprocess.CalledProcessError(r.returncode, cmd)
+        print(f"chunk {ch['key']} failed (exit {r.returncode}); retrying once", file=sys.stderr)
     subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(tmp), "-an", "-c", "copy", str(dst)], check=True)
     tmp.unlink(missing_ok=True)
     want, got = ch["end_frame"] - ch["start_frame"], frames_in(dst)

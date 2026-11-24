@@ -17,6 +17,24 @@ Status: **refined script ready for approval** (Option C approved as a one-time f
   ≈ 4.3 h for the first full 1080p render + ≈ 11 min chunk overhead; one-scene revisions 4–8 min.
 - Next (after approval): representative 960×540 draft previews of selected scenes; no full render.
 
+## Representative draft previews (2026-11-24) — awaiting approval
+
+960×540, 30 fps, HyperFrames captions, narration + original sound design (mix ≈ −15 LUFS).
+
+| Preview | Film time | Length | Render wall time | × real time |
+|---|---|---|---|---|
+| p1 Opening (complete) | 0:00–0:52 | 52.4 s | 698 s | 13.3× |
+| p2 Nasdaq collapse | 4:00–4:46 | 45.7 s | 337 s | 7.4× |
+| p3 3D AI infrastructure | 5:53–6:28 | 34.9 s | 504 s | 14.4× |
+| p4 Money-flow ecosystem | 7:16–8:38 | 82.4 s | 799 s | 9.7× |
+| p5 Debt explanation | 9:37–10:17 | 39.8 s | 417 s | 10.5× |
+| p6 Railway analogy | 12:43–13:00 | 17.3 s | 253 s | 14.6× |
+| **Total** | | **272.5 s** | **3,008 s (50 min)** | **11.0×** |
+
+3D-heavy scenes (software WebGL) cost the most. Projection for the full 18:19.5 at 540p: ≈ 3.4 h.
+The 1080p rate has not been measured on this episode; expect it to be materially slower — measure
+one 10-second 1080p chunk (≈ 3–5 min) before scheduling the final render.
+
 ---
 
 
