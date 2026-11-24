@@ -61,6 +61,13 @@ For every scene, in `storyboard`/`art-direction`, answer:
 
 ## 3. Animation
 
+- Craft rules, the series motion language and the helper library: `skills/creative/epoch-ledger-motion-craft.md`
+  (`kit/motion.js`, `kit/motion.py`, `kit/three_kit.js`). Its timing rules (1/3 rule, camera-move limits,
+  chart holds, stagger caps) are **flexible guidelines**, not restrictions.
+- **Keep the world alive:** subtle environmental animation, atmospheric lighting, parallax, background
+  movement and cinematic depth are part of the series look in every shot (ambient layer), always
+  lower in contrast than the primary action.
+
 - Characters use the jointed rig (`kit/rig.py` + `kit/rig.js`): varied looks (`crowd_look`),
   purposeful poses for the beat (`rpose`), seeded ambient acting (`ambient`), walks (`rwalk`),
   expressions (`rexpress`), props (phones, tickets, tools).
@@ -103,6 +110,7 @@ paid services; no engine migration without approval.
 - [ ] Requirement 2: rigged, varied acting; machines move as they work; no visible loops
 - [ ] Requirement 1: no primitive box structures in hero shots; three scales of detail
 - [ ] No repeated hero world without two changes (shot log)
+- [ ] `layout_check.mjs` clean for the changed range (or every remaining hit justified)
 - [ ] Text ≥ 34 px at 1080p, caption band (y ≥ 880) clear, sources on data; illustrative scales
       and hypotheticals labelled
 - [ ] Motion render of every changed sequence watched and compared with the previous version

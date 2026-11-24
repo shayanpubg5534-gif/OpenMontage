@@ -243,3 +243,30 @@ Epoch Ledger reference loaded only while building scenes.
    installs, and nothing is fetched at session start. CPU impact: none for the rules themselves.
    Blur-based text reveals and large particle systems are the only techniques with measurable
    render cost, so use them sparingly.
+
+## Motion-skills integration — implemented (2026-11-24)
+
+Approved: integrate and selectively adapt motion-design, explainer-video, data-animation,
+webgl-animation, map-animation, kinetic-typography, javascript-animation and the relevant
+freelance (motion system, delivery QC) references. YouTube end-screen layout adapted (no logo
+intro). b-roll and generative-illustration not integrated. Manim documented as an optional future
+capability. No packs were installed; everything is original code and wording in this repository.
+
+| Capability | Implementation |
+|---|---|
+| Series motion language | `config/production.json → production.motion_language`; `MOTION` tokens in `kit/motion.js` |
+| Kinetic typography | `ktext` (motion.py) + `mReveal` / `mUnreveal` / `mWordsAt` (motion.js) |
+| Diagrams / blueprints | `mDiagram`, `mFocus`, `mUnfocus`, `mFlow`, `mDrawOn`, `mBoil`; `diagram_node`, `diagram_edge` |
+| Data | `mCount` (Intl, tabular figures), `mBars`, `mLine` |
+| Environment / camera | `mAmbient`, `mParallax`, `mPush`, `mStutter` |
+| Isometric | `iso`, `iso_box`, `iso_grid`, `shade` |
+| Maps | `world_map_svg`, `projection`, `route_path`, `countries` + `kit/data/countries-110m.json` (Natural Earth, public domain; world-atlas, ISC) |
+| 3D on CPU | `kit/three_kit.js` (`ELK3D`: `keyCam`, `surface`, `flowAlong`, `flowField`, `shadowFollow`) |
+| End screen | `endscreen_html` + `mEndScreen` (last 5–20 s, live background, no logo) |
+| QA | `scripts/layout_check.mjs` (text collisions, caption band, off-frame, key objects; DOM only) |
+| Reference | `scripts/motion_demo.py` (30 s composition using every helper) |
+| Guidance | `skills/creative/epoch-ledger-motion-craft.md` + auto-discovered skill `.claude/skills/epoch-ledger-motion-craft` |
+
+Not implemented: GSAP SplitText/DrawSVG vendoring (our own split and draw-on cover the need without
+another dependency), Manim (deferred), CC0 3D asset downloads (hosts not approved), Remotion
+standalone templates from the packs (conflict with our scene-cached HyperFrames build).

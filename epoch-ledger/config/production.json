@@ -48,6 +48,51 @@
       "scene_brief": "message, audience understanding, demonstrating actions, trigger words, cause→mechanism→consequence — written before building",
       "continuation_rule": "introducing an object does not complete the explanation: each company/facility gets introduction → operation → transaction",
       "not_evidence": "frame-change metrics, camera movement, glow and particles are not evidence of quality"
+    },
+    "motion_language": {
+      "doc": "skills/creative/epoch-ledger-motion-craft.md",
+      "library": [
+        "epoch-ledger/kit/motion.js",
+        "epoch-ledger/kit/motion.py",
+        "epoch-ledger/kit/three_kit.js"
+      ],
+      "ease": {
+        "enter": "expo.out",
+        "exit": "power3.in",
+        "move": "sine.inOut",
+        "settle": "power3.out",
+        "camera": "sine.inOut",
+        "data": "power2.out"
+      },
+      "duration_s": {
+        "quick": 0.25,
+        "base": 0.45,
+        "slow": 0.8,
+        "hero": 1.6
+      },
+      "stagger_s": {
+        "line": 0.08,
+        "word": 0.055,
+        "char": 0.028,
+        "item": 0.06,
+        "grid": 0.025
+      },
+      "guidelines_flexible": {
+        "group_reveal_cap_s": 0.9,
+        "one_third_rule": "guideline",
+        "camera_one_intent_per_move": "guideline",
+        "chart_hold_s": 2.0
+      },
+      "always": [
+        "no overshoot on financial content",
+        "ambient environmental life, atmospheric light, parallax and depth are part of the series look",
+        "no logo intro or sting; end screen only in the last 5-20 s"
+      ],
+      "qa": "node epoch-ledger/scripts/layout_check.mjs <workspace>/index.html --start a --end b"
+    },
+    "optional_capabilities": {
+      "manim": "documented, not installed; approval needed (equation-heavy beats)",
+      "remotion": "caption pass kept; standalone templates from other skill packs not used"
     }
   },
   "narration": {

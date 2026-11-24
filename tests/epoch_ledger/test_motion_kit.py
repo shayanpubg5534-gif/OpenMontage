@@ -121,3 +121,22 @@ const { chromium } = require('playwright'); const { pathToFileURL } = require('u
     lc = subprocess.run(["node", str(EL / "scripts" / "layout_check.mjs"), str(tmp_path / "index.html"), "--every", "1"],
                         capture_output=True, text=True, timeout=300)
     assert lc.returncode == 0, lc.stdout[-2000:]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="node not available")
+def test_three_kit_is_deterministic(tmp_path):
+    vendor = _vendor_dir()
+    if vendor is None or not (vendor / "three.min.js").exists():
+        pytest.skip("no vendored three.js")
+    page = tmp_path / "t.html"
+    page.write_text(f"""<script src="{(vendor / 'three.min.js').as_uri()}"></script><script src="{(EL / 'kit' / 'three_kit.js').as_uri()}"></script>""")
+    probe = tmp_path / "p.cjs"
+    probe.write_text("""const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();
+await p.goto('file://'+process.argv[2]);const r=await p.evaluate(()=>{const c=new THREE.PerspectiveCamera(40,1.7,.1,100);
+const k=[[0,[0,0,10],[0,0,0],40],[2,[10,0,0],[0,0,0],30]];ELK3D.keyCam(c,k,1);const a=c.position.toArray();ELK3D.keyCam(c,k,1);
+return {a,b:c.position.toArray(),fov:c.fov,f1:ELK3D.flowField(5,1.3),f2:ELK3D.flowField(5,1.3),tex:!!ELK3D.surface('brick')};});
+console.log(JSON.stringify(r));await b.close();})();""")
+    r = subprocess.run(["node", str(probe), str(page)], check=True, capture_output=True, text=True, timeout=120)
+    s = json.loads(r.stdout.strip().splitlines()[-1])
+    assert s["a"] == s["b"] and abs(s["a"][0] - 5) < 1e-6 and abs(s["fov"] - 35) < 1e-6   # eased midpoint, repeatable
+    assert s["f1"] == s["f2"] and s["tex"]

@@ -45,6 +45,7 @@ def prepare_workspace(ws: Path, vendor_dir: Path | None = None) -> None:
     """Copy kit JS into WS/vendor. Fonts + GSAP + Three.js come from scripts/vendor.sh."""
     (ws / "vendor").mkdir(parents=True, exist_ok=True)
     shutil.copy(KIT / "vault3d.js", ws / "vendor" / "vault3d.js")
+    shutil.copy(KIT / "three_kit.js", ws / "vendor" / "three_kit.js")   # opt-in via head_scripts
 
 
 def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | None = None,

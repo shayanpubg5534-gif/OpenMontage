@@ -171,7 +171,7 @@ tl.to('#i3',{{opacity:0,duration:.2}},{a8s});
  GPU temperature<div style="position:relative;margin:12px auto 0;width:60px;height:480px;border-radius:30px;border:3px solid #8fa3b8;
  background:linear-gradient(#e0402a 0%,#f2a541 30%,#38d6ff 55%,#1f4a8a 100%)">
  <div style="position:absolute;left:-10px;right:-10px;top:44%;bottom:12%;border:3px dashed #7fdc8a;border-radius:10px"></div>
- <div id="i2-mk" style="position:absolute;left:-16px;width:76px;height:8px;border-radius:4px;background:#fff;box-shadow:0 0 10px #fff;top:92%"></div></div>
+ <div id="i2-mk" style="position:absolute;left:-16px;width:76px;height:8px;border-radius:4px;background:#fff;box-shadow:0 0 10px #fff;top:0"></div></div>
  <div style="margin-top:8px;color:#7fdc8a">safe range</div><div id="i2-hot" style="position:absolute;top:44px;left:0;right:0;color:#ff7a66;opacity:0">too hot</div></div>
 <div id="i2-loop" style="position:absolute;right:56px;top:40px;width:700px;opacity:0;padding:16px 20px;border-radius:14px;background:rgba(5,10,22,.86);border:3px solid #38d6ff">
  <svg viewBox="0 0 520 250" width="660" height="318" style="overflow:visible;font-family:Inter;font-weight:800">
@@ -185,8 +185,8 @@ tl.to('#i3',{{opacity:0,duration:.2}},{a8s});
   <text x="490" y="20" text-anchor="end" fill="#e0402a" font-size="20" id="i2-outl" opacity="0">heat out</text></svg></div>"""
     cool_js = f"""
 show('#i2-gauge',{w_oper}); hide('#i2-gauge',{a10s - .2},.2);
-tl.fromTo('#i2-mk',{{top:'92%'}},{{top:'6%',duration:{w_cool - .1 - w_oper},ease:'power1.in'}},{w_oper}); show('#i2-hot',{w_cool - .8},.3);
-tl.to('#i2-mk',{{top:'58%',duration:2.2,ease:'power2.out'}},{w_cool + .2}); hide('#i2-hot',{w_prev + .3},.3);
+tl.fromTo('#i2-mk',{{y:442}},{{y:29,duration:{w_cool - .1 - w_oper},ease:'power1.in'}},{w_oper}); show('#i2-hot',{w_cool - .8},.3);
+tl.to('#i2-mk',{{y:278,duration:2.2,ease:'power2.out'}},{w_cool + .2}); hide('#i2-hot',{w_prev + .3},.3);
 show('#i2-loop',{w_cool}); hide('#i2-loop',{a10s - .2},.2);
 tl.fromTo(['#i2-warm','#i2-coolp'],{{strokeDashoffset:0}},{{strokeDashoffset:-280,duration:{a10s - w_cool},ease:'none'}},{w_cool});
 show(['#i2-out','#i2-outl'],{w_prev + .2});

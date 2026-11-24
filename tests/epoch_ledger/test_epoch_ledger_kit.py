@@ -169,9 +169,21 @@ def test_component_index_matches_code():
         ep / "money_cutaways.py": ["fab", "cloud", "lab", "customers", "iris"],
         ep / "die.py": ["die_svg", "tiles_svg"],
         ep / "js/ai3d.js": ["serverRack", "campus2", "railway2", "diorama", "keyCam"],
+        root / "kit/motion.js": ["mReveal", "mWordsAt", "mDrawOn", "mBoil", "mDiagram", "mFocus", "mFlow", "mCount", "mBars", "mAmbient", "mParallax", "mStutter", "mEndScreen"],
+        root / "kit/motion.py": ["ktext", "iso_box", "iso_grid", "world_map_svg", "route_path", "endscreen_html", "diagram_node"],
+        root / "kit/three_kit.js": ["keyCam", "surface", "flowAlong", "flowField", "shadowFollow"],
     }
     for f, names in checks.items():
         src = f.read_text()
         for n in names:
             assert n in idx, f"{n} missing from COMPONENTS.md"
             assert re.search(rf"\b{re.escape(n)}\b", src), f"{n} not found in {f.name}"
+
+
+def test_motion_craft_is_discoverable():
+    root = Path(__file__).resolve().parents[2]
+    for f in ("AGENT_GUIDE.md", "skills/INDEX.md", "skills/creative/epoch-ledger.md", ".claude/commands/epoch-ledger.md", "epoch-ledger/QUALITY.md"):
+        assert "motion-craft" in (root / f).read_text() or "motion_craft" in (root / f).read_text(), f
+    assert (root / ".claude/skills/epoch-ledger-motion-craft/SKILL.md").exists()
+    cfg = json.loads((root / "epoch-ledger/config/production.json").read_text())
+    assert cfg["production"]["motion_language"]["guidelines_flexible"]["one_third_rule"] == "guideline"

@@ -18,6 +18,25 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `L`, `W`, `WE` | episode `timeline.py` | line windows and Whisper word times — **every beat keys to `W(word, line)`** |
 | `sfx.py` | episode `sfx.py` | synthesised original sound design + mix (no music) |
 
+## Motion kit (series-wide; guide: `skills/creative/epoch-ledger-motion-craft.md`)
+
+| Component | Where | Use |
+|---|---|---|
+| `MOTION` tokens | `kit/motion.js` (bundled in every composition) | series easing / durations / stagger (mirrors `config → production.motion_language`) |
+| `mReveal`, `mUnreveal`, `mWordsAt`, `mSplit` | `kit/motion.js` | kinetic type: masked line/word/char reveals; words landing on their Whisper times |
+| `ktext` | `kit/motion.py` | pre-split kinetic text markup (stable line breaks) |
+| `mDrawOn`, `mBoil` | `kit/motion.js` | blueprint / hand-drawn stroke draw-on (fills after outlines); boiling line |
+| `mDiagram`, `mFocus`, `mUnfocus`, `mFlow` | `kit/motion.js` | nodes → edges → labels; focus + context; marching connectors with tokens |
+| `diagram_node`, `diagram_edge` | `kit/motion.py` | SVG node/edge markup for the above |
+| `mCount`, `mBars`, `mLine` | `kit/motion.js` | exact formatted counters (tabular figures), bars, line draw |
+| `mAmbient`, `mParallax`, `mPush`, `mStutter` | `kit/motion.js` | environmental life, depth parallax, camera push, editorial 12 fps steps |
+| `iso`, `iso_box`, `iso_grid`, `shade` | `kit/motion.py` | true-isometric 2.5D builds with one fixed light |
+| `world_map_svg`, `projection`, `route_path`, `countries` | `kit/motion.py` + `kit/data/` | Natural Earth vector maps, highlights, great-circle routes |
+| `endscreen_html`, `mEndScreen` | `kit/motion.py`, `kit/motion.js` | YouTube end screen (last 5–20 s), live background, no logo |
+| `ELK3D.keyCam`, `surface`, `flowAlong`, `flowField`, `shadowFollow` | `kit/three_kit.js` (opt-in head script) | 3D camera keys, procedural materials, meaningful particle flows, shot-following shadows |
+| `layout_check.mjs` | `scripts/` | text-collision / caption-band / off-frame QA over time |
+| `motion_demo.py` | `scripts/` | reference composition exercising every helper |
+
 ## Characters and acting
 
 | Component | Where | Use |
