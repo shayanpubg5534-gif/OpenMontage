@@ -29,6 +29,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `mDiagram`, `mFocus`, `mUnfocus`, `mFlow` | `kit/motion.js` | nodes → edges → labels; focus + context; marching connectors with tokens |
 | `diagram_node`, `diagram_edge` | `kit/motion.py` | SVG node/edge markup for the above |
 | `mCount`, `mBars`, `mLine` | `kit/motion.js` | exact formatted counters (tabular figures), bars, line draw |
+| `mCamera` | `kit/motion.js` | 2D world camera: crane / pan / push across a large illustrated world (e.g. 3840×2160), depth-layer parallax, breathing holds |
 | `mAmbient`, `mParallax`, `mPush`, `mStutter` | `kit/motion.js` | environmental life, depth parallax, camera push, editorial 12 fps steps |
 | `iso`, `iso_box`, `iso_grid`, `shade` | `kit/motion.py` | true-isometric 2.5D builds with one fixed light |
 | `world_map_svg`, `projection`, `route_path`, `countries` | `kit/motion.py` + `kit/data/` | Natural Earth vector maps, highlights, great-circle routes |
@@ -41,7 +42,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 
 | Component | Where | Use |
 |---|---|---|
-| `rig_svg`, `crowd_look`, `PROPS` | `kit/rig.py` | jointed rig v2 (elbows, knees, neck), varied looks, hats (`cap`, `bowler`, `top`, `hard`, `bonnet`), props (phone, receiver, ticket, pad, pen, newspaper, coffee, hammer, shovel, suitcase, sack, coin, tablet) |
+| `rig_svg`, `crowd_look`, `PROPS` | `kit/rig.py` | jointed rig v2 (elbows, knees, neck), varied looks, hats (`cap`, `bowler`, `top`, `hard`, `bonnet`), props (phone, receiver, ticket, pad, pen, newspaper, coffee, box, hammer, shovel, suitcase, sack, coin, tablet) |
 | `rpose`, `rwalk`, `ambient`, `rtalk`, `rexpress`, `rcycle` | `kit/rig.js` | poses (phone, write, type, point, signal, shout, cheer, handsHead, slump, shrug, hold, hammerUp/Down, carry, lift, wave, sit, pay), natural walk, seeded ambient acting, talking, expressions, work cycles |
 | `place` | episode `floor.py` | position a rig SVG (x, y, width, flip) |
 | `modern`, `modern_user` | episode `rig_people.py` | modern cast; seated user at a desk |
@@ -56,6 +57,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `floor_scene` (+ `BOARD_JS`, `CSS`) | episode `floor.py` | 1999 trading floor, boom or panic: live quote board, CRT banks, rigged crowd, runners, 5-layer parallax |
 | `crt_close`, `portal` (+ `O2_CSS`) | episode `scenes_opening.py` | 1999 CRT desktop: mail, online shop, connected-world windows |
 | `defs`, `locomotive`, `coach`, `boxcar`, `track`, `station_building`, `canopy`, `derrick` | episode `railway_sets.py` | 1870s railway kit with brick/plank/ballast patterns, warm or cold grade |
+| `startup`, `tower`, `board`, `sky`, `skyline`, `cars` | episode `scenes_burn.py` | redesign world: cutaway dot-com building (billboard, office, servers, lobby cash tank), VC tower + boardroom, capital pipe + valve, market board, street |
 | `station` | episode `scenes_railway.py` | busy / failing / ruined station with acting cast |
 | `laptop`, `chat` | episode `scenes_infra.py` | home office at night, chat UI, request path to a data centre |
 | `fab`, `cloud`, `lab`, `customers`, `iris` | episode `money_cutaways.py` | company operation cutaways (introduce → operate → transact) with circular iris in/out |

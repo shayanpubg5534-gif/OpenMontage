@@ -144,6 +144,32 @@ function mPush(sel, t0, t1, o) {
 // Editorial "stutter": a stepped tween (default 12 fps) for map overlays, routes and annotations.
 function mStutter(sel, vars, t, dur, fps) { const steps = Math.max(1, Math.round(dur * (fps || 12))); tl.to(sel, Object.assign({}, vars, { duration: dur, ease: 'steps(' + steps + ')' }), t); }
 
+// ── 2D world camera ───────────────────────────────────────────────────────────────────────────
+// A large illustrated world (e.g. 3840×2160) filmed through the 1920×1080 frame. keys = [[t, x, y, s, move?], …]:
+// at time t the view's top-left is world (x, y) at scale s; the move into a key takes `move` s (default 1.2) and
+// ends on t (so start ~1 s before the word that names the subject). Between moves the camera keeps breathing
+// (o.drift = slow push). o.layers = [[selector, depth]] — depth < 1 moves slower (distant skyline), > 1 faster;
+// layers sit exactly as authored when the view is centred on o.ref (default: world centre, o.worldW × o.worldH).
+function mCamera(world, keys, o) {
+  o = o || {}; const W = o.w || 1920, H = o.h || 1080, P = { x: keys[0][1], y: keys[0][2], s: keys[0][3] };
+  const wEl = mEls(world)[0], layers = (o.layers || []).map(([sel, d]) => [mEls(sel), d]);
+  const apply = () => { gsap.set(wEl, { x: -P.x * P.s, y: -P.y * P.s, scale: P.s, transformOrigin: '0 0' });
+    const rx = o.ref ? o.ref[0] : (o.worldW || 3840) / 2, ry = o.ref ? o.ref[1] : (o.worldH || 2160) / 2;   // layers sit as authored when the view is centred on ref
+    layers.forEach(([els, d]) => gsap.set(els, { x: (P.x + W / P.s / 2 - rx) * (1 - d), y: (P.y + H / P.s / 2 - ry) * (1 - d) * .5 })); };
+  apply();
+  const drift = o.drift === undefined ? .025 : o.drift;
+  keys.forEach((k, i) => {
+    const [t, x, y, s, mv] = k, move = i ? (mv || 1.2) : 0;
+    if (i) tl.to(P, { x, y, s, duration: move, ease: o.ease || MOTION.ease.camera, onUpdate: apply }, t - move);
+    const next = keys[i + 1], holdEnd = next ? next[0] - (next[4] || 1.2) : (o.end || t + 3);
+    if (drift && holdEnd - t > .3) {                     // breathing push toward the frame centre during the hold
+      const cx = x + W / s / 2, cy = y + H / s / 2, s2 = s * (1 + drift);
+      tl.to(P, { x: cx - W / s2 / 2, y: cy - H / s2 / 2, s: s2, duration: holdEnd - t, ease: 'sine.inOut', onUpdate: apply }, t);
+    }
+  });
+  return P;
+}
+
 // ── series end screen (no logo intro; live film background continues) ─────────────────────────
 function mEndScreen(px, t, o) {
   o = o || {}; tl.fromTo('#' + px, { opacity: 0 }, { opacity: 1, duration: .6, ease: MOTION.ease.move }, t);

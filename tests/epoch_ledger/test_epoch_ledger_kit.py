@@ -169,7 +169,7 @@ def test_component_index_matches_code():
         ep / "money_cutaways.py": ["fab", "cloud", "lab", "customers", "iris"],
         ep / "die.py": ["die_svg", "tiles_svg"],
         ep / "js/ai3d.js": ["serverRack", "campus2", "railway2", "diorama", "keyCam"],
-        root / "kit/motion.js": ["mReveal", "mWordsAt", "mDrawOn", "mBoil", "mDiagram", "mFocus", "mFlow", "mCount", "mBars", "mAmbient", "mParallax", "mStutter", "mEndScreen"],
+        root / "kit/motion.js": ["mCamera", "mReveal", "mWordsAt", "mDrawOn", "mBoil", "mDiagram", "mFocus", "mFlow", "mCount", "mBars", "mAmbient", "mParallax", "mStutter", "mEndScreen"],
         root / "kit/motion.py": ["ktext", "iso_box", "iso_grid", "world_map_svg", "route_path", "endscreen_html", "diagram_node"],
         root / "kit/three_kit.js": ["keyCam", "surface", "flowAlong", "flowField", "shadowFollow"],
     }
