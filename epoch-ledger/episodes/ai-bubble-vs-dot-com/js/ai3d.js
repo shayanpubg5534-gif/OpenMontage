@@ -515,10 +515,201 @@
     };
   }
 
-  const WORLDS = { dataHall, campus, chip, diorama, railway, serverRack };
+
+  // ── world: railway analogy v2 — golden-hour main line with a detailed working locomotive, then an
+  // abandoned branch line in a colder grade. Both sets live in one scene, 3000 units apart.
+  function railway2(s) {
+    const rnd = RNG(1870), S = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(36, W / H, .3, 1400);
+    const hash = (x, z) => { const h = Math.sin(x * 127.1 + z * 311.7) * 43758.5453; return h - Math.floor(h); };
+    const vnoise = (x, z) => { const xi = Math.floor(x), zi = Math.floor(z), xf = x - xi, zf = z - zi, u = xf * xf * (3 - 2 * xf), v = zf * zf * (3 - 2 * zf);
+      return lerp(lerp(hash(xi, zi), hash(xi + 1, zi), u), lerp(hash(xi, zi + 1), hash(xi + 1, zi + 1), u), v); };
+    const fbm = (x, z) => { let a = 0, f = 1, amp = 1; for (let o = 0; o < 4; o++) { a += amp * vnoise(x * f, z * f); f *= 2.03; amp *= .5; } return a / 1.875; };
+    const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+    // terrain: flat corridor along the track, rolling hills beside it, mountains on the horizon
+    function heightAt(x, z, ox) { const lx = x - ox, d = Math.abs(z);
+      return fbm(lx * .018, z * .018) * 16 * smooth(9, 70, d) + Math.max(0, -z - 260) * .38 * (.6 + fbm(lx * .006, z * .01)) + (fbm(lx * .1, z * .1) - .5) * .6; }
+    function terrain(ox, pal) {
+      const geo = new THREE.PlaneGeometry(900, 900, 150, 150); geo.rotateX(-Math.PI / 2);
+      const p = geo.attributes.position, col = new Float32Array(p.count * 3), c = new THREE.Color(), cA = new THREE.Color(pal[0]), cB = new THREE.Color(pal[1]), cC = new THREE.Color(pal[2]);
+      for (let i = 0; i < p.count; i++) { const x = p.getX(i) + ox, z = p.getZ(i) - 200, h = heightAt(x, z, ox); p.setY(i, h); p.setZ(i, z);
+        const k = clamp(h / 18), n = hash(x * .3, z * .3) * .12; c.copy(cA).lerp(cB, k * .9 + n).lerp(cC, clamp((h - 30) / 60)); col.set([c.r, c.g, c.b], i * 3); }
+      geo.translate(ox, 0, 0); geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); geo.computeVertexNormals();
+      const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 })); m.receiveShadow = true; S.add(m);
+    }
+    const BX = 3000; // abandoned set offset
+    terrain(0, [0x7d8a3c, 0xa48c4c, 0x9a8a7a]); terrain(BX, [0x7d7a68, 0x8a8070, 0x8c8c90]);
+    const M = (c, r = .8, m = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
+    const add = (geo, mat, x, y, z, parent) => { const o = new THREE.Mesh(geo, mat); o.position.set(x, y, z); o.castShadow = true; o.receiveShadow = true; (parent || S).add(o); return o; };
+    // track: ballast, sleepers, rails (main line pristine; branch rusted with gaps)
+    function track(x0, x1, rusty) {
+      const len = x1 - x0, cx = (x0 + x1) / 2;
+      add(new THREE.BoxGeometry(len, .35, 4.2), M(rusty ? 0x77726a : 0x8a8170, 1), cx, .1, 0);
+      const n = Math.floor(len / 1.05), sl = new THREE.InstancedMesh(new THREE.BoxGeometry(.32, .16, 2.8), M(rusty ? 0x4a3d30 : 0x5a3e26, .95), n), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), e = new THREE.Euler();
+      let k = 0; for (let i = 0; i < n; i++) { if (rusty && hash(i, 3) < .14) continue; e.set(0, rusty ? (hash(i, 7) - .5) * .25 : 0, 0); q.setFromEuler(e);
+        m4.compose(new THREE.Vector3(x0 + i * 1.05, .33, 0), q, new THREE.Vector3(1, 1, 1)); sl.setMatrixAt(k++, m4); }
+      sl.count = k; sl.receiveShadow = true; S.add(sl);
+      const rm = rusty ? M(0x7a4426, .9, .2) : M(0x8a8f98, .35, .9);
+      [-.72, .72].forEach(z => add(new THREE.BoxGeometry(len, .16, .12), rm, cx, .49, z));
+    }
+    track(-300, 300, false); track(BX - 160, BX + 40, true);
+    // trees (main: full canopies; branch: bare, dead)
+    const treeTrunk = new THREE.CylinderGeometry(.18, .28, 1, 6), canopy = new THREE.ConeGeometry(1, 1, 7), crown = new THREE.IcosahedronGeometry(1, 0);
+    function forest(ox, n, dead) {
+      const tr = new THREE.InstancedMesh(treeTrunk, M(dead ? 0x5a514a : 0x4a3424, 1), n), cn = dead ? null : new THREE.InstancedMesh(rnd() < 2 ? crown : canopy, M(0x5f7a35, .95), n);
+      const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(); let k = 0;
+      for (let i = 0; k < n && i < n * 6; i++) { const x = ox + (rnd() - .5) * 700, z = (rnd() - .7) * 420; if (Math.abs(z) < 14) continue;
+        const h = heightAt(x, z, ox), s = 2.5 + rnd() * 3.5;
+        m4.compose(new THREE.Vector3(x, h + s * .5, z), q, new THREE.Vector3(1, s * (dead ? 1.4 : 1), 1)); tr.setMatrixAt(k, m4);
+        if (cn) { m4.compose(new THREE.Vector3(x, h + s * 1.25, z), q, new THREE.Vector3(s * .7, s * .75, s * .7)); cn.setMatrixAt(k, m4); }
+        k++; }
+      tr.count = k; tr.castShadow = true; S.add(tr); if (cn) { cn.count = k; cn.castShadow = true; S.add(cn); }
+    }
+    forest(0, 520, false); forest(BX, 160, true);
+    // dead trees near the camera path on the branch get branches
+    for (let i = 0; i < 7; i++) { const g = new THREE.Group(), x = BX - 120 + i * 22 + rnd() * 6, z = (i % 2 ? 1 : -1) * (9 + rnd() * 10);
+      add(new THREE.CylinderGeometry(.18, .35, 7, 6), M(0x5c544c, 1), 0, 3.5, 0, g);
+      for (let b = 0; b < 4; b++) { const br = add(new THREE.CylinderGeometry(.05, .12, 3, 5), M(0x5c544c, 1), 0, 4 + b * .8, 0, g); br.rotation.z = (b % 2 ? 1 : -1) * (.6 + rnd() * .4); br.rotation.y = rnd() * 6; br.position.x = (b % 2 ? -.6 : .6); }
+      g.position.set(x, heightAt(x, z, BX), z); S.add(g); }
+    // productive towns at both ends of the main line, with factory chimneys
+    const chimneyTops = [], windows = [];
+    function town(cx, cz, n, seed) { const r = RNG(seed);
+      for (let i = 0; i < n; i++) { const w = 4 + r() * 4, h = 3 + r() * 6, d = 4 + r() * 3, x = cx + (r() - .5) * 60, z = cz + (r() < .5 ? -1 : 1) * (14 + r() * 26);
+        add(new THREE.BoxGeometry(w, h, d), M([0xb0643e, 0xd8c09a, 0x9a5a3c, 0xc9a77a][i % 4], .9), x, h / 2 + heightAt(x, z, 0), z);
+        const roof = add(new THREE.ConeGeometry(Math.max(w, d) * .75, 2.2, 4), M(0x4a2e22, .9), x, h + 1.1 + heightAt(x, z, 0), z); roof.rotation.y = Math.PI / 4;
+        const win = new THREE.Mesh(new THREE.PlaneGeometry(w * .6, h * .25), new THREE.MeshBasicMaterial({ color: 0xffc766, transparent: true, opacity: .25 })); win.position.set(x, h * .5 + heightAt(x, z, 0), z + (z > 0 ? -d / 2 - .02 : d / 2 + .02)); if (z > 0) win.rotation.y = Math.PI; S.add(win); windows.push(win); }
+      for (let i = 0; i < 3; i++) { const x = cx - 10 + i * 9, z = cz - 48; add(new THREE.CylinderGeometry(.9, 1.3, 20, 10), M(0x7a3e2a, .9), x, 10, z); chimneyTops.push(new THREE.Vector3(x, 20.5, z)); }
+    }
+    town(-150, 0, 22, 1); town(80, 0, 26, 2);
+    // ── locomotive (4-4-0 American type), tender and train ──
+    const train = new THREE.Group(); S.add(train);
+    const blk = M(0x1c1d22, .45, .6), red = M(0x8e2a26, .55, .1), brass = M(0xd4a24c, .3, .9), steel = M(0x9aa0a8, .35, .9), green = M(0x2e4a3a, .6, .1), wood = M(0x6b4a2f, .9);
+    const L = new THREE.Group(); train.add(L);
+    add(new THREE.CylinderGeometry(1.0, 1.0, 5.4, 24), green, 1.6, 2.5, 0, L).rotation.z = Math.PI / 2;               // boiler
+    add(new THREE.CylinderGeometry(1.06, 1.06, 1.4, 24), blk, 4.6, 2.5, 0, L).rotation.z = Math.PI / 2;               // smokebox
+    for (let b = 0; b < 4; b++) add(new THREE.TorusGeometry(1.02, .04, 6, 24), brass, .2 + b * 1.3, 2.5, 0, L).rotation.y = Math.PI / 2; // boiler bands
+    const stackP = add(new THREE.CylinderGeometry(.75, .32, 1.8, 16, 1, true), blk, 4.7, 4.1, 0, L);                  // balloon stack
+    add(new THREE.CylinderGeometry(.42, .5, .9, 14), brass, 2.6, 3.7, 0, L); add(new THREE.SphereGeometry(.42, 14, 8, 0, 6.3, 0, 1.6), brass, 2.6, 4.1, 0, L); // steam dome
+    add(new THREE.CylinderGeometry(.35, .4, .7, 12), green, .8, 3.65, 0, L);                                           // sand dome
+    const bell = add(new THREE.ConeGeometry(.28, .45, 12, 1, true), brass, 1.7, 3.85, 0, L);
+    add(new THREE.BoxGeometry(.7, .6, .7), blk, 5.4, 3.3, 0, L); const lamp = add(new THREE.CircleGeometry(.24, 16), new THREE.MeshBasicMaterial({ color: 0xfff1c0 }), 5.76, 3.3, 0, L); lamp.rotation.y = Math.PI / 2;
+    const pilot = add(new THREE.ConeGeometry(1.3, 1.4, 4), red, 6.0, .75, 0, L); pilot.rotation.set(0, Math.PI / 4, -Math.PI / 2); pilot.scale.set(1, .6, 1);  // cowcatcher
+    add(new THREE.BoxGeometry(2.6, 2.7, 2.7), red, -1.9, 3.25, 0, L); add(new THREE.BoxGeometry(3.0, .2, 3.1), blk, -1.9, 4.7, 0, L);    // cab + roof
+    [-1.36, 1.36].forEach(z => add(new THREE.PlaneGeometry(1.1, .9), new THREE.MeshBasicMaterial({ color: 0xffc766, side: THREE.DoubleSide }), -1.9, 3.8, z, L));
+    add(new THREE.BoxGeometry(9.2, .35, 2.2), blk, 1.4, 1.35, 0, L);                                                   // frame
+    // cylinders, driving wheels with spokes, pony truck
+    const wheels = [], rods = [];
+    const wheel = (x, r, z, spokes) => { const g = new THREE.Group(); g.position.set(x, r, z); L.add(g);
+      add(new THREE.TorusGeometry(r * .92, r * .1, 8, 28), red, 0, 0, 0, g); add(new THREE.CylinderGeometry(r * .22, r * .22, .22, 14), red, 0, 0, 0, g).rotation.x = Math.PI / 2;
+      add(new THREE.TorusGeometry(r * .98, r * .05, 6, 28), steel, 0, 0, z > 0 ? -.06 : .06, g);
+      for (let k = 0; k < spokes; k++) { const sp = add(new THREE.BoxGeometry(.07, r * .85, .08), red, 0, 0, 0, g); sp.rotation.z = k / spokes * Math.PI * 2; sp.translateY(r * .45); }
+      if (r > .8) { const cw = add(new THREE.CylinderGeometry(r * .55, r * .55, .12, 16, 1, false, 0, 1.6), red, 0, 0, 0, g); cw.rotation.x = Math.PI / 2; }
+      wheels.push([g, r]); return g; };
+    const DR = 1.15, D1 = -.4, D2 = 2.0;
+    [-1, 1].forEach(sd => { const z = sd * 1.18;
+      wheel(D1, DR, z, 14); wheel(D2, DR, z, 14); wheel(4.3, .5, z, 8); wheel(5.4, .5, z, 8);
+      const cyl = add(new THREE.CylinderGeometry(.42, .42, 1.5, 14), blk, 4.85, DR + .1, sd * 1.45, L); cyl.rotation.z = Math.PI / 2;
+      const side = add(new THREE.BoxGeometry(D2 - D1 + .3, .14, .08), steel, 0, 0, sd * 1.5, L);        // coupling (side) rod
+      const conn = add(new THREE.BoxGeometry(1, .16, .08), steel, 0, 0, sd * 1.58, L);                  // main (connecting) rod
+      const piston = add(new THREE.CylinderGeometry(.05, .05, 1.6, 8), steel, 0, 0, sd * 1.58, L); piston.rotation.z = Math.PI / 2;
+      const xhead = add(new THREE.BoxGeometry(.35, .3, .14), brass, 0, 0, sd * 1.58, L);
+      rods.push({ sd, side, conn, piston, xhead }); });
+    // tender with coal, then freight wagons and a passenger coach
+    add(new THREE.BoxGeometry(4.2, 2.2, 2.6), green, -5.6, 2.2, 0, train); add(new THREE.BoxGeometry(3.4, .7, 2.2), M(0x141414, 1), -5.4, 3.5, 0, train);
+    const smallWheels = [];
+    const bogie = (x, parent) => [-1, 1].forEach(sd => [-.7, .7].forEach(dx => { const g = new THREE.Group(); g.position.set(x + dx, .55, sd * 1.18); parent.add(g);
+      add(new THREE.CylinderGeometry(.55, .55, .14, 14), blk, 0, 0, 0, g).rotation.x = Math.PI / 2; add(new THREE.BoxGeometry(.08, .9, .06), steel, 0, 0, sd * .08, g); smallWheels.push(g); }));
+    bogie(-6.6, train); bogie(-4.6, train);
+    const cargoCol = [0xd9c08a, 0x7a5a3a, 0xb0b8a0, 0xc98a4a, 0x8a9a6a];
+    for (let k = 0; k < 5; k++) { const x = -10.6 - k * 5.4;
+      add(new THREE.BoxGeometry(4.8, 1.6, 2.5), k === 4 ? M(0x6e2a22, .7) : wood, x, 1.9, 0, train);
+      if (k === 4) { add(new THREE.BoxGeometry(4.8, 1.3, 2.5), M(0x6e2a22, .7), x, 3.3, 0, train); add(new THREE.BoxGeometry(5, .2, 2.7), blk, x, 4.05, 0, train);
+        for (let w = 0; w < 4; w++) [-1.26, 1.26].forEach(z => add(new THREE.PlaneGeometry(.7, .6), new THREE.MeshBasicMaterial({ color: 0xffd27a, side: THREE.DoubleSide }), x - 1.6 + w * 1.05, 3.3, z, train)); }
+      else for (let c = 0; c < 3; c++) add(new THREE.BoxGeometry(1.3, .9 + hash(k, c) * .6, 2.0), M(cargoCol[(k + c) % 5], .9), x - 1.5 + c * 1.5, 3.1, 0, train);
+      bogie(x - 1.4, train); bogie(x + 1.4, train); }
+    // steam: puffs emitted from the stack with every half driver revolution, drifting back and rising
+    const PUFF = 90, puffs = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 1), new THREE.MeshStandardMaterial({ color: 0xf6efe2, transparent: true, opacity: .42, roughness: 1, depthWrite: false }), PUFF); S.add(puffs);
+    const CPUFF = 60, csmoke = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1, 1), new THREE.MeshStandardMaterial({ color: 0x8a8278, transparent: true, opacity: .45, roughness: 1 }), CPUFF); S.add(csmoke);
+    // ── abandoned branch: broken station, sagging fence, buffer stop, rusted wagon, rolling tumbleweed ──
+    const B = new THREE.Group(); B.position.set(BX, 0, 0); S.add(B);
+    add(new THREE.BoxGeometry(18, 1.0, 5), M(0x8a857c, 1), -40, .5, -5.2, B);                                           // platform
+    add(new THREE.BoxGeometry(8, 4.5, 5), M(0x7a6a58, 1), -40, 3.25, -10.6, B);                                         // station house
+    const roofB = add(new THREE.BoxGeometry(9.5, .3, 6.5), M(0x4a4038, 1), -40, 5.9, -10.6, B); roofB.rotation.z = .22; roofB.rotation.x = -.06;
+    for (let w = 0; w < 3; w++) { add(new THREE.PlaneGeometry(1.3, 1.2), M(0x1a1714, 1), -42.6 + w * 2.6, 3.4, -8.08, B);
+      for (let p = 0; p < 2; p++) { const pl = add(new THREE.BoxGeometry(1.6, .18, .05), M(0x8a7350, 1), -42.6 + w * 2.6, 3.1 + p * .55, -8.0, B); pl.rotation.z = (hash(w, p) - .5) * .7; } }
+    const sign = new THREE.Group(); sign.position.set(-44, 4.6, -7.9); B.add(sign);
+    add(new THREE.BoxGeometry(4.2, .9, .12), M(0xd8cdb0, 1), 2.0, -.35, 0, sign);
+    for (let i = 0; i < 18; i++) { const f = add(new THREE.BoxGeometry(.14, 1.4, .14), M(0x6a5a48, 1), -70 + i * 3, .7, 6.5, B); f.rotation.z = hash(i, 9) < .3 ? (hash(i, 2) - .5) * 1.6 : (hash(i, 4) - .5) * .2; }
+    add(new THREE.BoxGeometry(.6, 1.6, 3.2), M(0x7a2a22, .9), 40.5, 1.1, 0, B); add(new THREE.BoxGeometry(.3, .3, 3.6), M(0x3a2a20, 1), 40.2, 1.6, 0, B); // buffer stop
+    const wreck = new THREE.Group(); wreck.position.set(-12, .2, 0); wreck.rotation.set(.04, .02, .07); B.add(wreck);
+    add(new THREE.BoxGeometry(4.8, 1.6, 2.5), M(0x6a4a34, 1, .1), 0, 1.6, 0, wreck); bogie(-1.4, wreck); bogie(1.4, wreck);
+    for (let i = 0; i < 40; i++) { const g = add(new THREE.ConeGeometry(.25, .9 + hash(i, 1), 4), M(0x8a7a48, 1), -80 + hash(i, 5) * 120, .55, (hash(i, 6) - .5) * 4.4, B); g.rotation.z = (hash(i, 3) - .5) * .6; }
+    const tumble = add(new THREE.IcosahedronGeometry(.8, 1), new THREE.MeshStandardMaterial({ color: 0x9a8050, wireframe: true }), 0, .8, 2.5, B);
+    // lighting: warm low sun (main) → cold overcast (branch), switched at s.turn
+    const hemi = new THREE.HemisphereLight(0xffe2b0, 0x6a5030, .75); S.add(hemi);
+    const sun = new THREE.DirectionalLight(0xffb36a, 2.6); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -.0006;
+    Object.assign(sun.shadow.camera, { left: -45, right: 45, top: 45, bottom: -45, near: 1, far: 260 }); S.add(sun, sun.target);
+    const sky = new THREE.Mesh(new THREE.SphereGeometry(1200, 24, 12), new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false, fog: false,
+      uniforms: { top: { value: new THREE.Color(0x6f8fb8) }, mid: { value: new THREE.Color(0xf2c27a) }, low: { value: new THREE.Color(0xffd9a0) } },
+      vertexShader: 'varying vec3 p; void main(){ p = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+      fragmentShader: 'uniform vec3 top; uniform vec3 mid; uniform vec3 low; varying vec3 p; void main(){ float h=p.y; vec3 c=mix(low,mid,smoothstep(-.02,.08,h)); c=mix(c,top,smoothstep(.08,.5,h)); gl_FragColor=vec4(c,1.); }' }));
+    S.add(sky); S.fog = new THREE.Fog(0xf0c88a, 90, 620);
+    const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), pos = new THREE.Vector3(), tgt = new THREE.Vector3(), stackW = new THREE.Vector3();
+    const V = 7.5, X0 = -95; // train speed (units/s) and start
+    const trainX = (t) => X0 + V * (t - s.start);
+    function keyed(keys, t, ox) { let i = 0; while (i < keys.length - 1 && t >= keys[i + 1][0]) i++;
+      const a = keys[i], b = keys[Math.min(i + 1, keys.length - 1)], f = b === a ? 0 : ease(clamp((t - a[0]) / (b[0] - a[0])));
+      cam.position.lerpVectors(V3(a[1]), V3(b[1]), f); cam.position.x += ox; tgt.lerpVectors(V3(a[2]), V3(b[2]), f); tgt.x += ox;
+      cam.fov = lerp(a[3], b[3], f); cam.updateProjectionMatrix(); cam.lookAt(tgt); cam.updateMatrixWorld(); }
+    return {
+      scene: S, camera: cam, update(t, u) {
+        const branch = t >= s.turn, tx = trainX(t);
+        train.position.set(tx, .41, 0);
+        // wheels roll without slipping: angle = distance / radius (driving wheels, pony and wagon wheels)
+        const dist = V * (t - s.start);
+        wheels.forEach(([g, r]) => { g.rotation.z = -dist / r; }); smallWheels.forEach(g => { g.rotation.z = -dist / .55; });
+        const th = -dist / DR, pr = DR * .5;
+        rods.forEach(({ sd, side, conn, piston, xhead }) => { const ph = th + (sd > 0 ? 0 : Math.PI / 2), px = Math.cos(ph) * pr, py = Math.sin(ph) * pr;
+          side.position.set((D1 + D2) / 2 + px, DR + py, side.position.z);
+          const pinX = D2 + px, pinY = DR + py, cyY = DR + .1, Lr = 2.4, xh = pinX + Math.sqrt(Lr * Lr - (pinY - cyY) * (pinY - cyY));
+          conn.scale.x = Lr; conn.position.set((pinX + xh) / 2, (pinY + cyY) / 2, conn.position.z); conn.rotation.z = Math.atan2(cyY - pinY, xh - pinX);
+          xhead.position.set(xh, cyY, xhead.position.z); piston.position.set(xh + .8, cyY, piston.position.z); });
+        bell.rotation.x = Math.sin(t * 6) * .25;
+        // steam: one puff per half revolution, emitted at the stack's world position at its birth time
+        const period = Math.PI * DR / V, n0 = Math.floor((t - s.start) / period);
+        for (let k = 0; k < PUFF; k++) { const n = n0 - k, tb = s.start + n * period, age = t - tb;
+          if (n < 0 || age > 6) { m4.makeScale(0, 0, 0); puffs.setMatrixAt(k, m4); continue; }
+          const bx = trainX(tb) + 4.7, sz = .45 + age * .62;
+          pos.set(bx - age * 2.2 + Math.sin(n * 1.7) * .6, 5.2 + age * 1.9 - age * age * .08, Math.cos(n * 2.3) * .8 - age * .9);
+          q.setFromAxisAngle(sc.set(0, 1, 0), n); sc.setScalar(sz * clamp(age * 4) * (1 - smooth(4.5, 6, age))); m4.compose(pos, q, sc); puffs.setMatrixAt(k, m4); }
+        puffs.instanceMatrix.needsUpdate = true;
+        const busy = s.returns ? .35 + .65 * clamp((t - s.returns) / 1.2) : 1;
+        for (let k = 0; k < CPUFF; k++) { const c = chimneyTops[k % chimneyTops.length], ph = ((t * .25 + k / CPUFF * 3) % 1), age = ph * 8;
+          pos.set(c.x + age * 2.2, c.y + age * 2.2, c.z + Math.sin(k) * age * .4); sc.setScalar((1.2 + age * .9) * busy * (1 - ph)); q.identity(); m4.compose(pos, q, sc); csmoke.setMatrixAt(k, m4); }
+        csmoke.instanceMatrix.needsUpdate = true;
+        windows.forEach((w, i) => { w.material.opacity = .25 + .7 * (s.returns ? clamp((t - s.returns - (i % 7) * .12) / .4) : 1); });
+        // grade + light per set
+        if (!branch) { sun.color.setHex(0xffb36a); sun.intensity = 2.6; hemi.intensity = .75; S.fog.color.setHex(0xf0c88a); S.fog.near = 90; S.fog.far = 620;
+          sky.material.uniforms.top.value.setHex(0x6f8fb8); sky.material.uniforms.mid.value.setHex(0xf2c27a); sky.material.uniforms.low.value.setHex(0xffd9a0);
+          keyed(s.keysA, t, tx); }
+        else { sun.color.setHex(0xb8c4d6); sun.intensity = 1.3; hemi.intensity = .8; hemi.color.setHex(0xc0c8d4); S.fog.color.setHex(0xaab0b8); S.fog.near = 40; S.fog.far = 340;
+          sky.material.uniforms.top.value.setHex(0x7c8594); sky.material.uniforms.mid.value.setHex(0xa6adb6); sky.material.uniforms.low.value.setHex(0xb8bcc2);
+          keyed(s.keysB, t, BX); }
+        // the sun (and its shadow frustum) follows the camera target so shadows stay crisp in every shot
+        sun.target.position.copy(tgt); sun.position.copy(tgt).add(pos.set(-70, 55, 60)); sun.target.updateMatrixWorld();
+        sky.position.copy(cam.position);
+        // abandoned details: the station sign drops on one nail on "disaster", a tumbleweed rolls across
+        const sg = s.sign ? ease(clamp((t - s.sign) / .5)) : 0; sign.rotation.z = -sg * 1.15 + (sg > .99 ? Math.sin((t - s.sign) * 5) * .06 * Math.exp(-(t - s.sign - .5) * 1.5) : 0);
+        const tu = Math.max(0, t - s.turn); tumble.position.set(-60 + tu * 4.2, .8 + Math.abs(Math.sin(tu * 3)) * .4, 2.5 - tu * .3); tumble.rotation.z = -tu * 5;
+      }
+    };
+  }
+
+  const WORLDS = { dataHall, campus, chip, diorama, railway, serverRack, railway2 };
   function draw(t) {
     const s = shots.find(x => t >= x.start && t < x.end);
-    if (!s || !R) return;
+    if (!R) return;
+    if (!s) { R.clear(); return; }
     if (!s.inst) s.inst = WORLDS[s.world](s);
     s.inst.update(t, t - s.start);
     R.render(s.inst.scene, s.inst.camera);
