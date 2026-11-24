@@ -121,10 +121,10 @@ def test_assemble_defaults_to_1080p_and_supports_1440p():
                                      "lookAt": [0, 0, 0]}]},
                    scenes=[Scene("s1", 0, 10, "<div></div>")])
     assert 'data-width="2560" data-height="1440"' in qhd
-    assert "#root{width:1920px;height:1080px;zoom:1.3333333333}" in qhd
+    assert "#root{width:2560px;height:1440px}.clip{zoom:1.3333333333}" in qhd
     assert '"width": 2560, "height": 1440' in qhd  # 3D renders at full 1440p, not upscaled
     draft = assemble(title="t", duration=10, audio="", scenes=[Scene("s1", 0, 10, "<div></div>")], resolution="540p")
-    assert 'data-width="960" data-height="540"' in draft and "zoom:0.5000000000" in draft
+    assert 'data-width="960" data-height="540"' in draft and ".clip{zoom:0.5000000000}" in draft
     with pytest.raises(ValueError):
         assemble(title="t", duration=1, scenes=[], resolution="4k")
 

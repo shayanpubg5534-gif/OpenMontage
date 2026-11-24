@@ -1,0 +1,13 @@
+/* Episode palettes: V = 1990s vintage, M = modern AI, L = ledger (kit theme). */
+:root{--v-bg:#22180f;--v-amber:#f2a541;--v-cream:#f3e3c3;--v-teal:#3f7f7a;--v-crt:#7cff9b;--v-red:#d9503f;
+  --m-bg:#050a16;--m-steel:#1b2a44;--m-cyan:#38d6ff;--m-ice:#e8f3ff;--m-metal:#8fa3b8;--gold:#f2c66d}
+.tag{position:absolute;left:64px;top:52px;padding:8px 18px;border-radius:10px;font:700 26px Inter;letter-spacing:.12em;text-transform:uppercase;opacity:0}
+.tag.v{background:rgba(34,24,15,.78);color:var(--v-amber);border:2px solid var(--v-amber)}
+.tag.m{background:rgba(5,10,22,.72);color:var(--m-cyan);border:2px solid var(--m-cyan)}
+.tag.l{background:rgba(244,234,213,.92);color:#7a5a1c;border:2px solid #b8892e}
+.src{position:absolute;right:56px;top:56px;font:600 28px Inter;color:rgba(255,255,255,.82);text-shadow:0 2px 6px rgba(0,0,0,.7);opacity:0}
+.src.dark{color:#5a4a30;text-shadow:none}
+.lbl{position:absolute;font:800 38px Fraunces;color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.75);white-space:nowrap;opacity:0}
+.lbl small{display:block;font:600 26px Inter;letter-spacing:.06em;opacity:.85}
+.fill{position:absolute;inset:0}
+.year{position:absolute;font:800 44px Fraunces;letter-spacing:.04em;opacity:0}

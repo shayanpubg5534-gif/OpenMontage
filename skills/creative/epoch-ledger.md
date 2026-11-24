@@ -84,9 +84,9 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    `remotion` caption engine, then run `remotion_caption_burn` with
    `config → captions.remotion_burn_inputs` and re-encode to `yuv420p` (pilot path).
    Optional 1440p: build with `EPOCH_RESOLUTION=1440p` (scenes stay authored at 1920×1080;
-   the page is zoomed 4/3 so vectors and 3D re-rasterise sharply) and use the `hyperframes`
-   caption engine. HyperFrames lint reports `root_zoom_rescales_a_fixed_canvas` for this build;
-   it is expected — confirm in a snapshot that the frame is filled edge to edge.
+   each scene is zoomed 4/3 so vectors and 3D re-rasterise sharply) and use the `hyperframes`
+   caption engine. The kit sizes the root to the output frame and zooms each
+   top-level clip (never the root); confirm in a snapshot that the frame is filled edge to edge.
 9. **Verify** → `ffprobe` (1920×1080, 30 fps, yuv420p, AAC 48 kHz), loudness ≈ −16 LUFS,
    `blackdetect`/`freezedetect` clean, sampled frame sheet reviewed, captions match script.
 
