@@ -38,6 +38,28 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `layout_check.mjs` | `scripts/` | text-collision / caption-band / off-frame QA over time |
 | `motion_demo.py` | `scripts/` | reference composition exercising every helper |
 
+## Art direction v2: illustrated 3D, light, characters, diegetic data (plan first: `kit/scene_plan.py`)
+
+Use these for new or regenerated scenes. Approval stills live in `episodes/ai-bubble-vs-dot-com/styleframes/`
+(`sf1_establishing.py`, `sf2_medium.py`, `sf3_closeup.py`, shared `common.py`; outputs in `styleframes/out/`).
+
+| Component | Where | Use |
+|---|---|---|
+| `scene_plan.py` (`validate`, `python -m kit.scene_plan PLAN.json`) | `kit/scene_plan.py` | **mandatory** per-shot plan: beat, understanding, shot size, focal point, camera, lighting, technique, components, graphics (diegetic/standalone/overlay+why), rationale, guides consulted. Enforces shot-size variety and no unjustified overlays |
+| `S3.camera({pos, look, fov, shift})` | `kit/scene3d.js` | real perspective camera with lens shift (vertical-safe architecture), `project()` for anchoring glows/labels to 3D points |
+| `S3.scene()` → `box`, `quad`/`poly`, `cyl`, `tube`, `extrude`, `wheel`, `ground` | `kit/scene3d.js` | build sets in metres; faces lit by sun + sky/ground hemisphere + point lamps, fog, soft cast shadows |
+| `S3.facade({...})` | `kit/scene3d.js` | brick/glass building fronts: window grid, lit windows, sills, lintels, frames (seeded) |
+| `S3.art(p0, p1, p3, w, h, markup)` | `kit/scene3d.js` | map any SVG (whiteboard, billboard, screen, poster) onto a 3D quad in perspective |
+| `S3.sprite(foot, height, markup, aspect)` | `kit/scene3d.js` | depth-sorted 2D characters/props standing in the 3D set (occlusion + shadow) |
+| `S3.render(sc, cam, L, {ow, shadowBlur, uid})` | `kit/scene3d.js` | painter-sorted lit SVG with ink outlines thinning by distance; materials: `color, tex, texScale, texMix, tint, emissive, gloss, alpha, outline, receiver, doubleSided` |
+| `sky`, `haze`, `beams`, `glow`, `depth_blur`, `grade` | `kit/lightfx.py` | graded skies, atmospheric haze, light shafts, bloom, depth of field, vignette + grain + colour grade |
+| `figure_svg(p, costume, pose, expr, ...)`, `POSES`, `REACH`, `ik(` | `kit/rig3.py` | 7.5-head characters (three-quarter), detailed faces/hands/costumes; two-bone IK places hands on targets; FK groups compatible with `rig.js` |
+| `closeup_svg(p, expr, hand, key, ...)` | `kit/rig3.py` | modelled close-up head + shoulders (expression, tired lids, stubble, key/rim light, hand with phone or on chin); ids `-brows`, `-mouth`, `-lids`, `-hand` animate |
+| `portrait_svg` | `kit/rig3.py` | medium-close bust for inserts and over-shoulder shots |
+| `whiteboard_chart`, `crt_chart`, `ticker_board`, `gauge`, `press_clip` | `kit/diegetic.py` | financial data drawn on objects in the scene (map with `S3.art` or place in a 2.5D layer) |
+| CC0 textures + `LICENSES.md` | `kit/assets/textures/`, `kit/assets/LICENSES.md` | brick, wood_floor, plaster, asphalt, concrete, carpet (Poly Haven, CC0); every new asset gets its own licence row |
+| `still.mjs` | `scripts/still.mjs` | `node scripts/still.mjs page.html out.png` — 1920×1080 style-frame stills (no video render) |
+
 ## Characters and acting
 
 | Component | Where | Use |

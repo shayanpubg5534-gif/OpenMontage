@@ -1,0 +1,75 @@
+{
+ "brick": {
+  "asset": "large_red_bricks",
+  "name": "Large Red Bricks",
+  "source": "https://polyhaven.com/a/large_red_bricks",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/large_red_bricks/large_red_bricks_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Rob Tuytel"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/brick.jpg",
+  "bytes": 616870
+ },
+ "wood_floor": {
+  "asset": "oak_wood_planks",
+  "name": "Oak Wood Planks",
+  "source": "https://polyhaven.com/a/oak_wood_planks",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_wood_planks/oak_wood_planks_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Dimitrios Savva"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/wood_floor.jpg",
+  "bytes": 696814
+ },
+ "plaster": {
+  "asset": "grey_plaster_02",
+  "name": "Grey Plaster 02",
+  "source": "https://polyhaven.com/a/grey_plaster_02",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_plaster_02/grey_plaster_02_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Rob Tuytel"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/plaster.jpg",
+  "bytes": 772312
+ },
+ "asphalt": {
+  "asset": "asphalt_02",
+  "name": "Asphalt 02",
+  "source": "https://polyhaven.com/a/asphalt_02",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Rob Tuytel"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/asphalt.jpg",
+  "bytes": 731707
+ },
+ "concrete": {
+  "asset": "concrete_wall_003",
+  "name": "Concrete Wall 003",
+  "source": "https://polyhaven.com/a/concrete_wall_003",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_003/concrete_wall_003_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Dimitrios Savva",
+   "Rico Cilliers"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/concrete.jpg",
+  "bytes": 264756
+ },
+ "carpet": {
+  "asset": "dirty_carpet",
+  "name": "Dirty Carpet",
+  "source": "https://polyhaven.com/a/dirty_carpet",
+  "file": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_diff_1k.jpg",
+  "license": "CC0 1.0 Universal (public domain dedication) \u2014 https://polyhaven.com/license",
+  "authors": [
+   "Rohit Seervi"
+  ],
+  "local": "epoch-ledger/kit/assets/textures/carpet.jpg",
+  "bytes": 978020
+ }
+}

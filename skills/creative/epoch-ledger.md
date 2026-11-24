@@ -75,7 +75,12 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    kinetic type, diagrams, data, isometric, maps, 3D on CPU, transitions, end screen; helpers in
    `kit/motion.js`, `kit/motion.py`, `kit/three_kit.js`. Timing rules are flexible guidelines;
    ambient life, atmosphere, parallax and depth are always part of the look.
-5. **Scene briefs + art direction** → before building any scene write its brief (message,
+5. **Scene plan** → write `storyboard/scene_plan.json` and pass `python -m kit.scene_plan`
+   (see `QUALITY.md` §0): shot sizes, focal point, camera, lighting, technique, reused components,
+   diegetic graphics and the guides consulted. Art direction v2 tools: `kit/scene3d.js`
+   (perspective sets), `kit/lightfx.py`, `kit/rig3.py` (`figure_svg`, `closeup_svg`),
+   `kit/diegetic.py`; stills via `scripts/still.mjs` for approval before motion.
+6. **Scene briefs + art direction** → before building any scene write its brief (message,
    what the audience must understand, demonstrating actions, trigger words, cause → mechanism →
    consequence) and meet all four requirements in `epoch-ledger/QUALITY.md`: design detail,
    purposeful animation, word-level sync, **semantic storytelling** (show the meaning, not just

@@ -124,6 +124,28 @@ episode's choices in `art-direction.md`; deviate per scene when the brief says w
   first.
 - Seed everything; particles are pure functions of time, so any frame can be seeked.
 
+## 8b. Illustrated 3D sets, light and close-ups (art direction v2)
+
+- **Plan first.** Every shot gets a `scene_plan.json` entry (`kit/scene_plan.py`). Pick shot size
+  by purpose: establishing to place the relationship, medium to explain with people and the
+  object, close-up for consequence and emotion, insert or chart where data must be read.
+- **Sets:** `kit/scene3d.js`. Build in metres with a real camera (`S3.camera`, lens `shift` keeps
+  architecture vertical), facades with irregular lit windows, extrusions for vehicles and
+  profiles, CC0 textures (`tex`, `texMix` to calm busy textures), `ground` tiling for floors.
+  One key light (sun or lamp) and a hemisphere fill, fog for depth, soft cast shadows. Anchor
+  glows and labels to 3D points with `cam.project` so they move with the camera.
+- **Atmosphere:** `kit/lightfx.py`: graded `sky`, `haze` at the horizon, `beams` through windows,
+  `glow` on sources, `depth_blur` on foreground or background layers, and `grade` (vignette, grain).
+- **People:** `kit/rig3.py`. `figure_svg` for staging (IK `REACH` puts hands on keyboards, phones
+  and boards); mirror with `scale(-1 1)` to face left; `closeup_svg` for faces (expression,
+  tired lids, key/rim colour matching the light source in the scene).
+- **Data on objects:** `kit/diegetic.py`. Whiteboards, CRTs, market boards, gauges and press
+  clippings, mapped with `S3.art`. Prefer these to overlays; use a standalone chart when
+  precision matters more than context.
+- **Camera in motion:** move the `S3.camera` position or look keys per frame (re-render the SVG) for
+  hero moves, or layer the rendered set with `mCamera`/`mParallax` for 2.5D moves; slow, motivated
+  pushes, not constant drift.
+
 ## 9. Transitions
 
 Motivated only: a match cut on shape or action, a push into a screen or cutaway (circular iris),
