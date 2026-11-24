@@ -123,7 +123,7 @@ def derrick(x, y):
     return f"""<g transform="translate({x} {y})">
  <rect x="-90" y="120" width="180" height="70" rx="6" fill="#5a3e26" stroke="{O}" stroke-width="4"/>
  <rect x="-40" y="40" width="80" height="84" fill="#3a3a40" stroke="{O}" stroke-width="4"/><rect x="-14" y="-10" width="18" height="54" fill="#1c1d22" stroke="{O}" stroke-width="3"/>
- <g id="rb-jib"><path d="M0 60 L320 -200" stroke="#6b4a2f" stroke-width="16" stroke-linecap="round"/><path d="M0 60 L320 -200" stroke="#8a6440" stroke-width="7"/>
-  <g id="rb-load"><path d="M320 -200 L320 -60" stroke="#2a2a2a" stroke-width="3"/>
+ <g id="rwb-jib"><path d="M0 60 L320 -200" stroke="#6b4a2f" stroke-width="16" stroke-linecap="round"/><path d="M0 60 L320 -200" stroke="#8a6440" stroke-width="7"/>
+  <g id="rwb-load"><path d="M320 -200 L320 -60" stroke="#2a2a2a" stroke-width="3"/>
    <g transform="translate(320 -56)">{''.join(f'<rect x="-150" y="{k * 12}" width="300" height="10" fill="#8a8f98" stroke="{O}" stroke-width="2"/>' for k in range(3))}</g></g></g>
 </g>"""
