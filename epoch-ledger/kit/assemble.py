@@ -23,8 +23,11 @@ KIT = Path(__file__).resolve().parent
 # Output sizes. Scenes are always authored on a 1920x1080 design canvas; for 1440p the page and
 # root are 2560x1440 and the root is CSS-zoomed by 4/3, so vectors, text and SVG re-rasterise
 # crisply (HyperFrames' own --resolution upscale rejects the non-integer 1080p→1440p factor).
-# 1080p is the default; 1440p is optional until it has been benchmarked on a real episode.
-RESOLUTIONS = {"1080p": (1920, 1080), "1440p": (2560, 1440)}
+# 1080p is the default; 1440p is optional until it has been benchmarked on a real episode;
+# 540p is for draft previews only.
+RESOLUTIONS = {"1080p": (1920, 1080), "1440p": (2560, 1440), "540p": (960, 540)}
+# 540p is the draft-preview size (zoom 0.5): ~4x fewer pixels to rasterise per frame. Build it into
+# its own workspace (e.g. projects/<slug>/draft) so draft and final caches never mix.
 
 
 @dataclass
