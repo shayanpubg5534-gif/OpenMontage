@@ -138,3 +138,42 @@ speed up asset creation.
 
 Costs: no money (all free or CC0); the costs are authoring time and CPU render time. Measured
 draft rates on this machine are 11–26× real time at 540p, depending on 3D load and crowd size.
+
+## Claude Code optimisation tools — Graphify, RTK, Ponytail (2026-11-24)
+
+Checked against each project's own README, licence and package registry from this cloud session.
+Nothing was installed. Priority: documentary quality first, token efficiency second.
+
+| | Graphify | RTK | Ponytail |
+|---|---|---|---|
+| What it is | Claude Code skill + Python CLI that builds a knowledge graph of a folder (tree-sitter AST for code, Claude reads docs/images) | Rust CLI + Claude Code hook that compresses shell-command output before the agent reads it | One always-on prompt (skill/plugin) for "smallest complete change" coding, plus review/audit commands |
+| Licence | Apache-2.0 | CLI Apache-2.0; optional proxy BUSL-1.1 (excluded) | MIT |
+| Install path here | `pip install graphifyy` (PyPI reachable, 0.9.110) + skill file | install script and release downloads are not reachable from this environment; `cargo` is present, so a source build is possible | npm `@dietrichgebert/ponytail` 5.3.3 reachable; Claude Code plugin marketplace |
+| Cloud compatibility | works (Python, local files) | hook works in Claude Code CLI sessions; it only rewrites Bash commands, so Read/Grep/Glob are untouched | prompt works; its status band does not show in cloud sessions |
+| Persistence across sessions | **no** by default: the container is fresh each session, so you reinstall via the environment setup script; the graph output must be committed or rebuilt | **no**: binary + `~/.claude` hook vanish; needs a setup-script build (several minutes) or a cached binary | plugin/skill must be reinstalled or committed into the repo's `.claude/` |
+| Privacy / security | code AST stays local; docs and images are sent to Claude during extraction (same model we already use); note: the README links to `safishamsi/graphify`, so confirm which repository is canonical before trusting the package | telemetry **off by default** (opt-in); local history database kept 90 days; the optional pipelines can send file contents to third-party models with your API key (excluded); RTK Pro is a paid upsell (excluded) | prompt only; no network; only install from the author's GitHub/npm |
+| Extra processing cost | the first build reads every doc with the model; OpenMontage has hundreds of markdown skill files, so a full-repo build costs **many tokens up front**. Code-only, `epoch-ledger/`-scoped runs are cheap | < 25 ms per command | ≈ 1 k tokens of always-on instructions per session |
+| Realistic token saving for us | small: its own benchmark is ~1× at 6 files and 5–70× only on large mixed corpora. Our working set is ~40 kit/episode files that I already read selectively | moderate on noisy commands (pytest, git, npm, ls). Our biggest costs are snapshot images and file writes, which RTK does not touch. Expected: modest single-digit % of session tokens | real on routine code, but its core rule ("skip features nobody asked for", "deletion beats addition", ultra mode pushes back) **directly conflicts** with authored animation detail |
+| Conflicts | adds a second navigation index next to AGENT_GUIDE/skills; a post-commit hook would add rebuilds on every commit | rewrites Bash commands globally: render/ffmpeg/HyperFrames logs pass through unfiltered (not in its filter list), but compressed pytest/git output must never hide a failure — RTK promises raw fallback and `rtk bypass` | session-wide behaviour change; would bias scene code toward minimal motion; its `shortcut:` comments add noise to scene files |
+
+**Recommendation (for your approval):**
+
+1. **Adopt now, no install:** a maintained `epoch-ledger/COMPONENTS.md` index of reusable kit parts
+   (rig, poses, sets, 3D worlds, cutaways, ledgers, helpers) with one line each. It gives
+   Graphify's main benefit (find components without re-reading files) at zero cost, it persists in git,
+   and every session can use it.
+2. **Optional trial: RTK (CLI only, telemetry off, no pipelines, no proxy).** Build it in the
+   environment setup script, enable the Claude Code hook for one development session, and compare
+   `rtk gain` against the quality checks; keep it only if no diagnostic information is lost.
+   Expected benefit: modest.
+3. **Not now: Graphify.** Low benefit at our repository scope and a large first-build token cost on
+   OpenMontage's documentation; reconsider as a code-only (AST) graph of `epoch-ledger/` if the kit
+   grows several-fold.
+4. **Do not install Ponytail as always-on.** Its minimal-code rules conflict with QUALITY.md
+   (purposeful detail and animation complexity are the product). At most, run a manual
+   `/ponytail-review` (lite) on non-creative Python tooling (`scripts/`, tests), never on scene
+   or animation code. We already apply its useful rules: reuse existing helpers, grep callers
+   before editing.
+
+Best combination: **component index (now) + optional RTK trial**, with Graphify and Ponytail
+deferred. No change to production rules or quality standards.
