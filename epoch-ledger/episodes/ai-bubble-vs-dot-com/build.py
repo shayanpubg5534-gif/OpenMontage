@@ -21,18 +21,20 @@ from kit.assemble import RESOLUTIONS, assemble, prepare_workspace  # noqa: E402
 
 import timeline  # noqa: E402
 import floor  # noqa: E402
-import scenes_opening, scenes_collapse, scenes_infra, scenes_money, scenes_debt, scenes_railway  # noqa: E402,E401
+import scenes_opening, scenes_collapse, scenes_infra, scenes_money, scenes_debt, scenes_railway, scenes_burn  # noqa: E402,E401
 
 WORKSPACE = Path(sys.argv[1]) if len(sys.argv) > 1 else KIT_ROOT.parent / "projects" / HERE.name / "hyperframes"
 CONFIG = json.loads((KIT_ROOT / "config" / "production.json").read_text())
 resolution = os.environ.get("EPOCH_RESOLUTION", CONFIG["render"]["default_resolution"])
 OUT_W, OUT_H = RESOLUTIONS[resolution]
 
-MODULES = [scenes_opening, scenes_collapse, scenes_infra, scenes_money, scenes_debt, scenes_railway]
+MODULES = [scenes_opening, scenes_collapse, scenes_infra, scenes_money, scenes_debt, scenes_railway, scenes_burn]
+# Redesign in progress: scenes superseded by the new visual direction (removed from the build, code kept for reference)
+SUPERSEDED = {"c23"}
 scenes, regions, css = [], [], []
 for m in MODULES:
     sc, rg, cs = m.build()
-    scenes += sc
+    scenes += [x for x in sc if x.id not in SUPERSEDED]
     regions += rg
     css.append(cs)
 

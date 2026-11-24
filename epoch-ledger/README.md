@@ -21,6 +21,13 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 | `kit/rig.py`, `kit/rig.js` | Jointed character rig v2 (elbows, knees, neck, props), varied crowd looks, pose library, natural walk, seeded ambient acting, expressions |
 | `kit/motion.js`, `kit/motion.py`, `kit/three_kit.js` | **Motion kit**: kinetic type, draw-on, diagrams, focus/context, flows, counters, bars, ambient life, parallax, stutter, end screen; isometric, Natural Earth maps and routes; 3D camera keys, procedural surfaces, flow fields (guide: `skills/creative/epoch-ledger-motion-craft.md`) |
 | `scripts/layout_check.mjs` | Text-collision QA over the timeline (no rendering) |
+| `kit/scene3d.js` | **Art direction v2**: illustrated vector-3D engine: real perspective camera, sun/sky/lamp lighting, fog, soft shadows, CC0 textures, art mapped on surfaces, depth-sorted character sprites |
+| `kit/lightfx.py` | Skies, haze, light shafts, bloom, depth of field, colour grade + grain |
+| `kit/rig3.py` | Character rig v3: 7.5-head figures with detailed faces, hands, costumes, IK poses; `closeup_svg` modelled close-ups |
+| `kit/diegetic.py` | Financial data on objects: whiteboard chart, CRT chart, market board, gauge, press clipping |
+| `kit/scene_plan.py` | Mandatory shot plan + validator (shot size, technique, graphics, guides consulted) |
+| `kit/assets/` | CC0 textures (Poly Haven) with a per-asset licence register `LICENSES.md` |
+| `scripts/still.mjs` | 1920×1080 still of a page (style frames for approval) |
 | `scripts/motion_demo.py` | 30 s reference composition showing every motion helper |
 | `kit/data/` | Natural Earth country shapes (world-atlas, ISC; Natural Earth public domain) — `LICENSES.md` |
 | `COMPONENTS.md` | **Component index** — every reusable character, set, overlay and 3D world with where it lives; check it first, update it with every new component |

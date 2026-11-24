@@ -93,6 +93,18 @@ For every scene, in `storyboard`/`art-direction`, answer:
 - A reused world/set must change at least two of: environment, perspective, action, purpose.
   Keep a shot log (world, camera class, action) and flag duplicates before rendering.
 
+### Scene plan (mandatory, machine-checked)
+
+Before any scene code, record each shot in `storyboard/scene_plan.json` (schema and validator:
+`epoch-ledger/kit/scene_plan.py`; run `python -m kit.scene_plan PLAN.json` from `epoch-ledger/`).
+Each shot names the beat it serves, what the viewer must understand, the shot size
+(establishing / wide / medium / close-up / insert / chart...), focal point, camera move, lighting,
+technique, reused components, every graphic (diegetic, standalone chart, or overlay with a written
+reason) and the guides consulted: the motion-craft guide, `COMPONENTS.md` and this file. The
+validator fails on missing guides, unjustified overlays and runs of more than three same-size
+shots. For a new look, build 1920×1080 style frames (`scripts/still.mjs`) and get them approved
+before any motion render. Reference: `episodes/ai-bubble-vs-dot-com/styleframes/`.
+
 ## 6. 3D asset policy
 
 Procedural Three.js (no GPU, software WebGL) is the default. Raise quality with procedural
@@ -100,10 +112,23 @@ canvas textures, instancing and richer silhouettes before anything else. CC0 ass
 Haven / ambientCG textures and HDRIs, Kenney/Quaternius models) are acceptable when licence and
 source are recorded in the decision log; adding a download host needs the user's approval. No
 paid services; no engine migration without approval.
+Approved hosts (user approval, Nov 2026): Poly Haven, ambientCG, Kenney, Quaternius, Wikimedia
+Commons (public-domain/CC0 files only, checked per file). Every downloaded asset gets its own row
+in `epoch-ledger/kit/assets/LICENSES.md` (source URL, author, licence, local path) in the same
+commit; a test checks the register against the files.
+
+**Art direction v2 (default for new and regenerated scenes):** real-perspective illustrated sets
+with `kit/scene3d.js` (lit, textured, fogged, shadowed SVG — one inked language with the
+characters), atmosphere and grade with `kit/lightfx.py`, rig v3 characters (`kit/rig3.py`:
+`figure_svg` for staging, `closeup_svg` for emotional beats), and financial data drawn on objects
+with `kit/diegetic.py`. Use isometric dioramas and Three.js only where the plan says why. Avoid
+simulation-game looks: repeated rectangles, floating dashboards, toy-like cars and buildings.
 
 ## 7. Checklist before asking for approval
 
-- [ ] Scene brief written for each scene (section 0)
+- [ ] Scene brief written for each scene (section 0) and `scene_plan.json` passes the validator
+- [ ] Shot sizes vary (establishing / medium / close-up) and every graphic is diegetic or a justified chart
+- [ ] Style frames approved before motion when the look changes
 - [ ] Requirement 4: every line's meaning is demonstrated, not just its subject; each introduced
       object goes on to operate and transact; cause shown before consequence
 - [ ] Requirement 3: every action keyed to its word; no unexplained static periods

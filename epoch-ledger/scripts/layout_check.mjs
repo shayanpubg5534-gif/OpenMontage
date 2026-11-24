@@ -62,7 +62,7 @@ for (let t = start; t <= end + 1e-6; t += every) {
         const cs = getComputedStyle(e); if (cs.overflow === 'visible' && cs.clipPath === 'none') continue;
         const q = e.getBoundingClientRect(); x0 = Math.max(x0, q.left); y0 = Math.max(y0, q.top); x1 = Math.min(x1, q.right); y1 = Math.min(y1, q.bottom); }
       const b = { x: (x0 - rb.left) * sx, y: (y0 - rb.top) * sx, w: (x1 - x0) * sx, h: (y1 - y0) * sx }; if (!(b.w >= 4 && b.h >= 4)) return;
-      texts.push({ el, b, read: !!el.closest(READ) && !el.closest('[data-deco]'), id: el.id || (el.closest('[id]') || {}).id || el.tagName, cap: !!el.closest('.ecap'), txt: el.textContent.trim().slice(0, 40) });
+      texts.push({ el, b, deco: !!el.closest('[data-deco]'), read: !!el.closest(READ) && !el.closest('[data-deco]'), id: el.id || (el.closest('[id]') || {}).id || el.tagName, cap: !!el.closest('.ecap'), txt: el.textContent.trim().slice(0, 40) });
     });
     const keeps = Array.from(document.querySelectorAll('[data-keep]')).filter(vis).map(el => ({ b: box(el), id: el.id || 'keep' }));
     const inter = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
@@ -76,6 +76,7 @@ for (let t = start; t <= end + 1e-6; t += every) {
       for (let j = i + 1; j < texts.length; j++) { const B = texts[j];
         if (A.cap && B.cap) continue;
         if (!A.read && !B.read) continue;                                  // decorative vs decorative is art, not a collision
+        if ((A.cap && B.deco) || (B.cap && A.deco)) continue;              // in-world signage passing behind a caption box
         if (A.el.contains(B.el) || B.el.contains(A.el)) continue;          // nested text (title + <small>)
         const ar = inter(A.b, B.b); if (ar >= minArea) out.push({ kind: 'text-overlap', a: A.id, b: B.id, text: A.txt + ' / ' + B.txt, area: Math.round(ar) }); }
       if (A.read) keeps.forEach(K => { const ar = inter(A.b, K.b), full = ar >= A.b.w * A.b.h * .98;

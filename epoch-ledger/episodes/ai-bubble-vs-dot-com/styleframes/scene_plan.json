@@ -1,0 +1,59 @@
+{
+  "episode": "ai-bubble-vs-dot-com",
+  "scope": "Style frames for the cash-furnace sequence (3:30-4:14) — approval stills for the upgraded art direction",
+  "shots": [
+    {
+      "id": "sf1_establishing",
+      "beat": {"t": "3:30", "narration": "Investors poured billions into internet companies..."},
+      "understanding": "Investor money flows from the venture firm across the street into a dot-com that is spending it loudly; the market is euphoric.",
+      "shot": "establishing",
+      "focal_point": "BigCart building and its rooftop billboard (left third), with the capital pipe running from Summit Ventures into it",
+      "camera": "low eye-level, two-point perspective down the street; in motion: slow push-in along the pipe (mCamera / keyCam)",
+      "lighting": "dusk sun low at the end of the street (warm key), lamp pools, lit windows; fog for depth; vignette + grain",
+      "technique": ["scene3d", "rig3", "lightfx", "diegetic"],
+      "components": ["S3.facade", "S3.extrude", "S3.tube", "S3.ground", "S3.art", "S3.sprite", "sky", "haze", "grade", "figure_svg", "ticker_board"],
+      "graphics": [
+        {"kind": "diegetic", "what": "TECH STOCKS market board at the street's end (rising line)", "why": "market euphoria shown in the world"},
+        {"kind": "diegetic", "what": "capital pipe with valve from the VC tower into BigCart", "why": "the money flow is physical and continuous"},
+        {"kind": "diegetic", "what": "cash tank visible through the lobby window", "why": "the company's balance is an object"}
+      ],
+      "rationale": "An establishing shot must place the viewer in the era and show the relationship (VC -> startup) before any detail. Real perspective, texture and dusk light replace the flat isometric diorama the audit rejected; the money is plumbing, not a dashboard.",
+      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md", "docs/epoch-ledger-art-direction-audit.md"]
+    },
+    {
+      "id": "sf2_medium",
+      "beat": {"t": "3:37", "narration": "...spending heavily on advertising, employees and infrastructure..."},
+      "understanding": "Spending on ads, staff and servers dwarfs revenue; the gap is filled with investor cash — and the team can see it.",
+      "shot": "medium",
+      "focal_point": "the manager pointing at the easel whiteboard burn chart (right half); worried staff react on the left",
+      "camera": "eye level, slight angle; in motion: settle-in dolly with the bars drawn on in sync with 'advertising / employees / infrastructure' (mDrawOn, mWordsAt)",
+      "lighting": "interior panel lights + warm dusk window light from the left, soft cast shadows, mild fog to separate the back wall",
+      "technique": ["scene3d", "rig3", "lightfx", "diegetic"],
+      "components": ["S3.ground", "S3.art", "S3.sprite", "S3.box", "S3.cyl", "texMix", "beams", "grade", "figure_svg", "whiteboard_chart", "gauge", "press_clip"],
+      "graphics": [
+        {"kind": "diegetic", "what": "marker bar chart on an easel whiteboard (ADS / STAFF / SERVERS vs REVENUE)", "why": "a character explains the gap inside the story"},
+        {"kind": "diegetic", "what": "CRT showing a falling cash balance", "why": "foreshadows the close-up"},
+        {"kind": "diegetic", "what": "hiring banner, Super Bowl ad poster, framed funding clipping, cash gauge on the brass riser", "why": "each spending category is set dressing"}
+      ],
+      "rationale": "A medium shot lets the viewer read both the explanation and the human reaction. The chart is drawn by a character on an object, satisfying the 'no floating dashboards' rule while staying legible.",
+      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md"]
+    },
+    {
+      "id": "sf3_closeup",
+      "beat": {"t": "4:02", "narration": "...and when the money ran out..."},
+      "understanding": "The consequence is personal: the founder, alone at night, sees the cash run out while trying to raise more.",
+      "shot": "close-up",
+      "focal_point": "the founder's worried face (left-centre), eyes toward the CRT",
+      "camera": "locked off — stillness sells the dread; in motion only a slow 2% push and the curve finishing its fall (mDrawOn)",
+      "lighting": "red CRT key from screen-right with rim light, cool blue ambient fill, out-of-focus night office and city bokeh",
+      "technique": ["rig3", "scene3d", "lightfx", "diegetic", "2.5d"],
+      "components": ["closeup_svg", "crt_chart", "S3.art", "glow", "grade"],
+      "graphics": [
+        {"kind": "diegetic", "what": "CASH BALANCE curve and RUNWAY LEFT on the CRT", "why": "the data is the light source on his face"},
+        {"kind": "diegetic", "what": "term sheet and calculator (-4.2M) on the desk", "why": "story props, not labels"}
+      ],
+      "rationale": "Shot variety (establishing -> medium -> close-up) and an emotional beat. The close-up rig draws a modelled three-quarter face with expression, stubble and a real hand on the phone, instead of scaling up a full-body figure.",
+      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md"]
+    }
+  ]
+}

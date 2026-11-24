@@ -74,6 +74,7 @@ PROPS = {
     "shovel": '<g><path d="M150 318 L150 420" stroke="#7a5230" stroke-width="6" stroke-linecap="round"/><path d="M138 418 L162 418 L158 450 Q150 458 142 450Z" fill="#6b7078" stroke="{o}" stroke-width="2.5"/></g>',
     "suitcase": '<g><rect x="126" y="326" width="50" height="38" rx="5" fill="#7a4a2a" stroke="{o}" stroke-width="2.5"/><path d="M142 326 Q150 316 158 326" stroke="{o}" stroke-width="3" fill="none"/><path d="M126 340 H176" stroke="#c9a15a" stroke-width="3"/></g>',
     "sack": '<g><path d="M128 300 Q124 352 150 356 Q178 352 172 300 Q150 290 128 300Z" fill="#c9b48a" stroke="{o}" stroke-width="2.5"/><path d="M140 300 L160 300" stroke="#8a7350" stroke-width="3"/></g>',
+    "box": '<g><path d="M118 296 L182 296 L186 352 L114 352Z" fill="#c9a06a" stroke="{o}" stroke-width="2.5"/><path d="M118 296 L150 284 L182 296" fill="#b08850" stroke="{o}" stroke-width="2"/><path d="M128 316 H172" stroke="#8a6a3a" stroke-width="3"/></g>',
     "coin": '<circle cx="150" cy="306" r="9" fill="#f2c66d" stroke="#8a6a1c" stroke-width="2.5"/>',
     "tablet": '<g><rect x="126" y="292" width="52" height="38" rx="5" fill="#20242c" stroke="{o}" stroke-width="2.5"/><rect x="131" y="297" width="42" height="28" rx="2" fill="#7fd8ff"/></g>',
     "coffee": '<g><rect x="138" y="300" width="24" height="30" rx="3" fill="#f4ead5" stroke="{o}" stroke-width="2.5"/><path d="M162 306 C172 306 172 320 162 320" stroke="{o}" stroke-width="2.5" fill="none"/></g>',
