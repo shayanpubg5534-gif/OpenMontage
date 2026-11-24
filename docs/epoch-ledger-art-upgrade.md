@@ -108,7 +108,7 @@ Captions are in the approved pilot style.
 
 **Render performance:**
 - First render: 741 frames at 1080p30 ("looks" quality), split into two chunks rendered with `--jobs 2` on 4 vCPU.
-- Wall time was 9 min 35 s, about 23× real time.
+- Wall time was 9 min 35 s, about 23× real time. The revision render took 10 min 26 s, about 25× real time.
 - The textured street and office sets cost about 1.1 s per frame. The close-up costs about 0.5 s per frame.
 - Rough extrapolation for the 18.3-minute film at this density: 6–8 hours. Scene caching means
   only changed scenes re-render.
