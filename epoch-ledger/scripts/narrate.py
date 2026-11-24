@@ -32,30 +32,43 @@ def _dur(path: Path) -> float:
                                           "-of", "csv=p=0", str(path)]))
 
 
-def synthesize(lines: list[dict], work: Path, cfg: dict, reuse: bool = False) -> list[dict]:
-    from tools.tool_registry import registry
-    registry.discover()
-    tts = registry._tools["tts_selector"]
+def _line_key(spoken: str, cfg: dict) -> str:
+    """Content address for one voiced line: same text + voice settings → same audio file."""
+    import hashlib
+    sig = f"{cfg['tool']}|{cfg['voice']}|{cfg['speed']}|{spoken}"
+    return hashlib.sha1(sig.encode()).hexdigest()[:12]
+
+
+def spoken_text(line: dict) -> str:
+    """What the narrator says. `tts` overrides pronunciation only; captions always use `text`."""
+    return line.get("tts", line["text"])
+
+
+def synthesize(lines: list[dict], work: Path, cfg: dict, reuse: bool = True) -> list[dict]:
+    """Voice each line once and cache it by content, so edits re-voice only the changed lines."""
+    tts = None
     segs, t = [], cfg["lead_seconds"]
     work.mkdir(parents=True, exist_ok=True)
-    for i, line in enumerate(lines):
-        raw, trimmed = work / f"line_{i:03d}_{line['id']}.wav", work / f"t_line_{i:03d}_{line['id']}.wav"
-        if reuse and trimmed.exists():
-            d = _dur(trimmed)
-            segs.append({"id": line["id"], "text": line["text"], "file": str(trimmed),
-                         "start": round(t, 3), "end": round(t + d, 3)})
-            t += d + line.get("pause_after", cfg["gap_seconds"])
-            continue
-        r = tts.execute({"text": line["text"], "preferred_tool": cfg["tool"], "voice": cfg["voice"],
-                         "speed": cfg["speed"], "output_path": str(raw)})
-        if not r.success:
-            raise RuntimeError(f"TTS failed on line {line['id']}: {r.error}")
-        subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(raw), "-af",
-                        "silenceremove=start_periods=1:start_threshold=-50dB,areverse,"
-                        "silenceremove=start_periods=1:start_threshold=-50dB,areverse",
-                        "-ar", "24000", "-ac", "1", str(trimmed)], check=True)
+    for line in lines:
+        spoken = spoken_text(line)
+        key = _line_key(spoken, cfg)
+        raw, trimmed = work / f"v_{key}.wav", work / f"vt_{key}.wav"
+        if not trimmed.exists():
+            if tts is None:
+                from tools.tool_registry import registry
+                registry.discover()
+                tts = registry._tools["tts_selector"]
+            r = tts.execute({"text": spoken, "preferred_tool": cfg["tool"], "voice": cfg["voice"],
+                             "speed": cfg["speed"], "output_path": str(raw)})
+            if not r.success:
+                raise RuntimeError(f"TTS failed on line {line['id']}: {r.error}")
+            subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(raw), "-af",
+                            "silenceremove=start_periods=1:start_threshold=-50dB,areverse,"
+                            "silenceremove=start_periods=1:start_threshold=-50dB,areverse",
+                            "-ar", "24000", "-ac", "1", str(trimmed)], check=True)
+            print(f"voiced {line['id']}")
         d = _dur(trimmed)
-        segs.append({"id": line["id"], "text": line["text"], "file": str(trimmed),
+        segs.append({"id": line["id"], "text": line["text"], "spoken": spoken, "key": key, "file": str(trimmed),
                      "start": round(t, 3), "end": round(t + d, 3)})
         t += d + line.get("pause_after", cfg["gap_seconds"])
     return segs
@@ -74,7 +87,52 @@ def mix(segs: list[dict], out: Path, cfg: dict) -> float:
     return total
 
 
+_WHISPER = {}
+
+
+def _merge_numbers(raw: list[dict]) -> list[dict]:
+    merged = []
+    for x in raw:
+        w = x["word"].strip()
+        if not w:
+            continue
+        # Whisper splits numbers: "$10" ",000" · "86" "%" · "$5" ".5"
+        if merged and (w.startswith(",") or w == "%" or (w[:1] in ".%" and merged[-1]["word"][-1:].isdigit())):
+            merged[-1]["word"] += w
+            merged[-1]["end"] = x["end"]
+        else:
+            merged.append({"word": w, "start": x["start"], "end": x["end"]})
+    return merged
+
+
+def transcribe_lines(segs: list[dict], model: str) -> list[dict]:
+    """Whisper each voiced line on its own (cached next to the audio) and offset to film time.
+
+    Per-line transcription never skips a short line the way one long pass can, keeps word
+    times inside their line, and lets an edit re-transcribe only the lines that changed. No
+    prompt is given, so a mispronounced word still shows up as a mismatch for review.
+    """
+    words = []
+    for s in segs:
+        cache = Path(s["file"]).with_suffix(f".{model}.words.json")
+        if cache.exists():
+            rel = json.loads(cache.read_text())
+        else:
+            if model not in _WHISPER:
+                from faster_whisper import WhisperModel
+                _WHISPER[model] = WhisperModel(model, device="cpu", compute_type="int8")
+            parts, _ = _WHISPER[model].transcribe(s["file"], language="en", word_timestamps=True,
+                                                   condition_on_previous_text=False)
+            rel = [{"word": w.word, "start": w.start, "end": w.end} for p in parts for w in (p.words or [])]
+            cache.write_text(json.dumps(rel))
+        for w in _merge_numbers(rel):
+            words.append({"word": w["word"], "start": round(s["start"] + w["start"], 3),
+                          "end": round(s["start"] + w["end"], 3)})
+    return words
+
+
 def transcribe(audio: Path, model: str, outdir: Path, reuse: bool = False) -> list[dict]:
+    """Single-pass transcription of a full mix (legacy path; per-line is the default)."""
     cached = outdir / f"{audio.stem}_transcript.json"
     if reuse and cached.exists() and cached.stat().st_mtime >= audio.stat().st_mtime:
         raw = json.loads(cached.read_text())["word_timestamps"]
@@ -86,16 +144,27 @@ def transcribe(audio: Path, model: str, outdir: Path, reuse: bool = False) -> li
         if not r.success:
             raise RuntimeError(f"transcription failed: {r.error}")
         raw = r.data["word_timestamps"]
-    merged = []
-    for x in raw:
-        w = x["word"].strip()
-        # Whisper splits numbers: "$10" ",000" · "86" "%" · "$5" ".5"
-        if merged and (w.startswith(",") or w == "%" or (w[:1] in ".%" and merged[-1]["word"][-1:].isdigit())):
-            merged[-1]["word"] += w
-            merged[-1]["end"] = x["end"]
-        else:
-            merged.append({"word": w, "start": x["start"], "end": x["end"]})
-    return merged
+    return _merge_numbers(raw)
+
+
+def audio_check(words: list[dict], segs: list[dict]) -> list[dict]:
+    """Per line: script words Whisper heard differently (pronunciation review list)."""
+    import difflib
+    out = []
+    for s in segs:
+        heard = [w["word"] for w in words if s["start"] - 0.01 <= w["start"] <= s["end"] + 0.01]
+        a = [_norm(x) for x in s["text"].split()]
+        b = [_norm(x) for x in heard]
+        for op, a1, a2, b1, b2 in difflib.SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+            if op == "equal":
+                continue
+            said, got = " ".join(s["text"].split()[a1:a2]), " ".join(heard[b1:b2])
+            if _is_number_words(s["text"].split()[a1:a2]) and any(c.isdigit() for c in got):
+                continue  # numerals for spelled-out numbers are fine
+            if _norm(said.replace("-", "")) == _norm(got.replace(" ", "")):
+                continue  # hyphenation / spacing only
+            out.append({"id": s["id"], "script": said, "heard": got})
+    return out
 
 
 def _norm(s: str) -> str:
@@ -267,8 +336,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("episode", type=Path)
     ap.add_argument("--workspace", type=Path)
-    ap.add_argument("--reuse", action="store_true",
-                    help="keep already-voiced lines and a transcript newer than the mix (re-voice only changed/missing lines)")
+    ap.add_argument("--reuse", action="store_true", help=argparse.SUPPRESS)  # always on: content-cached
     a = ap.parse_args(argv)
     ep = a.episode.resolve()
     ws = (a.workspace or REPO / "projects" / ep.name / "hyperframes").resolve()
@@ -276,22 +344,22 @@ def main(argv=None):
     art.mkdir(exist_ok=True)
     lines = json.loads((ep / "script.json").read_text())["lines"]
     ncfg, ccfg = CONFIG["narration"], CONFIG["captions"]
-    segs = synthesize(lines, ws.parent / "assets" / "audio", ncfg, reuse=a.reuse)
+    segs = synthesize(lines, ws.parent / "assets" / "audio", ncfg)
     wav = ws / "narration.wav"
-    if a.reuse and wav.exists() and all(Path(s["file"]).stat().st_mtime <= wav.stat().st_mtime for s in segs):
-        total = round(segs[-1]["end"] + ncfg["tail_seconds"], 2)  # mix is already up to date
-    else:
-        total = mix(segs, wav, ncfg)
-    words = transcribe(wav, ccfg["whisper_model"], ws.parent / "artifacts" / "transcript", reuse=a.reuse)
+    total = mix(segs, wav, ncfg)
+    words = transcribe_lines(segs, ccfg["whisper_model"])
     aligned = reconcile(words, segs)
     pages = caption_pages(aligned, ccfg["max_words_per_page"])
     (art / "narration_timing.json").write_text(json.dumps({"total": total, "segments": segs}, indent=1))
     (art / "words.json").write_text(json.dumps(words, indent=0))
     (art / "caption_phrases.json").write_text(json.dumps(pages, indent=1))
     (art / "captions.srt").write_text(srt(pages))
+    check = audio_check(words, segs)
+    (art / "audio_check.json").write_text(json.dumps(check, indent=1))
     for s in segs:
         print(f"{s['start']:7.2f}–{s['end']:7.2f}  {s['id']}")
-    print(f"total {total}s → {ws / 'narration.wav'}; {len(pages)} caption pages")
+    print(f"total {total}s → {ws / 'narration.wav'}; {len(pages)} caption pages; "
+          f"{len(check)} pronunciation mismatches to review (artifacts/audio_check.json)")
 
 
 if __name__ == "__main__":

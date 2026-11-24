@@ -106,7 +106,7 @@
   {
    "id": "c02_01",
    "chapter": 2,
-   "text": "During the early 1990s, the internet began transforming from a relatively specialized network into something ordinary people could access.",
+   "text": "During the early 1990s, the internet began to change from a specialized network into something ordinary people could use.",
    "pause_after": 0.45
   },
   {
@@ -148,7 +148,7 @@
   {
    "id": "c02_08",
    "chapter": 2,
-   "text": "Money began flowing into internet companies at an extraordinary pace.",
+   "text": "Money began flowing into internet companies at a remarkable pace.",
    "pause_after": 0.45
   },
   {
@@ -226,13 +226,13 @@
   {
    "id": "c03_01",
    "chapter": 3,
-   "text": "By the beginning of 2000, enthusiasm surrounding internet companies had reached extraordinary levels.",
+   "text": "By the beginning of 2000, enthusiasm for internet companies had reached fever pitch.",
    "pause_after": 0.45
   },
   {
    "id": "c03_02",
    "chapter": 3,
-   "text": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed approximately eighty-six percent during 1999 alone.",
+   "text": "The Nasdaq Composite, heavily influenced by technology stocks, had climbed roughly eighty-six percent in 1999 alone.",
    "pause_after": 0.45
   },
   {
@@ -244,7 +244,7 @@
   {
    "id": "c03_04",
    "chapter": 3,
-   "text": "They were spending enormous amounts of money on advertising, employees and infrastructure without generating enough revenue to sustain themselves.",
+   "text": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves.",
    "pause_after": 0.45
   },
   {
@@ -262,7 +262,7 @@
   {
    "id": "c03_07",
    "chapter": 3,
-   "text": "Investors became increasingly concerned about company valuations and profitability.",
+   "text": "Investors began to worry about company valuations and profitability.",
    "pause_after": 0.45
   },
   {
@@ -292,7 +292,7 @@
   {
    "id": "c03_12",
    "chapter": 3,
-   "text": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-seven percent of its value.",
+   "text": "Between its peak in March 2000 and the subsequent market bottom in 2002, the Nasdaq lost roughly seventy-eight percent of its value.",
    "pause_after": 0.45
   },
   {
@@ -304,7 +304,7 @@
   {
    "id": "c03_14",
    "chapter": 3,
-   "text": "Ignoring dividends and fees, that investment would have fallen to approximately two thousand three hundred dollars.",
+   "text": "Ignoring dividends and fees, that investment would have fallen to about two thousand two hundred dollars.",
    "pause_after": 0.45
   },
   {
@@ -322,7 +322,7 @@
   {
    "id": "c03_17",
    "chapter": 3,
-   "text": "Online shopping expanded. Digital advertising became increasingly important. Businesses built successful models around technologies that had once attracted excessive speculation.",
+   "text": "Online shopping expanded. Digital advertising grew in importance. Businesses built successful models around technologies that had once attracted excessive speculation.",
    "pause_after": 0.45
   },
   {
@@ -346,7 +346,7 @@
   {
    "id": "c04_01",
    "chapter": 4,
-   "text": "The modern AI boom accelerated dramatically following the introduction of widely accessible generative AI systems.",
+   "text": "The modern AI boom accelerated sharply once generative AI systems became widely accessible.",
    "pause_after": 0.45
   },
   {
@@ -364,7 +364,7 @@
   {
    "id": "c04_04",
    "chapter": 4,
-   "text": "Technology companies recognized a potentially enormous market.",
+   "text": "Technology companies saw a potentially vast market.",
    "pause_after": 0.45
   },
   {
@@ -413,7 +413,8 @@
    "id": "c04_12",
    "chapter": 4,
    "text": "In November 2026, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030.",
-   "pause_after": 0.45
+   "pause_after": 0.45,
+   "tts": "In November twenty twenty-six, the European Central Bank highlighted estimates suggesting that cumulative capital expenditure by seven major American technology companies could reach approximately five point five trillion dollars by 2030."
   },
   {
    "id": "c04_13",
@@ -424,7 +425,7 @@
   {
    "id": "c04_14",
    "chapter": 4,
-   "text": "Nevertheless, it illustrates the extraordinary scale of the expansion.",
+   "text": "Even so, it shows the sheer scale of the expansion.",
    "pause_after": 0.45
   },
   {
@@ -562,7 +563,7 @@
   {
    "id": "c05_21",
    "chapter": 5,
-   "text": "Because ultimately, the entire investment chain must generate enough external economic value to support the money being invested.",
+   "text": "In the end, the entire investment chain must generate enough external economic value to support the money being invested.",
    "pause_after": 0.45
   },
   {
@@ -592,7 +593,7 @@
   {
    "id": "c06_03",
    "chapter": 6,
-   "text": "After spending six billion dollars on buildings, equipment and other capital investments, it has approximately four billion dollars remaining under a simplified definition of free cash flow.",
+   "text": "After spending six billion dollars on buildings, equipment and other capital investments, it has four billion dollars left over: a simplified measure of free cash flow.",
    "pause_after": 0.45
   },
   {
@@ -616,8 +617,9 @@
   {
    "id": "c06_07",
    "chapter": 6,
-   "text": "In October 2026, the International Monetary Fund highlighted the increasing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
-   "pause_after": 0.45
+   "text": "In October 2026, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements.",
+   "pause_after": 0.45,
+   "tts": "In October twenty twenty-six, the International Monetary Fund highlighted the growing use of debt across the AI ecosystem and warned that disappointing returns could place additional pressure on financing arrangements."
   },
   {
    "id": "c06_08",
@@ -712,13 +714,14 @@
   {
    "id": "c07_07",
    "chapter": 7,
-   "text": "Research cited by the European Central Bank in November 2026 estimated that annual AI investment requirements could exceed three percent of American economic output over the investment period.",
-   "pause_after": 0.45
+   "text": "Research cited by the European Central Bank in November 2026 estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032.",
+   "pause_after": 0.45,
+   "tts": "Research cited by the European Central Bank in November twenty twenty-six estimated that AI investment needs could exceed three percent of American economic output each year from 2025 to 2032."
   },
   {
    "id": "c07_08",
    "chapter": 7,
-   "text": "For comparison, investment during the internet boom was estimated at approximately one point one percent.",
+   "text": "For comparison, the internet boom between 1996 and 2003 took up about one point one percent.",
    "pause_after": 0.45
   },
   {
@@ -772,7 +775,7 @@
   {
    "id": "c08_02",
    "chapter": 8,
-   "text": "Many of the internet startups that attracted extraordinary valuations during the late 1990s had weak business models and limited financial resources.",
+   "text": "Many of the internet startups that attracted sky-high valuations during the late 1990s had weak business models and limited financial resources.",
    "pause_after": 0.45
   },
   {
@@ -886,7 +889,7 @@
   {
    "id": "c09_05",
    "chapter": 9,
-   "text": "Businesses with substantial financial obligations could face increasing pressure.",
+   "text": "Businesses with substantial financial obligations could face mounting pressure.",
    "pause_after": 0.45
   },
   {
