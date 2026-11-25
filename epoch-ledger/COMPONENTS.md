@@ -14,7 +14,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `assemble`, `Scene`, `RESOLUTIONS` | `kit/assemble.py` | build a cache-friendly HyperFrames `index.html`; per-clip zoom for 540p/1080p/1440p |
 | `caption_layer` | `kit/captions.py` | HyperFrames-native word-highlight captions (approved pilot look) |
 | `narrate.py` | `scripts/narrate.py` | per-line Kokoro TTS (content-addressed cache), Whisper words, caption pages, SRT, audio check |
-| `render.py` (`plan`, `scene`, `range`, `render`) | `scripts/render.py` | scene-cached chunk renders; `range --start --end` for preview clips |
+| `render.py` (`plan`, `scene`, `range`, `render`) | `scripts/render.py` | scene-cached chunk renders; `range --start --end` for preview clips. Cache keys follow asset references through CSS/JS/HTML; stale HyperFrames locks (dead pid) are removed and orphaned renders of the workspace stopped before rendering (`--keep-orphans` to only report); each chunk runs under a watchdog |
 | `L`, `W`, `WE` | episode `timeline.py` | line windows and Whisper word times — **every beat keys to `W(word, line)`** |
 | `sfx.py` | episode `sfx.py` | synthesised original sound design + mix (no music) |
 
@@ -36,6 +36,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `endscreen_html`, `mEndScreen` | `kit/motion.py`, `kit/motion.js` | YouTube end screen (last 5–20 s), live background, no logo |
 | `ELK3D.keyCam`, `surface`, `flowAlong`, `flowField`, `shadowFollow` | `kit/three_kit.js` (opt-in head script) | 3D camera keys, procedural materials, meaningful particle flows, shot-following shadows |
 | `layout_check.mjs` | `scripts/` | text-collision / caption-band / off-frame QA over time |
+| `qc.mjs` | `scripts/` | STANDARD §2.6 QC: determinism (frames drawn in time order vs shuffled order must match; idea from OpenFilm `look`, MIT), video scan for black / single-frame flash / opening jump / frozen stretches, loudness, cut-time study. `node scripts/qc.mjs WS/index.html --video OUT.mp4` |
 | `motion_demo.py` | `scripts/` | reference composition exercising every helper |
 
 ## Art direction v2: illustrated 3D, light, characters, diegetic data (plan first: `kit/scene_plan.py`)

@@ -28,6 +28,10 @@ Output size follows the composition's root data-width/data-height (1920x1080 by 
 episode built with kit.assemble(resolution="1440p") renders 2560x1440). HyperFrames' own
 --resolution upscale is not used: 1080p→1440p is a non-integer scale it rejects.
   render.py scene   WORKSPACE SCENE_ID -o OUT.mp4 [--preview]   # one scene, cached
+
+Before rendering, stale HyperFrames render locks (dead pid) are removed and an orphaned HyperFrames render of
+this workspace (its parent died) is stopped (--keep-orphans only reports it). Each chunk runs in its own process
+group under a watchdog (EPOCH_RENDER_TIMEOUT_BASE + _PER_FRAME seconds) and is killed with render.py on SIGTERM.
 """
 from __future__ import annotations
 
@@ -37,6 +41,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -54,6 +59,7 @@ def render_command(ws: Path, out: Path, settings: dict, start: float, end: float
            "--start", f"{start:.4f}", "--end", f"{end:.4f}", "--workers", workers]
     return cmd
 AUDIO_EXT = {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg"}
+TEXT_EXT = {".css", ".js", ".mjs", ".html", ".svg", ".json"}
 SKIP_DIRS = {".hyperframes", ".render-cache", "renders", "node_modules", "__pycache__"}
 MARK = re.compile(r"/\*scene:([\w-]+)(?:\s+spans=([\d.,\-]+))?\*/(.*?)/\*/scene:\1\*/", re.S)
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
@@ -166,18 +172,35 @@ def frame(t: float, fps: int) -> int:
 def assets_digest(ws: Path, html: str) -> str:
     """Hash every workspace file the document references (vendor JS, fonts, images, sub-compositions).
 
-    Files the document never names cannot change its pixels, so outputs or scratch files
-    dropped into the workspace do not invalidate the cache. Audio is excluded: narration
-    is muxed after rendering.
+    References are followed through referenced text files too (a CSS url(), a sub-composition's image, a path
+    written inside a vendor script), so changing any of them invalidates the cache. Files nobody names cannot
+    change pixels, so outputs or scratch files dropped into the workspace do not invalidate the cache. Audio is
+    excluded: narration is muxed after rendering.
     """
-    h = hashlib.sha256()
+    files = {}
     for path in sorted(ws.rglob("*")):
         rel = path.relative_to(ws)
-        if (path.is_dir() or rel.parts[0] in SKIP_DIRS or path.name == "index.html"
-                or path.suffix.lower() in AUDIO_EXT or rel.as_posix() not in html):
+        if path.is_dir() or rel.parts[0] in SKIP_DIRS or path.name == "index.html" or path.suffix.lower() in AUDIO_EXT:
             continue
-        h.update(str(rel).encode())
-        h.update(hashlib.sha256(path.read_bytes()).digest())
+        files[rel.as_posix()] = path
+    # (folder, text) of every referencing document; a reference resolves against the referrer's folder
+    corpus, used, frontier = [("", html)], set(), True
+    while frontier:                                   # fixpoint over references (usually 1–2 rounds)
+        frontier = False
+        for rel, path in files.items():
+            if rel in used:
+                continue
+            folder, _, name = rel.rpartition("/")
+            if any((rel if not f else rel[len(f) + 1:] if rel.startswith(f + "/") else None) in t
+                   for f, t in corpus if (not f or rel.startswith(f + "/"))) or any(rel in t for _, t in corpus):
+                used.add(rel)
+                frontier = True
+                if path.suffix.lower() in TEXT_EXT and path.stat().st_size < 8 << 20:
+                    corpus.append((folder, path.read_text(errors="replace")))
+    h = hashlib.sha256()
+    for rel in sorted(used):
+        h.update(rel.encode())
+        h.update(hashlib.sha256(files[rel].read_bytes()).digest())
     return h.hexdigest()
 
 
@@ -224,6 +247,131 @@ def plan(ws: Path, settings: dict, chunk_min: float) -> dict:
             "width": comp.size[0], "height": comp.size[1], "chunks": out}
 
 
+
+# ── render lock & hung-process guard ───────────────────────────────────
+# HyperFrames serialises renders with ~/.cache/hyperframes/locks/render.lock ({"pid", "project"}) and waits while
+# it is held. A render whose parent was killed can leave an orphaned hyperframes process (parent = init) holding the
+# lock forever, so the next render waits silently. Before rendering we remove locks held by dead processes, stop
+# orphaned HyperFrames renders of *this* workspace, and warn about anything else still holding the lock. Each chunk
+# runs in its own process group with a watchdog timeout, and the group is killed on timeout or interruption.
+LOCK_DIR = Path(os.environ.get("EPOCH_HF_LOCK_DIR", Path.home() / ".cache" / "hyperframes" / "locks"))
+CHUNK_TIMEOUT_BASE = float(os.environ.get("EPOCH_RENDER_TIMEOUT_BASE", 300))     # seconds, plus per frame:
+CHUNK_TIMEOUT_PER_FRAME = float(os.environ.get("EPOCH_RENDER_TIMEOUT_PER_FRAME", 3.0))
+_CHILDREN: set = set()
+
+
+def _alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    try:                                              # a zombie is dead for our purposes
+        return Path(f"/proc/{pid}/stat").read_text().rsplit(")", 1)[1].split()[0] != "Z"
+    except OSError:
+        return True
+
+
+def _proc(pid: int) -> tuple[int, str] | None:
+    """(parent pid, command line) from /proc, or None where /proc is unavailable."""
+    try:
+        ppid = int(Path(f"/proc/{pid}/stat").read_text().rsplit(")", 1)[1].split()[1])
+        cmd = Path(f"/proc/{pid}/cmdline").read_bytes().replace(b"\0", b" ").decode(errors="replace")
+        return ppid, cmd
+    except (OSError, ValueError, IndexError):
+        return None
+
+
+def _terminate(pid: int, grace: float = 5.0) -> None:
+    for sig in (15, 9):
+        try:
+            pg = os.getpgid(pid)
+            os.killpg(pg, sig) if sig == 9 and pg != os.getpgrp() else os.kill(pid, sig)
+        except (ProcessLookupError, PermissionError):
+            return
+        end = time.time() + grace
+        while time.time() < end and _alive(pid):
+            time.sleep(.1)
+        if not _alive(pid):
+            return
+
+
+def preflight_lock(ws: Path, kill_orphans: bool = True, lock_dir: Path | None = None) -> list[str]:
+    """Clear stale HyperFrames render locks; returns notes describing what was found or done."""
+    lock_dir = lock_dir or LOCK_DIR
+    notes: list[str] = []
+    if not lock_dir.is_dir():
+        return notes
+    for owner in lock_dir.glob("render.lock.owner-*"):           # render.lock.owner-<pid>-<hash>
+        try:
+            pid = int(owner.name.split("owner-", 1)[1].split("-", 1)[0])
+        except ValueError:
+            continue
+        if not _alive(pid):
+            owner.unlink(missing_ok=True)
+            notes.append(f"removed stale lock owner file of dead pid {pid}")
+    lock = lock_dir / "render.lock"
+    if not lock.exists():
+        return notes
+    try:
+        info = json.loads(lock.read_text() or "{}")
+        pid, project = int(info.get("pid", 0)), str(info.get("project", ""))
+    except (ValueError, OSError):
+        pid, project = 0, ""
+    if not pid or not _alive(pid):
+        lock.unlink(missing_ok=True)
+        notes.append(f"removed stale render.lock (pid {pid or '?'} is not running)")
+        return notes
+    proc = _proc(pid)
+    ours = project and Path(project).resolve() == ws.resolve()
+    if proc and proc[0] == 1 and "hyperframes" in proc[1] and ours and kill_orphans:
+        _terminate(pid)
+        if not _alive(pid):
+            lock.unlink(missing_ok=True)
+            for owner in lock_dir.glob(f"render.lock.owner-{pid}-*"):
+                owner.unlink(missing_ok=True)
+            notes.append(f"stopped orphaned HyperFrames render pid {pid} of this workspace and released its lock")
+            return notes
+    notes.append(f"render.lock is held by running pid {pid} ({project or 'unknown project'}); this render will wait for it"
+                 + (" — it looks orphaned (parent is init); stop it if nothing should be rendering" if proc and proc[0] == 1 else ""))
+    return notes
+
+
+def _run_guarded(cmd: list[str], cwd: Path, timeout: float) -> int:
+    """Run in a new process group; kill the whole group on timeout. Returns exit code (124 on timeout)."""
+    pr = subprocess.Popen(cmd, cwd=cwd, start_new_session=True)
+    _CHILDREN.add(pr)
+    try:
+        return pr.wait(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        print(f"render step exceeded {timeout:.0f}s watchdog; stopping it", file=sys.stderr)
+        _kill_group(pr)
+        return 124
+    except BaseException:
+        _kill_group(pr)
+        raise
+    finally:
+        _CHILDREN.discard(pr)
+
+
+def _kill_group(pr) -> None:
+    try:
+        os.killpg(pr.pid, 15)
+        try:
+            pr.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            os.killpg(pr.pid, 9)
+            pr.wait(timeout=5)
+    except (ProcessLookupError, PermissionError):
+        pass
+
+
+def _on_signal(signum, _frame):                      # SIGTERM / SIGHUP: take our renders down with us
+    for pr in list(_CHILDREN):
+        _kill_group(pr)
+    sys.exit(128 + signum)
+
 # ── execution ──────────────────────────────────────────────────────────
 def cache_dir(ws: Path) -> Path:
     d = ws / ".render-cache"
@@ -244,13 +392,17 @@ def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
     tmp = cache_dir(ws) / f"{ch['key']}.tmp.mp4"
     cmd = render_command(ws, tmp, settings, ch["start"], ch["end"], workers)
     t = time.time()
+    timeout = CHUNK_TIMEOUT_BASE + CHUNK_TIMEOUT_PER_FRAME * (ch["end_frame"] - ch["start_frame"])
     for attempt in (1, 2):  # HyperFrames occasionally exits non-zero after a good capture; retry once
-        r = subprocess.run(cmd, cwd=ws)
-        if r.returncode == 0:
+        code = _run_guarded(cmd, ws, timeout)
+        if code == 0:
             break
+        if code == 124:                               # hung: clear whatever lock it left before retrying
+            for n in preflight_lock(ws):
+                print("render lock:", n, file=sys.stderr)
         if attempt == 2:
-            raise subprocess.CalledProcessError(r.returncode, cmd)
-        print(f"chunk {ch['key']} failed (exit {r.returncode}); retrying once", file=sys.stderr)
+            raise subprocess.CalledProcessError(code, cmd)
+        print(f"chunk {ch['key']} failed (exit {code}); retrying once", file=sys.stderr)
     subprocess.run(["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(tmp), "-an", "-c", "copy", str(dst)], check=True)
     tmp.unlink(missing_ok=True)
     want, got = ch["end_frame"] - ch["start_frame"], frames_in(dst)
@@ -260,8 +412,11 @@ def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
     return time.time() - t
 
 
-def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int) -> dict:
+def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int, kill_orphans: bool = True) -> dict:
     todo = [c for c in p["chunks"] if not (cache_dir(ws) / f"{c['key']}.mp4").exists()]
+    if todo:
+        for n in preflight_lock(ws, kill_orphans):
+            print("render lock:", n, file=sys.stderr)
     workers = "auto" if jobs == 1 else str(max(1, (os.cpu_count() or 4) // jobs))
     t0 = time.time()
     with ThreadPoolExecutor(max_workers=jobs) as ex:
@@ -307,7 +462,10 @@ def main(argv=None):
     ap.add_argument("--end", type=float, help="range: window end (s)")
     ap.add_argument("--fps", type=int, help="override fps (24/25/30/60)")
     ap.add_argument("--quality", choices=["draft", "looks", "delivery"], help="override quality")
+    ap.add_argument("--keep-orphans", action="store_true", help="only report orphaned HyperFrames renders, do not stop them")
     a = ap.parse_args(argv)
+    for sig in (signal.SIGTERM, signal.SIGHUP):
+        signal.signal(sig, _on_signal)
     ws = a.workspace.resolve()
     settings = dict(PREVIEW if a.preview else FINAL)
     if a.fps:
@@ -322,7 +480,7 @@ def main(argv=None):
         p["total_frames"] = sum(c["end_frame"] - c["start_frame"] for c in p["chunks"])
         audio = a.audio or next((ws / f for f in ("mix.wav", "narration.wav") if (ws / f).exists()), None)
         tmp = a.output.with_suffix(".chunks.mp4")
-        rep = run(ws, p, tmp, None, a.jobs)
+        rep = run(ws, p, tmp, None, a.jobs, not a.keep_orphans)
         off = a.start - p["chunks"][0]["start"]
         cmd = ["ffmpeg", "-nostdin", "-v", "error", "-y", "-ss", f"{off:.3f}", "-t", f"{a.end - a.start:.3f}", "-i", str(tmp)]
         if audio:
@@ -351,7 +509,7 @@ def main(argv=None):
               f"({todo / p['fps']:.1f}s of video) at {settings}")
         return
     audio = a.audio or (ws / "narration.wav" if (ws / "narration.wav").exists() and a.cmd == "render" else None)
-    print(json.dumps(run(ws, p, a.output, audio, a.jobs), indent=1))
+    print(json.dumps(run(ws, p, a.output, audio, a.jobs, not a.keep_orphans), indent=1))
 
 
 if __name__ == "__main__":

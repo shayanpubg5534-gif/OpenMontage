@@ -2,8 +2,10 @@
 import hashlib
 import importlib.util
 import json
+import os
 import subprocess
 import sys
+import time
 from pathlib import Path
 
 import pytest
@@ -196,3 +198,53 @@ def test_motion_craft_is_discoverable():
     assert (root / ".claude/skills/epoch-ledger-motion-craft/SKILL.md").exists()
     cfg = json.loads((root / "epoch-ledger/config/production.json").read_text())
     assert cfg["production"]["motion_language"]["guidelines_flexible"]["one_third_rule"] == "guideline"
+
+
+def test_assets_digest_follows_nested_references(tmp_path):
+    r = _render_mod()
+    (tmp_path / "index.html").write_text(_doc().replace("vendor/vault3d.js", "vendor/style.css"))
+    (tmp_path / "vendor").mkdir()
+    (tmp_path / "vendor" / "style.css").write_text("@font-face{src:url(face.woff2)}")
+    (tmp_path / "vendor" / "face.woff2").write_bytes(b"1")
+    (tmp_path / "vendor" / "other.woff2").write_bytes(b"1")        # not referenced by anyone
+    k = r.plan(tmp_path, r.FINAL, 4)["chunks"][0]["key"]
+    (tmp_path / "vendor" / "other.woff2").write_bytes(b"2")
+    assert r.plan(tmp_path, r.FINAL, 4)["chunks"][0]["key"] == k   # unreferenced file: cache kept
+    (tmp_path / "vendor" / "face.woff2").write_bytes(b"2")
+    assert r.plan(tmp_path, r.FINAL, 4)["chunks"][0]["key"] != k   # font named only inside the CSS: invalidated
+
+
+def test_render_preflight_clears_stale_and_orphaned_locks(tmp_path):
+    r = _render_mod()
+    locks = tmp_path / "locks"
+    locks.mkdir()
+    dead = subprocess.Popen(["true"])
+    dead.wait()
+    (locks / "render.lock").write_text(json.dumps({"pid": dead.pid, "project": str(tmp_path)}))
+    (locks / f"render.lock.owner-{dead.pid}-abc").write_text("")
+    notes = r.preflight_lock(tmp_path, lock_dir=locks)
+    assert not (locks / "render.lock").exists() and not list(locks.glob("render.lock.owner-*")), notes
+    # an orphaned "hyperframes" process (parent died → reparented) holding the lock for this workspace is stopped
+    out = subprocess.run(["bash", "-c", "(exec -a hyperframes-render sleep 60) >/dev/null 2>&1 & echo $!"], capture_output=True, text=True)
+    pid = int(out.stdout.strip())
+    try:
+        proc = r._proc(pid)
+        if proc is None or proc[0] != 1:
+            pytest.skip("no /proc or orphans are not reparented to pid 1 here")
+        (locks / "render.lock").write_text(json.dumps({"pid": pid, "project": str(tmp_path)}))
+        r.preflight_lock(tmp_path / "other", lock_dir=locks)                 # another workspace: left alone
+        assert r._alive(pid) and (locks / "render.lock").exists()
+        notes = r.preflight_lock(tmp_path, lock_dir=locks)
+        assert not r._alive(pid) and not (locks / "render.lock").exists(), notes
+    finally:
+        try:
+            os.kill(pid, 9)
+        except ProcessLookupError:
+            pass
+
+
+def test_render_watchdog_kills_hung_step(tmp_path):
+    r = _render_mod()
+    t = time.time()
+    assert r._run_guarded(["bash", "-c", "sleep 30 & sleep 30"], tmp_path, timeout=1) == 124
+    assert time.time() - t < 15

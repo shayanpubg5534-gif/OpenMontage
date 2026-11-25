@@ -140,3 +140,27 @@ console.log(JSON.stringify(r));await b.close();})();""")
     s = json.loads(r.stdout.strip().splitlines()[-1])
     assert s["a"] == s["b"] and abs(s["a"][0] - 5) < 1e-6 and abs(s["fov"] - 35) < 1e-6   # eased midpoint, repeatable
     assert s["f1"] == s["f2"] and s["tex"]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="node not available")
+def test_qc_determinism_catches_order_dependent_frames(tmp_path):
+    """qc.mjs draws frames in time order and shuffled order: a frame that depends on history must fail."""
+    from kit.assemble import Scene, assemble
+    vendor = _vendor_dir()
+    if vendor is None:
+        pytest.skip("no workspace with vendor/gsap.min.js")
+    res = {}
+    for name, js in {
+        "clean": "tl.fromTo('#a', {x: 0}, {x: 600, duration: 2, ease: 'none'}, 0.5);",
+        # state written outside the tween system accumulates with every pass through t=1 → order dependent
+        "leaky": "tl.call(() => { const a = document.getElementById('a'); a.style.left = (parseFloat(a.style.left || 0) + 80) + 'px'; }, null, 1);",
+    }.items():
+        ws = tmp_path / name
+        (ws / "vendor").mkdir(parents=True)
+        shutil.copy(vendor / "gsap.min.js", ws / "vendor")
+        (ws / "index.html").write_text(assemble(title="t", duration=3, audio="", vignette=False, scenes=[
+            Scene("s1", 0, 3, "<div id='a' style='position:absolute;top:400px;width:200px;height:200px;background:#f2c66d'></div>", js=js)]))
+        res[name] = subprocess.run(["node", str(EL / "scripts" / "qc.mjs"), str(ws / "index.html"), "--every", "0.5"],
+                                   capture_output=True, text=True, timeout=300)
+    assert res["clean"].returncode == 0, res["clean"].stdout[-1500:]
+    assert res["leaky"].returncode == 1 and "determinism" in res["leaky"].stdout, res["leaky"].stdout[-1500:]
