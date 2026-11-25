@@ -146,6 +146,37 @@ episode's choices in `art-direction.md`; deviate per scene when the brief says w
   hero moves, or layer the rendered set with `mCamera`/`mParallax` for 2.5D moves; slow, motivated
   pushes, not constant drift.
 
+## 8c. Narration-driven choreography (the rule that outranks style)
+
+The user rejected a motion test that was "static illustrations with minor movements": one whiteboard composition
+held for ~14 s while the narration moved through advertising, employees, infrastructure, revenue and investors.
+Pretty frames are not enough. Every episode follows these rules:
+
+- **One visible action per narrated concept.** List the beats (each noun or verb phrase that names a new idea) and
+  give each one an action, transformation, interaction, reveal or explanatory step that *shows* it. If the
+  narration names three things, the viewer sees three things happen.
+- **Cut when the concept changes.** A new concept is a new shot or a new action in the same shot. `kit/scene_plan.py`
+  fails a shot whose beat spans more than `MAX_HOLD` (6 s) unless it has a written `hold_reason`.
+- **Follow a motif across cuts.** Give money (or goods, data, power) one physical form for the whole sequence
+  (`kit/finmech.py`: the company's cash is a glass tank of coins; spending, revenue and capital are glass pipes).
+  Keep its direction consistent (spending flows left to right), and match-cut on it between shots.
+- **Explain, then show the consequence.** Introduce the mechanism up close (the founder opens the valve), follow
+  the flow to each destination (ad, payroll, servers), pull out to the whole model to show the imbalance, then
+  push in on the consequence (gauge into the red).
+- **The mute test.** With the sound off, a viewer should follow the financial story from the pictures alone. Label
+  pipes and objects diegetically (brass plates) and use kinetic type only where its size or timing carries meaning
+  (MONEY OUT large against money in small).
+- **Body mechanics.** Use anticipation before effort (pull back, then shove; raise the stamp, then slam), contact
+  (`rig3.reach` puts the hand on the valve or the paper), and follow-through (recoil, needle wobble, prop settle).
+  Use `R3.keys` for explicit keyframes and `FM.*` for machine motion.
+- **Inserts for small but decisive actions.** If the key action is under about 80 px in the wide shot (a stamp, a
+  signature, a switch), cut to an insert close-up for it.
+- **Not evidence of animation:** camera drift, blinking, ambient particles, frame-difference statistics. These are
+  the ambient layer, never the primary action.
+- **Rendering:** draw static sets once as cached plates (`kit/plates.py`, 2x density) and animate only the
+  foreground live layers. `kit/camera3d.py` keeps plate and live layers on the same camera.
+- Reference implementation: `episodes/ai-bubble-vs-dot-com/motiontest/office_v2.py` and `office_v2_plan.json`.
+
 ## 9. Transitions
 
 Motivated only: a match cut on shape or action, a push into a screen or cutaway (circular iris),

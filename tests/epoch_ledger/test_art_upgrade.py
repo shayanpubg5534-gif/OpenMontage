@@ -114,7 +114,8 @@ console.log(JSON.stringify(r));await b.close();})();""")
 def test_component_index_lists_art_upgrade():
     idx = (EL / "COMPONENTS.md").read_text()
     for sym in ("scene3d.js", "S3.camera", "S3.facade", "S3.art", "S3.sprite", "lightfx.py", "rig3.py", "figure_svg", "closeup_svg", "ik(",
-                "diegetic.py", "whiteboard_chart", "crt_chart", "ticker_board", "gauge", "press_clip", "scene_plan.py", "still.mjs", "LICENSES.md"):
+                "diegetic.py", "whiteboard_chart", "crt_chart", "ticker_board", "gauge", "press_clip", "scene_plan.py", "still.mjs", "LICENSES.md",
+                "finmech.py", "finmotion.js", "FM.coins", "plates.py", "camera3d.py", "reach", "office_v2.py"):
         assert sym in idx, sym
 
 
@@ -143,7 +144,50 @@ def test_whiteboard_gap_parts_have_ids():
     assert "ILLUSTRATIVE" in svg
 
 
-def test_motion_test_plan_is_valid():
-    plan = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/scene_plan.json").read_text())
-    assert scene_plan.validate(plan) == []
-    assert [s["shot"] for s in plan["shots"]] == ["establishing", "medium", "close-up"]
+def test_rejected_motion_test_fails_the_hold_rule_and_v2_passes():
+    old = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/scene_plan.json").read_text())
+    assert any("holds" in e for e in scene_plan.validate(old))          # the user's rejection, now machine-checked
+    v2 = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/office_v2_plan.json").read_text())
+    assert scene_plan.validate(v2) == []
+    assert len(v2["shots"]) >= 8 and {"medium", "insert", "wide", "close-up"} <= {s["shot"] for s in v2["shots"]}
+
+
+# ── financial mechanisms, plates, camera twin ────────────────────────────────────────────────────
+def test_finmech_parts_expose_animation_ids():
+    from kit import finmech as F
+    t = F.tank_svg("t", 0, 0, 400, 600, level=.5)
+    for part in ("t-fill", "t-fillwrap", "t-needle", "t-lamp", "t-clip"):
+        assert f'id="{part}"' in t, part
+    p = F.glass_pipe("p", [(0, 0), (500, 0), (500, 300)], 40, "SPENDING")
+    assert 'id="p-path"' in p and 'id="p-coins"' in p and "SPENDING" in p
+    g = F.gauge_dial("g", 100, 100, 80, .3)
+    assert 'id="g-needle"' in g and 'id="g-lamp"' in g
+    tv = F.tv_set("v", 0, 0, 500)
+    for part in ("v-off", "v-line", "v-ad", "v-fly", "v-rocket", "v-logo", "v-tag", "v-flame"):
+        assert f'id="{part}"' in tv, part
+    assert F.tank_svg("t", 0, 0, 400, 600) == F.tank_svg("t", 0, 0, 400, 600)
+
+
+def test_finmotion_is_seekable_and_seeded():
+    js = (EL / "kit/finmotion.js").read_text()
+    for fn in ("coins(", "drop(", "level(", "valve(", "needle(", "lamp(", "powerOn(", "pop(", "stampIn("):
+        assert fn in js, fn
+    assert "Math.random" not in js and "setTimeout" not in js and "requestAnimationFrame" not in js
+
+
+def test_camera_twin_matches_scene3d_convention():
+    from kit.camera3d import Camera
+    c = Camera(pos=[0, 1.6, 10], look=[0, 1.6, 0], fov=60)
+    x, y, z = c.project([0, 1.6, 0])
+    assert abs(x - 960) < 1e-6 and abs(y - 540) < 1e-6 and abs(z - 10) < 1e-6
+    assert c.project([0, 1.6, 20]) is None
+    assert "fov: 60" in c.js()
+
+
+def test_reach_ik_lands_the_hand_and_props_attach():
+    a = rig3.reach("stand", (380, 430))
+    hx, hy = rig3.hand_point(a)
+    assert abs(hx - 380) < 1 and abs(hy - 430) < 1
+    mk = rig3.hold(rig3.figure_svg("h", "suit", inner=True), "h", "stamp")
+    assert 'class="prop"' in mk.split('id="h-hand-front"')[1][:400]
+    assert "rotate(" in rig3.figure_svg("h", "suit", angles=a)

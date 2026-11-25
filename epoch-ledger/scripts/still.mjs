@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Render an HTML style frame (or any composition time) to a PNG still at exact pixel size.
-//   node epoch-ledger/scripts/still.mjs page.html out.png [--w 1920 --h 1080] [--t seconds]
+//   node epoch-ledger/scripts/still.mjs page.html out.png [--w 1920 --h 1080] [--t seconds] [--scale 2]
+// --scale renders at a higher pixel density (e.g. 2 → 3840x2160 plate for a 1080p shot that pushes in).
 // Waits for fonts and images; if the page exposes window.__timelines.main, seeks it to --t.
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -10,7 +11,7 @@ const a = process.argv.slice(2), opt = (k, d) => { const i = a.indexOf('--' + k)
 const [file, out] = a.filter(x => !x.startsWith('--') && !a[a.indexOf(x) - 1]?.startsWith('--'));
 const w = +opt('w', 1920), h = +opt('h', 1080), t = opt('t', null);
 const b = await chromium.launch();
-const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
+const p = await b.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: +opt('scale', 1) });
 const errs = []; p.on('pageerror', e => errs.push(String(e)));
 await p.goto(pathToFileURL(path.resolve(file)).href, { waitUntil: 'load' });
 await p.evaluate(async () => { await document.fonts.ready; await Promise.all(Array.from(document.images).map(i => i.decode().catch(() => {}))); });
@@ -18,5 +19,5 @@ if (t !== null) await p.evaluate(t => window.__timelines && window.__timelines.m
 await p.waitForTimeout(+opt("wait", 1500));   // SVG <image> textures decode asynchronously
 await p.screenshot({ path: out, clip: { x: 0, y: 0, width: w, height: h } });
 await b.close();
-console.log('wrote', out, `${w}x${h}`, errs.length ? 'page errors: ' + errs.join(' | ') : '');
+console.log('wrote', out, `${w * +opt('scale', 1)}x${h * +opt('scale', 1)}`, errs.length ? 'page errors: ' + errs.join(' | ') : '');
 process.exit(errs.length ? 1 : 0);

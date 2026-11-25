@@ -202,8 +202,10 @@ def pose_angles(pose: str) -> dict:
 
 
 def figure_svg(p: str, costume: str = "suit", skin: int = 0, hair: int = 0, style: str = "short", pose: str = "stand",
-               expr: str = "neutral", glasses: bool = False, beard: bool = False, female: bool | None = None, inner: bool = False) -> str:
-    """Full figure. inner=True returns only the group (for embedding as a scene3d sprite with VIEWBOX)."""
+               expr: str = "neutral", glasses: bool = False, beard: bool = False, female: bool | None = None, inner: bool = False,
+               angles: dict | None = None, shadow: bool = True) -> str:
+    """Full figure. inner=True returns only the group (for embedding as a scene3d sprite with VIEWBOX).
+    angles: explicit joint angles (pose_angles format, e.g. from reach()) overriding the pose table."""
     jk, jks, shirt, tie, tr, trs, shoe, kind = COSTUMES[costume]
     female = costume == "suit_w" if female is None else female
     if female and style == "short":
@@ -217,6 +219,8 @@ def figure_svg(p: str, costume: str = "suit", skin: int = 0, hair: int = 0, styl
             uf, ff = a, b
         else:
             ub, fb = a, b
+    if angles:
+        tor, hd, uf, ff, ub, fb, tf, sf, tb, sb = (angles.get(k, v) for k, v in zip(JOINTS, (tor, hd, uf, ff, ub, fb, tf, sf, tb, sb)))
     top, top_s = (jk, jks) if jk else (shirt, "#b8c4d0")
     (nx, ny), (sfx, sfy), (sbx, sby), (hfx, hfy), (hbx, hby) = J["neck"], J["sh_f"], J["sh_b"], J["hip_f"], J["hip_b"]
 
@@ -285,8 +289,8 @@ def figure_svg(p: str, costume: str = "suit", skin: int = 0, hair: int = 0, styl
             + f'<g id="{p}-upper" transform="rotate({tor} {J["waist"][0]} {J["waist"][1]})">{hips}{torso}'
             + f'<g id="{p}-neck" transform="rotate({hd} {nx} {ny})">{_face(p, sk, sks, skh, hc, style, expr, glasses, beard, female)}</g>'
             + arm("front", uf, ff, hf) + "</g>")
-    shadow = '<ellipse cx="210" cy="994" rx="120" ry="12" fill="#000" opacity=".25"/>'
-    g = f'<g class="rig3" id="{p}">{shadow}{body}</g>'
+    shadow_svg = '<ellipse cx="210" cy="994" rx="120" ry="12" fill="#000" opacity=".25"/>' if shadow else ""
+    g = f'<g class="rig3" id="{p}">{shadow_svg}{body}</g>'
     if inner:
         return g
     return f'<svg viewBox="{VIEWBOX}" xmlns="http://www.w3.org/2000/svg" overflow="visible">{g}</svg>'
@@ -442,3 +446,53 @@ def closeup_svg(p: str, costume: str = "founder", skin: int = 0, hair: int = 2, 
 _CU_FACE = ("M300 170 C350 120 450 110 530 140 C574 160 590 210 590 262 C592 290 590 306 596 316 C590 330 584 342 588 360 "
             "C596 390 600 420 596 446 C590 472 580 492 572 512 C566 534 556 556 534 572 C508 590 470 590 440 580 "
             "C400 566 360 536 330 500 C300 466 284 426 282 380 C280 320 278 230 300 170Z")
+
+
+# ── props in hands + forward kinematics (for placing objects where a hand is) ───────────────────
+PROPS3 = {
+    # drawn in the hand's local frame: wrist at (246, 538), fingers point down (+y)
+    "stamp": ('<g class="prop"><rect x="236" y="560" width="20" height="44" rx="6" fill="#5a3a22" stroke="#1b1410" stroke-width="3"/>'
+              '<ellipse cx="246" cy="560" rx="14" ry="9" fill="#7a4a2a" stroke="#1b1410" stroke-width="3"/>'
+              '<rect x="216" y="600" width="60" height="18" rx="3" fill="#b8322a" stroke="#1b1410" stroke-width="3"/></g>'),
+    "pen": '<g class="prop"><path d="M240 560 L252 640" stroke="#1b1410" stroke-width="7" stroke-linecap="round"/></g>',
+    "envelope": ('<g class="prop"><rect x="214" y="570" width="64" height="42" rx="4" fill="#f2e6c8" stroke="#1b1410" stroke-width="3"/>'
+                 '<path d="M214 570 L246 594 L278 570" fill="none" stroke="#1b1410" stroke-width="2.5"/></g>'),
+}
+
+
+def hold(markup: str, p: str, prop: str, side: str = "front") -> str:
+    """Put a prop (PROPS3 key or raw SVG in hand-local space) into a figure's hand so it moves with the arm."""
+    tag = f'<g id="{p}-hand-{side}">'
+    return markup.replace(tag, tag + PROPS3.get(prop, prop), 1)
+
+
+def hand_point(angles: dict, side: str = "front", mirrored: bool = False, reach: float = 40) -> tuple[float, float]:
+    """Forward kinematics: the hand centre (viewBox coords) for a joint-angle dict (pose_angles format)."""
+    def rot(v, deg):
+        a = math.radians(deg)
+        return (v[0] * math.cos(a) - v[1] * math.sin(a), v[0] * math.sin(a) + v[1] * math.cos(a))
+    sx, sy = J["sh_f"] if side == "front" else J["sh_b"]
+    ua, fa = angles[f"uarm-{side}"], angles[f"farm-{side}"]
+    e = rot((0, L["uarm"]), ua)
+    w = rot((0, L["farm"] - 2 + reach), ua + fa)
+    x, y = sx + e[0] + w[0], sy + e[1] + w[1]
+    if side == "front":     # the front arm lives inside the upper body, which turns about the waist
+        wx, wy = J["waist"]
+        dx, dy = rot((x - wx, y - wy), angles.get("upper", 0))
+        x, y = wx + dx, wy + dy
+    return (400 - x if mirrored else x, y)
+
+
+def reach(pose: str, target: tuple[float, float], side: str = "front", bend: int = 1) -> dict:
+    """pose_angles(pose) with one arm solved by IK so its hand centre lands on `target` (viewBox coords, unmirrored)."""
+    a = dict(pose_angles(pose))
+    sh = J["sh_f"] if side == "front" else J["sh_b"]
+    tx, ty = target
+    if side == "front" and a.get("upper"):      # undo the upper-body turn so IK works in the arm's frame
+        wx, wy = J["waist"]; r = math.radians(-a["upper"])
+        dx, dy = tx - wx, ty - wy
+        tx, ty = wx + dx * math.cos(r) - dy * math.sin(r), wy + dx * math.sin(r) + dy * math.cos(r)
+    u, f = ik(sh, (tx, ty - 40 * 0), L["uarm"], L["farm"] - 2 + 40, bend)
+    wrap = lambda v: ((v + 180) % 360) - 180
+    a[f"uarm-{side}"], a[f"farm-{side}"] = round(wrap(u), 2), round(wrap(f), 2)
+    return a

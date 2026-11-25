@@ -128,6 +128,9 @@ simulation-game looks: repeated rectangles, floating dashboards, toy-like cars a
 
 - [ ] Scene brief written for each scene (section 0) and `scene_plan.json` passes the validator
 - [ ] Shot sizes vary (establishing / medium / close-up) and every graphic is diegetic or a justified chart
+- [ ] Narration-driven choreography (motion-craft §8c): one visible action per narrated concept, no composition
+      held across concepts (plan validator `MAX_HOLD`), money/goods follow one physical motif across cuts
+- [ ] Mute test: the story is followable with the sound off (watch the render muted before asking for approval)
 - [ ] Style frames approved before motion when the look changes
 - [ ] Requirement 4: every line's meaning is demonstrated, not just its subject; each introduced
       object goes on to operate and transact; cause shown before consequence

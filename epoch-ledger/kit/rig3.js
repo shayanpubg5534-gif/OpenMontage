@@ -11,6 +11,8 @@ const R3 = {
     const el = document.getElementById(p + '-' + joint); if (!el) return; const pv = R3._piv(el); if (!pv) return;
     tl.to(el, { attr: { transform: `rotate(${(+deg).toFixed(2)} ${pv[0]} ${pv[1]})` }, duration: d === undefined ? .4 : d, ease: ease || 'sine.inOut' }, t);
   },
+  // keyframed joint action: [[t, deg, dur, ease], ...] — build anticipation / action / follow-through explicitly
+  keys(p, joint, ks) { ks.forEach(([t, deg, d, e]) => R3.rot(p, joint, t, deg, d, e)); },
   // blend to a named pose (or an angle dict); `only` limits the joints touched (e.g. ['uarm-front','farm-front'])
   pose(p, name, t, d, ease, only) {
     const q = typeof name === 'string' ? R3.P[name] : name; if (!q) return;

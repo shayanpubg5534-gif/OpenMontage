@@ -4,59 +4,171 @@
   "shots": [
     {
       "id": "mt1_establishing",
-      "beat": {"t": "0.0-5.4", "narration": "But beneath the rising stock prices, many businesses were struggling."},
+      "beat": {
+        "t": "0.0-5.4",
+        "narration": "But beneath the rising stock prices, many businesses were struggling."
+      },
       "understanding": "The market is climbing while the company underneath is burning through cash, kept alive by money piped in from investors.",
       "shot": "establishing",
       "focal_point": "BigCart's building (left third); the rising TECH STOCKS board at the vanishing point is the secondary read",
       "camera": "one slow dolly toward BigCart's lobby (scale 1.0->1.09, sky layer 1.025, foreground passes faster: 3-layer parallax)",
       "lighting": "dusk key from the end of the street, lamp pools breathing slightly, haze, grade",
-      "technique": ["scene3d", "rig3", "lightfx", "diegetic"],
-      "components": ["S3.render", "S3.camera.project", "ticker_board", "R3.walk", "R3.talk", "R3.idle", "R3.blinks", "sky", "haze", "grade"],
+      "technique": [
+        "scene3d",
+        "rig3",
+        "lightfx",
+        "diegetic"
+      ],
+      "components": [
+        "S3.render",
+        "S3.camera.project",
+        "ticker_board",
+        "R3.walk",
+        "R3.talk",
+        "R3.idle",
+        "R3.blinks",
+        "sky",
+        "haze",
+        "grade"
+      ],
       "graphics": [
-        {"kind": "diegetic", "what": "market-board line climbs on 'rising'", "why": "rising stock prices shown where the street sees them"},
-        {"kind": "diegetic", "what": "gold glints flowing through the capital pipe into BigCart", "why": "investor money is the input keeping the firm alive"},
-        {"kind": "diegetic", "what": "furnace chimney smoke with gold embers thickens on 'struggling'; lobby cash tank drains", "why": "the episode's cash-furnace metaphor: money burns faster than it earns"},
-        {"kind": "overlay", "what": "'BigCart.com and Summit Ventures are fictional companies' tag", "why": "required disclosure: fictional companies must be labelled on screen"}
+        {
+          "kind": "diegetic",
+          "what": "market-board line climbs on 'rising'",
+          "why": "rising stock prices shown where the street sees them"
+        },
+        {
+          "kind": "diegetic",
+          "what": "gold glints flowing through the capital pipe into BigCart",
+          "why": "investor money is the input keeping the firm alive"
+        },
+        {
+          "kind": "diegetic",
+          "what": "furnace chimney smoke with gold embers thickens on 'struggling'; lobby cash tank drains",
+          "why": "the episode's cash-furnace metaphor: money burns faster than it earns"
+        },
+        {
+          "kind": "overlay",
+          "what": "'BigCart.com and Summit Ventures are fictional companies' tag",
+          "why": "required disclosure: fictional companies must be labelled on screen"
+        }
       ],
       "rationale": "Establishing places the relationship (investors -> company) and the contradiction (rising market vs struggling firm) before any explanation. The founder walking into BigCart introduces the person the close-up returns to.",
-      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md"]
+      "consulted": [
+        "skills/creative/epoch-ledger-motion-craft.md",
+        "epoch-ledger/COMPONENTS.md",
+        "epoch-ledger/QUALITY.md"
+      ]
     },
     {
       "id": "mt2_medium",
-      "beat": {"t": "5.4-19.15", "narration": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves. Their survival depended on investors continuing to provide capital."},
+      "beat": {
+        "t": "5.4-19.15",
+        "narration": "They were spending heavily on advertising, employees and infrastructure without earning enough revenue to sustain themselves. Their survival depended on investors continuing to provide capital."
+      },
       "understanding": "Spending (ads, staff, servers) far exceeds revenue; the difference is investor cash, so the company only survives while investors keep paying.",
       "shot": "medium",
       "focal_point": "the whiteboard diagram, with the manager (the founder) pointing at each part as it is named",
       "camera": "opens slightly wide on the team, settles onto the board as the explanation starts, then pushes to the gap on 'investors'",
       "lighting": "office panels + warm dusk window light, soft shadows, mild fog",
-      "technique": ["scene3d", "rig3", "lightfx", "diegetic", "diagram"],
-      "components": ["whiteboard_gap", "R3.pose", "R3.rot", "R3.type", "R3.walk", "R3.breathe", "R3.talk", "R3.blinks", "beams", "grade"],
+      "technique": [
+        "scene3d",
+        "rig3",
+        "lightfx",
+        "diegetic",
+        "diagram"
+      ],
+      "components": [
+        "whiteboard_gap",
+        "R3.pose",
+        "R3.rot",
+        "R3.type",
+        "R3.walk",
+        "R3.breathe",
+        "R3.talk",
+        "R3.blinks",
+        "beams",
+        "grade"
+      ],
       "graphics": [
-        {"kind": "diegetic", "what": "SPENDING stack builds ADS / STAFF / SERVERS on 'advertising' / 'employees' / 'infrastructure'", "why": "each cost lands on its word"},
-        {"kind": "diegetic", "what": "short REVENUE column on 'revenue', circled on 'sustain'", "why": "the shortfall is visible, then emphasised"},
-        {"kind": "diegetic", "what": "dashed level line on 'depended', gold INVESTOR CASH block fills the gap on 'investors'", "why": "explains the mechanism: investors fund the gap"},
-        {"kind": "diegetic", "what": "'ILLUSTRATIVE' note on the board", "why": "proportions are illustrative, not sourced figures"}
+        {
+          "kind": "diegetic",
+          "what": "SPENDING stack builds ADS / STAFF / SERVERS on 'advertising' / 'employees' / 'infrastructure'",
+          "why": "each cost lands on its word"
+        },
+        {
+          "kind": "diegetic",
+          "what": "short REVENUE column on 'revenue', circled on 'sustain'",
+          "why": "the shortfall is visible, then emphasised"
+        },
+        {
+          "kind": "diegetic",
+          "what": "dashed level line on 'depended', gold INVESTOR CASH block fills the gap on 'investors'",
+          "why": "explains the mechanism: investors fund the gap"
+        },
+        {
+          "kind": "diegetic",
+          "what": "'ILLUSTRATIVE' note on the board",
+          "why": "proportions are illustrative, not sourced figures"
+        }
       ],
       "rationale": "A medium shot carries explanation and reaction together: the diagram is drawn by a character in the world (no floating dashboard), and the team's reactions (hand to forehead on 'without earning enough') carry the stakes. Background life (typing, a phone call, a carton of BigCart merchandise carried past on 'advertising') answers the 'empty office' critique.",
-      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md"]
+      "consulted": [
+        "skills/creative/epoch-ledger-motion-craft.md",
+        "epoch-ledger/COMPONENTS.md",
+        "epoch-ledger/QUALITY.md"
+      ]
     },
     {
       "id": "mt3_closeup",
-      "beat": {"t": "19.15-24.7", "narration": "Without fresh capital, they could no longer finance their operations."},
+      "beat": {
+        "t": "19.15-24.7",
+        "narration": "Without fresh capital, they could no longer finance their operations."
+      },
       "understanding": "When the investor money stops, the company cannot pay to operate: the cash line hits bottom, the runway reaches zero, the office goes dark.",
       "shot": "close-up",
       "focal_point": "the founder's face; the CRT in the right third carries the data",
-      "camera": "locked off with a 3.5% push — stillness for the emotional beat",
+      "camera": "locked off with a 3.5% push \u2014 stillness for the emotional beat",
       "lighting": "red CRT key flickering on his face, cool fill, blurred night office with its last lights",
-      "technique": ["rig3", "scene3d", "lightfx", "diegetic", "2.5d"],
-      "components": ["closeup_svg", "crt_chart", "R3.blinks", "R3.breathe", "glow", "grade"],
+      "technique": [
+        "rig3",
+        "scene3d",
+        "lightfx",
+        "diegetic",
+        "2.5d"
+      ],
+      "components": [
+        "closeup_svg",
+        "crt_chart",
+        "R3.blinks",
+        "R3.breathe",
+        "glow",
+        "grade"
+      ],
       "graphics": [
-        {"kind": "diegetic", "what": "cash line completes its fall on 'no longer'; RUNWAY LEFT counts 3 -> 0 months on 'finance'", "why": "the consequence, on the object he is looking at"},
-        {"kind": "diegetic", "what": "office lights behind him go out on 'operations'", "why": "operations ending, shown as an environmental action"},
-        {"kind": "diegetic", "what": "'ILLUSTRATIVE' note on the CRT", "why": "the runway figure is illustrative"}
+        {
+          "kind": "diegetic",
+          "what": "cash line completes its fall on 'no longer'; RUNWAY LEFT counts 3 -> 0 months on 'finance'",
+          "why": "the consequence, on the object he is looking at"
+        },
+        {
+          "kind": "diegetic",
+          "what": "office lights behind him go out on 'operations'",
+          "why": "operations ending, shown as an environmental action"
+        },
+        {
+          "kind": "diegetic",
+          "what": "'ILLUSTRATIVE' note on the CRT",
+          "why": "the runway figure is illustrative"
+        }
       ],
       "rationale": "The close-up turns the mechanism into consequence. Acting is restrained and readable at this size: brows knit on 'without fresh capital', eyelids grow heavy on 'no longer', the phone comes down on 'finance', the head drops on 'operations'. Kinetic typography was considered and rejected here: the captions and the CRT already carry the words, and the guide says not to duplicate captions on screen.",
-      "consulted": ["skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md"]
+      "consulted": [
+        "skills/creative/epoch-ledger-motion-craft.md",
+        "epoch-ledger/COMPONENTS.md",
+        "epoch-ledger/QUALITY.md"
+      ]
     }
-  ]
+  ],
+  "status": "REJECTED by the user (2026-11-25): one composition held ~14 s across several concepts. Superseded by office_v2_plan.json. Kept as the validator's negative example."
 }

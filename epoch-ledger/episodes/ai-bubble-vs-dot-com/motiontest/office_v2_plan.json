@@ -1,0 +1,385 @@
+{
+ "episode": "ai-bubble-vs-dot-com",
+ "scope": "Office sequence v2 (14 s): c03_04 + c03_05 as a narration-driven 'follow the money' montage; one visible action per beat; mute-test readable",
+ "shots": [
+  {
+   "id": "v1_valve",
+   "beat": {
+    "t": "0.00-1.50",
+    "narration": "They were spending heavily"
+   },
+   "understanding": "The company's cash (a tank of coins) is being let out, deliberately and fast.",
+   "shot": "medium",
+   "focal_point": "the founder's hands on the outlet valve; coins bursting into the SPENDING pipe",
+   "camera": "static frame with a settling 3% pull",
+   "lighting": "warm office, blurred depth plate",
+   "technique": [
+    "rig3",
+    "diegetic",
+    "2.5d"
+   ],
+   "components": [
+    "tank_svg",
+    "glass_pipe",
+    "valve_wheel",
+    "FM.valve",
+    "FM.coins",
+    "FM.level",
+    "R3.keys",
+    "rig3.reach",
+    "plates"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "valve opens with anticipation; coins stream right",
+     "why": "spending = money physically leaving"
+    }
+   ],
+   "rationale": "Establishes the mechanism every later shot reuses: the tank is the company's cash.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v2_ads",
+   "beat": {
+    "t": "1.50-2.85",
+    "narration": "on advertising"
+   },
+   "understanding": "Money goes into advertising: a TV ad switches on and plays.",
+   "shot": "insert",
+   "focal_point": "the TV screen",
+   "camera": "slow 4.5% push",
+   "lighting": "TV glow on a blurred dusk office",
+   "technique": [
+    "diegetic",
+    "2.5d"
+   ],
+   "components": [
+    "tv_set",
+    "FM.powerOn",
+    "FM.coins",
+    "FM.pop"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "coins pour into the TV via the ADVERTISING pipe; the BigCart rocket ad plays",
+     "why": "advertising expense made visible"
+    }
+   ],
+   "rationale": "Match cut on the coin flow (left to right) from the previous shot.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v3_payroll",
+   "beat": {
+    "t": "2.85-3.75",
+    "narration": "employees"
+   },
+   "understanding": "Money goes to employees: pay lands on every desk while people work and a new hire arrives.",
+   "shot": "medium",
+   "focal_point": "pay envelopes landing on desks",
+   "camera": "slow lateral drift",
+   "lighting": "office panels + window light",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic"
+   ],
+   "components": [
+    "S3.render",
+    "R3.type",
+    "R3.walk",
+    "FM.drop",
+    "FM.pop",
+    "envelope",
+    "glass_pipe"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "payroll pipe drops coins that become PAY envelopes",
+     "why": "salaries"
+    },
+    {
+     "kind": "diegetic",
+     "what": "WE'RE HIRING banner, new hire carrying a box",
+     "why": "hiring"
+    }
+   ],
+   "rationale": "Live workstations over a cached room plate.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v4_servers",
+   "beat": {
+    "t": "3.75-4.75",
+    "narration": "infrastructure"
+   },
+   "understanding": "Money goes into infrastructure: servers installed and switched on.",
+   "shot": "medium",
+   "focal_point": "the technician sliding a server into the rack",
+   "camera": "5% push",
+   "lighting": "cool server-room light, LED glow",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic"
+   ],
+   "components": [
+    "S3.render",
+    "R3.keys",
+    "FM.coins",
+    "rack_art"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "server slides in, LEDs cascade on, SERVERS pipe feeds coins",
+     "why": "infrastructure spending"
+    }
+   ],
+   "rationale": "Anticipation (pull back) then the shove, with follow-through.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v5_machine",
+   "beat": {
+    "t": "4.75-6.85",
+    "narration": "without earning enough revenue"
+   },
+   "understanding": "Three big outflows vs a trickle of revenue: the tank level falls.",
+   "shot": "wide",
+   "focal_point": "the tank between the flows",
+   "camera": "pull out from the previous detail to the whole machine (1.22 -> 1.0), then push into the gauge to cut",
+   "lighting": "dimmed office plate",
+   "technique": [
+    "diegetic",
+    "kinetic-type",
+    "diagram"
+   ],
+   "components": [
+    "tank_svg",
+    "glass_pipe",
+    "FM.coins",
+    "FM.level",
+    "FM.needle",
+    "ktext",
+    "mReveal"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "ADVERTISING / PAYROLL / SERVERS outflows gush; REVENUE inflow trickles",
+     "why": "the mechanism of the shortfall"
+    },
+    {
+     "kind": "overlay",
+     "what": "kinetic type MONEY OUT (large) / money in (small)",
+     "why": "type size encodes the imbalance; reinforces the mechanism for muted viewing"
+    }
+   ],
+   "rationale": "Leaving the details is a pull-out to the model (motion-craft direction grammar).",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v6_gauge",
+   "beat": {
+    "t": "6.85-8.65",
+    "narration": "to sustain themselves"
+   },
+   "understanding": "The cash cannot last: the gauge falls into the red and the alarm starts.",
+   "shot": "close-up",
+   "focal_point": "the gauge needle",
+   "camera": "creeping 6% push (tension)",
+   "lighting": "red alarm wash",
+   "technique": [
+    "diegetic"
+   ],
+   "components": [
+    "gauge_dial",
+    "FM.needle",
+    "FM.lamp",
+    "FM.level"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "needle sweeps to EMPTY with mechanical wobble; warning lamp",
+     "why": "unsustainable"
+    }
+   ],
+   "rationale": "Close-up for the consequence.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v7a_board",
+   "beat": {
+    "t": "8.65-10.35",
+    "narration": "Their survival depended on"
+   },
+   "understanding": "The company now depends on a decision made elsewhere: investors deliberating.",
+   "shot": "medium",
+   "focal_point": "the investors at the table; one lifts the stamp",
+   "camera": "6% push",
+   "lighting": "warm pendant lamps, dusk windows",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic"
+   ],
+   "components": [
+    "S3.render",
+    "R3.talk",
+    "R3.keys",
+    "rig3.reach",
+    "rig3.hold",
+    "plates"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "term sheet on the table; stamp raised",
+     "why": "the funding decision"
+    }
+   ],
+   "rationale": "New location: cut.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v7b_stamp",
+   "beat": {
+    "t": "10.35-10.95",
+    "narration": "investors"
+   },
+   "understanding": "The investors approve: FUNDED.",
+   "shot": "insert",
+   "focal_point": "the term sheet as the stamp lands",
+   "camera": "impact shake",
+   "lighting": "table close-up",
+   "technique": [
+    "diegetic"
+   ],
+   "components": [
+    "FM.stampIn"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "stamp slams FUNDED on BigCart's term sheet on 'investors'",
+     "why": "investment decision"
+    }
+   ],
+   "rationale": "Insert close-up so the key action is legible.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v7c_valve",
+   "beat": {
+    "t": "10.95-11.60",
+    "narration": "continuing"
+   },
+   "understanding": "The investor opens the capital line; money starts flowing to BigCart.",
+   "shot": "medium",
+   "focal_point": "the valve and the coins starting",
+   "camera": "4% push",
+   "lighting": "boardroom",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic"
+   ],
+   "components": [
+    "FM.valve",
+    "FM.coins",
+    "rig3.reach"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "capital valve opens; coins flow right toward BigCart",
+     "why": "capital provided"
+    }
+   ],
+   "rationale": "Same motif as the founder's valve: a deliberate match in action.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "v8_refill",
+   "beat": {
+    "t": "11.60-14.00",
+    "narration": "to provide capital"
+   },
+   "understanding": "Investor money refills the tank while spending continues: survival depends on it.",
+   "shot": "wide",
+   "focal_point": "the investor pipe pouring into the tank",
+   "camera": "slow 4% push",
+   "lighting": "dimmed office plate",
+   "technique": [
+    "diegetic",
+    "kinetic-type"
+   ],
+   "components": [
+    "tank_svg",
+    "glass_pipe",
+    "FM.coins",
+    "FM.level",
+    "mReveal"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "INVESTOR CAPITAL pipe drops in from above and pours; tank level rises",
+     "why": "capital keeps the company alive"
+    },
+    {
+     "kind": "overlay",
+     "what": "kinetic type INVESTOR CAPITAL IN",
+     "why": "names the new inflow for muted viewing; pulses on 'capital'"
+    }
+   ],
+   "rationale": "Return to the model: the same machine, now with its life-support line.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  }
+ ]
+}

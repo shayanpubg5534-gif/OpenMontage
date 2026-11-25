@@ -6,7 +6,8 @@ technique was chosen, so the motion-craft skill, the component index and QUALITY
 Plan file: JSON {"episode": ..., "shots": [shot, ...]}. Each shot needs:
   id, beat {t, narration}, understanding (what the viewer must grasp), shot (size), focal_point, camera (move or
   "locked" + why), lighting, technique [list], components [kit symbols reused], graphics [{kind, what, why?}],
-  rationale, consulted [must include the three guides].
+  rationale, consulted [must include the three guides]. A beat "t" written as "a-b" (seconds) longer than MAX_HOLD
+  needs a hold_reason: the narration moves through concepts, so the picture must too.
 Validate with `python -m kit.scene_plan PLAN.json` (exit 1 on errors) or `validate(plan)` in tests.
 """
 from __future__ import annotations
@@ -20,6 +21,7 @@ TECHNIQUES = ("scene3d", "rig3", "rig", "lightfx", "diegetic", "motion.js", "thr
               "2.5d", "kinetic-type", "diagram", "photo-archive")
 GRAPHIC_KINDS = ("diegetic", "standalone", "overlay", "caption")
 REQUIRED_GUIDES = ("skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md")
+MAX_HOLD = 6.0   # seconds one composition may carry narration before it needs a new action/shot (or a written hold_reason)
 FIELDS = ("id", "beat", "understanding", "shot", "focal_point", "camera", "lighting", "technique", "components", "graphics", "rationale", "consulted")
 
 
@@ -49,6 +51,14 @@ def validate(plan: dict) -> list[str]:
         beat = s.get("beat") or {}
         if not isinstance(beat, dict) or "narration" not in beat:
             errs.append(f"{sid}: beat must carry the narration it serves")
+        t = str(beat.get("t", "")) if isinstance(beat, dict) else ""
+        if "-" in t:
+            try:
+                a, b = (float(x) for x in t.split("-"))
+                if b - a > MAX_HOLD and len(s.get("hold_reason", "")) < 20:
+                    errs.append(f"{sid}: one composition holds {b - a:.1f}s of narration — give each beat its own action/shot, or write a hold_reason")
+            except ValueError:
+                pass
         if len(s.get("understanding", "")) < 15:
             errs.append(f"{sid}: 'understanding' must say what the viewer learns")
     # sequence rules: vary shot sizes, no long runs of the same framing

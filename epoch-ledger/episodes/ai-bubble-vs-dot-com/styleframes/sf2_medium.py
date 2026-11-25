@@ -111,10 +111,9 @@ sc.cyl([.55, 0, -4.1], .14, 0, .34, { color: '#4a4a52' }, { seg: 10 });
 """ + "\n{people}"
 
 
-def build(out: Path):
-    import json
-    from kit.rig3 import figure_svg, VIEWBOX, ASPECT
-    art2 = {
+def art2_dict() -> dict:
+    """Office art (whiteboard, posters, windows, screens...) keyed for ART2 — reused by motion builders."""
+    return {
         "board": BOARD, "poster": POSTER, "window": WINDOW, "screen": SCREEN, "screenRed": SCREEN_RED,
         "banner": '<rect width="760" height="100" fill="#d9503f"/><text x="380" y="70" text-anchor="middle" font-family="Inter" font-weight="800" font-size="56" fill="#fff">WE\'RE HIRING!</text>',
         "gauge": gauge("CASH", .22),
@@ -123,6 +122,12 @@ def build(out: Path):
         "plant": '<g><ellipse cx="45" cy="40" rx="30" ry="26" fill="#3a6a3a" stroke="#1b1410" stroke-width="2"/><ellipse cx="26" cy="58" rx="20" ry="18" fill="#2e5a30" stroke="#1b1410" stroke-width="2"/>'
                  '<ellipse cx="64" cy="60" rx="22" ry="18" fill="#4a7a40" stroke="#1b1410" stroke-width="2"/><path d="M45 100 L45 60" stroke="#3a2a1a" stroke-width="4"/></g>',
     }
+
+
+def build(out: Path):
+    import json
+    from kit.rig3 import figure_svg, VIEWBOX, ASPECT
+    art2 = art2_dict()
     people = []
     cast = [("e1", "casual", [-.75, 0, -1.25], "fold", 3, 3, "curly", False, "worried", False),
             ("e2", "casual2", [-1.55, 0, -1.9], "worry", 4, 6, "buzz", False, "worried", False),
