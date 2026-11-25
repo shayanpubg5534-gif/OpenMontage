@@ -31,7 +31,9 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 | `scripts/motion_demo.py` | 30 s reference composition showing every motion helper |
 | `kit/data/` | Natural Earth country shapes (world-atlas, ISC; Natural Earth public domain) — `LICENSES.md` |
 | `COMPONENTS.md` | **Component index** — every reusable character, set, overlay and 3D world with where it lives; check it first, update it with every new component |
-| `QUALITY.md` | **Visual quality standard + checklist**, incl. mandatory word-level semantic sync and the no-repetition shot log |
+| `STANDARD.md` | **The authoritative production standard** (hard requirements + creative principles + process) |
+| `QUALITY.md` | Approval checklist derived from the standard |
+| `scripts/qc.mjs` | Automated checks: determinism (frames drawn twice in shuffled order), black/flash/frozen frames, loudness, timing study |
 | `kit/sets.py` | Bank street (layered parallax), loan office, credit gauge, ledger T-account, terminal keyboard, bokeh |
 | `kit/vault3d.js` | Three.js vault: configurable camera "shots", coin stacks, pulsing lock, banknotes materialising from gold motes |
 | `kit/helpers.js` | Timeline helpers: `blink`, `count`, `usd`, `walk`, `talk`, `stamp` |

@@ -35,19 +35,22 @@
     "reuse_policy": "Reuse kit components (characters, sets, vault, helpers) but re-stage them: new compositions, camera moves, palettes accents and metaphors per episode; no two consecutive scenes share a primary subject, and no episode repeats a previous episode's hero shot.",
     "cost_policy": "Free local tools only: no paid external APIs; avoid unnecessary AI usage (snapshots before renders, cached scene renders, no speculative full re-renders).",
     "quality_standard": {
-      "doc": "epoch-ledger/QUALITY.md",
-      "semantic_sync": "visuals start on the Whisper time of the word that names them (±0.3 s); camera moves start ~1 s before",
+      "doc": "epoch-ledger/STANDARD.md",
+      "semantic_sync": "key moments land on the Whisper time of the words that name them; other motion may lead or follow (STANDARD §3)",
       "no_repeat": "a reused world/set must change at least two of environment, perspective, action, purpose",
       "motion_review": "render and watch a 540p motion sample of each priority sequence before approval",
       "requirements": [
-        "professional visual design and environmental detail",
-        "natural and purposeful animation",
-        "precise narration-to-action synchronisation",
-        "semantic visual storytelling that explains meaning, mechanism, cause or consequence"
+        "facts, one Ledger for figures, disclosure",
+        "readable figures and captions (gold highlight)",
+        "continuity",
+        "determinism and technical quality",
+        "cinematic storytelling with financial clarity"
       ],
-      "scene_brief": "message, audience understanding, demonstrating actions, trigger words, cause→mechanism→consequence — written before building",
-      "continuation_rule": "introducing an object does not complete the explanation: each company/facility gets introduction → operation → transaction",
-      "not_evidence": "frame-change metrics, camera movement, glow and particles are not evidence of quality"
+      "scene_brief": "meaning (what / why / consequence), key moments and shot ideas with reasons — written before building (STANDARD §2.7)",
+      "continuation_rule": "depth of treatment by importance: show operation/transaction where understanding depends on it (STANDARD §3)",
+      "not_evidence": "frame-change metrics, camera movement, glow and particles are not evidence of quality",
+      "checklist": "epoch-ledger/QUALITY.md",
+      "qc": "epoch-ledger/scripts/qc.mjs"
     },
     "motion_language": {
       "doc": "skills/creative/epoch-ledger-motion-craft.md",

@@ -70,40 +70,29 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
 3. **Reuse first** → check `epoch-ledger/COMPONENTS.md` (component index) before reading
    source or writing new code; update the index in the same commit as any new reusable part.
-4. **Motion craft** → load `skills/creative/epoch-ledger-motion-craft.md` (skill
-   `epoch-ledger-motion-craft`) when building scenes: series motion language, composition,
-   kinetic type, diagrams, data, isometric, maps, 3D on CPU, transitions, end screen; helpers in
-   `kit/motion.js`, `kit/motion.py`, `kit/three_kit.js`. Timing rules are flexible guidelines;
-   ambient life, atmosphere, parallax and depth are always part of the look.
-5. **Scene plan** → write `storyboard/scene_plan.json` and pass `python -m kit.scene_plan`
-   (see `QUALITY.md` §0): shot sizes, focal point, camera, lighting, technique, reused components,
-   diegetic graphics and the guides consulted. Art direction v2 tools: `kit/scene3d.js`
-   (perspective sets), `kit/lightfx.py`, `kit/rig3.py` (`figure_svg`, `closeup_svg`),
-   `kit/diegetic.py`; stills via `scripts/still.mjs` for approval before motion.
-6. **Scene briefs + art direction** → before building any scene write its brief (message,
-   what the audience must understand, demonstrating actions, trigger words, cause → mechanism →
-   consequence) and meet all four requirements in `epoch-ledger/QUALITY.md`: design detail,
-   purposeful animation, word-level sync, **semantic storytelling** (show the meaning, not just
-   the subject; every introduced object then operates and transacts). `art-direction.md`: scene table with one distinct primary subject per
-   scene, the word each beat syncs to, the episode's signature device (1–2 beats), and a shot
-   log (world, camera class, action) so no hero world repeats (see `epoch-ledger/QUALITY.md`).
+4. **Standard** → `epoch-ledger/STANDARD.md` is the authoritative production standard (hard requirements,
+   creative principles, process). Craft techniques and the helper library are in
+   `skills/creative/epoch-ledger-motion-craft.md` (skill `epoch-ledger-motion-craft`); they are guidance, not
+   formulas.
+5. **Brief + plan** → for each passage write `meaning` (what / why / consequence), the key moments and the shot
+   ideas with reasons, in `storyboard/scene_plan.json`; `python -m kit.scene_plan` reports errors (objective
+   problems) and warnings (pacing — answer with a reason). Figures come from one `kit/finstate.Ledger`. Tools:
+   `kit/scene3d.js` + `kit/plates.py` (sets), `kit/lightfx.py`, `kit/rig3.py`/`rig3.js` (characters),
+   `kit/money.py`, `kit/explain.py` (charts), `kit/finmech.py`, `kit/diegetic.py`; stills via `scripts/still.mjs`
+   for approval before motion when the look changes.
 6. **Narration** → `python epoch-ledger/scripts/narrate.py epoch-ledger/episodes/<slug>`
    (per-line TTS, trimmed, breaths, −16 LUFS, Whisper `small.en` words, caption pages, SRT).
-7. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. **Semantic sync is
-   mandatory:** every object/action starts on the Whisper time of the word that names it
-   (`W("semiconductor", "c05_02")`), never at a line end or on guessed seconds; camera moves
-   start ≈ 1 s before the word. Characters use the jointed rig (`kit/rig.py`, `kit/rig.js`:
-   `rig_svg`, `crowd_look`, `rpose`, `rwalk`, `ambient`, `rexpress`); 3D shots use keyframed
-   cameras (`keyCam`).
-   Reuse `kit.characters`, `kit.sets`, `kit/vault3d.js` (new camera shots per episode),
-   `kit/helpers.js` (`walk`, `blink`, `talk`, `stamp`, `count`).
-8. **Check** → `npx --yes hyperframes@0.9.88 lint` (0 errors) and `snapshot` contact sheets
-   at every beat **and at each synced word time**. Review: overlaps, text over 3D objects,
-   caption band (y ≥ 880) clear, characters fully visible, numbers legible, sync to the named
-   words. Run `node epoch-ledger/scripts/layout_check.mjs WS/index.html --start a --end b`
-   (text collisions, caption band, off-frame labels). Then render a short 540p motion sample of each priority sequence
-   (`render.py range WS --start a --end b --fps 30 --quality draft`) and watch it — run the full
-   checklist in `epoch-ledger/QUALITY.md` before asking for approval.
+7. **Build** → `episodes/<slug>/build.py` using `kit.assemble.Scene`. Land each beat's **key moments** on the
+   Whisper time of the words that name them (`W("semiconductor", "c05_02")` raises if a word is missing, so script
+   edits cannot silently desync); other motion may lead or follow (STANDARD §3). Characters use rig v3
+   (`kit/rig3.py`, `kit/rig3.js`); the older `kit/rig.py`/`rig.js` and `kit.characters` remain for the approved
+   pilot scenes. Reuse `kit/vault3d.js`, `kit/helpers.js` and `kit/motion.js` where they serve the scene.
+8. **Check** → `npx --yes hyperframes@0.9.88 lint` (0 errors); `snapshot` contact sheets at the key moments;
+   `node epoch-ledger/scripts/layout_check.mjs WS/index.html --start a --end b` (text);
+   `node epoch-ledger/scripts/qc.mjs WS/index.html [--video OUT.mp4]` (determinism, black/flash/frozen frames,
+   loudness, timing study). Render a short motion sample of each priority sequence
+   (`render.py range WS --start a --end b`) and watch it with sound and muted, then run
+   `epoch-ledger/QUALITY.md` (the approval checklist) before asking for approval.
 9. **Preview** changed scenes only: `render.py scene WS <id> --preview`.
 10. **Final** → `render.py render WS -o projects/<slug>/renders/final.mp4`. With the
    `remotion` caption engine, then run `remotion_caption_burn` with

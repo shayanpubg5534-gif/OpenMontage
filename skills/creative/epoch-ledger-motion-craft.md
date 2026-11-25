@@ -8,7 +8,7 @@ description: Motion-design craft for The Epoch Ledger — load when building or 
 Read this when you write a scene brief or build or revise a scene. It turns general motion-design
 practice into series rules and points to the kit functions that implement them. **Rules marked
 "guideline" are defaults, not limits:** break them when the story is clearer for it, and say why
-in the scene brief. `QUALITY.md` still governs, and the four requirements outrank everything here.
+in the brief. `epoch-ledger/STANDARD.md` is the authoritative standard and outranks everything here.
 
 Credits: this guide was informed by a review of the MIT-licensed iart-ai motion-skills packs. All
 wording and code here are original. Nothing was copied from packs without a licence (see
@@ -146,39 +146,23 @@ episode's choices in `art-direction.md`; deviate per scene when the brief says w
   hero moves, or layer the rendered set with `mCamera`/`mParallax` for 2.5D moves; slow, motivated
   pushes, not constant drift.
 
-## 8c. Meaning-first visual storytelling (outranks style and animation quantity)
+## 8c. Storytelling and pacing
 
-Two rejected previews define the boundaries. The first held one whiteboard for ~14 s across five concepts (too
-static). The second cut ten times in 14 s, used a coin tank that read as cheese, repeated pipes and valves, and did
-not separate a funding agreement from money received (too frantic, too metaphorical). The standard between them:
+The rules live in `epoch-ledger/STANDARD.md` §2–3: concept beats with precisely timed key moments, cinematic
+storytelling plus animated charts where they explain the mechanism, uncrowded frames, motivated camera, and
+characters who act like people. Craft notes from the reviewed previews:
 
-1. **Understand before designing.** For each narration passage write `meaning` = what happens, why, consequence
-   (the plan validator requires it). Group the words into *concept beats*: "spending on advertising, employees and
-   infrastructure" is ONE beat (spending), not three shots.
-2. **Connected compositions, progressive animation.** One composition per beat, typically 2.5–5 s, in which the
-   named parts appear or act on their words (bills fly to the TV on "advertising", pay lands on desks on
-   "employees", a rack is wheeled in on "infrastructure"). Validator: ≥ `MIN_SHOT` 2 s per composition (inserts
-   0.5 s with an `insert_reason`), ≤ `MAX_CUTS_PER_10S` 4, no hold over `MAX_HOLD` 6 s without a `hold_reason`.
-3. **Recognisable and accurate.** Money is banknotes and bundles (`kit/money.py`); advertising is an actual
-   commercial or billboard; salaries are pay; infrastructure is equipment being installed. Use a metaphor only when
-   it explains something a literal image cannot, and do not repeat one metaphor across every beat.
-4. **One source of truth for numbers.** Build a `kit/finstate.Ledger`; every pile, counter, chart and runway is
-   derived from it, and figures are labelled illustrative when they are. Indicators keep the same geometry across
-   beats (the cash chart in "shortfall" returns unchanged in "money received").
-5. **Explain with the right tool.** When the idea is quantitative (out vs in, runway), use a clean chart
-   (`kit/explain.py`) and give it time to be read; when it is an action (signing, paying, installing), show
-   people doing it; when it is a process with steps, number the steps (agreement → money received).
-6. **Separate steps that are legally or economically different** (agreement vs receipt, revenue vs profit,
-   valuation vs cash) into distinct visual moments.
-7. **Characters act with intent:** eyes lead the head (`R3.look`), weight-shift stances (`stand2`, `hips`),
-   contact with objects (`rig3.reach`, `hold`), interaction between characters (handshake, handing over, signing
-   with `R3.write`), anticipation and follow-through (`R3.keys`).
-8. **The mute test** still applies: with the sound off, the story (what, why, consequence) must be followable.
-9. **Not evidence of quality:** number of animations, cuts, camera drift, blinking, particles, frame-difference
-   statistics.
-10. **Rendering:** static sets are cached plates (`kit/plates.py`); characters, money and charts animate live.
-    References: `episodes/ai-bubble-vs-dot-com/motiontest/office_v3.py`, `office_v3_plan.json` (current) and the
-    rejected `office_v2_plan.json` / `scene_plan.json` kept as negative examples in the tests.
+- Two rejected extremes: one composition held for 14 s across five ideas, and ten cuts in 14 s. The approved
+  direction is a few connected compositions, each building progressively.
+- Strong devices so far:
+  - an opening pull-back that reveals what the money feeds;
+  - a single small inflow set against large outflows;
+  - a handwritten ledger insert for the arithmetic;
+  - money visibly arriving, then leaving again.
+- Charts (`kit/explain.py`) remain the clearest way to show comparisons and runways. Cut or move to them with a
+  motive, keep the same figures and colours as the story world, and give them reading time.
+- References: `epoch-ledger/experiments/bigcart14/` (BRIEF.md and shots.py; preferred creative direction) and
+  `episodes/ai-bubble-vs-dot-com/motiontest/office_v3.py` (preferred chart treatment).
 
 ## 9. Transitions
 

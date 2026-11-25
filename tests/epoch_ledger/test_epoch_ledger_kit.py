@@ -141,11 +141,20 @@ def test_render_plan_reports_output_size(tmp_path):
 
 def test_quality_standard_is_wired_into_workflow():
     root = Path(__file__).resolve().parents[2]
+    std = (root / "epoch-ledger" / "STANDARD.md").read_text()
+    for phrase in ("Hard requirements", "Creative principles", "gold", "determinism", "Mouths move only when the character",
+                   "no fixed shot lengths or cut quotas"):
+        assert phrase in std, phrase
     q = (root / "epoch-ledger" / "QUALITY.md").read_text()
-    assert "Semantic visual storytelling" in q and "Introducing something does not explain it" in q
+    assert "STANDARD.md" in q and "qc.mjs" in q
+    for retired in ("Introducing something does not explain it", "Semantic visual storytelling"):   # no competing rulebooks
+        assert retired not in q
     cfg = json.loads((root / "epoch-ledger" / "config" / "production.json").read_text())
-    assert cfg["production"]["quality_standard"]["doc"] == "epoch-ledger/QUALITY.md"
-    assert "QUALITY.md" in (root / "skills" / "creative" / "epoch-ledger.md").read_text()
+    qs = cfg["production"]["quality_standard"]
+    assert qs["doc"] == "epoch-ledger/STANDARD.md" and qs["checklist"] == "epoch-ledger/QUALITY.md"
+    assert cfg["narration"]["voice"] == "bm_george" and cfg["narration"]["speed"] == 0.95   # machine settings preserved
+    for f in ("skills/creative/epoch-ledger.md", ".claude/commands/epoch-ledger.md", "AGENT_GUIDE.md"):
+        assert "STANDARD.md" in (root / f).read_text(), f
 
 
 def test_rig_library_ships_with_helpers():
@@ -182,7 +191,7 @@ def test_component_index_matches_code():
 
 def test_motion_craft_is_discoverable():
     root = Path(__file__).resolve().parents[2]
-    for f in ("AGENT_GUIDE.md", "skills/INDEX.md", "skills/creative/epoch-ledger.md", ".claude/commands/epoch-ledger.md", "epoch-ledger/QUALITY.md"):
+    for f in ("AGENT_GUIDE.md", "skills/INDEX.md", "skills/creative/epoch-ledger.md", ".claude/commands/epoch-ledger.md", "epoch-ledger/STANDARD.md"):
         assert "motion-craft" in (root / f).read_text() or "motion_craft" in (root / f).read_text(), f
     assert (root / ".claude/skills/epoch-ledger-motion-craft/SKILL.md").exists()
     cfg = json.loads((root / "epoch-ledger/config/production.json").read_text())

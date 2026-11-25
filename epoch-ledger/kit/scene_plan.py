@@ -1,16 +1,14 @@
-"""Epoch Ledger scene plan — the mandatory design step between the script and any scene code.
+"""Epoch Ledger scene plan — the design step between the brief and any scene code (STANDARD.md §5).
 
-Every shot is planned *before* it is built, and the plan records which guides were consulted and why each
-technique was chosen, so the motion-craft skill, the component index and QUALITY.md demonstrably shape the work.
-
-Plan file: JSON {"episode": ..., "shots": [shot, ...]}. Each shot needs:
-  id, beat {t, narration}, understanding (what the viewer must grasp), shot (size), focal_point, camera (move or
-  "locked" + why), lighting, technique [list], components [kit symbols reused], graphics [{kind, what, why?}],
-  rationale, consulted [must include the three guides]. A beat "t" written as "a-b" (seconds) longer than MAX_HOLD
-  needs a hold_reason: the narration moves through concepts, so the picture must too. Timed shots also need
-  meaning {what, why, consequence}, must last at least MIN_SHOT (inserts 0.5 s + insert_reason), and a sequence may not
-  change composition more than MAX_CUTS_PER_10S times in any 10 s — connected compositions, not a cut per word.
-Validate with `python -m kit.scene_plan PLAN.json` (exit 1 on errors) or `validate(plan)` in tests.
+Plan file: JSON {"episode": ..., "shots": [shot, ...]}. Each shot needs (errors if missing):
+  id, beat {t, narration}, understanding (what the viewer must grasp), shot (size), focal_point, technique [list],
+  graphics [{kind, what, why?}], rationale. Timed shots (beat "t" written "a-b") also need meaning {what, why,
+  consequence}. Overlay graphics need a why. Recommended (warnings): camera, lighting, components; "consulted" is
+  optional.
+Pacing and framing numbers (MAX_HOLD, MIN_SHOT, MAX_CUTS_PER_10S, runs of one size) are *warnings*: pacing serves
+comprehension, so the director may exceed them with a hold_reason / insert_reason or accept them knowingly.
+`python -m kit.scene_plan PLAN.json` exits 1 on errors only. In code: validate(plan) -> errors; review(plan) ->
+{"errors", "warnings"}.
 """
 from __future__ import annotations
 
@@ -23,18 +21,27 @@ TECHNIQUES = ("scene3d", "rig3", "rig", "lightfx", "diegetic", "motion.js", "thr
               "2.5d", "kinetic-type", "diagram", "photo-archive")
 GRAPHIC_KINDS = ("diegetic", "standalone", "overlay", "caption")
 REQUIRED_GUIDES = ("skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md")
-MAX_HOLD = 6.0
+MAX_HOLD = 6.0   # seconds one composition carries narration before the checker asks for a hold_reason
 MIN_SHOT = 2.0   # seconds a composition needs to be recognised and understood (inserts: 0.5 s, with insert_reason)
-MAX_CUTS_PER_10S = 4   # pacing: more composition changes than this in any 10 s window reads as frantic   # seconds one composition may carry narration before it needs a new action/shot (or a written hold_reason)
-FIELDS = ("id", "beat", "understanding", "shot", "focal_point", "camera", "lighting", "technique", "components", "graphics", "rationale", "consulted")
+MAX_CUTS_PER_10S = 4   # pacing hint: more composition changes than this in any 10 s window often reads as frantic
+FIELDS = ("id", "beat", "understanding", "shot", "focal_point", "technique", "graphics", "rationale")        # required (errors)
+ADVISED = ("camera", "lighting", "components")                                                              # recommended (warnings)
 
 
 def validate(plan: dict) -> list[str]:
+    """Errors only (objective problems) — backward compatible. Use review() for errors and pacing warnings."""
+    return review(plan)["errors"]
+
+
+def review(plan: dict) -> dict:
+    """{'errors': [...], 'warnings': [...]}. Errors: missing meaning / fields, unknown kinds, unexplained overlays.
+    Warnings: pacing and framing heuristics (STANDARD §3 — the director may exceed them with a reason)."""
     errs: list[str] = []
+    warns: list[str] = []
     timed: list[tuple[float, float]] = []
     shots = plan.get("shots") or []
     if not shots:
-        return ["plan has no shots"]
+        return {"errors": ["plan has no shots"], "warnings": []}
     for s in shots:
         sid = s.get("id", "?")
         for f in FIELDS:
@@ -50,9 +57,9 @@ def validate(plan: dict) -> list[str]:
                 errs.append(f"{sid}: graphic kind {g.get('kind')!r} not in {GRAPHIC_KINDS}")
             if g.get("kind") == "overlay" and len(g.get("why", "")) < 20:
                 errs.append(f"{sid}: overlay graphic '{g.get('what')}' needs a 'why' (prefer diegetic or a standalone chart)")
-        for guide in REQUIRED_GUIDES:
-            if guide not in s.get("consulted", []):
-                errs.append(f"{sid}: did not consult {guide}")
+        for f in ADVISED:
+            if not s.get(f):
+                warns.append(f"{sid}: no {f} noted")
         beat = s.get("beat") or {}
         if not isinstance(beat, dict) or "narration" not in beat:
             errs.append(f"{sid}: beat must carry the narration it serves")
@@ -65,12 +72,12 @@ def validate(plan: dict) -> list[str]:
             if a is not None:
                 timed.append((a, b))
                 if b - a > MAX_HOLD and len(s.get("hold_reason", "")) < 20:
-                    errs.append(f"{sid}: one composition holds {b - a:.1f}s of narration — give each concept its own action or progressive build, or write a hold_reason")
+                    warns.append(f"{sid}: one composition holds {b - a:.1f}s of narration — give each concept its own action or progressive build, or write a hold_reason")
                 short = MIN_SHOT if s.get("shot") != "insert" else .5
-                if b - a < short:
-                    errs.append(f"{sid}: {b - a:.2f}s on screen is too short to recognise and absorb (min {short}s) — merge related ideas into one connected composition")
+                if b - a < short and len(s.get("hold_reason", "") + s.get("insert_reason", "")) < 15:
+                    warns.append(f"{sid}: {b - a:.2f}s on screen is too short to recognise and absorb (min {short}s) — merge related ideas into one connected composition")
                 if s.get("shot") == "insert" and len(s.get("insert_reason", "")) < 15:
-                    errs.append(f"{sid}: an insert needs an insert_reason (what small decisive action it makes legible)")
+                    warns.append(f"{sid}: an insert needs an insert_reason (what small decisive action it makes legible)")
                 m = s.get("meaning") or {}
                 for k in ("what", "why", "consequence"):
                     if len(str(m.get(k, ""))) < 6:
@@ -82,7 +89,7 @@ def validate(plan: dict) -> list[str]:
     for a in starts:
         n = sum(1 for x in starts if a <= x < a + 10)
         if n > MAX_CUTS_PER_10S:
-            errs.append(f"{n} compositions start within 10 s from {a:.1f}s — too many changes; combine related concepts with progressive animation")
+            warns.append(f"{n} compositions start within 10 s from {a:.1f}s — too many changes; combine related concepts with progressive animation")
             break
     # sequence rules: vary shot sizes, no long runs of the same framing
     sizes = [s.get("shot") for s in shots]
@@ -90,21 +97,24 @@ def validate(plan: dict) -> list[str]:
     for a, b in zip(sizes, sizes[1:]):
         run = run + 1 if a == b else 1
         if run > 3:
-            errs.append(f"more than 3 consecutive '{b}' shots — vary the framing")
+            warns.append(f"more than 3 consecutive '{b}' shots — vary the framing")
             break
     if len(shots) >= 3 and len(set(sizes)) < 2:
-        errs.append("all shots share one size — plan establishing / medium / close coverage")
-    return errs
+        warns.append("all shots share one size — consider establishing / medium / close coverage")
+    return {"errors": errs, "warnings": warns}
 
 
 def main(argv=None) -> int:
     argv = argv or sys.argv[1:]
     plan = json.loads(Path(argv[0]).read_text())
-    errs = validate(plan)
+    r = review(plan)
+    errs, warns = r["errors"], r["warnings"]
     for e in errs:
         print("✗", e)
+    for w in warns:
+        print("⚠", w)
     if not errs:
-        print(f"✓ scene plan ok — {len(plan['shots'])} shots")
+        print(f"✓ scene plan ok — {len(plan['shots'])} shots, {len(warns)} warning(s) (answer with a reason or accept knowingly)")
     return 1 if errs else 0
 
 

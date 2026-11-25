@@ -66,14 +66,17 @@ def test_styleframe_scene_plan_is_valid():
     assert {s["shot"] for s in plan["shots"]} >= {"establishing", "medium", "close-up"}
 
 
-def test_scene_plan_rejects_unconsulted_or_dashboard_shots():
+def test_scene_plan_rejects_dashboard_shots_and_warns_on_pacing():
     shot = {"id": "x", "beat": {"t": "0:00", "narration": "n"}, "understanding": "the viewer learns a thing", "shot": "wide",
             "focal_point": "f", "camera": "c", "lighting": "l", "technique": ["scene3d"], "components": ["S3.box"],
             "graphics": [{"kind": "overlay", "what": "floating KPI panel"}], "rationale": "r", "consulted": ["epoch-ledger/QUALITY.md"]}
-    errs = scene_plan.validate({"shots": [dict(shot, id=f"s{i}") for i in range(4)]})
-    assert any("motion-craft" in e for e in errs)
-    assert any("overlay graphic" in e for e in errs)
-    assert any("consecutive" in e for e in errs)
+    r = scene_plan.review({"shots": [dict(shot, id=f"s{i}") for i in range(4)]})
+    errs, warns = r["errors"], r["warnings"]
+    assert any("overlay graphic" in e for e in errs)                    # objective: unexplained overlay is an error
+    assert not any("consult" in e for e in errs)                        # "consulted" is optional now (STANDARD.md)
+    assert any("consecutive" in w for w in warns)                        # framing rules are warnings, not errors
+    assert not any("consecutive" in e for e in errs)
+    assert scene_plan.validate({"shots": [dict(shot, id=f"s{i}") for i in range(4)]}) == errs
 
 
 # ── assets ──────────────────────────────────────────────────────────────────────────────────────
@@ -148,9 +151,9 @@ def test_whiteboard_gap_parts_have_ids():
 def test_rejected_previews_fail_and_v3_passes():
     mt = EL / "episodes/ai-bubble-vs-dot-com/motiontest"
     old = json.loads((mt / "scene_plan.json").read_text())
-    assert any("holds" in e for e in scene_plan.validate(old))                 # held one composition across concepts
-    v2 = scene_plan.validate(json.loads((mt / "office_v2_plan.json").read_text()))
-    assert any("too short" in e for e in v2) and any("compositions start within 10 s" in e for e in v2)   # too frantic
+    assert any("holds" in w for w in scene_plan.review(old)["warnings"])      # held one composition across concepts
+    v2 = scene_plan.review(json.loads((mt / "office_v2_plan.json").read_text()))["warnings"]
+    assert any("too short" in w for w in v2) and any("compositions start within 10 s" in w for w in v2)   # too frantic
     v3 = json.loads((mt / "office_v3_plan.json").read_text())
     assert scene_plan.validate(v3) == []
     assert all(set(s["meaning"]) == {"what", "why", "consequence"} for s in v3["shots"])
