@@ -8,6 +8,11 @@ no approved asset. The 18-minute documentary, Rig v1–v4 and every existing com
 | `build_character.py` | Builds a character headlessly on the CPU, run with the isolated Blender Python. Steps: spec → MPFB human → rig (default `game_engine`: 53 bones, 30 finger bones) → expression shape keys → CMU retarget → finger-grip action → GLB. Writes a timing and contents report. |
 | `specs/*.json` | Character specs: MPFB macro sliders, optional named shape targets, rig and skin colour. `test_adult.json` is a neutral test body, not a cast member. |
 | `viewer/index.html` | Loads a GLB in a chosen three.js release with toon shading and ink outlines. Exposes `renderAt(clip, t, framing, morphs)` and `measure(clip, t)`. |
+| `build_dressed.py` | M2.3: a fully dressed character from an MPFB preset spec (`specs/elias.json`). It adds eyes, brows, lashes, teeth, hair, clothes and skin, then the rig, expression keys carried onto the brows, lashes and teeth, real (deleted) clothing masks, a standing pose and finger poses, and exports a GLB. Also checks eye alignment. |
+| `inspect_character.py` | M2.3: geometric checks of an exported GLB: clothing and scalp poke-through (rays along the skin normal), the hair-to-scalp gap, and eye symmetry and spacing. |
+| `viewer/lookdev.html`, `lookdev.mjs` | M2.3: look-development viewer and still renderer. Two treatments, `toon` and `paint`, with hue-shifted banded shading, interior ink lines, silhouette ink, a shadow catcher over an Epoch Ledger plate and shared paper grain; plus diagnostic modes. |
+| `evidence_sheets.py` | Assembles stills into labelled evidence sheets (`evidence/`). |
+| `install_assets.py` | Reproducible install of the MakeHuman system assets: SHA-256 and size check, licence check (all CC0), safe extraction, receipt. |
 | `check_glb.mjs` | Drives the viewer in headless Chromium (CPU WebGL). It checks the GLB loads, then measures: bones, shape keys, clips, determinism, ms per frame, prop-socket drift, foot sliding and root travel. Writes evidence frames. |
 
 ## Environment (everything lives in `.runtime/charlab/`, which git ignores)
@@ -36,6 +41,39 @@ The licences allow them inside finished videos, but not redistribution of the as
 restriction, but generated characters still stay out of git, to keep the repository small.
 
 Results and the recommended versions: `epoch-ledger/P2_M21_M22_REPORT.md`.
+
+## Reproducing the setup in a new session
+
+1. **Isolated Blender Python and MPFB:** follow "Environment" above (`bpy` 5.3.0 in `.runtime/charlab/venv`, MPFB at tag `v2.0.18`).
+2. **MakeHuman system assets.** Get `makehuman_system_assets_cc0.zip` (280,737,770 bytes, SHA-256
+   `b542127a8e25547c7c29c19f2d1d2adb9a664c80396ecd694095dbc8028a0107`) from the official page,
+   https://static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html. Its mirrors are blocked in this
+   cloud environment, so either:
+   - allow `files2.makehumancommunity.org` (or `files.makehumancommunity.org`) in the environment's network settings and download it; or
+   - upload the ZIP, or an RAR split of it, to the session.
+
+   Then run:
+   ```
+   python3 epoch-ledger/charlab/install_assets.py PATH/makehuman_system_assets_cc0.zip    # or …part01.rar (needs: apt-get install unar)
+   ```
+   The script refuses any file whose size or checksum differs, or any asset that isn't CC0. It extracts into the lab's MPFB
+   user data and writes `receipt_makehuman_system_assets.json`. `7zip` from Ubuntu cannot unpack RAR (no RAR codec); use `unar`.
+3. **three.js for the character layer:** build the pinned single-file bundle, with no import map, so `render.py --isolate`
+   and the render cache see every file:
+   ```
+   mkdir -p .runtime/charlab/bundle/node_modules && ln -s $PWD/.runtime/charlab/three/r0.186.1/package .runtime/charlab/bundle/node_modules/three
+   cp epoch-ledger/charlab/three_bundle_entry.js .runtime/charlab/bundle/entry.js
+   (cd .runtime/charlab/bundle && npx --yes esbuild@0.25.0 entry.js --bundle --format=esm --minify --outfile=three186-char.js)
+   ```
+4. **Build and inspect the character, then render the stills:**
+   ```
+   BLENDER_USER_RESOURCES=$PWD/.runtime/charlab/user .runtime/charlab/venv/bin/python epoch-ledger/charlab/build_dressed.py \
+       epoch-ledger/charlab/specs/elias.json .runtime/charlab/out_m23 --bvh walk=.runtime/charlab/mocap/02_01.bvh
+   BLENDER_USER_RESOURCES=$PWD/.runtime/charlab/user .runtime/charlab/venv/bin/python epoch-ledger/charlab/inspect_character.py \
+       .runtime/charlab/out_m23/elias.glb .runtime/charlab/out_m23/inspect.json
+   node epoch-ledger/charlab/lookdev.mjs --three .runtime/charlab/three/r0.186.1 --glb .runtime/charlab/out_m23/elias.glb \
+       --plate projects/profitable-and-broke/hyperframes/plates/shop-bg-6302a081a386.png --shots SHOTS.json --out DIR
+   ```
 
 ## Installed asset packs (licence ledger)
 
