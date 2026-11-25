@@ -19,6 +19,7 @@ KIT_ROOT = HERE.parents[1]
 sys.path.insert(0, str(KIT_ROOT))
 
 from kit.assemble import Scene, assemble, prepare_workspace  # noqa: E402
+from kit.gates import Gates  # noqa: E402
 from kit.characters import maya_svg  # noqa: E402
 from kit.sets import bank_street, street_foreground  # noqa: E402
 
@@ -29,6 +30,10 @@ words = json.loads((ART / "words.json").read_text())
 pages = json.loads((ART / "caption_phrases.json").read_text())
 D = timing["total"]
 LINES = {s["id"]: s for s in timing["segments"]}
+# Quality-gate settings are generated from this build (never written by hand). When the episode shows money, pass
+# finance=kit.finmodel.Scenario(...) and draw every figure from G.value(...); tag figures with G.fig(...), charts with
+# G.chart(...) and their marks with G.mark(...). Prop holds (R4.hold) are found in the built page automatically.
+G = Gates(words=ART / "words.json")
 
 
 def line(i):
@@ -75,4 +80,6 @@ html = assemble(title="__TITLE__", duration=D, scenes=scenes, vault=vault, resol
                 caption_pages=pages if engine == "hyperframes" else None)
 prepare_workspace(WORKSPACE)
 (WORKSPACE / "index.html").write_text(html)
+gates = G.write(WORKSPACE, scenes=scenes, video=WORKSPACE.parent / "renders" / "final.mp4")
 print("wrote", WORKSPACE / "index.html")
+print("gates", gates, "→ python epoch-ledger/scripts/quality_gates.py", gates, "--out", WORKSPACE.parent / "gates")

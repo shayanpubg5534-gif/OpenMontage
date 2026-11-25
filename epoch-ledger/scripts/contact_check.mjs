@@ -7,6 +7,9 @@
 //
 //   node epoch-ledger/scripts/contact_check.mjs <workspace>/index.html --contacts contacts.json [--fps 30]
 //        [--json out.json] [--warn-only]
+//   node epoch-ledger/scripts/contact_check.mjs <workspace>/index.html --auto      (no settings file: every R4.hold
+//        in the composition, plus entries pushed to window.__gates.contacts, is checked; props are watched over
+//        the union of their holds)
 //
 // contacts.json:
 //   { "contacts": [ { "id": "folder-taken", "char": "maya5", "side": "L", "prop": "#folder5", "from": 30.0, "to": 30.75,
@@ -32,8 +35,8 @@ const { chromium } = createRequire(import.meta.url)('playwright');
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const file = args.find((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--')));
-if (!file || !opt('contacts')) { console.error('usage: contact_check.mjs index.html --contacts contacts.json [--fps 30]'); process.exit(2); }
-const spec = JSON.parse(readFileSync(opt('contacts'), 'utf8'));
+if (!file || !(opt('contacts') || args.includes('--auto'))) { console.error('usage: contact_check.mjs index.html (--contacts contacts.json | --auto) [--fps 30]'); process.exit(2); }
+let spec = opt('contacts') ? JSON.parse(readFileSync(opt('contacts'), 'utf8')) : null;
 const fps = +opt('fps', 30);
 
 const MEASURE = ({ chars, props }) => {
@@ -66,6 +69,19 @@ const browser = await chromium.launch(opt('browser') ? { executablePath: opt('br
 const { page, errors } = await openComposition(browser, pathToFileURL(path.resolve(file)).href);
 await page.addStyleTag({ content: 'svg *, svg { pointer-events: visiblePainted !important; }' });
 
+// --auto: read the holds the composition itself animates (one source of truth for animation and checking)
+if (!spec) {
+  const found = await page.evaluate(() => {
+    const out = [], dur = +document.getElementById('root').dataset.duration;
+    if (typeof R4 !== 'undefined') for (const id in R4.chars) for (const p of R4.chars[id].props)
+      out.push({ id: `${id}.${p.side}:${p.el}@${(+p.a).toFixed(2)}`, char: id, side: p.side, prop: '#' + p.el, from: Math.max(0, +p.a), to: Math.min(dur, +p.b) });
+    for (const c of ((window.__gates || {}).contacts || [])) out.push(Object.assign({}, c));
+    return out.filter(c => c.to > c.from);
+  });
+  const props = {};
+  for (const c of found) { const w = props[c.prop] || (props[c.prop] = { sel: c.prop, from: c.from, to: c.to }); w.from = Math.min(w.from, c.from); w.to = Math.max(w.to, c.to); }
+  spec = { contacts: found, props: Object.values(props) };
+}
 const results = [];
 const distToBox = (p, b) => Math.hypot(Math.max(b[0] - p[0], 0, p[0] - b[2]), Math.max(b[1] - p[1], 0, p[1] - b[3]));
 
@@ -129,5 +145,5 @@ for (const r of results) {
 }
 const failed = results.filter(r => !r.pass).length;
 console.log(`contact_check: ${results.length - failed}/${results.length} passed` + (errors.length ? `, ${errors.length} page error(s): ${errors[0]}` : ''));
-if (opt('json')) writeFileSync(opt('json'), JSON.stringify({ fps, results, pageErrors: errors }, null, 2));
+if (opt('json')) writeFileSync(opt('json'), JSON.stringify({ fps, auto: !opt('contacts'), contacts: spec.contacts, results, pageErrors: errors }, null, 2));
 process.exit(failed && !args.includes('--warn-only') ? 1 : 0);

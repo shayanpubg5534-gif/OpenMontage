@@ -3,13 +3,14 @@
 
     python epoch-ledger/scripts/quality_gates.py epoch-ledger/episodes/<slug>/gates/gates.json --out DIR [--only a,b] [--no-review]
 
-gates.json names the inputs (paths relative to the repository root; any may be omitted, and its gate is skipped):
+gates.json names the inputs (paths relative to the repository root; any may be omitted, and its gate is skipped).
+New episodes do not write it by hand: kit/gates.py generates it from the build (WORKSPACE/gates/gates.json).
     workspace      built HyperFrames composition (index.html)       → layout, figures, contacts
     video          rendered MP4 (read only)                          → frames (black/flash/freeze/loudness), review
     words          narration word timings (words.json)               → figures
     finance        scenario + figures shown (finance.json)           → finance
     figures        figure and chart manifest (figures.json)          → figures
-    contacts       who holds what, props to watch (contacts.json)    → contacts
+    contacts       who holds what (contacts.json), or "auto": read every R4.hold from the built composition → contacts
     interactions   events and cuts for contact sheets                → review
     layout_every   layout sampling step in seconds (default 0.25)
 
@@ -72,7 +73,7 @@ GATES = {
     "finance": (("finance",), gate_finance),
     "figures": (("workspace", "figures", "words"), gate_node("figure_check.mjs", lambda c: ["--figures", str(ROOT / c["figures"]), "--words", str(ROOT / c["words"])], "figures.json")),
     "layout": (("workspace",), gate_node("layout_check.mjs", lambda c: ["--every", str(c.get("layout_every", 0.25))], "layout.json")),
-    "contacts": (("workspace", "contacts"), gate_node("contact_check.mjs", lambda c: ["--contacts", str(ROOT / c["contacts"])], "contacts.json")),
+    "contacts": (("workspace", "contacts"), gate_node("contact_check.mjs", lambda c: ["--auto"] if c["contacts"] == "auto" else ["--contacts", str(ROOT / c["contacts"])], "contacts.json")),
     "frames": (("video",), gate_frames),
 }
 
@@ -103,8 +104,16 @@ def main(argv=None) -> int:
     (a.out / "gates.json").write_text(json.dumps(report, indent=2, ensure_ascii=False))
     if not a.no_review and cfg.get("video"):
         cmd = [sys.executable, str(SCRIPTS / "review_sheets.py"), str(ROOT / cfg["video"]), "--out", str(a.out), "--gates", str(a.out / "gates.json")]
-        if cfg.get("interactions"):
-            cmd += ["--manifest", str(ROOT / cfg["interactions"])]
+        manifest = json.loads((ROOT / cfg["interactions"]).read_text()) if cfg.get("interactions") else {"interactions": [], "cuts": []}
+        cj = a.out / "contacts.json"
+        if cfg.get("contacts") == "auto" and cj.exists():          # every discovered hold gets a contact sheet at its start
+            seen = {i["id"] for i in manifest["interactions"]}
+            for c in json.loads(cj.read_text()).get("contacts", []):
+                if c["id"] not in seen:
+                    manifest["interactions"].append({"id": c["id"].replace(":", "_").replace("@", "_").replace("#", ""),
+                                                     "t": c["from"], "label": f"{c['char']} {c['side']} hand takes {c['prop']}"})
+        (a.out / "interactions_merged.json").write_text(json.dumps(manifest, indent=2))
+        cmd += ["--manifest", str(a.out / "interactions_merged.json")]
         code, text = run(cmd)
         print(text.splitlines()[-1] if text else f"review_sheets exit {code}")
     failed = [g["gate"] for g in report["gates"] if not g["pass"]]
