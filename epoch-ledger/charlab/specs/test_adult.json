@@ -1,0 +1,8 @@
+{
+  "id": "test_adult",
+  "_note": "A neutral compatibility-test body, not a cast member. Macro sliders are MPFB's 0..1 values.",
+  "macro": {"gender": 0.0, "age": 0.6, "muscle": 0.5, "weight": 0.5, "height": 0.45, "proportions": 0.75,
+            "race": {"african": 0.6, "caucasian": 0.2, "asian": 0.2}},
+  "rig": "game_engine",
+  "skin_rgb": [150, 98, 70]
+}
