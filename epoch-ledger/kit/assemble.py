@@ -52,12 +52,22 @@ def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | 
              caption_pages: list[dict] | None = None, caption_style: dict | None = None,
              extra_css: str = "", audio: str = "narration.wav", fps: int = 30, vignette: bool = True,
              resolution: str = "1080p", head_scripts: list[str] | None = None,
-             layers: list[str] | None = None, shared_js: str = "", js_regions: list[tuple] | None = None) -> str:
+             layers: list[str] | None = None, shared_js: str = "", js_regions: list[tuple] | None = None,
+             ready_gate: list[str] | None = None, ready_timeout: float = 40.0) -> str:
     """head_scripts: extra <script src> paths (e.g. episode 3D engines in vendor/).
     layers: extra top-level clip markup placed under the scenes (e.g. a shared 3D canvas).
     shared_js: episode helpers that every scene may call (changing it invalidates the whole cache).
     js_regions: (id, spans, js) tuples for code that belongs to a time window but no scene clip,
-    e.g. a 3D shot — wrapped as /*scene:id spans=...*/ so render.py caches it per window."""
+    e.g. a 3D shot — wrapped as /*scene:id spans=...*/ so render.py caches it per window.
+    ready_gate: names of asynchronous asset layers (e.g. ["char"] for a GLB character layer). Off by default: the
+    document is then byte-identical to before. When set, the timeline is registered with HyperFrames (which only
+    becomes render-ready once a timeline is bound) only after every named layer has called
+    window.__elReady(name) — i.e. its models are loaded, parsed, uploaded and drawable — so no frame can be captured
+    before the assets exist. HyperFrames supports this: it polls for a late window.__timelines registration for up to
+    45 s and rebinds (hyperframes 0.9.88, FrameCapture). A layer that reports window.__elFail(name, why), or misses
+    ready_timeout seconds (default 40, inside HyperFrames' 45 s), sets window.__hfStartupError and raises an uncaught
+    page error; HyperFrames treats a script failure as fatal, so the render aborts instead of writing blank frames. Any failed <script> load makes HyperFrames stop
+    waiting after 2 s, so every vendor file must exist (prepare_workspace)."""
     if resolution not in RESOLUTIONS:
         raise ValueError(f"unsupported resolution {resolution!r}; choose from {sorted(RESOLUTIONS)}")
     out_w, out_h = RESOLUTIONS[resolution]
@@ -104,6 +114,27 @@ def assemble(*, title: str, duration: float, scenes: list[Scene], vault: dict | 
         clips.append(f'<audio id="vo" src="{audio}" data-start="0" data-duration="{duration}" data-track-index="91"></audio>')
     body = "\n".join(clips)
     script = "\n".join(js_parts)
+    register = (f'window.__timelines["main"] = tl;\n'
+                f"if (typeof __elResolveOverlaps === 'function') __elResolveOverlaps(tl);   // kit/helpers.js\n"
+                f"if (tl.duration() < {duration}) tl.set({{}}, {{}}, {duration});   // seeks anywhere in the composition never clamp\n"
+                "// prime start states: a paused timeline seeked from 0 to 0 renders nothing, so tweens that begin at t=0 with\n"
+                "// immediateRender:false would show their *unanimated* state on frame 0 (a one-frame flash). Step past 0 and back.\n"
+                "tl.seek(0.001); tl.seek(0);")
+    if ready_gate:
+        names = json.dumps(list(ready_gate))
+        register = ("// asset readiness gate (kit/assemble.py ready_gate): register the timeline only when every asynchronous\n"
+                    "// layer has reported ready, so HyperFrames cannot become render-ready (and capture) before the assets exist\n"
+                    f"(() => {{ const need = new Set({names}); let done = false;\n"
+                    "  // a failure must stop the render, not let HyperFrames capture blank frames 'best-effort': an uncaught page error\n"
+                    "  // is a script failure, which HyperFrames 0.9.88 always treats as fatal (RenderQualityError)\n"
+                    "  const fail = why => { if (done) return; done = true; window.__hfStartupError = 'asset gate: ' + why;\n"
+                    "    setTimeout(() => { throw new Error('asset gate: ' + why); }, 0); };\n"
+                    "  const go = () => { if (done) return; done = true;\n" + "\n".join("    " + l for l in register.split("\n")) + "\n"
+                    "    window.__elGateOpen = true; };\n"
+                    "  window.__elReady = n => { need.delete(n); if (!need.size) go(); };\n"
+                    "  window.__elFail = (n, why) => fail(n + ': ' + why);\n"
+                    f"  setTimeout(() => {{ if (!done) fail('not ready after {ready_timeout:g}s: ' + [...need].join(', ')); }}, {ready_timeout * 1000:.0f});\n"
+                    "  (window.__elPending || []).forEach(n => window.__elReady(n)); })();")
     return f"""<!doctype html>
 <html lang="en" data-resolution="landscape">
 <head>
@@ -126,12 +157,7 @@ window.__timelines = window.__timelines || {{}};
 const tl = gsap.timeline({{paused:true}});
 {helpers}
 {script}
-window.__timelines["main"] = tl;
-if (typeof __elResolveOverlaps === 'function') __elResolveOverlaps(tl);   // kit/helpers.js
-if (tl.duration() < {duration}) tl.set({{}}, {{}}, {duration});   // seeks anywhere in the composition never clamp
-// prime start states: a paused timeline seeked from 0 to 0 renders nothing, so tweens that begin at t=0 with
-// immediateRender:false would show their *unanimated* state on frame 0 (a one-frame flash). Step past 0 and back.
-tl.seek(0.001); tl.seek(0);
+{register}
 </script>
 </body></html>
 """

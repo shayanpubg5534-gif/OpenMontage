@@ -13,6 +13,7 @@
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');   // pre-installed globally (NODE_PATH)
 import { pathToFileURL } from 'node:url';
+import { compositionURL } from './lib/frame_state.mjs';
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
 
@@ -28,7 +29,7 @@ const browser = await chromium.launch(exe ? { executablePath: exe } : {});
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
 const errors = [];
 page.on('pageerror', e => errors.push(String(e)));
-await page.goto(pathToFileURL(path.resolve(file)).href, { waitUntil: 'load' });
+await page.goto(await compositionURL(file), { waitUntil: 'load' });
 for (let k = 0; k < 120 && !(await page.evaluate(() => !!(window.__timelines && window.__timelines.main))); k++) await page.waitForTimeout(250);
 
 const meta = await page.evaluate(() => {

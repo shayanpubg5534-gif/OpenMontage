@@ -24,6 +24,35 @@ export const STATE = `(() => { const out = []; const N = v => (v || '').replace(
       walk(c, c.id ? k : path + '/' + k); }); };
   walk(document.getElementById('root'), '#root'); return out.join('\\n'); })()`;
 
+// Where a QA tool should open a composition. Documents with ES modules or an import map (e.g. a three.js character
+// layer that loads a GLB) cannot run from file:// (Chromium blocks module scripts and fetches there), so they are
+// served from their own folder over a local HTTP server; every other document keeps its file:// URL unchanged.
+const SERVERS = new Map();
+const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.css': 'text/css',
+  '.glb': 'model/gltf-binary', '.gltf': 'model/gltf+json', '.bin': 'application/octet-stream', '.png': 'image/png', '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf',
+  '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.mp4': 'video/mp4', '.wasm': 'application/wasm' };
+export async function compositionURL(file) {
+  const { readFileSync, existsSync, statSync, realpathSync } = await import('node:fs');
+  const path = (await import('node:path')).default;
+  const { pathToFileURL } = await import('node:url');
+  const abs = path.resolve(file);
+  if (!/type\s*=\s*["']?(module|importmap)/i.test(readFileSync(abs, 'utf8'))) return pathToFileURL(abs).href;
+  const root = path.dirname(abs);
+  if (!SERVERS.has(root)) {
+    const { createServer } = await import('node:http');
+    const srv = createServer((q, r) => {
+      const p = path.join(root, decodeURIComponent(new URL(q.url, 'http://x').pathname));
+      if (!p.startsWith(root) || !existsSync(p) || statSync(p).isDirectory()) { r.writeHead(404); return r.end(); }
+      r.writeHead(200, { 'content-type': MIME[path.extname(p).toLowerCase()] || 'application/octet-stream' }); r.end(readFileSync(p));
+    });
+    await new Promise(res => srv.listen(0, '127.0.0.1', res));
+    srv.unref();
+    SERVERS.set(root, srv.address().port);
+  }
+  return `http://127.0.0.1:${SERVERS.get(root)}/${path.basename(abs)}`;
+}
+
 export async function openComposition(browser, url) {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   const errors = [];

@@ -23,7 +23,7 @@ import { writeFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
-import { SEEK, STATE } from './lib/frame_state.mjs';
+import { SEEK, STATE, compositionURL } from './lib/frame_state.mjs';
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
@@ -47,7 +47,7 @@ async function determinism() {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
-  await page.goto(pathToFileURL(path.resolve(file)).href, { waitUntil: 'load' });
+  await page.goto(await compositionURL(file), { waitUntil: 'load' });
   for (let k = 0; k < 120 && !(await page.evaluate(() => !!(window.__timelines && window.__timelines.main))); k++) await page.waitForTimeout(250);
   await page.evaluate(async () => { await document.fonts.ready; await Promise.all(Array.from(document.images).map(i => i.decode().catch(() => {}))); });
   const meta = await page.evaluate(() => {

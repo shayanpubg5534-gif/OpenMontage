@@ -6,17 +6,17 @@
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { SEEK, STATE, openComposition } from './lib/frame_state.mjs';
+import { SEEK, STATE, openComposition, compositionURL } from './lib/frame_state.mjs';
 
 const [full, specFile] = process.argv.slice(2);
 const spec = JSON.parse(readFileSync(specFile, 'utf8'));
 const { chromium } = createRequire(import.meta.url)('playwright');
 const browser = await chromium.launch({ args: ['--disable-partial-raster'] });
-const F = await openComposition(browser, pathToFileURL(full).href);
+const F = await openComposition(browser, await compositionURL(full));
 const fps = 30, snap = t => Math.round(t * fps) / fps;
 const out = {};
 for (const c of spec) {
-  const I = await openComposition(browser, pathToFileURL(c.html).href);
+  const I = await openComposition(browser, await compositionURL(c.html));
   const ts = [...new Set([c.start, (c.start + c.end) / 2, c.end - 1 / fps].map(snap))].filter(t => t >= c.start && t < c.end);
   const mismatch = [];
   for (const t of ts) {

@@ -29,7 +29,7 @@ import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { SEEK, openComposition } from './lib/frame_state.mjs';
+import { SEEK, openComposition, compositionURL } from './lib/frame_state.mjs';
 
 const { chromium } = createRequire(import.meta.url)('playwright');
 const args = process.argv.slice(2);
@@ -66,7 +66,7 @@ const MEASURE = ({ chars, props }) => {
 };
 
 const browser = await chromium.launch(opt('browser') ? { executablePath: opt('browser') } : {});
-const { page, errors } = await openComposition(browser, pathToFileURL(path.resolve(file)).href);
+const { page, errors } = await openComposition(browser, await compositionURL(file));
 await page.addStyleTag({ content: 'svg *, svg { pointer-events: visiblePainted !important; }' });
 
 // --auto: read the holds the composition itself animates (one source of truth for animation and checking)
