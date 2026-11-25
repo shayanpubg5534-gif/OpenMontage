@@ -149,3 +149,32 @@ and `office_v2_plan.json` for the shot plan.
 
 **Performance:** 420 frames at 1080p30 rendered in 143 s, about 0.34 s per frame. That is about 3× faster per frame than
 the first motion test's textured shots (about 1.1 s per frame), because the sets are cached plates.
+
+## Office sequence v3: meaning-first standard (current reference)
+
+v2 was rejected for frantic pacing, a coin tank that read as cheese, repetitive pipes and valves, and an
+investor agreement that looked the same as money arriving. v3 restructures c03_04–05 into three connected beats
+across four compositions:
+
+1. **Spending** (one office shot, 4.6 s). Bills fly from BigCart's cash pile to a TV commercial, to staff pay
+   envelopes, and to a server rack being wheeled in. The counter falls from $13M to $9M.
+2. **Shortfall** (charts, 4 s). Money out ($4M) against money in ($1M) gives a $3M monthly shortfall, and the
+   cash line runs out in about three months.
+3. **Agreement** (boardroom, 2.45 s). The term sheet is signed, then a handshake ("1 Agreement signed").
+4. **Money received** (2.9 s). A $20M wire arrives, the cash pile and counter go from $4M to $24M, and the same
+   chart jumps, then falls toward "next round needed" ("2 Money received").
+
+**System-level changes:**
+- `kit/finstate.py`: a Ledger that is the single source of truth for every figure.
+- `kit/money.py`: banknotes and bundles, cash piles, wire slip, term sheet, and a real commercial.
+- `kit/explain.py`: cash-flow bars and a runway chart.
+- `FM.bills`, `FM.pileTo` and `FM.count`.
+- Rig: eye direction (`R3.look`), signing (`R3.write`), and the `stand2` and `hips` stances.
+- `kit/scene_plan.py`:
+  - `meaning` (what, why, consequence) is required for every timed shot;
+  - `MIN_SHOT` of 2 s, with inserts allowed at 0.5 s when they carry an `insert_reason`;
+  - `MAX_CUTS_PER_10S` of 4;
+  - the rejected v1 and v2 plans are kept as negative tests.
+- Motion-craft §8c is rewritten as "meaning-first visual storytelling", and the QUALITY checklist is updated.
+
+**Performance:** 420 frames at 1080p30 rendered in 124 s, about 0.30 s per frame, with cached plates.
