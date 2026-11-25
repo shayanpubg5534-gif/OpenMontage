@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Epoch Ledger layout check — samples a HyperFrames composition over time and flags text that
-// collides with other text, sits in the caption band while a caption is showing, runs off-frame,
-// or partially covers an element marked as a key object (data-keep). DOM measurement only: no
+// collides with other text, is painted over by a later SVG mark (text-occluded), sits in the caption band while a
+// caption is showing, runs off-frame, or partially covers an element marked as a key object (data-keep). DOM measurement only: no
 // rendering, no video, seconds per minute of film. Original implementation.
 //
 //   node epoch-ledger/scripts/layout_check.mjs <workspace>/index.html [--start 0] [--end D] [--every 0.25]
 //        [--json out.json] [--min-area 64] [--browser path]
-// Readable text = labels, tags, panels, captions, kinetic text, or any element with data-read; add data-deco
-// to exempt decorative text. Mark key objects (faces, chart marks) with data-keep.
+// Readable text = labels, tags, panels, captions, kinetic text, any element with data-read, and ALL text inside a
+// diagram (an element with data-diagram, or a kit layer whose id ends in -Lboard), plus anything matching --read <css>.
+// Add data-deco to exempt decorative text. Mark key objects (faces, chart marks) with data-keep.
 // Exit code 1 if any issue is found (use --warn-only to always exit 0).
 import { createRequire } from 'node:module';
 const { chromium } = createRequire(import.meta.url)('playwright');   // pre-installed globally (NODE_PATH)
@@ -19,6 +20,7 @@ const args = process.argv.slice(2);
 const file = args.find(a => !a.startsWith('--'));
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 if (!file) { console.error('usage: layout_check.mjs index.html [--start s] [--end s] [--every s] [--json out]'); process.exit(2); }
+const readSel = opt('read', '');
 const every = +opt('every', 0.25), minArea = +opt('min-area', 64), warnOnly = args.includes('--warn-only');
 
 const exe = opt('browser', undefined);   // default: Playwright's bundled Chromium
@@ -34,9 +36,10 @@ const meta = await page.evaluate(() => {
   return { duration: +root.dataset.duration, w: +root.dataset.width, h: +root.dataset.height };
 });
 const start = +opt('start', 0), end = Math.min(+opt('end', meta.duration), meta.duration);
+await page.addStyleTag({ content: 'svg *, svg { pointer-events: visiblePainted !important; }' });   // hit testing for text-occluded
 const issues = [];
 for (let t = start; t <= end + 1e-6; t += every) {
-  const found = await page.evaluate(({ t, minArea }) => {
+  const found = await page.evaluate(({ t, minArea, readSel }) => {
     const root = document.getElementById('root'), rb = root.getBoundingClientRect();
     const sx = 1920 / rb.width;                                                    // report in 1920×1080 authoring px
     document.querySelectorAll('[data-start][data-duration]').forEach(c => {       // emulate clip windows
@@ -45,9 +48,10 @@ for (let t = start; t <= end + 1e-6; t += every) {
     window.__timelines.main.seek(t, false);
     const vis = el => { for (let e = el; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e);
       if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity < .06) return false; } return true; };
+    const eff = el => { let o = 1; for (let e = el; e && e !== document.body; e = e.parentElement) o *= +getComputedStyle(e).opacity; return o; };
     const box = el => { const r = el.getBoundingClientRect(); return { x: (r.left - rb.left) * sx, y: (r.top - rb.top) * sx, w: r.width * sx, h: r.height * sx }; };
     // leaf text blocks: elements with their own non-empty text and no element children carrying text
-    const READ = '.lbl,.tag,.src,.panel,.year,.ecap,.ktext,.mc-title,.mc-step,.es-line,[data-read]';
+    const READ = '.lbl,.tag,.src,.panel,.year,.ecap,.ktext,.mc-title,.mc-step,.es-line,[data-read],[data-diagram],[id$="-Lboard"]' + (readSel ? ',' + readSel : '');
     const texts = [];
     document.querySelectorAll('#root *').forEach(el => {
       if (el.closest('svg') && el.tagName.toLowerCase() !== 'text') return;
@@ -57,12 +61,44 @@ for (let t = start; t <= end + 1e-6; t += every) {
       let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
       Array.from(el.childNodes).filter(n => n.nodeType === 3 && n.textContent.trim()).forEach(n => { const r = document.createRange(); r.selectNodeContents(n);
         Array.from(r.getClientRects()).forEach(q => { x0 = Math.min(x0, q.left); y0 = Math.min(y0, q.top); x1 = Math.max(x1, q.right); y1 = Math.max(y1, q.bottom); }); });
-      if (el.tagName.toLowerCase() === 'text') { const q = el.getBoundingClientRect(); x0 = q.left; y0 = q.top; x1 = q.right; y1 = q.bottom; }
+      if (el.tagName.toLowerCase() === 'text') {                       // SVG text: estimated ink box, not the em box
+        const q = el.getBoundingClientRect(); x0 = q.left; x1 = q.right; y0 = q.top; y1 = q.bottom;
+        try { const bb = el.getBBox(), fs = parseFloat(getComputedStyle(el).fontSize) || bb.height, k = q.height / (bb.height || 1);
+          const base = el.getNumberOfChars() ? el.getStartPositionOfChar(0).y : bb.y + bb.height * .8;
+          const desc = /[gjpqy,$()]/.test(el.textContent) ? .2 : .04;
+          y0 = q.top + (base - .74 * fs - bb.y) * k; y1 = q.top + (base + desc * fs - bb.y) * k; } catch (_) {}
+      }
       for (let e = el.parentElement; e && e !== root; e = e.parentElement) {          // clip to masking ancestors
         const cs = getComputedStyle(e); if (cs.overflow === 'visible' && cs.clipPath === 'none') continue;
         const q = e.getBoundingClientRect(); x0 = Math.max(x0, q.left); y0 = Math.max(y0, q.top); x1 = Math.min(x1, q.right); y1 = Math.min(y1, q.bottom); }
       const b = { x: (x0 - rb.left) * sx, y: (y0 - rb.top) * sx, w: (x1 - x0) * sx, h: (y1 - y0) * sx }; if (!(b.w >= 4 && b.h >= 4)) return;
-      texts.push({ el, b, deco: !!el.closest('[data-deco]'), read: !!el.closest(READ) && !el.closest('[data-deco]'), id: el.id || (el.closest('[id]') || {}).id || el.tagName, cap: !!el.closest('.ecap'), txt: el.textContent.trim().slice(0, 40) });
+      texts.push({ el, b, op: eff(el), deco: !!el.closest('[data-deco]'), read: !!el.closest(READ) && !el.closest('[data-deco]'), id: el.id || (el.closest('[id]') || {}).id || el.tagName, cap: !!el.closest('.ecap'), txt: el.textContent.trim().slice(0, 40) });
+    });
+    // occlusion: readable text painted over by a later SVG mark (hit-tested on the painted fill/stroke, not boxes)
+    const SHAPES = new Set(['path', 'rect', 'circle', 'ellipse', 'polygon', 'polyline', 'line', 'image', 'use']);  // text vs text: text-overlap
+    const occl = [];
+    const rgb = c => { const m = (c || '').match(/rgba?\(([^)]+)\)/); if (!m) return null; const v = m[1].split(',').map(Number); return v.length > 3 && v[3] === 0 ? null : v; };
+    const lum = v => { const f = x => { x /= 255; return x <= .03928 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4; }; return .2126 * f(v[0]) + .7152 * f(v[1]) + .0722 * f(v[2]); };
+    const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+    texts.filter(A => A.read && !A.cap && A.op >= .5).forEach(A => {
+      const fg = rgb(getComputedStyle(A.el).fill !== 'none' && A.el.namespaceURI.includes('svg') ? getComputedStyle(A.el).fill : getComputedStyle(A.el).color);
+      const ratios = [];
+      const r = A.el.getBoundingClientRect(); if (!r.width) return;
+      const ix0 = rb.left + A.b.x / sx, iy0 = rb.top + A.b.y / sx, iw = A.b.w / sx, ih = A.b.h / sx;
+      let n = 0, hit = 0, by = null;
+      for (let gx = 1; gx <= 5; gx++) for (let gy = 1; gy <= 3; gy++) {
+        const px = ix0 + iw * gx / 6, py = iy0 + ih * gy / 4; n++;
+        const stack = document.elementsFromPoint(px, py), i = stack.findIndex(e => e === A.el || A.el.contains(e));
+        if (i < 0) continue;
+        if (fg) { const under = stack.slice(i + 1).find(e => SHAPES.has(e.tagName.toLowerCase()) && vis(e) && eff(e) >= .3 && rgb(getComputedStyle(e).fill));
+          if (under) ratios.push(ratio(fg, rgb(getComputedStyle(under).fill))); }
+        if (i === 0) continue;
+        const top = stack.slice(0, i).find(e => SHAPES.has(e.tagName.toLowerCase()) && !e.contains(A.el) && !e.closest('.ecap') && vis(e) && eff(e) >= .3);
+        if (top) { hit++; by = by || (top.id || (top.closest('[id]') || {}).id || top.tagName); }
+      }
+      ratios.sort((a, b) => a - b);
+      if (ratios.length >= 5 && ratios[ratios.length >> 1] < 1.6) occl.push({ kind: 'text-low-contrast', a: A.id, text: A.txt, ratio: +ratios[ratios.length >> 1].toFixed(2) });
+      if (hit / n >= .2) occl.push({ kind: 'text-occluded', a: A.id, b: by, text: A.txt, frac: +(hit / n).toFixed(2) });
     });
     const keeps = Array.from(document.querySelectorAll('[data-keep]')).filter(vis).map(el => ({ b: box(el), id: el.id || 'keep' }));
     const inter = (a, b) => Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x)) * Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y));
@@ -78,19 +114,21 @@ for (let t = start; t <= end + 1e-6; t += every) {
         if (!A.read && !B.read) continue;                                  // decorative vs decorative is art, not a collision
         if ((A.cap && B.deco) || (B.cap && A.deco)) continue;              // in-world signage passing behind a caption box
         if (A.el.contains(B.el) || B.el.contains(A.el)) continue;          // nested text (title + <small>)
-        const ar = inter(A.b, B.b); if (ar >= minArea) out.push({ kind: 'text-overlap', a: A.id, b: B.id, text: A.txt + ' / ' + B.txt, area: Math.round(ar) }); }
+        if (Math.min(A.op, B.op) < .5) continue;                           // a crossfade in progress, not a collision
+        const ow = Math.min(A.b.x + A.b.w, B.b.x + B.b.w) - Math.max(A.b.x, B.b.x), oh = Math.min(A.b.y + A.b.h, B.b.y + B.b.h) - Math.max(A.b.y, B.b.y);
+        const ar = inter(A.b, B.b); if (ar >= minArea && ow >= 4 && oh >= 4) out.push({ kind: 'text-overlap', a: A.id, b: B.id, text: A.txt + ' / ' + B.txt, area: Math.round(ar) }); }
       if (A.read) keeps.forEach(K => { const ar = inter(A.b, K.b), full = ar >= A.b.w * A.b.h * .98;
         if (ar >= minArea && !full) out.push({ kind: 'covers-key-object', a: A.id, b: K.id, text: A.txt }); });
     }
-    return out.map(o => o);
-  }, { t, minArea });
+    return out.concat(occl);
+  }, { t, minArea, readSel });
   found.forEach(f => issues.push(Object.assign({ t: +t.toFixed(2) }, f)));
 }
 await browser.close();
 
 // collapse repeats into time ranges (same kind and elements; changing numbers don't split a range)
 const groups = [], open = new Map();
-for (const i of issues) { const k = [i.kind, i.a, i.b || ''].join('|'), g = open.get(k);
+for (const i of issues) { const k = [i.kind, i.a, i.b || '', i.b && i.b !== i.a ? '' : (i.text || '').replace(/[\d.,$−+-]/g, '')].join('|'), g = open.get(k);
   if (g && i.t - g.to <= every * 1.5) { g.to = i.t; continue; }
   const n = Object.assign({ from: i.t, to: i.t }, i); open.set(k, n); groups.push(n); }
 const list = groups.sort((a, b) => a.from - b.from);

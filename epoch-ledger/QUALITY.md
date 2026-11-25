@@ -18,6 +18,10 @@ checklist to run before asking for approval. It adds no creative rules of its ow
 - [ ] Continuity of characters, objects and indicators (§2.5).
 - [ ] `node epoch-ledger/scripts/qc.mjs WS/index.html --video OUT.mp4` passes: determinism, no
       black/flash/frozen frames, loudness in range (§2.6).
+- [ ] `python epoch-ledger/scripts/quality_gates.py epoch-ledger/episodes/<slug>/gates/gates.json --out DIR` passes
+      (finance model and figures, figure timing and legibility, chart proportions, layout, contacts, frame scan), and
+      the review page's contact sheets were checked against its checklist (grips, orientation, posture,
+      intersections, foot sliding, continuity). Automated gates are necessary, not sufficient.
 - [ ] Watched the render with sound and muted. The story is followable, and key moments land on their words
       (§3).
 

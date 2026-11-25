@@ -1,0 +1,11 @@
+{
+  "_note": "P1 quality gates for the stored Profitable and Broke build. Paths are relative to the repository root. Nothing here renders.",
+  "workspace": "projects/profitable-and-broke/hyperframes/index.html",
+  "video": "projects/profitable-and-broke/hyperframes/profitable_and_broke.mp4",
+  "words": "epoch-ledger/episodes/profitable-and-broke/artifacts/words.json",
+  "finance": "epoch-ledger/episodes/profitable-and-broke/gates/finance.json",
+  "figures": "epoch-ledger/episodes/profitable-and-broke/gates/figures.json",
+  "contacts": "epoch-ledger/episodes/profitable-and-broke/gates/contacts.json",
+  "interactions": "epoch-ledger/episodes/profitable-and-broke/gates/interactions.json",
+  "layout_every": 0.25
+}

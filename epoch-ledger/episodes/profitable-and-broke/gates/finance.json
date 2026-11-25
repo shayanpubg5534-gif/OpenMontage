@@ -1,0 +1,25 @@
+{
+  "_note": "The scenario as the narration states it ('twelve thousand loaves a month'; costs due now; paid in sixty days; a bank loan repaid the day the supermarket pays), and the figures the stored build shows. Rates are not stated in the episode, so the loan has none.",
+  "scenario": {
+    "name": "Profitable and Broke (as narrated)",
+    "opening_balance": 12000,
+    "horizon_days": 120,
+    "deal_recurs": true,
+    "cycle_days": 30,
+    "recurring": [
+      {"label": "Flour and wages", "amount": -30000, "kind": "cost", "first_day": 0, "every_days": 30, "count": 5},
+      {"label": "Supermarket payment", "amount": 40000, "kind": "revenue", "first_day": 60, "every_days": 30, "count": 3}
+    ],
+    "loans": [{"label": "Bridge loan", "principal": 18000, "draw_day": 0, "repay_day": 60}]
+  },
+  "figures": [
+    {"id": "opening (S4a card, S4b chart)", "shows": "opening_balance", "value": 12000},
+    {"id": "revenue (S1 card, S2 board)", "shows": "revenue_per_cycle", "value": 40000},
+    {"id": "costs (S2 board)", "shows": "cost_per_cycle", "value": 30000},
+    {"id": "profit (S2 board)", "shows": "profit_per_cycle", "value": 10000},
+    {"id": "S4b line after bills", "shows": "balance", "day": 0, "value": -18000, "financing": false},
+    {"id": "S4b '18,000 short'", "shows": "peak_shortfall", "value": 18000, "financing": false},
+    {"id": "S5 loan card", "shows": "loan_principal", "value": 18000},
+    {"id": "S5b 'Day 60: $22,000'", "shows": "balance", "day": 60, "value": 22000}
+  ]
+}

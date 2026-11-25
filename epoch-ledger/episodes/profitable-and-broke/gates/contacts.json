@@ -1,0 +1,84 @@
+{
+  "_note": "Who holds what in the stored build (from the BR.add segments in build.py), and the props to watch for jumps.",
+  "contacts": [
+    {
+      "id": "order-dan",
+      "char": "dan1",
+      "side": "R",
+      "prop": "#sheet1",
+      "from": 0.0,
+      "to": 3.18,
+      "note": "Daniel carries the order in while walking, then holds it out"
+    },
+    {
+      "id": "order-maya",
+      "char": "maya1",
+      "side": "L",
+      "prop": "#sheet1",
+      "from": 3.18,
+      "to": 7.0
+    },
+    {
+      "id": "tablet-maya",
+      "char": "maya4",
+      "side": "L",
+      "prop": "#tab4",
+      "from": 21.55,
+      "to": 24.45
+    },
+    {
+      "id": "folder-okafor",
+      "char": "okafor5",
+      "side": "R",
+      "prop": "#folder5",
+      "from": 28.45,
+      "to": 29.65
+    },
+    {
+      "id": "folder-maya",
+      "char": "maya5",
+      "side": "L",
+      "prop": "#folder5",
+      "from": 30.0,
+      "to": 30.75
+    },
+    {
+      "id": "crate-maya",
+      "char": "maya6",
+      "side": "L",
+      "prop": "#crate6",
+      "from": 35.0,
+      "to": 36.3
+    },
+    {
+      "id": "crate-dan",
+      "char": "dan6",
+      "side": "R",
+      "prop": "#crate6",
+      "from": 36.3,
+      "to": 41.15
+    }
+  ],
+  "props": [
+    {
+      "sel": "#sheet1",
+      "from": 0.0,
+      "to": 7.0
+    },
+    {
+      "sel": "#tab4",
+      "from": 21.55,
+      "to": 24.45
+    },
+    {
+      "sel": "#folder5",
+      "from": 28.45,
+      "to": 30.75
+    },
+    {
+      "sel": "#crate6",
+      "from": 35.0,
+      "to": 41.15
+    }
+  ]
+}

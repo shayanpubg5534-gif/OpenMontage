@@ -1,0 +1,13 @@
+{
+  "_note": "Contact events in the stored build (times from build.py and the word timings) and its cuts.",
+  "interactions": [
+    {"id": "order-handoff", "t": 2.9, "label": "Daniel hands the purchase order to Maya across the counter"},
+    {"id": "tablet-hold", "t": 21.6, "label": "Maya holds the tablet (S4a opens on it)"},
+    {"id": "tablet-touch", "t": 23.5, "label": "Maya's right hand reaches to the tablet"},
+    {"id": "folder-push", "t": 29.4, "label": "Mr Okafor slides the loan folder across the desk"},
+    {"id": "folder-grip", "t": 30.0, "label": "Maya takes the folder"},
+    {"id": "crate-handoff", "t": 36.3, "label": "Maya hands the crate to Daniel"},
+    {"id": "crate-walk", "t": 37.4, "label": "Daniel walks away carrying the crate"}
+  ],
+  "cuts": [7.0, 15.85, 21.55, 24.45, 28.45, 30.75, 35.0]
+}

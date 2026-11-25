@@ -1,0 +1,201 @@
+{
+  "_note": "Gate fixture for the stored Profitable and Broke build: each figure the narration names, the element that shows it, and the chart whose marks encode values. Whisper heard 'flour' as 'Flower', so both are cues.",
+  "figures": [
+    {
+      "id": "order-loaves",
+      "sel": "#order1",
+      "text": "12,000 loaves",
+      "cue": [
+        "12,000"
+      ],
+      "after": 0
+    },
+    {
+      "id": "revenue",
+      "sel": "#pb-revv",
+      "text": "$40,000",
+      "cue": [
+        "$40,000"
+      ],
+      "after": 7
+    },
+    {
+      "id": "flour",
+      "sel": "#pb-fll",
+      "text": "−$18,000",
+      "cue": [
+        "flour",
+        "flower"
+      ],
+      "after": 7
+    },
+    {
+      "id": "wages",
+      "sel": "#pb-wal",
+      "text": "−$12,000",
+      "cue": [
+        "wages"
+      ],
+      "after": 7
+    },
+    {
+      "id": "costs",
+      "sel": "#pb-cost",
+      "text": "Costs $30,000",
+      "cue": [
+        "30,000"
+      ],
+      "after": 7
+    },
+    {
+      "id": "profit",
+      "sel": "#pb-prl",
+      "text": "$10,000",
+      "cue": [
+        "10,000"
+      ],
+      "after": 7
+    },
+    {
+      "id": "flour-due",
+      "sel": "#tb-out1",
+      "text": "−$18,000",
+      "cue": [
+        "flour",
+        "flower"
+      ],
+      "after": 16
+    },
+    {
+      "id": "wages-due",
+      "sel": "#tb-out2",
+      "text": "−$12,000",
+      "cue": [
+        "wages"
+      ],
+      "after": 16
+    },
+    {
+      "id": "today-marker",
+      "sel": "#tb-now",
+      "text": "TODAY",
+      "cue": [
+        "due"
+      ],
+      "after": 16
+    },
+    {
+      "id": "due-now",
+      "sel": "#tb-due",
+      "text": "Due now",
+      "cue": [
+        "due"
+      ],
+      "after": 16
+    },
+    {
+      "id": "payment-60d",
+      "sel": "#tb-in",
+      "text": "+$40,000",
+      "cue": [
+        "days"
+      ],
+      "after": 19,
+      "settle": 0.4
+    },
+    {
+      "id": "bank-12k",
+      "sel": "#bal4",
+      "text": "$12,000",
+      "cue": [
+        "12,000"
+      ],
+      "after": 21
+    },
+    {
+      "id": "short-18k",
+      "sel": "#c4-short",
+      "text": "18,000 short",
+      "cue": [
+        "18,000"
+      ],
+      "after": 24
+    },
+    {
+      "id": "loan-18k",
+      "sel": [
+        "#loan5",
+        "#c5-loanl"
+      ],
+      "text": "$18,000",
+      "cue": [
+        "lends"
+      ],
+      "after": 28
+    },
+    {
+      "id": "loan-repaid",
+      "sel": "#c5-rep",
+      "text": "Loan repaid",
+      "cue": [
+        "pays"
+      ],
+      "after": 33,
+      "settle": 0.4
+    }
+  ],
+  "charts": [
+    {
+      "id": "profit-bars",
+      "at": {
+        "cue": [
+          "profit"
+        ],
+        "after": 14,
+        "offset": 0.5
+      },
+      "measure": "height",
+      "baseline": "bottom",
+      "marks": [
+        {
+          "sel": "#pb-r2",
+          "value": 18000
+        },
+        {
+          "sel": "#pb-r1",
+          "value": 12000
+        },
+        {
+          "sel": "#pb-r0",
+          "value": 10000
+        }
+      ]
+    },
+    {
+      "id": "revenue-stack",
+      "at": {
+        "cue": [
+          "$40,000"
+        ],
+        "after": 7,
+        "offset": 0.8
+      },
+      "measure": "height",
+      "baseline": "",
+      "marks": [
+        {
+          "sel": "#pb-r2",
+          "value": 18000
+        },
+        {
+          "sel": "#pb-r1",
+          "value": 12000
+        },
+        {
+          "sel": "#pb-r0",
+          "value": 10000
+        }
+      ]
+    }
+  ]
+}
