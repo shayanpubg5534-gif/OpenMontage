@@ -53,7 +53,7 @@
           left: [[x0, y0, z0], [x0, y0, z1], [x0, y1, z1], [x0, y1, z0]], right: [[x1, y0, z1], [x1, y0, z0], [x1, y1, z0], [x1, y1, z1]] };
         const uvs = { top: [x1 - x0, z1 - z0], bottom: [x1 - x0, z1 - z0], front: [x1 - x0, y1 - y0], back: [x1 - x0, y1 - y0], left: [z1 - z0, y1 - y0], right: [z1 - z0, y1 - y0] };
         (o.faces || Object.keys(F)).forEach(k => { const [du, dv] = uvs[k]; const m = (o.mats && o.mats[k]) || mat;
-          S.poly(F[k], m, { uv: [[0, dv / ts], [du / ts, dv / ts], [du / ts, 0], [0, 0]], name: o.name, bias: o.bias || 0, group: o.group }); });
+          S.poly(F[k], m, { uv: [[0, dv / ts], [du / ts, dv / ts], [du / ts, 0], [0, 0]], name: o.name, bias: o.bias || 0, group: o.group, layer: o.layer, solid: true }); });
         if (o.shadow !== false) items.push({ kind: 'caster', pts: [[x0, y0, z0], [x1, y0, z0], [x1, y0, z1], [x0, y0, z1], [x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]], base: y0, soft: o.soft });
         return S;
       },
@@ -62,8 +62,8 @@
         o = o || {}; const n = o.seg || 16;
         for (let i = 0; i < n; i++) { const a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2;
           const p = (a, y) => [c[0] + Math.cos(a) * r, y, c[2] + Math.sin(a) * r];
-          S.poly([p(a0, y0), p(a0, y1), p(a1, y1), p(a1, y0)].reverse(), mat, { name: o.name, bias: o.bias || 0 }); }
-        if (o.cap !== false) S.poly(Array.from({ length: n }, (_, i) => [c[0] + Math.cos(-i / n * Math.PI * 2) * r, y1, c[2] + Math.sin(-i / n * Math.PI * 2) * r]), o.capMat || mat, { bias: o.bias || 0 });
+          S.poly([p(a0, y0), p(a0, y1), p(a1, y1), p(a1, y0)].reverse(), mat, { layer: o.layer, solid: true, name: o.name, bias: o.bias || 0 }); }
+        if (o.cap !== false) S.poly(Array.from({ length: n }, (_, i) => [c[0] + Math.cos(-i / n * Math.PI * 2) * r, y1, c[2] + Math.sin(-i / n * Math.PI * 2) * r]), o.capMat || mat, { layer: o.layer, solid: true, bias: o.bias || 0 });
         if (o.shadow !== false) items.push({ kind: 'caster', pts: Array.from({ length: 16 }, (_, i) => [c[0] + Math.cos(i / 8 * Math.PI) * r, i < 8 ? y0 : y1, c[2] + Math.sin(i / 8 * Math.PI) * r]), base: y0, soft: o.soft });
         return S;
       },
@@ -72,16 +72,16 @@
         o = o || {}; const n = o.seg || 10;
         for (let i = 0; i < n; i++) { const a0 = i / n * Math.PI * 2, a1 = (i + 1) / n * Math.PI * 2;
           const P = (s, ang) => axis === 'x' ? [s, y + Math.sin(ang) * r, c + Math.cos(ang) * r] : [c + Math.cos(ang) * r, y + Math.sin(ang) * r, s];
-          S.poly([P(a, a0), P(b, a0), P(b, a1), P(a, a1)], mat, { bias: o.bias || 0, name: o.name }); }
+          S.poly([P(a, a0), P(b, a0), P(b, a1), P(a, a1)], mat, { layer: o.layer, solid: true, bias: o.bias || 0, name: o.name }); }
         return S;
       },
       // prism from a 2D profile [[a, y], …] (counter-clockwise) swept along x (axis 'x') or z (axis 'z') — vehicles, awnings, cornices, rails
       extrude(profile, axis, s0, s1, mat, o) {
         o = o || {}; const P = (q, s) => axis === 'x' ? [s, q[1], q[0]] : [q[0], q[1], s];
         for (let i = 0; i < profile.length; i++) { const a = profile[i], b = profile[(i + 1) % profile.length];
-          S.poly(axis === 'x' ? [P(a, s0), P(b, s0), P(b, s1), P(a, s1)] : [P(a, s1), P(b, s1), P(b, s0), P(a, s0)], (o.sideMats && o.sideMats[i]) || mat, { bias: o.bias || 0, name: o.name, allowBack: true }); }
+          S.poly(axis === 'x' ? [P(a, s0), P(b, s0), P(b, s1), P(a, s1)] : [P(a, s1), P(b, s1), P(b, s0), P(a, s0)], (o.sideMats && o.sideMats[i]) || mat, { layer: o.layer, solid: true, bias: o.bias || 0, name: o.name, allowBack: true }); }
         const cap0 = profile.map(q => P(q, s0)), cap1 = profile.map(q => P(q, s1)).reverse();
-        S.poly(axis === 'x' ? cap0.slice().reverse() : cap0, o.capMat || mat, { bias: o.bias || 0, allowBack: true }); S.poly(axis === 'x' ? cap1.slice().reverse() : cap1, o.capMat || mat, { bias: o.bias || 0, allowBack: true });
+        S.poly(axis === 'x' ? cap0.slice().reverse() : cap0, o.capMat || mat, { layer: o.layer, solid: true, bias: o.bias || 0, allowBack: true }); S.poly(axis === 'x' ? cap1.slice().reverse() : cap1, o.capMat || mat, { layer: o.layer, solid: true, bias: o.bias || 0, allowBack: true });
         if (o.shadow !== false) { const ys = profile.map(q => q[1]), as = profile.map(q => q[0]); const y0 = Math.min(...ys), y1 = Math.max(...ys), a0 = Math.min(...as), a1 = Math.max(...as);
           items.push({ kind: 'caster', pts: [[a0, y0], [a1, y0], [a0, y1], [a1, y1]].flatMap(q => [P(q, s0), P(q, s1)]), base: o.base === undefined ? y0 : o.base, soft: o.soft }); }
         return S;
@@ -215,7 +215,15 @@
     defs.push(`<linearGradient id="${uid}gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".0"/><stop offset=".45" stop-color="#fff" stop-opacity=".55"/><stop offset=".55" stop-color="#fff" stop-opacity=".0"/></linearGradient>`);
     defs.push(`<filter id="${uid}soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="${opts.shadowBlur || 6}"/></filter>`);
     // 1. receivers (ground / floors) far→near, 2. shadows, 3. everything else far→near
-    const recv = items.filter(o => o.type === 'face' && o.recv).sort((a, b) => b.z - a.z), rest = items.filter(o => !(o.type === 'face' && o.recv)).sort((a, b) => b.z - a.z);
+    let recv = items.filter(o => o.type === 'face' && o.recv).sort((a, b) => b.z - a.z), rest = items.filter(o => !(o.type === 'face' && o.recv)).sort((a, b) => b.z - a.z);
+    // depth layers (kit/depth.py): opts.layer = 'bg' | 'mg' | 'fg' keeps only that band. An item's own `layer` wins;
+    // otherwise solid objects (boxes, cylinders) are split at camera depths opts.split = [near, far]; the rest is background
+    if (opts.layer) {
+      const sp = opts.split || [2.5, 6];
+      const band = o => o.it.layer || ((o.type !== 'face' || !o.it.solid || o.recv) ? 'bg' : o.z < sp[0] ? 'fg' : o.z < sp[1] ? 'mg' : 'bg');   // architecture (walls, windows, lights, art) stays back unless tagged
+      recv = recv.filter(o => band(o) === opts.layer); rest = rest.filter(o => band(o) === opts.layer);
+      if (opts.layer !== 'bg') shadows.length = 0;
+    }
     recv.forEach(drawFace);
     if (shadows.length) out.push(`<g filter="url(#${uid}soft)" opacity="${L.shadowOpacity || .42}">` + shadows.map(s => `<path d="${path(s.scr)}" fill="${L.shadowColor || '#1a1020'}"/>`).join('') + '</g>');
     rest.forEach(o => {

@@ -16,11 +16,12 @@ from pathlib import Path
 STILL = Path(__file__).resolve().parents[1] / "scripts" / "still.mjs"
 
 
-def plate(out_dir: Path, name: str, html: str, scale: int = 2, assets: tuple[Path, ...] = (), wait_ms: int = 1500) -> Path:
+def plate(out_dir: Path, name: str, html: str, scale: int = 2, assets: tuple[Path, ...] = (), wait_ms: int = 1500,
+          transparent: bool = False) -> Path:
     """Render `html` (a full page that draws a 1920x1080 frame) to out_dir/<name>-<hash>.png at `scale` density.
     The page is written next to the plate so relative asset paths (tex/, fonts/, scene3d.js) resolve there."""
     out_dir.mkdir(parents=True, exist_ok=True)
-    h = hashlib.sha256(html.encode())
+    h = hashlib.sha256(html.encode() + (b"|transparent" if transparent else b""))
     for a in assets:
         h.update(Path(a).read_bytes())
     key = h.hexdigest()[:12]
@@ -31,5 +32,6 @@ def plate(out_dir: Path, name: str, html: str, scale: int = 2, assets: tuple[Pat
         old.unlink()
     page = out_dir / f"{name}.html"
     page.write_text(html)
-    subprocess.run(["node", str(STILL), str(page), str(png), "--scale", str(scale), "--wait", str(wait_ms)], check=True, capture_output=True)
+    subprocess.run(["node", str(STILL), str(page), str(png), "--scale", str(scale), "--wait", str(wait_ms)]
+                   + (["--transparent"] if transparent else []), check=True, capture_output=True)
     return png
