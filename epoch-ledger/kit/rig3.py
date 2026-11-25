@@ -85,9 +85,11 @@ def _face(p, skin, sh, hi, hair, style, expr="neutral", glasses=False, beard=Fal
     hair_back, hair_front = _hair3(style, hair)
     lash = 2.6 if female else 2.0
     eye = lambda ex, ey, w, h, iris_dx: (
+        f'<clipPath id="{p}-ec{ex}"><path d="M{ex - w} {ey} Q{ex} {ey - h} {ex + w} {ey - 1} Q{ex} {ey + h * .7} {ex - w} {ey}Z"/></clipPath>'
         f'<path d="M{ex - w} {ey} Q{ex} {ey - h} {ex + w} {ey - 1} Q{ex} {ey + h * .7} {ex - w} {ey}Z" fill="#fbf7f2" stroke="{O}" stroke-width="1.6"/>'
+        f'<g clip-path="url(#{p}-ec{ex})"><g class="iris">'
         f'<circle cx="{ex + iris_dx}" cy="{ey - .5}" r="{h * .78:.1f}" fill="#5a3a22"/><circle cx="{ex + iris_dx}" cy="{ey - .5}" r="{h * .42:.1f}" fill="#120a06"/>'
-        f'<circle cx="{ex + iris_dx + h * .3:.1f}" cy="{ey - h * .4:.1f}" r="{h * .2:.1f}" fill="#fff"/>'
+        f'<circle cx="{ex + iris_dx + h * .3:.1f}" cy="{ey - h * .4:.1f}" r="{h * .2:.1f}" fill="#fff"/></g></g>'
         f'<path class="lid" d="M{ex - w - 1} {ey} Q{ex} {ey - h - 1.5} {ex + w + 1} {ey - 1}" fill="none" stroke="{O}" stroke-width="{lash + 1}" stroke-linecap="round"/>'
         f'<path d="M{ex - w + 2} {ey - h - 4} Q{ex} {ey - h - 7} {ex + w} {ey - h - 3}" fill="none" stroke="{sh}" stroke-width="1.6" opacity=".7"/>'
         f'<path d="M{ex - w + 3} {ey + h * .55:.1f} Q{ex} {ey + h * .9:.1f} {ex + w - 2} {ey + h * .5:.1f}" fill="none" stroke="{sh}" stroke-width="1.4" opacity=".6"/>')
@@ -173,6 +175,8 @@ REACH = {
 POSES = {
     #          torso  head   uarm_f farm_f hand_f   uarm_b farm_b hand_b   thigh_f shin_f thigh_b shin_b
     "stand":   (0, 0, -4, -6, "relaxed", 6, -4, "relaxed", 0, 0, 0, 0),
+    "stand2":  (2.5, -3, -8, -14, "relaxed", 9, -10, "relaxed", -5, 6, 4, 2),        # weight on the back leg, relaxed arms
+    "hips":    (1.5, -2, -24, -70, "relaxed", 8, -8, "relaxed", -3, 4, 3, 1),       # hand on hip — confident, listening
     "walk":    (2, 2, -22, -18, "relaxed", 20, -10, "relaxed", -18, 8, 16, 26),
     "walk_l":  (2, 2, 18, -16, "relaxed", -20, -12, "relaxed", 16, 24, -18, 6),
     "phone":   (-2, -6, -78, -142, "phone", 8, -6, "relaxed", 0, 0, 4, 2),

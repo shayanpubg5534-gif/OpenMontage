@@ -381,5 +381,6 @@
     "epoch-ledger/QUALITY.md"
    ]
   }
- ]
+ ],
+ "status": "REJECTED by the user (2026-11-25): too many rapid composition changes, coin tank read as cheese, repetitive pipes/valves, agreement not distinguished from receipt. Superseded by office_v3_plan.json; kept as the validator's negative example (pacing + meaning)."
 }

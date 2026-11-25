@@ -13,6 +13,12 @@ const R3 = {
   },
   // keyframed joint action: [[t, deg, dur, ease], ...] — build anticipation / action / follow-through explicitly
   keys(p, joint, ks) { ks.forEach(([t, deg, d, e]) => R3.rot(p, joint, t, deg, d, e)); },
+  // eye direction: irises shift inside the eye whites (dx, dy in face px; ~±3 is a strong glance)
+  look(p, t, dx, dy, d) { tl.to('#' + p + '-eyes .iris', { x: dx, y: dy || 0, duration: d === undefined ? .18 : d, ease: 'power2.out' }, t); },
+  // writing / signing: small rhythmic forearm + hand strokes while the hand travels right
+  write(p, a, b, base, seed) { const r = R3.seed(seed || 5); let t = a, k = 0;
+    while (t < b - .06) { const d = .07 + r() * .05; R3.rot(p, 'farm-front', t, base + (k % 2 ? 5 : -4), d, 'sine.inOut'); t += d; k++; }
+    R3.rot(p, 'farm-front', b, base, .12); },
   // blend to a named pose (or an angle dict); `only` limits the joints touched (e.g. ['uarm-front','farm-front'])
   pose(p, name, t, d, ease, only) {
     const q = typeof name === 'string' ? R3.P[name] : name; if (!q) return;
@@ -64,5 +70,6 @@ const R3 = {
     const per = period || .5, W1 = R3.P.walk, W2 = R3.P.walk_l; let k = 0;
     for (let t = a; t < b - .05; t += per, k++) { R3.pose(p, k % 2 ? W2 : W1, t, per, 'sine.inOut', ['thigh-front', 'shin-front', 'thigh-back', 'shin-back', 'uarm-back', 'upper']);
       tl.to('#' + p + '-upper', { y: -5, duration: per / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, t); }
+    return A;     // the start box — tl.set(sprite, { attr: A }, shotStart) so the walker waits at its start mark
   },
 };

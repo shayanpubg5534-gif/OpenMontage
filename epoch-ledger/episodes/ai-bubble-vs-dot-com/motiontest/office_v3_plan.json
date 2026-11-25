@@ -1,0 +1,216 @@
+{
+ "episode": "ai-bubble-vs-dot-com",
+ "standard": "meaning-first v3",
+ "scope": "Office sequence v3 (14 s): c03_04 + c03_05 as three connected beats \u2014 business spending, insufficient revenue, dependence on investor funding (agreement, then receipt)",
+ "ledger": "kit/finstate.Ledger(start=13).spend(ADVERTISING 2, PAYROLL 1, SERVERS 1).earn(REVENUE 1); funding +20 at month 2 \u2014 every on-screen figure derives from it",
+ "shots": [
+  {
+   "id": "a_spending",
+   "beat": {
+    "t": "0.0-4.6",
+    "narration": "They were spending heavily on advertising, employees and infrastructure"
+   },
+   "meaning": {
+    "what": "BigCart pays out its cash on three kinds of cost at once.",
+    "why": "Dot-com firms spent ahead of revenue to grab market share.",
+    "consequence": "The pile on the founder's desk shrinks visibly: $13M to $9M in one month."
+   },
+   "understanding": "Spending is real money leaving the company, and it buys recognisable things: a TV commercial, salaries, servers.",
+   "shot": "medium",
+   "focal_point": "the cash pile and counter (left), with each destination lighting up as it is named",
+   "camera": "one composition with a slow 3.5% push; the eye is led by the bills, not by cuts",
+   "lighting": "office day light, window glow",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic",
+    "2.5d"
+   ],
+   "components": [
+    "money.cash_pile",
+    "money.commercial",
+    "FM.bills",
+    "FM.pileTo",
+    "FM.count",
+    "finmech.tv_set",
+    "envelope",
+    "R3.type",
+    "R3.walk",
+    "R3.look",
+    "R3.keys",
+    "plates",
+    "Ledger"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "banknote bundles + BIGCART CASH counter (illustrative)",
+     "why": "money must read as money; one figure source"
+    },
+    {
+     "kind": "diegetic",
+     "what": "TV commercial (courier delivers a BigCart parcel, end card with offer)",
+     "why": "advertising shown as an actual advert"
+    },
+    {
+     "kind": "diegetic",
+     "what": "PAY envelopes land on desks; a server rack is wheeled in and powers up",
+     "why": "salaries and infrastructure as recognisable actions"
+    }
+   ],
+   "rationale": "The three costs are one idea (spending), so they share one connected composition with progressive actions instead of three cuts.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "b_shortfall",
+   "beat": {
+    "t": "4.6-8.65",
+    "narration": "without earning enough revenue to sustain themselves"
+   },
+   "meaning": {
+    "what": "Monthly money out ($4M) is four times money in ($1M).",
+    "why": "Revenue had not caught up with the spending.",
+    "consequence": "At a $3M monthly shortfall, BigCart's cash runs out in about three months."
+   },
+   "understanding": "The imbalance, its size, and when it becomes fatal.",
+   "shot": "chart",
+   "focal_point": "the SHORTFALL bracket, then the cash line hitting zero",
+   "camera": "near-static (2% drift) so the viewer can read",
+   "lighting": "dimmed office plate behind clean panels",
+   "technique": [
+    "standalone-chart",
+    "diagram"
+   ],
+   "components": [
+    "explain.cashflow_bars",
+    "explain.runway_chart",
+    "Ledger",
+    "FM.pop"
+   ],
+   "graphics": [
+    {
+     "kind": "standalone",
+     "what": "money out (by category) vs money in, SHORTFALL -$3M every month",
+     "why": "a chart explains the mechanism more clearly than any metaphor"
+    },
+    {
+     "kind": "standalone",
+     "what": "BigCart's cash line Jan\u2192Mar, projected to zero ('cash runs out')",
+     "why": "the consequence in time"
+    }
+   ],
+   "rationale": "Educational clarity beats metaphor here; figures are labelled illustrative and come from the ledger.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "c1_agreement",
+   "beat": {
+    "t": "8.65-11.1",
+    "narration": "Their survival depended on investors"
+   },
+   "meaning": {
+    "what": "An investor agrees to fund BigCart: the term sheet is signed and hands are shaken.",
+    "why": "Without new money the company would soon run out of cash.",
+    "consequence": "A promise of capital, not yet money in the bank."
+   },
+   "understanding": "The company's fate is decided by investors; the agreement is a separate step from receiving money.",
+   "shot": "medium",
+   "focal_point": "the pen on the term sheet, then the handshake",
+   "camera": "two-shot with a slow 4.5% push",
+   "lighting": "boardroom pendants, dusk windows",
+   "technique": [
+    "scene3d",
+    "rig3",
+    "diegetic"
+   ],
+   "components": [
+    "money.term_sheet",
+    "R3.write",
+    "rig3.reach",
+    "rig3.hold",
+    "R3.look",
+    "plates"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "TERM SHEET \u2014 Investment $20M, signature drawn on 'investors'",
+     "why": "the agreement itself"
+    },
+    {
+     "kind": "overlay",
+     "what": "step marker '1 Agreement signed'",
+     "why": "separates the agreement from the receipt of money for muted viewing"
+    }
+   ],
+   "rationale": "Interaction (making the case, signing, shaking hands) instead of characters rotating joints in place.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  },
+  {
+   "id": "c2_receipt",
+   "beat": {
+    "t": "11.1-14.0",
+    "narration": "continuing to provide capital"
+   },
+   "meaning": {
+    "what": "The $20M wire arrives; the cash pile and counter jump from $4M to $24M.",
+    "why": "Investors delivered the money they agreed to provide.",
+    "consequence": "The cash line jumps, then falls again toward 'next round needed' \u2014 survival depends on continuing funding."
+   },
+   "understanding": "Capital entering the business, and why it must keep coming.",
+   "shot": "chart",
+   "focal_point": "the wire slip, then the jump on the cash line",
+   "camera": "near-static (2% drift)",
+   "lighting": "dimmed office plate",
+   "technique": [
+    "standalone-chart",
+    "diegetic"
+   ],
+   "components": [
+    "money.wire_slip",
+    "money.cash_pile",
+    "FM.bills",
+    "FM.pileTo",
+    "FM.count",
+    "explain.runway_chart",
+    "FM.stampIn",
+    "Ledger"
+   ],
+   "graphics": [
+    {
+     "kind": "diegetic",
+     "what": "INCOMING WIRE $20,000,000 \u2014 RECEIVED",
+     "why": "receipt of capital, distinct from the agreement"
+    },
+    {
+     "kind": "standalone",
+     "what": "same cash chart as beat B: +$20M jump, then line toward 'next round needed'",
+     "why": "continuity of one indicator across beats"
+    },
+    {
+     "kind": "overlay",
+     "what": "step marker '2 Money received'",
+     "why": "names the second step of funding for muted viewing"
+    }
+   ],
+   "rationale": "Returns to beat B's chart (same geometry) so the viewer sees the consequence of funding on the indicator they already understand.",
+   "consulted": [
+    "skills/creative/epoch-ledger-motion-craft.md",
+    "epoch-ledger/COMPONENTS.md",
+    "epoch-ledger/QUALITY.md"
+   ]
+  }
+ ]
+}

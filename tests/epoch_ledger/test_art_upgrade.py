@@ -115,7 +115,8 @@ def test_component_index_lists_art_upgrade():
     idx = (EL / "COMPONENTS.md").read_text()
     for sym in ("scene3d.js", "S3.camera", "S3.facade", "S3.art", "S3.sprite", "lightfx.py", "rig3.py", "figure_svg", "closeup_svg", "ik(",
                 "diegetic.py", "whiteboard_chart", "crt_chart", "ticker_board", "gauge", "press_clip", "scene_plan.py", "still.mjs", "LICENSES.md",
-                "finmech.py", "finmotion.js", "FM.coins", "plates.py", "camera3d.py", "reach", "office_v2.py"):
+                "finmech.py", "finmotion.js", "FM.coins", "plates.py", "camera3d.py", "reach", "office_v2.py",
+                "finstate.py", "Ledger", "money.py", "cash_pile", "explain.py", "cashflow_bars", "runway_chart", "FM.bills", "office_v3.py"):
         assert sym in idx, sym
 
 
@@ -144,12 +145,57 @@ def test_whiteboard_gap_parts_have_ids():
     assert "ILLUSTRATIVE" in svg
 
 
-def test_rejected_motion_test_fails_the_hold_rule_and_v2_passes():
-    old = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/scene_plan.json").read_text())
-    assert any("holds" in e for e in scene_plan.validate(old))          # the user's rejection, now machine-checked
-    v2 = json.loads((EL / "episodes/ai-bubble-vs-dot-com/motiontest/office_v2_plan.json").read_text())
-    assert scene_plan.validate(v2) == []
-    assert len(v2["shots"]) >= 8 and {"medium", "insert", "wide", "close-up"} <= {s["shot"] for s in v2["shots"]}
+def test_rejected_previews_fail_and_v3_passes():
+    mt = EL / "episodes/ai-bubble-vs-dot-com/motiontest"
+    old = json.loads((mt / "scene_plan.json").read_text())
+    assert any("holds" in e for e in scene_plan.validate(old))                 # held one composition across concepts
+    v2 = scene_plan.validate(json.loads((mt / "office_v2_plan.json").read_text()))
+    assert any("too short" in e for e in v2) and any("compositions start within 10 s" in e for e in v2)   # too frantic
+    v3 = json.loads((mt / "office_v3_plan.json").read_text())
+    assert scene_plan.validate(v3) == []
+    assert all(set(s["meaning"]) == {"what", "why", "consequence"} for s in v3["shots"])
+
+
+def test_ledger_keeps_every_figure_consistent():
+    from kit.finstate import Ledger
+    led = Ledger(start=13).spend({"ADVERTISING": 2, "PAYROLL": 1, "SERVERS": 1}).earn({"REVENUE": 1})
+    assert led.total_spending == 4 and led.monthly_burn == 3 and led.balance == 10
+    assert 3 <= led.runway_months < 4                                            # "about three months" (matches the close-up)
+    assert led.balance_after(2) == 4 and led.balance_after(2) + 20 == 24
+    pts = led.curve(10, {2: 20})
+    assert pts[0] == (0.0, 10) and (2.0, 4) in pts and (2.0, 24) in pts and pts[-1][1] == 0
+    assert led.fmt(-3) == "-$3M" and led.fmt(20, signed=True) == "+$20M" and led.units(13) == 13
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("ov3", EL / "episodes/ai-bubble-vs-dot-com/motiontest/office_v3.py")
+    v3 = importlib.util.module_from_spec(spec); spec.loader.exec_module(v3)
+    assert v3.LED.balance == led.balance and v3.CASH_AT_FUNDING == 4 and v3.CASH_AFTER_FUNDING == 24
+
+
+def test_money_and_explain_parts():
+    from kit import explain, money
+    from kit.finstate import Ledger
+    pile = money.cash_pile("c", 0, 500, 9, capacity=24)
+    assert pile.count('id="c-bd') == 24 and pile.count('opacity="0"') >= 15
+    assert "RECEIVED" in money.wire_slip("w", 0, 0, "$20,000,000", "A", "B") and 'id="w-stamp"' in money.wire_slip("w", 0, 0, "$1", "A", "B")
+    assert 'id="t-sig"' in money.term_sheet("t") and 'id="c-card"' in money.commercial("c", 0, 0, 600, 400)
+    led = Ledger(start=13).spend({"ADVERTISING": 2, "PAYROLL": 1, "SERVERS": 1}).earn({"REVENUE": 1})
+    bars = explain.cashflow_bars("cf", 0, 0, 860, 640, led)
+    for part in ("cf-seg0", "cf-seg2", "cf-in", "cf-gap", "cf-gapl", "cf-outl", "cf-inl"):
+        assert f'id="{part}"' in bars, part
+    assert "-$3M" in bars and "Illustrative" in bars
+    rw = explain.runway_chart("rw", 0, 0, 850, 640, led, months=10, injections={2: 20})
+    for part in ("rw-line", "rw-proj", "rw-runway", "rw-jump", "rw-line2", "rw-next"):
+        assert f'id="{part}"' in rw, part
+    js = (EL / "kit/finmotion.js").read_text()
+    assert "bills(" in js and "pileTo(" in js and "count(" in js
+
+
+def test_characters_look_and_hold_new_stances():
+    svg = rig3.figure_svg("e", "suit", pose="stand2")
+    assert svg.count('class="iris"') == 2 and "e-ec" in svg
+    assert {"stand2", "hips"} <= set(rig3.POSES)
+    js = (EL / "kit/rig3.js").read_text()
+    assert "look(" in js and "write(" in js and "keys(" in js
 
 
 # ── financial mechanisms, plates, camera twin ────────────────────────────────────────────────────

@@ -146,36 +146,39 @@ episode's choices in `art-direction.md`; deviate per scene when the brief says w
   hero moves, or layer the rendered set with `mCamera`/`mParallax` for 2.5D moves; slow, motivated
   pushes, not constant drift.
 
-## 8c. Narration-driven choreography (the rule that outranks style)
+## 8c. Meaning-first visual storytelling (outranks style and animation quantity)
 
-The user rejected a motion test that was "static illustrations with minor movements": one whiteboard composition
-held for ~14 s while the narration moved through advertising, employees, infrastructure, revenue and investors.
-Pretty frames are not enough. Every episode follows these rules:
+Two rejected previews define the boundaries. The first held one whiteboard for ~14 s across five concepts (too
+static). The second cut ten times in 14 s, used a coin tank that read as cheese, repeated pipes and valves, and did
+not separate a funding agreement from money received (too frantic, too metaphorical). The standard between them:
 
-- **One visible action per narrated concept.** List the beats (each noun or verb phrase that names a new idea) and
-  give each one an action, transformation, interaction, reveal or explanatory step that *shows* it. If the
-  narration names three things, the viewer sees three things happen.
-- **Cut when the concept changes.** A new concept is a new shot or a new action in the same shot. `kit/scene_plan.py`
-  fails a shot whose beat spans more than `MAX_HOLD` (6 s) unless it has a written `hold_reason`.
-- **Follow a motif across cuts.** Give money (or goods, data, power) one physical form for the whole sequence
-  (`kit/finmech.py`: the company's cash is a glass tank of coins; spending, revenue and capital are glass pipes).
-  Keep its direction consistent (spending flows left to right), and match-cut on it between shots.
-- **Explain, then show the consequence.** Introduce the mechanism up close (the founder opens the valve), follow
-  the flow to each destination (ad, payroll, servers), pull out to the whole model to show the imbalance, then
-  push in on the consequence (gauge into the red).
-- **The mute test.** With the sound off, a viewer should follow the financial story from the pictures alone. Label
-  pipes and objects diegetically (brass plates) and use kinetic type only where its size or timing carries meaning
-  (MONEY OUT large against money in small).
-- **Body mechanics.** Use anticipation before effort (pull back, then shove; raise the stamp, then slam), contact
-  (`rig3.reach` puts the hand on the valve or the paper), and follow-through (recoil, needle wobble, prop settle).
-  Use `R3.keys` for explicit keyframes and `FM.*` for machine motion.
-- **Inserts for small but decisive actions.** If the key action is under about 80 px in the wide shot (a stamp, a
-  signature, a switch), cut to an insert close-up for it.
-- **Not evidence of animation:** camera drift, blinking, ambient particles, frame-difference statistics. These are
-  the ambient layer, never the primary action.
-- **Rendering:** draw static sets once as cached plates (`kit/plates.py`, 2x density) and animate only the
-  foreground live layers. `kit/camera3d.py` keeps plate and live layers on the same camera.
-- Reference implementation: `episodes/ai-bubble-vs-dot-com/motiontest/office_v2.py` and `office_v2_plan.json`.
+1. **Understand before designing.** For each narration passage write `meaning` = what happens, why, consequence
+   (the plan validator requires it). Group the words into *concept beats*: "spending on advertising, employees and
+   infrastructure" is ONE beat (spending), not three shots.
+2. **Connected compositions, progressive animation.** One composition per beat, typically 2.5–5 s, in which the
+   named parts appear or act on their words (bills fly to the TV on "advertising", pay lands on desks on
+   "employees", a rack is wheeled in on "infrastructure"). Validator: ≥ `MIN_SHOT` 2 s per composition (inserts
+   0.5 s with an `insert_reason`), ≤ `MAX_CUTS_PER_10S` 4, no hold over `MAX_HOLD` 6 s without a `hold_reason`.
+3. **Recognisable and accurate.** Money is banknotes and bundles (`kit/money.py`); advertising is an actual
+   commercial or billboard; salaries are pay; infrastructure is equipment being installed. Use a metaphor only when
+   it explains something a literal image cannot, and do not repeat one metaphor across every beat.
+4. **One source of truth for numbers.** Build a `kit/finstate.Ledger`; every pile, counter, chart and runway is
+   derived from it, and figures are labelled illustrative when they are. Indicators keep the same geometry across
+   beats (the cash chart in "shortfall" returns unchanged in "money received").
+5. **Explain with the right tool.** When the idea is quantitative (out vs in, runway), use a clean chart
+   (`kit/explain.py`) and give it time to be read; when it is an action (signing, paying, installing), show
+   people doing it; when it is a process with steps, number the steps (agreement → money received).
+6. **Separate steps that are legally or economically different** (agreement vs receipt, revenue vs profit,
+   valuation vs cash) into distinct visual moments.
+7. **Characters act with intent:** eyes lead the head (`R3.look`), weight-shift stances (`stand2`, `hips`),
+   contact with objects (`rig3.reach`, `hold`), interaction between characters (handshake, handing over, signing
+   with `R3.write`), anticipation and follow-through (`R3.keys`).
+8. **The mute test** still applies: with the sound off, the story (what, why, consequence) must be followable.
+9. **Not evidence of quality:** number of animations, cuts, camera drift, blinking, particles, frame-difference
+   statistics.
+10. **Rendering:** static sets are cached plates (`kit/plates.py`); characters, money and charts animate live.
+    References: `episodes/ai-bubble-vs-dot-com/motiontest/office_v3.py`, `office_v3_plan.json` (current) and the
+    rejected `office_v2_plan.json` / `scene_plan.json` kept as negative examples in the tests.
 
 ## 9. Transitions
 

@@ -62,6 +62,12 @@ Use these for new or regenerated scenes. Approval stills live in `episodes/ai-bu
 | `plate(out_dir, name, html)` | `kit/plates.py` | cache a static set as a 2x PNG plate (hash-keyed); animate only foreground live layers over it |
 | `Camera` | `kit/camera3d.py` | Python twin of the scene3d camera for laying out 2D overlays on plates; `Camera.js()` gives the identical JS camera |
 | `reach`, `hold`, `hand_point`, `PROPS3`, `R3.keys` | `kit/rig3.py`, `kit/rig3.js` | IK to put a hand on a target in the set; props (stamp, pen, envelope) that move with the hand; keyframed joint actions with anticipation/follow-through |
+| `Ledger` (`spend`, `earn`, `balance`, `monthly_burn`, `runway_months`, `balance_after`, `curve`, `fmt`) | `kit/finstate.py` | **one source of truth** for every on-screen figure in a sequence (piles, counters, charts, runway) |
+| `cash_pile`, `bundle_svg`, `bill_defs`, `wire_slip`, `term_sheet`, `commercial` | `kit/money.py` | recognisable money (banknote bundles, flying bills), the funding agreement vs the wire actually received, a real TV commercial |
+| `cashflow_bars`, `runway_chart` | `kit/explain.py` | educational charts from the Ledger: money out by category vs money in with the shortfall; cash over time, runway to zero, funding jumps, "next round needed" |
+| `FM.bills`, `FM.pileTo`, `FM.count` | `kit/finmotion.js` | banknotes flying on arcs, a cash pile that always matches the ledger, step counters |
+| `R3.look`, `R3.write`, poses `stand2` / `hips` | `kit/rig3.js`, `kit/rig3.py` | eye direction (irises clipped in the eye), signing, relaxed weight-shift stances |
+| `office_v3.py`, `sfx_office_v3.py`, `office_v3_plan.json` | episode `motiontest/` | **current reference**: meaning-first, three connected beats in four compositions (spending → shortfall → agreement → money received) |
 | `office_v2.py`, `sfx_office_v2.py`, `office_v2_plan.json` | episode `motiontest/` | **reference for narration-driven choreography**: 10 shots in 14 s, one action per beat, follow-the-money motif, cached plates + live foreground |
 | `make_motiontest.py` | episode `motiontest/` | reference for animating style-frame sets: captures a style frame's `page()` call, renders the set per shot (`uid`), adds narration-locked acting, diagrams and 2.5D camera; slices the episode narration and builds captions |
 | `portrait_svg` | `kit/rig3.py` | medium-close bust for inserts and over-shoulder shots |

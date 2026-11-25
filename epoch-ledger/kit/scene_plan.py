@@ -7,7 +7,9 @@ Plan file: JSON {"episode": ..., "shots": [shot, ...]}. Each shot needs:
   id, beat {t, narration}, understanding (what the viewer must grasp), shot (size), focal_point, camera (move or
   "locked" + why), lighting, technique [list], components [kit symbols reused], graphics [{kind, what, why?}],
   rationale, consulted [must include the three guides]. A beat "t" written as "a-b" (seconds) longer than MAX_HOLD
-  needs a hold_reason: the narration moves through concepts, so the picture must too.
+  needs a hold_reason: the narration moves through concepts, so the picture must too. Timed shots also need
+  meaning {what, why, consequence}, must last at least MIN_SHOT (inserts 0.5 s + insert_reason), and a sequence may not
+  change composition more than MAX_CUTS_PER_10S times in any 10 s — connected compositions, not a cut per word.
 Validate with `python -m kit.scene_plan PLAN.json` (exit 1 on errors) or `validate(plan)` in tests.
 """
 from __future__ import annotations
@@ -21,12 +23,15 @@ TECHNIQUES = ("scene3d", "rig3", "rig", "lightfx", "diegetic", "motion.js", "thr
               "2.5d", "kinetic-type", "diagram", "photo-archive")
 GRAPHIC_KINDS = ("diegetic", "standalone", "overlay", "caption")
 REQUIRED_GUIDES = ("skills/creative/epoch-ledger-motion-craft.md", "epoch-ledger/COMPONENTS.md", "epoch-ledger/QUALITY.md")
-MAX_HOLD = 6.0   # seconds one composition may carry narration before it needs a new action/shot (or a written hold_reason)
+MAX_HOLD = 6.0
+MIN_SHOT = 2.0   # seconds a composition needs to be recognised and understood (inserts: 0.5 s, with insert_reason)
+MAX_CUTS_PER_10S = 4   # pacing: more composition changes than this in any 10 s window reads as frantic   # seconds one composition may carry narration before it needs a new action/shot (or a written hold_reason)
 FIELDS = ("id", "beat", "understanding", "shot", "focal_point", "camera", "lighting", "technique", "components", "graphics", "rationale", "consulted")
 
 
 def validate(plan: dict) -> list[str]:
     errs: list[str] = []
+    timed: list[tuple[float, float]] = []
     shots = plan.get("shots") or []
     if not shots:
         return ["plan has no shots"]
@@ -55,12 +60,30 @@ def validate(plan: dict) -> list[str]:
         if "-" in t:
             try:
                 a, b = (float(x) for x in t.split("-"))
-                if b - a > MAX_HOLD and len(s.get("hold_reason", "")) < 20:
-                    errs.append(f"{sid}: one composition holds {b - a:.1f}s of narration — give each beat its own action/shot, or write a hold_reason")
             except ValueError:
-                pass
+                a = b = None
+            if a is not None:
+                timed.append((a, b))
+                if b - a > MAX_HOLD and len(s.get("hold_reason", "")) < 20:
+                    errs.append(f"{sid}: one composition holds {b - a:.1f}s of narration — give each concept its own action or progressive build, or write a hold_reason")
+                short = MIN_SHOT if s.get("shot") != "insert" else .5
+                if b - a < short:
+                    errs.append(f"{sid}: {b - a:.2f}s on screen is too short to recognise and absorb (min {short}s) — merge related ideas into one connected composition")
+                if s.get("shot") == "insert" and len(s.get("insert_reason", "")) < 15:
+                    errs.append(f"{sid}: an insert needs an insert_reason (what small decisive action it makes legible)")
+                m = s.get("meaning") or {}
+                for k in ("what", "why", "consequence"):
+                    if len(str(m.get(k, ""))) < 6:
+                        errs.append(f"{sid}: meaning.{k} missing — say what happens, why, and what follows before designing visuals")
         if len(s.get("understanding", "")) < 15:
             errs.append(f"{sid}: 'understanding' must say what the viewer learns")
+    # pacing: composition changes per 10 s window
+    starts = sorted(a for a, _ in timed)
+    for a in starts:
+        n = sum(1 for x in starts if a <= x < a + 10)
+        if n > MAX_CUTS_PER_10S:
+            errs.append(f"{n} compositions start within 10 s from {a:.1f}s — too many changes; combine related concepts with progressive animation")
+            break
     # sequence rules: vary shot sizes, no long runs of the same framing
     sizes = [s.get("shot") for s in shots]
     run = 1

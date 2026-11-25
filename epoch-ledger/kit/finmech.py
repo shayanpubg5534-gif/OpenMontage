@@ -172,11 +172,18 @@ def envelope(uid: str, x: float, y: float, s: float = 1.0) -> str:
             f'<rect x="-26" y="8" width="52" height="16" rx="3" fill="#2a6a2a"/><text x="0" y="21" text-anchor="middle" font-family="Inter" font-weight="800" font-size="14" fill="#fff">PAY</text></g></g>')
 
 
-def tv_set(uid: str, x: float, y: float, w: float = 760) -> str:
-    """Period CRT television on a short stand, three-quarter-ish, with an animatable BigCart ad on its screen."""
+def tv_screen(x: float, y: float, w: float = 760) -> tuple[float, float, float, float]:
+    """Screen rectangle (sx, sy, sw, sh) of tv_set(x, y, w) — for placing custom content such as money.commercial()."""
     h = w * .78
-    sx, sy, sw, sh = x + w * .09, y + h * .1, w * .66, h * .7
-    ad = (f'<g id="{uid}-ad" opacity="0"><rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" fill="#2b4f9e"/>'
+    return x + w * .09, y + h * .1, w * .66, h * .7
+
+
+def tv_set(uid: str, x: float, y: float, w: float = 760, ad: str | None = None, stand: bool = True) -> str:
+    """Period CRT television with an animatable ad on its screen (default: a simple BigCart spot; pass `ad` markup,
+    e.g. money.commercial(), to show a real commercial). stand=False for a wall-mounted set."""
+    h = w * .78
+    sx, sy, sw, sh = tv_screen(x, y, w)
+    default_ad = (f'<g id="{uid}-ad" opacity="0"><rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" fill="#2b4f9e"/>'
           f'<circle cx="{sx + sw * .5}" cy="{sy + sh * .46}" r="{sh * .34}" fill="#3a66c0"/>'
           + "".join(f'<circle cx="{sx + sw * ((k * 37) % 100) / 100:.0f}" cy="{sy + sh * ((k * 53) % 100) / 100:.0f}" r="2.5" fill="#fff" opacity=".7"/>' for k in range(18))
           + f'<g id="{uid}-fly"><g id="{uid}-rocket" transform="translate({sx + sw * .2:.0f} {sy + sh * .95:.0f}) rotate(35)"><g transform="scale({sw / 900:.3f})">'
@@ -185,11 +192,13 @@ def tv_set(uid: str, x: float, y: float, w: float = 760) -> str:
           f'<path id="{uid}-flame" d="M-30 150 Q0 330 30 150Z" fill="#ffb03a"/><path d="M-15 150 Q0 250 15 150Z" fill="#fff0a0"/></g></g></g>'
           f'<g id="{uid}-logo" opacity="0"><text x="{sx + sw * .5}" y="{sy + sh * .3}" text-anchor="middle" font-family="Fraunces" font-weight="800" font-size="{sw * .13:.0f}" fill="#fff">BigCart.com</text></g>'
           f'<g id="{uid}-tag" opacity="0"><text x="{sx + sw * .5}" y="{sy + sh * .86}" text-anchor="middle" font-family="Inter" font-weight="800" font-size="{sw * .065:.0f}" fill="#ffd56a">Everything. Delivered.</text></g></g>')
+    ad = f'<g id="{uid}-ad" opacity="0">{ad}</g>' if ad is not None else default_ad
+    standsvg = (f'<ellipse cx="{x + w / 2}" cy="{y + h + 40}" rx="{w * .5}" ry="22" fill="#000" opacity=".35"/>'
+                f'<path d="M{x + w * .3} {y + h} L{x + w * .24} {y + h + 40} H{x + w * .76} L{x + w * .7} {y + h}Z" fill="#3a2a1a" stroke="{INK}" stroke-width="4"/>') if stand else \
+        f'<path d="M{x + w * .42} {y + h * .4} L{x + w * .46} {y - 60} M{x + w * .58} {y + h * .4} L{x + w * .54} {y - 60}" stroke="#2a2a2e" stroke-width="12"/>'
     return (f'<g id="{uid}"><defs><clipPath id="{uid}-scr"><rect x="{sx}" y="{sy}" width="{sw}" height="{sh}" rx="{sw * .06:.0f}"/></clipPath>'
             f'<pattern id="{uid}-scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000"/></pattern></defs>'
-            f'<ellipse cx="{x + w / 2}" cy="{y + h + 40}" rx="{w * .5}" ry="22" fill="#000" opacity=".35"/>'
-            f'<path d="M{x + w * .3} {y + h} L{x + w * .24} {y + h + 40} H{x + w * .76} L{x + w * .7} {y + h}Z" fill="#3a2a1a" stroke="{INK}" stroke-width="4"/>'
-            f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{w * .05:.0f}" fill="#6a4a30" stroke="{INK}" stroke-width="5"/>'
+            f'{standsvg}<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{w * .05:.0f}" fill="#6a4a30" stroke="{INK}" stroke-width="5"/>'
             f'<rect x="{x + 8}" y="{y + 8}" width="{w - 16}" height="{h * .2}" rx="{w * .04:.0f}" fill="#fff" opacity=".08"/>'
             f'<rect x="{sx - 14}" y="{sy - 14}" width="{sw + 28}" height="{sh + 28}" rx="{sw * .08:.0f}" fill="#1a1410" stroke="{INK}" stroke-width="4"/>'
             f'<g clip-path="url(#{uid}-scr)"><rect id="{uid}-off" x="{sx}" y="{sy}" width="{sw}" height="{sh}" fill="#141c1c"/>{ad}'
