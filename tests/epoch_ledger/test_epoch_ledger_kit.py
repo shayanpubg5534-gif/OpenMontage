@@ -248,3 +248,39 @@ def test_render_watchdog_kills_hung_step(tmp_path):
     t = time.time()
     assert r._run_guarded(["bash", "-c", "sleep 30 & sleep 30"], tmp_path, timeout=1) == 124
     assert time.time() - t < 15
+
+
+def test_isolated_document_keeps_only_overlapping_parts():
+    r = _render_mod()
+    html = assemble(title="t", duration=9, audio="narration.wav", vignette=False, scenes=[
+        Scene("s1", 0, 4.2, "<div id='a'>one</div>", js="tl.to('#a',{x:1},0);"),
+        Scene("s2", 4.0, 5.0, "<div id='b'>two</div>", js="tl.to('#b',{x:1},4.5);"),
+    ])
+    comp = r.parse(html)
+    doc = r.isolated_html(html, comp, 4.2, 9.0)
+    assert "id='b'" in doc and "id='a'" not in doc and "tl.to('#a'" not in doc
+    assert "<audio" not in doc                                        # narration is muxed after rendering
+    cross = r.isolated_html(html, comp, 4.0, 4.2)                     # the crossfade overlap keeps both scenes
+    assert "id='a'" in cross and "id='b'" in cross
+    # everything outside clips and regions (shared code, kit helpers) is kept verbatim
+    assert comp.shared.split("<!--clip:")[0] in doc
+
+
+def test_isolate_plan_follows_scenes_and_has_its_own_keys(tmp_path):
+    r = _render_mod()
+    (tmp_path / "index.html").write_text(_doc(duration=10.0))
+    a = r.plan(tmp_path, r.FINAL, 2.0, isolate=True)
+    assert [(c["start"], c["end"]) for c in a["chunks"]] == [(0.0, 5.0), (5.0, 5.3), (5.3, 10.0)] or \
+        all(c["start"] in (0.0, 5.0, 5.3) for c in a["chunks"])
+    b = r.plan(tmp_path, r.FINAL, 2.0, isolate=False)
+    assert not {c["key"] for c in a["chunks"]} & {c["key"] for c in b["chunks"]}   # isolated output cached separately
+    long = r.scene_segments(r.parse(_doc(duration=40.0)), 30, 1200, [0, 150, 300, 600, 900, 1200], 12.0)
+    assert max(b - a for a, b in long) <= 12 * 30 + 1                  # long scenes are split at finer cuts
+
+
+def test_parallel_jobs_use_separate_hyperframes_slots():
+    r = _render_mod()
+    assert "HYPERFRAMES_RENDER_LOCK_DIR" not in r.slot_env(0) or r.slot_env(0)["HYPERFRAMES_RENDER_LOCK_DIR"] == os.environ.get("HYPERFRAMES_RENDER_LOCK_DIR")
+    e1, e2 = r.slot_env(1), r.slot_env(2)
+    assert e1["HYPERFRAMES_RENDER_LOCK_DIR"] != e2["HYPERFRAMES_RENDER_LOCK_DIR"]
+    assert e1.get("HYPERFRAMES_RENDER_LOCK", "") != "off"             # every slot keeps a real lock

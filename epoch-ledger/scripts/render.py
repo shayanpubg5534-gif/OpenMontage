@@ -22,7 +22,14 @@ A region whose id matches a top-level clip id inherits that clip's span; a regio
 
 Usage:
   render.py plan    WORKSPACE [--preview]
-  render.py render  WORKSPACE -o OUT.mp4 [--audio narration.wav] [--preview] [--jobs N]
+  render.py render  WORKSPACE -o OUT.mp4 [--audio narration.wav] [--preview] [--jobs N] [--isolate]
+
+--isolate renders every chunk from a reduced document that holds only the clips and scene regions overlapping it
+(the same parts its cache key hashes), several chunks at once. Each reduced document is first compared with the
+full one at sample frames (scripts/isolate_check.mjs); a chunk that differs, errors, or fails to render falls back
+to the full document. Captions and transitions that cross a cut are kept in both chunks; narration is muxed once.
+--jobs N runs N chunks at once in their own HyperFrames render slots (HYPERFRAMES_RENDER_LOCK_DIR), with the CPU
+split between them; without --isolate each job still loads the whole film, so it pays off mainly with --isolate.
 
 Output size follows the composition's root data-width/data-height (1920x1080 by default; an
 episode built with kit.assemble(resolution="1440p") renders 2560x1440). HyperFrames' own
@@ -46,6 +53,7 @@ import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
+from queue import Queue
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
 from pathlib import Path
@@ -170,7 +178,15 @@ def frame(t: float, fps: int) -> int:
 
 
 def assets_digest(ws: Path, html: str) -> str:
-    """Hash every workspace file the document references (vendor JS, fonts, images, sub-compositions).
+    h = hashlib.sha256()
+    for rel, path in sorted(referenced_files(ws, html).items()):
+        h.update(rel.encode())
+        h.update(hashlib.sha256(path.read_bytes()).digest())
+    return h.hexdigest()
+
+
+def referenced_files(ws: Path, html: str) -> dict[str, Path]:
+    """Every workspace file the document references (vendor JS, fonts, images, sub-compositions).
 
     References are followed through referenced text files too (a CSS url(), a sub-composition's image, a path
     written inside a vendor script), so changing any of them invalidates the cache. Files nobody names cannot
@@ -197,14 +213,44 @@ def assets_digest(ws: Path, html: str) -> str:
                 frontier = True
                 if path.suffix.lower() in TEXT_EXT and path.stat().st_size < 8 << 20:
                     corpus.append((folder, path.read_text(errors="replace")))
-    h = hashlib.sha256()
-    for rel in sorted(used):
-        h.update(rel.encode())
-        h.update(hashlib.sha256(files[rel].read_bytes()).digest())
-    return h.hexdigest()
+    return {rel: files[rel] for rel in used}
 
 
-def plan(ws: Path, settings: dict, chunk_min: float) -> dict:
+CAPTION_ID = re.compile(r"^cap\d+$")
+
+
+def scene_segments(comp: Composition, fps: int, total: int, cuts: list[int], max_len: float) -> list[tuple[int, int]]:
+    """Segments between scene boundaries (top-level clips and regions that are not caption pages and do not span the
+    whole film). A segment longer than max_len is split at the nearest finer cut points (caption pages) so that long
+    scenes still parallelise. Every boundary is still one of `cuts`, so caching stays clip-aligned."""
+    scene = {0, total}
+    for k, spans in comp.deps.items():
+        name = k.split(":", 1)[-1]
+        if CAPTION_ID.match(name):
+            continue
+        for a, b in spans:
+            if b - a < comp.duration - 1e-6:
+                scene |= {min(total, max(0, frame(a, fps))), min(total, max(0, frame(min(b, comp.duration), fps)))}
+    scene = sorted(scene)
+    out = []
+    for a, b in zip(scene, scene[1:]):
+        if b <= a:
+            continue
+        n = int(-(-(b - a) // int(max_len * fps)))     # pieces needed
+        inner = [c for c in cuts if a < c < b]
+        bounds = [a]
+        for i in range(1, n):
+            want = a + (b - a) * i / n
+            if inner:
+                best = min(inner, key=lambda c: abs(c - want))
+                if best > bounds[-1]:
+                    bounds.append(best)
+        bounds.append(b)
+        out += [(x, y) for x, y in zip(bounds, bounds[1:]) if y > x]
+    return out
+
+
+def plan(ws: Path, settings: dict, chunk_min: float, isolate: bool = False, max_len: float = 12.0) -> dict:
     html = (ws / "index.html").read_text()
     comp = parse(html)
     fps = settings["fps"]
@@ -218,6 +264,8 @@ def plan(ws: Path, settings: dict, chunk_min: float) -> dict:
             cuts |= {min(total, max(0, frame(a, fps))), min(total, max(0, frame(min(b, comp.duration), fps)))}
     cuts = sorted(cuts)
     segs = [(a, b) for a, b in zip(cuts, cuts[1:]) if b > a]
+    if isolate:                                       # chunks follow scenes, not caption pages
+        segs = scene_segments(comp, fps, total, cuts, max_len)
     chunks, cur = [], None
     for a, b in segs:
         cur = (a, b) if cur is None else (cur[0], b)
@@ -237,14 +285,14 @@ def plan(ws: Path, settings: dict, chunk_min: float) -> dict:
         t0, t1 = a / fps, b / fps
         deps = sorted(k for k, spans in comp.deps.items() if k in texts and
                       (not spans or any(s < t1 and e > t0 for s, e in spans)))
-        h = hashlib.sha256(f"{base}|{a}|{b}".encode())
+        h = hashlib.sha256(f"{base}|{a}|{b}".encode() + (b"|isolated" if isolate else b""))
         for k in deps:
             h.update(k.encode())
             h.update(texts[k].encode())
         out.append({"start_frame": a, "end_frame": b, "start": round(t0, 4), "end": round(t1, 4),
                     "deps": deps, "key": h.hexdigest()[:24]})
     return {"duration": comp.duration, "fps": fps, "total_frames": total, "settings": settings,
-            "width": comp.size[0], "height": comp.size[1], "chunks": out}
+            "width": comp.size[0], "height": comp.size[1], "chunks": out, "isolate": isolate}
 
 
 
@@ -338,9 +386,10 @@ def preflight_lock(ws: Path, kill_orphans: bool = True, lock_dir: Path | None = 
     return notes
 
 
-def _run_guarded(cmd: list[str], cwd: Path, timeout: float) -> int:
+def _run_guarded(cmd: list[str], cwd: Path, timeout: float, env: dict | None = None, log: Path | None = None) -> int:
     """Run in a new process group; kill the whole group on timeout. Returns exit code (124 on timeout)."""
-    pr = subprocess.Popen(cmd, cwd=cwd, start_new_session=True)
+    out = open(log, "w") if log else None
+    pr = subprocess.Popen(cmd, cwd=cwd, start_new_session=True, env=env, stdout=out, stderr=subprocess.STDOUT if out else None)
     _CHILDREN.add(pr)
     try:
         return pr.wait(timeout=timeout)
@@ -353,6 +402,8 @@ def _run_guarded(cmd: list[str], cwd: Path, timeout: float) -> int:
         raise
     finally:
         _CHILDREN.discard(pr)
+        if out:
+            out.close()
 
 
 def _kill_group(pr) -> None:
@@ -385,20 +436,95 @@ def frames_in(path: Path) -> int:
     return int(out.strip())
 
 
-def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
+# ── parallel slots ─────────────────────────────────────────────────────
+# HyperFrames keeps one render slot per account (LOCK_DIR/render.lock) so that renders started side by side do not
+# starve each other; that is why --jobs used to run one chunk at a time. Parallel jobs now use the supported
+# HYPERFRAMES_RENDER_LOCK_DIR: slot 0 is the normal account slot (so other HyperFrames renders still queue behind
+# us) and slot k > 0 has its own lock folder. Every slot remains a real lock: two render.py runs contend slot by
+# slot, and the CPU is divided so that jobs × workers ≤ cores.
+def slot_lock_dir(k: int) -> Path:
+    return LOCK_DIR if k == 0 else LOCK_DIR.parent / "epoch-slots" / f"slot-{k}"
+
+
+def slot_env(k: int) -> dict:
+    env = dict(os.environ)
+    if k:
+        env["HYPERFRAMES_RENDER_LOCK_DIR"] = str(slot_lock_dir(k))
+        slot_lock_dir(k).mkdir(parents=True, exist_ok=True)
+    return env
+
+
+# ── isolation ──────────────────────────────────────────────────────────
+def isolated_html(html: str, comp: Composition, t0: float, t1: float) -> str:
+    """The document minus top-level clips and marker regions that do not overlap [t0, t1), and minus audio (narration
+    is muxed after rendering). Exactly the parts the chunk's cache key hashes."""
+    doc = html
+    for c in comp.clips:
+        if c.tag == "audio" or not (c.start < t1 and c.end > t0):
+            doc = doc.replace(c.text, "", 1)
+    for r in comp.regions:
+        spans = comp.deps.get("region:" + r.id)
+        if spans and not any(s0 < t1 and e0 > t0 for s0, e0 in spans):
+            doc = doc.replace(r.text, "", 1)
+    return doc
+
+
+def _link(src: Path, dst: Path) -> None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        os.link(src, dst)                      # hard link: no copy, served like the original
+    except OSError:
+        shutil.copy2(src, dst)
+
+
+def isolated_workspace(ws: Path, html: str, comp: Composition, ch: dict) -> Path:
+    d = cache_dir(ws) / "iso" / ch["key"]
+    shutil.rmtree(d, ignore_errors=True)
+    doc = isolated_html(html, comp, ch["start"], ch["end"])
+    for rel, path in referenced_files(ws, doc).items():
+        _link(path, d / rel)
+    for f in ws.iterdir():                     # project config HyperFrames reads (hyperframes.json, package.json)
+        if f.is_file() and f.suffix == ".json":
+            _link(f, d / f.name)
+    (d / "index.html").write_text(doc)
+    return d
+
+
+def check_isolation(ws: Path, docs: dict) -> dict:
+    """Compare each reduced document with the full one (scripts/isolate_check.mjs). {} if the check cannot run."""
+    if not docs or not shutil.which("node"):
+        return {}
+    spec = cache_dir(ws) / f"isolate-check-{os.getpid()}.json"
+    spec.write_text(json.dumps([{"key": k, "html": str(d / "index.html"), "start": c["start"], "end": c["end"]}
+                                for k, (d, c) in docs.items()]))
+    try:
+        r = subprocess.run(["node", str(Path(__file__).with_name("isolate_check.mjs")), str(ws / "index.html"), str(spec)],
+                           capture_output=True, text=True, timeout=120 + 30 * len(docs))
+        return json.loads(r.stdout.strip().splitlines()[-1]) if r.returncode == 0 and r.stdout.strip() else {}
+    except (subprocess.TimeoutExpired, ValueError, IndexError):
+        return {}
+    finally:
+        spec.unlink(missing_ok=True)
+
+
+# ── execution ──────────────────────────────────────────────────────────
+def render_chunk(ws: Path, ch: dict, settings: dict, workers: str, src: Path | None = None, slot: int = 0) -> float:
+    """Render one chunk into the cache. src: workspace to render from (an isolated one), default the full one."""
     dst = cache_dir(ws) / f"{ch['key']}.mp4"
     if dst.exists():
         return 0.0
+    src = src or ws
     tmp = cache_dir(ws) / f"{ch['key']}.tmp.mp4"
-    cmd = render_command(ws, tmp, settings, ch["start"], ch["end"], workers)
+    cmd = render_command(src, tmp, settings, ch["start"], ch["end"], workers)
     t = time.time()
     timeout = CHUNK_TIMEOUT_BASE + CHUNK_TIMEOUT_PER_FRAME * (ch["end_frame"] - ch["start_frame"])
+    log = cache_dir(ws) / f"{ch['key']}.log" if src != ws else None
     for attempt in (1, 2):  # HyperFrames occasionally exits non-zero after a good capture; retry once
-        code = _run_guarded(cmd, ws, timeout)
+        code = _run_guarded(cmd, src, timeout, slot_env(slot), log)
         if code == 0:
             break
         if code == 124:                               # hung: clear whatever lock it left before retrying
-            for n in preflight_lock(ws):
+            for n in preflight_lock(ws, lock_dir=slot_lock_dir(slot)):
                 print("render lock:", n, file=sys.stderr)
         if attempt == 2:
             raise subprocess.CalledProcessError(code, cmd)
@@ -412,15 +538,63 @@ def render_chunk(ws: Path, ch: dict, settings: dict, workers: str) -> float:
     return time.time() - t
 
 
-def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int, kill_orphans: bool = True) -> dict:
+def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int | None = 1, kill_orphans: bool = True,
+        check: bool = True) -> dict:
     todo = [c for c in p["chunks"] if not (cache_dir(ws) / f"{c['key']}.mp4").exists()]
+    isolate = p.get("isolate", False)
+    cores = os.cpu_count() or 4
+    if jobs is None:                                  # auto: parallel only where it pays (isolated chunks)
+        jobs = max(1, min(len(todo), cores // 2)) if isolate else 1
+    jobs = max(1, min(jobs, len(todo) or 1))
+    workers = "auto" if jobs == 1 else str(max(1, cores // jobs))
     if todo:
-        for n in preflight_lock(ws, kill_orphans):
-            print("render lock:", n, file=sys.stderr)
-    workers = "auto" if jobs == 1 else str(max(1, (os.cpu_count() or 4) // jobs))
+        for k in range(jobs):
+            for n in preflight_lock(ws, kill_orphans, slot_lock_dir(k)):
+                print("render lock:", n, file=sys.stderr)
     t0 = time.time()
+    srcs, notes = {}, []
+    if isolate and todo:
+        html = (ws / "index.html").read_text()
+        comp = parse(html)
+        docs = {c["key"]: (isolated_workspace(ws, html, comp, c), c) for c in todo}
+        verdict = check_isolation(ws, docs) if check else {}
+        if check and not verdict:
+            notes.append("isolation check unavailable (node/playwright); rendering reduced documents unchecked")
+        for k, (d, c) in docs.items():
+            v = verdict.get(k)
+            if v is not None and not v["ok"]:
+                notes.append(f"chunk {c['start']:.2f}-{c['end']:.2f}s: reduced document differs from the full one "
+                             f"(frames {v['mismatch']}, errors {v['errors']}); rendering it from the full document")
+                shutil.rmtree(d, ignore_errors=True)
+            else:
+                srcs[k] = d
+    for n in notes:
+        print("isolate:", n, file=sys.stderr)
+    slots: Queue = Queue()
+    for k in range(jobs):
+        slots.put(k)
+
+    def work(c):
+        k = slots.get()
+        try:
+            try:
+                return render_chunk(ws, c, p["settings"], workers, srcs.get(c["key"]), k)
+            except (subprocess.CalledProcessError, RuntimeError) as e:
+                if c["key"] not in srcs:
+                    raise
+                print(f"isolate: chunk {c['start']:.2f}-{c['end']:.2f}s failed from its reduced document ({e}); "
+                      "falling back to the full document", file=sys.stderr)
+                notes.append(f"fallback {c['start']:.2f}-{c['end']:.2f}s")
+                srcs.pop(c["key"], None)
+                return render_chunk(ws, c, p["settings"], workers, None, k)
+        finally:
+            slots.put(k)
+    order = sorted(todo, key=lambda c: -(c["end_frame"] - c["start_frame"]))      # longest first
     with ThreadPoolExecutor(max_workers=jobs) as ex:
-        secs = list(ex.map(lambda c: render_chunk(ws, c, p["settings"], workers), todo))
+        done = dict(zip((c["key"] for c in order), ex.map(work, order)))
+    secs = [done[c["key"]] for c in todo]
+    for d in srcs.values():
+        shutil.rmtree(d, ignore_errors=True)
     lst = cache_dir(ws) / f"concat-{os.getpid()}.txt"
     lst.write_text("".join(f"file '{(cache_dir(ws) / (c['key'] + '.mp4')).resolve()}'\n" for c in p["chunks"]))
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -441,6 +615,7 @@ def run(ws: Path, p: dict, out: Path, audio: Path | None, jobs: int, kill_orphan
         raise RuntimeError(f"assembled {got} frames, expected {p['total_frames']}")
     report = {"rendered_chunks": len(todo), "cached_chunks": len(p["chunks"]) - len(todo),
               "chunk_seconds": [round(s, 1) for s in secs], "wall_seconds": round(time.time() - t0, 1),
+              "jobs": jobs, "workers": workers, "isolate": isolate, "notes": notes,
               "frames": got, "output": str(out)}
     log = ws / ".render-cache" / "render-log.jsonl"
     with log.open("a") as f:
@@ -456,8 +631,13 @@ def main(argv=None):
     ap.add_argument("-o", "--output", type=Path)
     ap.add_argument("--audio", type=Path, help="narration to mux (default: WORKSPACE/narration.wav if present)")
     ap.add_argument("--preview", action="store_true", help="24 fps draft quality (separate cache keys)")
-    ap.add_argument("--chunk-min", type=float, default=15.0, help="minimum chunk length in seconds")
-    ap.add_argument("--jobs", type=int, default=1, help="chunks rendered in parallel (split CPU workers)")
+    ap.add_argument("--chunk-min", type=float, help="minimum chunk length in seconds (default 15; with --isolate 2, and chunks follow scene boundaries, "
+                    "long scenes split at caption pages into pieces of at most 12 s)")
+    ap.add_argument("--jobs", type=int, help="chunks rendered at the same time, each in its own HyperFrames slot, CPU "
+                                             "split between them (default 1; with --isolate: cores/2)")
+    ap.add_argument("--isolate", action="store_true", help="render each chunk from a reduced document holding only "
+                    "the clips and scene regions it shows; verified against the full document, which stays the fallback")
+    ap.add_argument("--no-isolate-check", action="store_true", help="skip the reduced-vs-full document check")
     ap.add_argument("--start", type=float, help="range: window start (s)")
     ap.add_argument("--end", type=float, help="range: window end (s)")
     ap.add_argument("--fps", type=int, help="override fps (24/25/30/60)")
@@ -472,7 +652,8 @@ def main(argv=None):
         settings["fps"] = a.fps
     if a.quality:
         settings["quality"] = a.quality
-    p = plan(ws, settings, a.chunk_min)
+    chunk_min = a.chunk_min if a.chunk_min is not None else (2.0 if a.isolate else 15.0)
+    p = plan(ws, settings, chunk_min, a.isolate)
     if a.cmd == "range":
         if a.start is None or a.end is None or not a.output:
             sys.exit("range needs --start, --end and -o")
@@ -480,13 +661,16 @@ def main(argv=None):
         p["total_frames"] = sum(c["end_frame"] - c["start_frame"] for c in p["chunks"])
         audio = a.audio or next((ws / f for f in ("mix.wav", "narration.wav") if (ws / f).exists()), None)
         tmp = a.output.with_suffix(".chunks.mp4")
-        rep = run(ws, p, tmp, None, a.jobs, not a.keep_orphans)
-        off = a.start - p["chunks"][0]["start"]
-        cmd = ["ffmpeg", "-nostdin", "-v", "error", "-y", "-ss", f"{off:.3f}", "-t", f"{a.end - a.start:.3f}", "-i", str(tmp)]
+        rep = run(ws, p, tmp, None, a.jobs, not a.keep_orphans, not a.no_isolate_check)
+        # trim by frame number: a seconds offset written to 3 decimals (2/30 s → 0.067) can land one frame late
+        f0 = frame(a.start, p["fps"]) - p["chunks"][0]["start_frame"]
+        n = frame(a.end, p["fps"]) - frame(a.start, p["fps"])
+        cmd = ["ffmpeg", "-nostdin", "-v", "error", "-y", "-i", str(tmp)]
         if audio:
-            cmd += ["-ss", f"{a.start:.3f}", "-t", f"{a.end - a.start:.3f}", "-i", str(audio), "-map", "0:v", "-map", "1:a",
+            cmd += ["-ss", f"{frame(a.start, p['fps']) / p['fps']:.6f}", "-t", f"{n / p['fps']:.6f}", "-i", str(audio), "-map", "0:v", "-map", "1:a",
                     "-c:a", "aac", "-b:a", "160k"]
-        cmd += ["-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(a.output)]
+        cmd += ["-vf", f"trim=start_frame={f0}:end_frame={f0 + n},setpts=PTS-STARTPTS", "-frames:v", str(n),
+                "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(a.output)]
         subprocess.run(cmd, check=True)
         tmp.unlink(missing_ok=True)
         rep["output"] = str(a.output)
@@ -509,7 +693,7 @@ def main(argv=None):
               f"({todo / p['fps']:.1f}s of video) at {settings}")
         return
     audio = a.audio or (ws / "narration.wav" if (ws / "narration.wav").exists() and a.cmd == "render" else None)
-    print(json.dumps(run(ws, p, a.output, audio, a.jobs, not a.keep_orphans), indent=1))
+    print(json.dumps(run(ws, p, a.output, audio, a.jobs, not a.keep_orphans, not a.no_isolate_check), indent=1))
 
 
 if __name__ == "__main__":

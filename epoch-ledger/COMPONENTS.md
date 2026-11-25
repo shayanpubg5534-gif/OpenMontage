@@ -14,7 +14,7 @@ and are copied/promoted into `kit/` when a second episode needs them.
 | `assemble`, `Scene`, `RESOLUTIONS` | `kit/assemble.py` | build a cache-friendly HyperFrames `index.html`; per-clip zoom for 540p/1080p/1440p |
 | `caption_layer` | `kit/captions.py` | HyperFrames-native word-highlight captions (approved pilot look) |
 | `narrate.py` | `scripts/narrate.py` | per-line Kokoro TTS (content-addressed cache), Whisper words, caption pages, SRT, audio check |
-| `render.py` (`plan`, `scene`, `range`, `render`) | `scripts/render.py` | scene-cached chunk renders; `range --start --end` for preview clips. Cache keys follow asset references through CSS/JS/HTML; stale HyperFrames locks (dead pid) are removed and orphaned renders of the workspace stopped before rendering (`--keep-orphans` to only report); each chunk runs under a watchdog |
+| `render.py` (`plan`, `scene`, `range`, `render`) | `scripts/render.py` | scene-cached chunk renders; `range --start --end` for preview clips. Cache keys follow asset references through CSS/JS/HTML; stale HyperFrames locks (dead pid) are removed and orphaned renders of the workspace stopped before rendering (`--keep-orphans` to only report); each chunk runs under a watchdog; `--isolate` renders scene-aligned chunks from reduced documents in parallel HyperFrames slots (verified against the full document by `scripts/isolate_check.mjs`, full-document fallback), `--jobs N` now runs N chunks at once |
 | `L`, `W`, `WE` | episode `timeline.py` | line windows and Whisper word times — **every beat keys to `W(word, line)`** |
 | `sfx.py` | episode `sfx.py` | synthesised original sound design + mix (no music) |
 

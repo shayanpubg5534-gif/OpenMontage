@@ -23,6 +23,7 @@ import { writeFileSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
+import { SEEK, STATE } from './lib/frame_state.mjs';
 
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
@@ -38,17 +39,6 @@ const warn = m => { report.warnings.push(m); console.log('⚠', m); };
 const ok = m => console.log('✓', m);
 
 // ---------------------------------------------------------------- 1. determinism
-// State signature of everything that can paint: attributes, inline style and own text of rendered elements (inert
-// GSAP identity values normalised away). Same signature + different pixels = Chromium raster noise, not a timeline bug.
-const STATE = `(() => { const out = []; const N = v => (v || '').replace(/matrix\\(1,\\s*0,\\s*0,\\s*1,\\s*0,\\s*0\\)/g, '')
-    .replace(/(translate|rotate|scale): none;|transform: translate\\(0px, 0px\\);|transform-origin:[^;]*;/g, '').replace(/\\s+/g, ' ').trim();
-  const walk = (e, path) => { const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return;
-    const at = Array.from(e.attributes).filter(a => !['style', 'data-svg-origin', 'opacity'].includes(a.name)).map(a => [a.name, N(a.value)]).filter(a => a[1] !== '').map(a => a.join('=')).join(' ');
-    const txt = Array.from(e.childNodes).filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim();
-    out.push(path + '|' + at + '|' + N(e.style.cssText.replace(/opacity:[^;]*;?/g, '')) + '|o' + (+cs.opacity).toFixed(3) + '|' + txt);
-    Array.from(e.children).forEach((c, i) => walk(c, path + '.' + i)); };
-  walk(document.getElementById('root'), 'r'); return out.join('\\n'); })()`;
-
 async function determinism() {
   const { chromium } = createRequire(import.meta.url)('playwright');
   const exe = opt('browser');
@@ -80,12 +70,7 @@ async function determinism() {
   times = [...new Set(times.map(snap).filter(t => t >= start && t <= end))].sort((a, b) => a - b);
 
   const draw = async t => {
-    await page.evaluate(t => {
-      document.querySelectorAll('[data-start][data-duration]').forEach(c => {     // emulate HyperFrames clip windows
-        if (c.id === 'root' || c.tagName === 'AUDIO') return; const s = +c.dataset.start, d = +c.dataset.duration;
-        c.style.visibility = t >= s && t < s + d ? 'visible' : 'hidden'; });
-      window.__timelines.main.seek(t, false);
-    }, t);
+    await page.evaluate(`(${SEEK})(${t})`);
     await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
     const png = await page.screenshot({ type: 'png' });
     return { h: createHash('sha1').update(png).digest('hex'), png, state: await page.evaluate(STATE) };

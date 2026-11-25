@@ -39,7 +39,49 @@ the same as with the full document, and the QC pass is about 25% faster per fram
    better.
 4. Giving one render 4 workers instead of 2 helped only 9%: per-frame capture does not scale with workers.
 
-## Recommendation (not yet adopted)
+## Phase 1 — adopted as `render.py --isolate` (validation, 2026-11-25)
+
+Method:
+- The same machine and the same HyperFrames 0.9.88 for every run.
+- The baseline is the previous behaviour: full document, one chunk at a time.
+- `--isolate` uses scene-aligned chunks, reduced documents, two HyperFrames slots × 2 workers, and the equivalence
+  check before rendering.
+- The documentary windows ran on a hard-linked copy of the workspace. `mix.wav` was added there, because the real
+  workspace references a `mix.wav` that does not exist and the full-document path refuses to render without it.
+
+| Sequence (content) | Full document | `--isolate` | Speed-up |
+|---|---|---|---|
+| BigCart 14 s (characters, V3 charts, scene3d plates, a caption across a cut, narration), `render` | 146.3 s (0.35 s/frame) | 91.7 s (0.22 s/frame) | 1.6× |
+| Documentary 36.6–52.4 s (Three.js campus and chip worlds, a crossfade, a character), `range` | 787.7 s (1.38 s/frame) | 181.1 s (0.38 s/frame) | 4.3× (3.6× per frame) |
+| Documentary 763–789.6 s (railway: characters, charts, five crossfades, captions across chunk boundaries), `range` | 1991.3 s (2.19 s/frame) | 144.0 s (0.18 s/frame) | 13.8× (12× per frame) |
+
+The full document costs more per frame the longer the film is, because every frame of the 18-minute document is
+seeked in an 18-minute DOM. A reduced document holds only its scene, so its per-frame cost stays flat.
+
+Fidelity (PSNR against the full-document render, every frame):
+
+| Sequence | Average | Minimum |
+|---|---|---|
+| BigCart | 50.0 dB | 44.7 dB |
+| 3D window | 48.8 dB | 45.2 dB |
+| Railway | 47.5 dB | 43.1 dB |
+
+- Narration audio is bit-identical (decoded-PCM md5) in all three.
+- `qc.mjs --video`: no black stretches, single-frame flashes or frozen stretches at any chunk boundary; −16.1 to
+  −16.2 LUFS.
+- No chunk fell back to the full document.
+
+Bugs found and fixed along the way:
+- `render.py range` trimmed with a 3-decimal `-ss`, so a window whose start fell at 2/30 s into a chunk came out
+  one frame early, in both modes. It now trims by frame number.
+- A master timeline shorter than its composition clamped every seek past its last tween. `kit.assemble` now
+  extends it.
+
+Known limitation: the equivalence check compares DOM state, plus 2D canvas pixels where readable. It cannot read
+WebGL canvases, so 3D-world parity rests on the per-scene regions being self-contained. That held here, as the
+PSNR figures confirm.
+
+## Original recommendation (now implemented)
 Add an opt-in `render.py --isolate`:
 - reduced per-chunk documents;
 - `--jobs` run truly in parallel, with the render lock off only for its own children, and the Stage 2 orphan and
