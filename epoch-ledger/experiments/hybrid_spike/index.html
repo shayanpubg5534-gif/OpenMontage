@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"./pkg/package/build/three.module.js","three/addons/":"./pkg/package/examples/jsm/"}}</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js';
+const W = 1920, H = 1080;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+const effect = new OutlineEffect(renderer, { defaultThickness: 0.004, defaultColor: [0.1, 0.08, 0.06] });
+const scene = new THREE.Scene(); scene.background = new THREE.Color('#f0e2c6');
+// toon ramp: three flat bands = illustrated cel shading
+const ramp = new THREE.DataTexture(new Uint8Array([90, 90, 90, 255, 170, 170, 170, 255, 255, 255, 255, 255]), 3, 1); ramp.minFilter = ramp.magFilter = THREE.NearestFilter; ramp.needsUpdate = true;
+const toon = (c) => new THREE.MeshToonMaterial({ color: c, gradientMap: ramp });
+scene.add(new THREE.HemisphereLight('#fff4e0', '#8a6a50', 1.4));
+const sun = new THREE.DirectionalLight('#ffe0b0', 2.2); sun.position.set(3, 6, 4); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -5, right: 5, top: 5, bottom: -5 }); scene.add(sun);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(14, 10), toon('#c98a5a')); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+const wall = new THREE.Mesh(new THREE.PlaneGeometry(14, 4), toon('#f0e2c6')); wall.position.set(0, 2, -3.5); scene.add(wall);
+const panel = new THREE.Mesh(new THREE.PlaneGeometry(14, .9), toon('#2f6f73')); panel.position.set(0, .45, -3.49); scene.add(panel);
+// a table the character stands behind (real depth occlusion of the legs)
+const table = new THREE.Group();
+const top = new THREE.Mesh(new THREE.BoxGeometry(2.2, .08, .9), toon('#7a4a2a')); top.position.y = .78; top.castShadow = top.receiveShadow = true; table.add(top);
+const front = new THREE.Mesh(new THREE.BoxGeometry(2.2, .7, .05), toon('#5a3a24')); front.position.set(0, .4, .42); front.castShadow = true; table.add(front);
+table.position.set(1.6, 0, -1.2); scene.add(table);
+const toonify = (root) => root.traverse(o => { if (o.isMesh) { const m = o.material; o.material = new THREE.MeshToonMaterial({ color: m.color, map: m.map, gradientMap: ramp, skinning: true }); o.castShadow = true; } });
+const loader = new GLTFLoader();
+const [robot, man] = await Promise.all(['models/RobotExpressive.glb', 'models/CesiumMan.glb'].map(u => loader.loadAsync(u)));
+toonify(robot.scene); toonify(man.scene);
+robot.scene.scale.setScalar(.42); robot.scene.position.set(-1.2, 0, -.6); robot.scene.rotation.y = .6; scene.add(robot.scene);
+man.scene.position.set(1.6, 0, -1.75); man.scene.rotation.y = 0; scene.add(man.scene);
+const mixR = new THREE.AnimationMixer(robot.scene), mixM = new THREE.AnimationMixer(man.scene);
+const clip = n => robot.animations.find(a => a.name === n);
+const walk = mixR.clipAction(clip('Walking')); walk.play();
+mixM.clipAction(man.animations[0]).play();
+// a prop held by the hand bone: it inherits the hand's transform, so it cannot float or detach
+let hand = null; robot.scene.traverse(o => { if (o.isBone && /hand.?r$|handr|hand_r|palm.?r/i.test(o.name)) hand = hand || o; });
+const folder = new THREE.Mesh(new THREE.BoxGeometry(.5, .7, .06), toon('#2d6fb3')); folder.castShadow = true;
+if (hand) { robot.scene.updateMatrixWorld(true); const ws = new THREE.Vector3(); hand.getWorldScale(ws);
+  folder.scale.setScalar(1 / ws.x); hand.add(folder); folder.position.set(0, .18 / ws.x, .06 / ws.x); }
+const cams = {
+  wide: () => { const c = new THREE.PerspectiveCamera(42, W / H, .1, 50); c.position.set(0, 1.6, 4.2); c.lookAt(0, 1.0, -1); return c; },
+  medium: () => { const c = new THREE.PerspectiveCamera(32, W / H, .1, 50); c.position.set(.9, 1.45, 1.4); c.lookAt(1.4, 1.1, -1.6); return c; },
+  hand: () => { robot.scene.updateMatrixWorld(true); const h = new THREE.Vector3(); hand.getWorldPosition(h);
+    const c = new THREE.PerspectiveCamera(30, W / H, .05, 50); c.position.set(h.x + .4, h.y + .5, h.z + 2.2); c.lookAt(h.x, h.y, h.z); return c; },
+  close: () => { const c = new THREE.PerspectiveCamera(26, W / H, .1, 50); c.position.set(-.5, 1.1, .9); c.lookAt(-1.2, .9, -.6); return c; },
+};
+window.bones = []; robot.scene.traverse(o => { if (o.isBone) window.bones.push(o.name); });
+window.hand = hand ? hand.name : null;
+window.renderAt = (t, cam) => { mixR.setTime(t); mixM.setTime(t); effect.render(scene, cams[cam]()); return true; };
+window.ready = true;
+</script></body></html>
