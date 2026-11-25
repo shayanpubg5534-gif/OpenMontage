@@ -290,7 +290,8 @@ const R4 = (() => {
         if (eo > .2) out += `<circle cx="${f2(e[0] + gz[0] * ew * .45 + ax.f[0] * ew * .25)}" cy="${f2(e[1] + gz[1] * eh * .35)}" r="${f2(R * .085 * Math.min(1, eo + .2))}" fill="${pal.iris}"/>`
           + `<circle cx="${f2(e[0] + gz[0] * ew * .45 + ax.f[0] * ew * .25)}" cy="${f2(e[1] + gz[1] * eh * .35)}" r="${f2(R * .04)}" fill="#0d0a08"/>`;
         // upper lid line + brow
-        out += `<path d="M${f2(e[0] - ew)} ${f2(e[1] - eh * .2)} Q${f2(e[0])} ${f2(e[1] - eh * 1.25)} ${f2(e[0] + ew)} ${f2(e[1] - eh * .2)}" fill="none" stroke="${INK}" stroke-width="2.6"/>`;
+        out += `<path d="M${f2(e[0] - ew)} ${f2(e[1] - eh * .2)} Q${f2(e[0])} ${f2(e[1] - eh * 1.25)} ${f2(e[0] + ew)} ${f2(e[1] - eh * .2)}" fill="none" stroke="${INK}" stroke-width="${pal.lashes ? 3.6 : 2.6}"/>`;
+        if (pal.lashes && eo > .3) out += `<path d="M${f2(e[0] + (u < 0 ? -ew : ew))} ${f2(e[1] - eh * .2)} l${u < 0 ? -7 : 7} -5" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`;
         const bi = u < 0 ? 0 : 1, raise = br[bi], bw = sp(u, -19 - raise * 6, 1.01), inner = u < 0 ? 1 : -1;
         out += `<path d="M${f2(bw[0] - ew * 1.1)} ${f2(bw[1] + raise * 2)} Q${f2(bw[0])} ${f2(bw[1] - 5 - raise * 4)} ${f2(bw[0] + ew * 1.1)} ${f2(bw[1] + raise * 2 + inner * (raise < 0 ? -raise * 6 : 0))}" fill="none" stroke="${pal.hair}" stroke-width="${f2(R * .07)}" stroke-linecap="round"/>`;
         if (pal.glasses) out += `<rect x="${f2(e[0] - ew * 1.35)}" y="${f2(e[1] - R * .19)}" width="${f2(ew * 2.7)}" height="${f2(R * .34)}" rx="${f2(R * .08)}" fill="rgba(200,220,235,.12)" stroke="#2a2a2e" stroke-width="2.4"/>`;
@@ -309,7 +310,7 @@ const R4 = (() => {
         const m = sp(0, 42, .99), mw = R * .22 * clamp(Math.abs(ax.f[2]) + .25, .35, 1);
         const curve = sm * R * .1, open = (mo + jw) * R * .16;
         out += open > 1 ? `<path d="M${f2(m[0] - mw)} ${f2(m[1] - curve * .5)} Q${f2(m[0])} ${f2(m[1] + curve)} ${f2(m[0] + mw)} ${f2(m[1] - curve * .5)} Q${f2(m[0])} ${f2(m[1] + curve + open)} ${f2(m[0] - mw)} ${f2(m[1] - curve * .5)}Z" fill="#5a2420" stroke="${INK}" stroke-width="2.2"/>`
-          : `<path d="M${f2(m[0] - mw)} ${f2(m[1] - curve * .5)} Q${f2(m[0])} ${f2(m[1] + curve)} ${f2(m[0] + mw)} ${f2(m[1] - curve * .5)}" fill="none" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>`;
+          : `<path d="M${f2(m[0] - mw)} ${f2(m[1] - curve * .5)} Q${f2(m[0])} ${f2(m[1] + curve)} ${f2(m[0] + mw)} ${f2(m[1] - curve * .5)}" fill="none" stroke="${pal.lips || INK}" stroke-width="${pal.lips ? 3.4 : 2.6}" stroke-linecap="round"/>`;
       }
       if (pal.beard) { const ch = sp(0, 62, .97); out += `<path d="M${f2(ch[0] - R * .4)} ${f2(ch[1] - R * .25)} Q${f2(ch[0])} ${f2(ch[1] + R * .28)} ${f2(ch[0] + R * .4)} ${f2(ch[1] - R * .25)}" fill="${pal.hair}" opacity=".75"/>`; }
     }
@@ -421,6 +422,26 @@ const R4 = (() => {
         [0, 1, 2].forEach(i => { const y = c0[1] + 60 + i * 70, x = lerp(c0[0], c2[0], (y - c0[1]) / (hp[1] - c0[1])); d += `<circle cx="${f2(x + 5)}" cy="${f2(y)}" r="3" fill="${INK}" opacity=".45"/>`; });
       }
     }
+    // apron: bib over the chest, skirt to mid-thigh, neck strap and waist tie (front); ties only from behind
+    if (pal.apron) {
+      const fxa = cx.f[0] * b.chestD * .75, ww = Math.max(.32, Math.abs(cx.f[2]));
+      const tb = [sh[0] + fxa, sh[1] + 52], bw = wS * .62 * ww, sw = wH * 1.08 * Math.max(.4, Math.abs(hx.f[2])), hem = hp[1] + b.thigh * .55;
+      if (toward > -.2) {
+        d += `<path d="${blob([[tb[0] - bw, tb[1]], [tb[0] + bw, tb[1]], [wa[0] + fxa + bw * 1.05, wa[1] + 8], [hp[0] + fxa + sw, hem - 10], [hp[0] + fxa + sw * .9, hem], [hp[0] + fxa - sw * .9, hem], [hp[0] + fxa - sw, hem - 10], [wa[0] + fxa - bw * 1.05, wa[1] + 8]])}" fill="${pal.apron}" stroke="${INK}" stroke-width="2.8" stroke-linejoin="round"/>`
+          + `<path d="M${f2(tb[0] - bw)} ${f2(tb[1])} L${f2(nk[0] - 6)} ${f2(nk[1] + 10)} M${f2(tb[0] + bw)} ${f2(tb[1])} L${f2(nk[0] + 6)} ${f2(nk[1] + 10)}" stroke="${pal.apron}" stroke-width="7" stroke-linecap="round"/>`
+          + `<rect x="${f2(tb[0] - bw * .45)}" y="${f2(wa[1] + 26)}" width="${f2(bw * .9)}" height="34" rx="4" fill="none" stroke="${lighten(pal.apron, .25)}" stroke-width="3"/>`
+          + `<path d="M${f2(wa[0] + fxa - bw * 1.05)} ${f2(wa[1] + 10)} L${f2(wa[0] + fxa + bw * 1.05)} ${f2(wa[1] + 10)}" stroke="${lighten(pal.apron, .3)}" stroke-width="4" opacity=".7"/>`;
+      } else {
+        d += `<path d="M${f2(wa[0] - wW)} ${f2(wa[1] + 8)} L${f2(wa[0] + wW)} ${f2(wa[1] + 8)}" stroke="${pal.apron}" stroke-width="8"/>`
+          + `<path d="M${f2(wa[0] - 6)} ${f2(wa[1] + 8)} q-16 14 -10 30 M${f2(wa[0] + 6)} ${f2(wa[1] + 8)} q16 14 10 30" stroke="${pal.apron}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+      }
+    }
+    if (pal.lanyard && toward > -.2) {
+      const fxl = cx.f[0] * b.chestD * .8, bx = sh[0] + fxl + 4, by = sh[1] + 150;
+      d += `<path d="M${f2(nk[0] - 14 + fxl * .5)} ${f2(nk[1] + 6)} L${f2(bx)} ${f2(by)} L${f2(nk[0] + 14 + fxl * .5)} ${f2(nk[1] + 6)}" fill="none" stroke="${pal.lanyard}" stroke-width="5"/>`
+        + `<rect x="${f2(bx - 22)}" y="${f2(by)}" width="44" height="58" rx="5" fill="#f6f6f2" stroke="${INK}" stroke-width="2.4"/><rect x="${f2(bx - 22)}" y="${f2(by)}" width="44" height="14" rx="4" fill="${pal.lanyard}"/>`
+        + `<rect x="${f2(bx - 14)}" y="${f2(by + 22)}" width="28" height="18" fill="#c9d4e0"/>`;
+    }
     // belt
     d += `<path d="M${f2(hp[0] - wH)} ${f2(hp[1] - 6)} Q${f2(hp[0])} ${f2(hp[1] + 2)} ${f2(hp[0] + wH)} ${f2(hp[1] - 6)}" fill="none" stroke="${pal.belt || '#2a1d14'}" stroke-width="9" opacity="${pal.jacket ? 0 : .9}"/>`;
     return d;
@@ -466,11 +487,14 @@ const R4 = (() => {
       const z = (zOf(sh) + zOf(el) * 2 + zOf(wr) * 2) / 5;
       const top = pal.jacket || pal.shirt, topS = pal.jacketShade || pal.shirtShade;
       const fill = grad(c, `${c.id}-ga${s}`, P2(sh), P2(wr), top, topS, lighten(top, .18));
-      const cuff = mix3(el, wr, .9);
+      const rolled = pal.sleeves === 'rolled', cuff = rolled ? mix3(el, wr, .3) : mix3(el, wr, .9);
+      if (rolled)       // bare forearm from the roll to the wrist (drawn first, under the rolled cuff)
+        var fore = `<path d="${tube([P2(mix3(el, wr, .25)), P2(wr)], [b.armR * .8, b.armR * .62])}" fill="${grad(c, `${c.id}-gf${s}`, P2(el), P2(wr), pal.skin, pal.skinShade, pal.skinLite)}" stroke="${INK}" stroke-width="2.6"/>`;
       // the sleeve starts inside the shoulder and its outline is open there, so the arm grows out of the torso
       const sh0 = add(add(sh, mul(J.chestAx.r, (s === 'R' ? -1 : 1) * b.armR * 1.0)), V(0, b.armR * .55, 0));
       const ap = [P2(sh0), P2(el), P2(cuff)], ar = [b.armR * 1.22, b.armR * .95, b.armR * .82];
-      let svg = `<path d="${tube(ap, ar)}" fill="${fill}"/><path d="${tube(ap, ar, 'stroke')}" fill="none" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+      let svg = (rolled ? fore : '') + `<path d="${tube(ap, ar)}" fill="${fill}"/><path d="${tube(ap, ar, 'stroke')}" fill="none" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
+      if (rolled) svg += `<path d="${tube([P2(mix3(el, wr, .2)), P2(mix3(el, wr, .36))], [b.armR * 1.02, b.armR * .98])}" fill="${lighten(top, .1)}" stroke="${INK}" stroke-width="2.4"/>`;
       if (pal.jacket) svg += `<path d="${tube([P2(mix3(el, wr, .84)), P2(mix3(el, wr, .97))], [b.armR * .72, b.armR * .7])}" fill="${pal.shirt}" stroke="${INK}" stroke-width="2"/>`;
       svg += hand(c, J, s, pal);
       // a held prop follows the hand
@@ -618,7 +642,7 @@ const R4 = (() => {
     ['L', 'R'].forEach(s => { const sg = s === 'R' ? 1 : -1, f = c.ch['foot' + s].at(t);
       const kneeFwd = b0.thigh * .92;
       key(id, 'foot' + s, t + d * .1, [seat[0] + ax.f[0] * kneeFwd + ax.r[0] * 30 * sg, f[1], (seat[2] ?? r0[2]) + ax.f[2] * kneeFwd + ax.r[2] * 30 * sg], d * .5, 'inOut'); });
-    ['L', 'R'].forEach(s => arm(id, s, t + d * .4, [(s === 'R' ? 1 : -1) * 6, b0.uarm * .8, b0.farm * .9], d * .6));
+    ['L', 'R'].forEach(s => arm(id, s, t + d * .4, [(s === 'R' ? 1 : -1) * 10, b0.uarm * 1.22, b0.farm * .78], d * .6));   // hands rest on the thighs
   }
   function stand(id, t, to, d = 1.0) {
     const c = chars[id], b0 = c.b, r0 = c.ch.root.at(t), g = c.ground;

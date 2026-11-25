@@ -1,0 +1,17 @@
+[
+ {
+  "id": "order",
+  "script": "Maya's",
+  "heard": "Meyer's"
+ },
+ {
+  "id": "profit",
+  "script": "forty thousand dollars. Flour",
+  "heard": "$40,000. Flower"
+ },
+ {
+  "id": "timing",
+  "script": "flour",
+  "heard": "flower"
+ }
+]

@@ -1,0 +1,59 @@
+{
+ "total": 41.15,
+ "segments": [
+  {
+   "id": "order",
+   "text": "Maya's bakery just won its biggest order ever: a supermarket wants twelve thousand loaves a month.",
+   "spoken": "Maya's bakery just won its biggest order ever: a supermarket wants twelve thousand loaves a month.",
+   "key": "3b3a74ef5b63",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_3b3a74ef5b63.wav",
+   "start": 0.1,
+   "end": 6.869
+  },
+  {
+   "id": "profit",
+   "text": "The supermarket will pay her forty thousand dollars. Flour and wages cost thirty thousand. That leaves ten thousand in profit.",
+   "spoken": "The supermarket will pay her forty thousand dollars. Flour and wages cost thirty thousand. That leaves ten thousand in profit.",
+   "key": "59f14942b77a",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_59f14942b77a.wav",
+   "start": 7.169,
+   "end": 15.719
+  },
+  {
+   "id": "timing",
+   "text": "But the flour and the wages are due now. The supermarket pays in sixty days.",
+   "spoken": "But the flour and the wages are due now. The supermarket pays in sixty days.",
+   "key": "56df7aa5214e",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_56df7aa5214e.wav",
+   "start": 16.019,
+   "end": 21.504
+  },
+  {
+   "id": "gap",
+   "text": "Maya has only twelve thousand in the bank. The moment she pays her bills, she is eighteen thousand short.",
+   "spoken": "Maya has only twelve thousand in the bank. The moment she pays her bills, she is eighteen thousand short.",
+   "key": "871e6cd6d88b",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_871e6cd6d88b.wav",
+   "start": 21.804,
+   "end": 28.32
+  },
+  {
+   "id": "loan",
+   "text": "So her bank lends her the difference, and the loan is repaid the day the supermarket pays.",
+   "spoken": "So her bank lends her the difference, and the loan is repaid the day the supermarket pays.",
+   "key": "172434279fe1",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_172434279fe1.wav",
+   "start": 28.62,
+   "end": 34.355
+  },
+  {
+   "id": "lesson",
+   "text": "Profitable businesses rarely fail from losses. They fail when the cash runs out first.",
+   "spoken": "Profitable businesses rarely fail from losses. They fail when the cash runs out first.",
+   "key": "88e4251c3b27",
+   "file": "/home/user/OpenMontage/projects/profitable-and-broke/assets/audio/vt_88e4251c3b27.wav",
+   "start": 34.655,
+   "end": 40.451
+  }
+ ]
+}

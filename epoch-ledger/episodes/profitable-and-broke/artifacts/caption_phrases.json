@@ -1,0 +1,629 @@
+[
+ {
+  "start": 0.1,
+  "end": 2.56,
+  "text": "Maya's bakery just won its biggest",
+  "words": [
+   {
+    "word": "Maya's",
+    "start": 0.1,
+    "end": 0.56
+   },
+   {
+    "word": "bakery",
+    "start": 0.56,
+    "end": 1.02
+   },
+   {
+    "word": "just",
+    "start": 1.02,
+    "end": 1.54
+   },
+   {
+    "word": "won",
+    "start": 1.54,
+    "end": 1.88
+   },
+   {
+    "word": "its",
+    "start": 1.88,
+    "end": 2.22
+   },
+   {
+    "word": "biggest",
+    "start": 2.22,
+    "end": 2.56
+   }
+  ]
+ },
+ {
+  "start": 2.56,
+  "end": 3.46,
+  "text": "order ever:",
+  "words": [
+   {
+    "word": "order",
+    "start": 2.56,
+    "end": 2.94
+   },
+   {
+    "word": "ever:",
+    "start": 2.94,
+    "end": 3.46
+   }
+  ]
+ },
+ {
+  "start": 3.9,
+  "end": 6.64,
+  "text": "a supermarket wants 12,000 loaves a month.",
+  "words": [
+   {
+    "word": "a",
+    "start": 3.9,
+    "end": 3.98
+   },
+   {
+    "word": "supermarket",
+    "start": 3.98,
+    "end": 4.44
+   },
+   {
+    "word": "wants",
+    "start": 4.44,
+    "end": 4.9
+   },
+   {
+    "word": "12,000",
+    "start": 4.9,
+    "end": 5.78
+   },
+   {
+    "word": "loaves",
+    "start": 5.78,
+    "end": 6.2
+   },
+   {
+    "word": "a",
+    "start": 6.2,
+    "end": 6.42
+   },
+   {
+    "word": "month.",
+    "start": 6.42,
+    "end": 6.64
+   }
+  ]
+ },
+ {
+  "start": 7.169,
+  "end": 8.997,
+  "text": "The supermarket will pay her forty",
+  "words": [
+   {
+    "word": "The",
+    "start": 7.169,
+    "end": 7.249
+   },
+   {
+    "word": "supermarket",
+    "start": 7.249,
+    "end": 7.729
+   },
+   {
+    "word": "will",
+    "start": 7.729,
+    "end": 8.149
+   },
+   {
+    "word": "pay",
+    "start": 8.149,
+    "end": 8.369
+   },
+   {
+    "word": "her",
+    "start": 8.369,
+    "end": 8.589
+   },
+   {
+    "word": "forty",
+    "start": 8.589,
+    "end": 8.997
+   }
+  ]
+ },
+ {
+  "start": 8.997,
+  "end": 10.301,
+  "text": "thousand dollars.",
+  "words": [
+   {
+    "word": "thousand",
+    "start": 8.997,
+    "end": 9.649
+   },
+   {
+    "word": "dollars.",
+    "start": 9.649,
+    "end": 10.301
+   }
+  ]
+ },
+ {
+  "start": 10.301,
+  "end": 13.209,
+  "text": "Flour and wages cost 30,000.",
+  "words": [
+   {
+    "word": "Flour",
+    "start": 10.301,
+    "end": 10.709
+   },
+   {
+    "word": "and",
+    "start": 10.709,
+    "end": 11.029
+   },
+   {
+    "word": "wages",
+    "start": 11.029,
+    "end": 11.429
+   },
+   {
+    "word": "cost",
+    "start": 11.429,
+    "end": 11.869
+   },
+   {
+    "word": "30,000.",
+    "start": 11.869,
+    "end": 13.209
+   }
+  ]
+ },
+ {
+  "start": 13.629,
+  "end": 15.409,
+  "text": "That leaves 10,000 in profit.",
+  "words": [
+   {
+    "word": "That",
+    "start": 13.629,
+    "end": 13.709
+   },
+   {
+    "word": "leaves",
+    "start": 13.709,
+    "end": 14.009
+   },
+   {
+    "word": "10,000",
+    "start": 14.009,
+    "end": 14.949
+   },
+   {
+    "word": "in",
+    "start": 14.949,
+    "end": 15.169
+   },
+   {
+    "word": "profit.",
+    "start": 15.169,
+    "end": 15.409
+   }
+  ]
+ },
+ {
+  "start": 16.019,
+  "end": 17.579,
+  "text": "But the flour and the wages",
+  "words": [
+   {
+    "word": "But",
+    "start": 16.019,
+    "end": 16.099
+   },
+   {
+    "word": "the",
+    "start": 16.099,
+    "end": 16.219
+   },
+   {
+    "word": "flour",
+    "start": 16.219,
+    "end": 16.659
+   },
+   {
+    "word": "and",
+    "start": 16.659,
+    "end": 17.019
+   },
+   {
+    "word": "the",
+    "start": 17.019,
+    "end": 17.139
+   },
+   {
+    "word": "wages",
+    "start": 17.139,
+    "end": 17.579
+   }
+  ]
+ },
+ {
+  "start": 17.579,
+  "end": 18.619,
+  "text": "are due now.",
+  "words": [
+   {
+    "word": "are",
+    "start": 17.579,
+    "end": 18.019
+   },
+   {
+    "word": "due",
+    "start": 18.019,
+    "end": 18.239
+   },
+   {
+    "word": "now.",
+    "start": 18.239,
+    "end": 18.619
+   }
+  ]
+ },
+ {
+  "start": 19.119,
+  "end": 21.239,
+  "text": "The supermarket pays in 60 days.",
+  "words": [
+   {
+    "word": "The",
+    "start": 19.119,
+    "end": 19.199
+   },
+   {
+    "word": "supermarket",
+    "start": 19.199,
+    "end": 19.639
+   },
+   {
+    "word": "pays",
+    "start": 19.639,
+    "end": 20.159
+   },
+   {
+    "word": "in",
+    "start": 20.159,
+    "end": 20.459
+   },
+   {
+    "word": "60",
+    "start": 20.459,
+    "end": 20.839
+   },
+   {
+    "word": "days.",
+    "start": 20.839,
+    "end": 21.239
+   }
+  ]
+ },
+ {
+  "start": 21.804,
+  "end": 23.784,
+  "text": "Maya has only 12,000 in the",
+  "words": [
+   {
+    "word": "Maya",
+    "start": 21.804,
+    "end": 22.024
+   },
+   {
+    "word": "has",
+    "start": 22.024,
+    "end": 22.304
+   },
+   {
+    "word": "only",
+    "start": 22.304,
+    "end": 22.584
+   },
+   {
+    "word": "12,000",
+    "start": 22.584,
+    "end": 23.484
+   },
+   {
+    "word": "in",
+    "start": 23.484,
+    "end": 23.664
+   },
+   {
+    "word": "the",
+    "start": 23.664,
+    "end": 23.784
+   }
+  ]
+ },
+ {
+  "start": 23.784,
+  "end": 24.064,
+  "text": "bank.",
+  "words": [
+   {
+    "word": "bank.",
+    "start": 23.784,
+    "end": 24.064
+   }
+  ]
+ },
+ {
+  "start": 24.604,
+  "end": 26.084,
+  "text": "The moment she pays her bills,",
+  "words": [
+   {
+    "word": "The",
+    "start": 24.604,
+    "end": 24.704
+   },
+   {
+    "word": "moment",
+    "start": 24.704,
+    "end": 24.924
+   },
+   {
+    "word": "she",
+    "start": 24.924,
+    "end": 25.184
+   },
+   {
+    "word": "pays",
+    "start": 25.184,
+    "end": 25.424
+   },
+   {
+    "word": "her",
+    "start": 25.424,
+    "end": 25.664
+   },
+   {
+    "word": "bills,",
+    "start": 25.664,
+    "end": 26.084
+   }
+  ]
+ },
+ {
+  "start": 26.604,
+  "end": 28.144,
+  "text": "she is 18,000 short.",
+  "words": [
+   {
+    "word": "she",
+    "start": 26.604,
+    "end": 26.624
+   },
+   {
+    "word": "is",
+    "start": 26.624,
+    "end": 26.764
+   },
+   {
+    "word": "18,000",
+    "start": 26.764,
+    "end": 27.744
+   },
+   {
+    "word": "short.",
+    "start": 27.744,
+    "end": 28.144
+   }
+  ]
+ },
+ {
+  "start": 28.62,
+  "end": 29.88,
+  "text": "So her bank lends her the",
+  "words": [
+   {
+    "word": "So",
+    "start": 28.62,
+    "end": 28.78
+   },
+   {
+    "word": "her",
+    "start": 28.78,
+    "end": 28.94
+   },
+   {
+    "word": "bank",
+    "start": 28.94,
+    "end": 29.2
+   },
+   {
+    "word": "lends",
+    "start": 29.2,
+    "end": 29.46
+   },
+   {
+    "word": "her",
+    "start": 29.46,
+    "end": 29.72
+   },
+   {
+    "word": "the",
+    "start": 29.72,
+    "end": 29.88
+   }
+  ]
+ },
+ {
+  "start": 29.88,
+  "end": 30.32,
+  "text": "difference,",
+  "words": [
+   {
+    "word": "difference,",
+    "start": 29.88,
+    "end": 30.32
+   }
+  ]
+ },
+ {
+  "start": 30.72,
+  "end": 32.4,
+  "text": "and the loan is repaid the",
+  "words": [
+   {
+    "word": "and",
+    "start": 30.72,
+    "end": 31.0
+   },
+   {
+    "word": "the",
+    "start": 31.0,
+    "end": 31.14
+   },
+   {
+    "word": "loan",
+    "start": 31.14,
+    "end": 31.48
+   },
+   {
+    "word": "is",
+    "start": 31.48,
+    "end": 31.78
+   },
+   {
+    "word": "repaid",
+    "start": 31.78,
+    "end": 32.12
+   },
+   {
+    "word": "the",
+    "start": 32.12,
+    "end": 32.4
+   }
+  ]
+ },
+ {
+  "start": 32.4,
+  "end": 34.06,
+  "text": "day the supermarket pays.",
+  "words": [
+   {
+    "word": "day",
+    "start": 32.4,
+    "end": 32.68
+   },
+   {
+    "word": "the",
+    "start": 32.68,
+    "end": 33.08
+   },
+   {
+    "word": "supermarket",
+    "start": 33.08,
+    "end": 33.54
+   },
+   {
+    "word": "pays.",
+    "start": 33.54,
+    "end": 34.06
+   }
+  ]
+ },
+ {
+  "start": 34.655,
+  "end": 37.295,
+  "text": "Profitable businesses rarely fail from losses.",
+  "words": [
+   {
+    "word": "Profitable",
+    "start": 34.655,
+    "end": 35.155
+   },
+   {
+    "word": "businesses",
+    "start": 35.155,
+    "end": 35.555
+   },
+   {
+    "word": "rarely",
+    "start": 35.555,
+    "end": 36.275
+   },
+   {
+    "word": "fail",
+    "start": 36.275,
+    "end": 36.655
+   },
+   {
+    "word": "from",
+    "start": 36.655,
+    "end": 36.915
+   },
+   {
+    "word": "losses.",
+    "start": 36.915,
+    "end": 37.295
+   }
+  ]
+ },
+ {
+  "start": 37.915,
+  "end": 39.535,
+  "text": "They fail when the cash runs",
+  "words": [
+   {
+    "word": "They",
+    "start": 37.915,
+    "end": 38.015
+   },
+   {
+    "word": "fail",
+    "start": 38.015,
+    "end": 38.375
+   },
+   {
+    "word": "when",
+    "start": 38.375,
+    "end": 38.775
+   },
+   {
+    "word": "the",
+    "start": 38.775,
+    "end": 38.895
+   },
+   {
+    "word": "cash",
+    "start": 38.895,
+    "end": 39.175
+   },
+   {
+    "word": "runs",
+    "start": 39.175,
+    "end": 39.535
+   }
+  ]
+ },
+ {
+  "start": 39.535,
+  "end": 40.175,
+  "text": "out first.",
+  "words": [
+   {
+    "word": "out",
+    "start": 39.535,
+    "end": 39.815
+   },
+   {
+    "word": "first.",
+    "start": 39.815,
+    "end": 40.175
+   }
+  ]
+ }
+]

@@ -1,0 +1,11 @@
+{
+ "title": "Profitable and Broke",
+ "lines": [
+  {"id": "order", "text": "Maya's bakery just won its biggest order ever: a supermarket wants twelve thousand loaves a month."},
+  {"id": "profit", "text": "The supermarket will pay her forty thousand dollars. Flour and wages cost thirty thousand. That leaves ten thousand in profit."},
+  {"id": "timing", "text": "But the flour and the wages are due now. The supermarket pays in sixty days."},
+  {"id": "gap", "text": "Maya has only twelve thousand in the bank. The moment she pays her bills, she is eighteen thousand short."},
+  {"id": "loan", "text": "So her bank lends her the difference, and the loan is repaid the day the supermarket pays."},
+  {"id": "lesson", "text": "Profitable businesses rarely fail from losses. They fail when the cash runs out first."}
+ ]
+}
