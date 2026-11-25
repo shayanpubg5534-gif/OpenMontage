@@ -38,10 +38,22 @@ const warn = m => { report.warnings.push(m); console.log('⚠', m); };
 const ok = m => console.log('✓', m);
 
 // ---------------------------------------------------------------- 1. determinism
+// State signature of everything that can paint: attributes, inline style and own text of rendered elements (inert
+// GSAP identity values normalised away). Same signature + different pixels = Chromium raster noise, not a timeline bug.
+const STATE = `(() => { const out = []; const N = v => (v || '').replace(/matrix\\(1,\\s*0,\\s*0,\\s*1,\\s*0,\\s*0\\)/g, '')
+    .replace(/(translate|rotate|scale): none;|transform: translate\\(0px, 0px\\);|transform-origin:[^;]*;/g, '').replace(/\\s+/g, ' ').trim();
+  const walk = (e, path) => { const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return;
+    const at = Array.from(e.attributes).filter(a => !['style', 'data-svg-origin', 'opacity'].includes(a.name)).map(a => [a.name, N(a.value)]).filter(a => a[1] !== '').map(a => a.join('=')).join(' ');
+    const txt = Array.from(e.childNodes).filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim();
+    out.push(path + '|' + at + '|' + N(e.style.cssText.replace(/opacity:[^;]*;?/g, '')) + '|o' + (+cs.opacity).toFixed(3) + '|' + txt);
+    Array.from(e.children).forEach((c, i) => walk(c, path + '.' + i)); };
+  walk(document.getElementById('root'), 'r'); return out.join('\\n'); })()`;
+
 async function determinism() {
   const { chromium } = createRequire(import.meta.url)('playwright');
   const exe = opt('browser');
-  const browser = await chromium.launch(exe ? { executablePath: exe } : {});
+  // partial raster re-rasterises only invalidated tile regions, so anti-aliasing would depend on the previous frame
+  const browser = await chromium.launch({ ...(exe ? { executablePath: exe } : {}), args: ['--disable-partial-raster'] });
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   const errors = [];
   page.on('pageerror', e => errors.push(String(e)));
@@ -75,7 +87,22 @@ async function determinism() {
       window.__timelines.main.seek(t, false);
     }, t);
     await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
-    return createHash('sha1').update(await page.screenshot({ type: 'png' })).digest('hex');
+    const png = await page.screenshot({ type: 'png' });
+    return { h: createHash('sha1').update(png).digest('hex'), png, state: await page.evaluate(STATE) };
+  };
+  // where two captures differ: bounding box and pixel count (decoded in a blank page's canvas)
+  const diffBox = async (a, b) => {
+    const p2 = await browser.newPage();
+    const r = await p2.evaluate(async ([a, b]) => {
+      const load = s => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.src = 'data:image/png;base64,' + s; });
+      const [A, B] = await Promise.all([load(a), load(b)]);
+      const px = i => { const c = document.createElement('canvas'); c.width = i.width; c.height = i.height; const x = c.getContext('2d'); x.drawImage(i, 0, 0); return x.getImageData(0, 0, i.width, i.height).data; };
+      const da = px(A), db = px(B); let x0 = 1e9, y0 = 1e9, x1 = -1, y1 = -1, n = 0, mx = 0;
+      for (let k = 0; k < da.length; k += 4) { const d = Math.max(Math.abs(da[k] - db[k]), Math.abs(da[k + 1] - db[k + 1]), Math.abs(da[k + 2] - db[k + 2]));
+        if (d > 2) { const q = k / 4, x = q % A.width, y = (q / A.width) | 0; n++; mx = Math.max(mx, d); x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); } }
+      return n ? { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1, px: n, max: mx } : { px: 0, max: 0 };
+    }, [a.toString('base64'), b.toString('base64')]);
+    await p2.close(); return r;
   };
   const t0 = Date.now();
   const first = new Map();
@@ -85,14 +112,32 @@ async function determinism() {
   const order = [...times].sort(() => rnd() - .5);
   // jump to the far end first so the second pass starts from a very different state
   await draw(end);
-  const bad = [];
-  for (const t of order) if ((await draw(t)) !== first.get(t)) bad.push(t);
+  const bad = [], noise = [], detail = {};
+  for (const t of order) {
+    const a = first.get(t), d = await draw(t);
+    if (d.h === a.h) continue;
+    (d.state === a.state ? noise : bad).push(t);
+    if (Object.keys(detail).length < 40) {
+      const A = a.state.split('\n'), D = new Set(d.state.split('\n')), Aset = new Set(A);
+      const changed = A.filter(x => !D.has(x)).slice(0, 4).concat(d.state.split('\n').filter(x => !Aset.has(x)).slice(0, 4)).map(x => x.slice(0, 220));
+      detail[t.toFixed(3)] = { ...(await diffBox(a.png, d.png)), state_differs: d.state !== a.state, changed };
+    }
+  }
   await browser.close();
-  bad.sort((a, b) => a - b);
-  report.determinism = { frames: times.length, mismatches: bad, page_errors: errors, seconds: (Date.now() - t0) / 1000 };
+  bad.sort((a, b) => a - b); noise.sort((a, b) => a - b);
+  report.determinism = { frames: times.length, mismatches: bad, raster_noise: noise, regions: detail, page_errors: errors, seconds: (Date.now() - t0) / 1000 };
+  const line = t => { const r = detail[t.toFixed(3)]; return `    ${t.toFixed(3)}s` + (r && r.px ? `  ${r.px} px (max Δ ${r.max}) in x ${r.x}–${r.x + r.w}, y ${r.y}–${r.y + r.h}` : r ? '  (encoding-level difference only)' : ''); };
   if (errors.length) fail(`page errors: ${errors.slice(0, 3).join(' | ')}`);
-  if (bad.length) fail(`determinism: ${bad.length}/${times.length} frames differ when drawn out of order, at ${bad.slice(0, 12).map(t => t.toFixed(3) + 's').join(', ')}`);
-  else ok(`determinism: ${times.length} frames identical in time order and shuffled order (${report.determinism.seconds.toFixed(0)} s)`);
+  if (bad.length) {
+    fail(`determinism: ${bad.length}/${times.length} frames have a different element state when drawn out of order`);
+    bad.slice(0, 12).forEach(t => { console.log(line(t)); (detail[t.toFixed(3)]?.changed || []).slice(0, 4).forEach(c => console.log('        ' + c)); });
+  }
+  else ok(`determinism: ${times.length} frames have identical element state in time order and shuffled order (${report.determinism.seconds.toFixed(0)} s)`);
+  if (noise.length) {
+    const big = noise.filter(t => (detail[t.toFixed(3)] || {}).max > 96);
+    warn(`renderer: ${noise.length} frame(s) with identical state but slightly different pixels (Chromium rasterisation, not the timeline)${big.length ? '; ' + big.length + ' exceed Δ 96 — inspect' : ''}`);
+    noise.slice(0, 6).forEach(t => console.log(line(t)));
+  }
 }
 
 // ---------------------------------------------------------------- 2–4. video

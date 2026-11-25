@@ -127,7 +127,10 @@ const tl = gsap.timeline({{paused:true}});
 {helpers}
 {script}
 window.__timelines["main"] = tl;
-tl.seek(0);
+if (typeof __elResolveOverlaps === 'function') __elResolveOverlaps(tl);   // kit/helpers.js
+// prime start states: a paused timeline seeked from 0 to 0 renders nothing, so tweens that begin at t=0 with
+// immediateRender:false would show their *unanimated* state on frame 0 (a one-frame flash). Step past 0 and back.
+tl.seek(0.001); tl.seek(0);
 </script>
 </body></html>
 """

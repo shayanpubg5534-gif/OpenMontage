@@ -164,3 +164,49 @@ def test_qc_determinism_catches_order_dependent_frames(tmp_path):
                                    capture_output=True, text=True, timeout=300)
     assert res["clean"].returncode == 0, res["clean"].stdout[-1500:]
     assert res["leaky"].returncode == 1 and "determinism" in res["leaky"].stdout, res["leaky"].stdout[-1500:]
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="node not available")
+def test_kit_determinism_fixes(tmp_path):
+    """Kit-level fixes (STANDARD §2.6): transform origins, overlapping tweens, breathing on a rig joint, frame-0 state."""
+    from kit.assemble import Scene, assemble
+    vendor = _vendor_dir()
+    if vendor is None:
+        pytest.skip("no workspace with vendor/gsap.min.js")
+    (tmp_path / "vendor").mkdir()
+    shutil.copy(vendor / "gsap.min.js", tmp_path / "vendor")
+    shutil.copy(EL / "kit" / "rig3.js", tmp_path / "vendor")
+    svg = ('<svg viewBox="0 0 1920 1080" style="position:absolute;inset:0;width:100%;height:100%">'
+           '<g id="m-upper" transform="rotate(0 960 600)"><rect x="900" y="400" width="120" height="200" fill="#f2c66d"/>'
+           '<g id="m-farm" transform="rotate(0 1020 450)"><rect x="1020" y="440" width="160" height="24" fill="#14213d"/></g></g>'
+           '<g id="stamp" transform="rotate(-8 400 300)"><rect x="300" y="250" width="200" height="100" fill="#b91c1c"/></g>'
+           '<rect id="cam0" x="1300" y="700" width="200" height="120" fill="#0e7490"/></svg>')
+    js = ("tl.fromTo('#cam0', {scale: 1.6, transformOrigin: '50% 50%'}, {scale: 1, duration: 1.5, immediateRender: false}, 0);"
+          "tl.fromTo('#stamp', {scale: 2.2, opacity: 0, rotation: -14, transformOrigin: '50% 50%'}, {scale: 1, opacity: 1, rotation: -8, duration: .2, immediateRender: false}, 1);"
+          "tl.to('#stamp', {x: 3, duration: .04, yoyo: true, repeat: 3}, 1.2);"
+          "R3.rot('m', 'upper', 0.5, 6, 1.0); R3.rot('m', 'upper', 1.0, -4, 1.0);"        # overlapping joint tweens
+          "R3.keys('m', 'farm', [[0.4, -30, .8], [0.9, 20, .6], [1.2, -10, .8]]);"
+          "R3.breathe('#m-upper', 0, 3, 3, 1.2);")                                         # breathing on a rotating joint
+    html = assemble(title="t", duration=3, audio="", vignette=False, head_scripts=["vendor/rig3.js"],
+                    scenes=[Scene("s1", 0, 3, svg, js=js)])
+    assert "__elResolveOverlaps(tl)" in html and "tl.seek(0.001); tl.seek(0);" in html
+    (tmp_path / "index.html").write_text(html)
+    qc = subprocess.run(["node", str(EL / "scripts" / "qc.mjs"), str(tmp_path / "index.html"), "--every", "0.1"],
+                        capture_output=True, text=True, timeout=300)
+    assert qc.returncode == 0 and "identical element state" in qc.stdout, qc.stdout[-2500:]
+    probe = tmp_path / "probe.cjs"
+    probe.write_text("""
+const { chromium } = require('playwright'); const { pathToFileURL } = require('url');
+(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
+  await p.goto(pathToFileURL(process.argv[2]).href, { waitUntil: 'load' });
+  for (let k = 0; k < 80 && !(await p.evaluate(() => !!(window.__timelines && window.__timelines.main))); k++) await p.waitForTimeout(250);
+  console.log(JSON.stringify(await p.evaluate(() => ({
+    scale0: +gsap.getProperty('#cam0', 'scale'),                                     // frame 0 shows the start state
+    carrier: document.getElementById('m-upper').parentNode.getAttribute('data-r3-carrier'),
+    jointAttr: document.getElementById('m-upper').getAttribute('transform'),
+  })))); await b.close(); })();
+""")
+    r = subprocess.run(["node", str(probe), str(tmp_path / "index.html")], check=True, capture_output=True, text=True, timeout=120)
+    s = json.loads(r.stdout.strip().splitlines()[-1])
+    assert abs(s["scale0"] - 1.6) < 1e-6, s
+    assert s["carrier"] == "m-upper" and s["jointAttr"].startswith("rotate("), s    # breath on the carrier, joint keeps rotate()

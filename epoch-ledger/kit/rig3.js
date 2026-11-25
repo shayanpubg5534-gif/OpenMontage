@@ -36,11 +36,24 @@ const R3 = {
     tl.to(el, { scaleY: 1, transformOrigin: o, duration: .1, ease: 'power1.out' }, t + .07);
     if (dbl) { tl.to(el, { scaleY: .08, transformOrigin: o, duration: .06 }, t + .26); tl.to(el, { scaleY: 1, transformOrigin: o, duration: .09 }, t + .32); }
   },
-  // breathing: slow chest rise on the upper body (and shoulders for close-ups); amplitude in px
-  breathe(sel, a, b, amp, period) {
-    const per = period || 3.6; for (let t = a; t < b - .1; t += per) tl.to(sel, { y: -(amp || 2), duration: per / 2, ease: 'sine.inOut', yoyo: true, repeat: 1 }, t);
+  // A joint's own transform attribute belongs to R3.rot; a CSS y/x/scale tween on the same element would fight it
+  // (GSAP rewrites the attribute it is interpolating, and the frame then depends on draw order). Offsets therefore go
+  // on a carrier <g> wrapped around the joint once, at build time. Non-joint elements are their own carrier.
+  carrier(el) {
+    if (typeof el === 'string') el = document.querySelector(el); if (!el) return null;
+    if (!R3._piv(el)) return el;
+    const par = el.parentNode; if (par && par.getAttribute && par.getAttribute('data-r3-carrier') === el.id) return par;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.setAttribute('data-r3-carrier', el.id || '');
+    par.insertBefore(g, el); g.appendChild(el); return g;
   },
-  // talking mouth (scaleY flaps at speech rhythm)
+  // breathing: slow chest rise on the upper body (and shoulders for close-ups); amplitude in px. Safe on joints.
+  breathe(sel, a, b, amp, period) {
+    const els = typeof sel === 'string' ? Array.from(document.querySelectorAll(sel)) : [].concat(sel);
+    const tg = els.map(R3.carrier).filter(Boolean); if (!tg.length) return;
+    const per = period || 3.6; for (let t = a; t < b - .1; t += per) tl.to(tg, { y: -(amp || 2), duration: per / 2, ease: 'sine.inOut', yoyo: true, repeat: 1 }, t);
+  },
+  // talking mouth (scaleY flaps at speech rhythm). Only for a character shown speaking in the story, never because
+  // the narrator is speaking (STANDARD.md §3).
   talk(p, a, b, seed) {
     const el = document.getElementById(p + '-mouth'); if (!el) return; const r = R3.seed(seed);
     for (let t = a; t < b - .12; t += .11 + r() * .12) tl.to(el, { scaleY: .35 + r() * .9, transformOrigin: '50% 50%', duration: .07, ease: 'none' }, t);
@@ -69,7 +82,7 @@ const R3 = {
     tl.fromTo(el, { attr: A }, { attr: B, duration: b - a, ease: 'none', immediateRender: false }, a);
     const per = period || .5, W1 = R3.P.walk, W2 = R3.P.walk_l; let k = 0;
     for (let t = a; t < b - .05; t += per, k++) { R3.pose(p, k % 2 ? W2 : W1, t, per, 'sine.inOut', ['thigh-front', 'shin-front', 'thigh-back', 'shin-back', 'uarm-back', 'upper']);
-      tl.to('#' + p + '-upper', { y: -5, duration: per / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, t); }
+      tl.to(R3.carrier('#' + p + '-upper'), { y: -5, duration: per / 2, ease: 'sine.out', yoyo: true, repeat: 1 }, t); }
     return A;     // the start box — tl.set(sprite, { attr: A }, shotStart) so the walker waits at its start mark
   },
 };
