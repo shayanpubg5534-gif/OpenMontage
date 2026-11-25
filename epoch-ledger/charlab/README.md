@@ -36,3 +36,9 @@ The licences allow them inside finished videos, but not redistribution of the as
 restriction, but generated characters still stay out of git, to keep the repository small.
 
 Results and the recommended versions: `epoch-ledger/P2_M21_M22_REPORT.md`.
+
+## Installed asset packs (licence ledger)
+
+| Pack | File / SHA-256 | Source | Licence | Installed to |
+|---|---|---|---|---|
+| MakeHuman system assets | `makehuman_system_assets_cc0.zip`, 280,737,770 bytes, `b542127a8e25547c7c29c19f2d1d2adb9a664c80396ecd694095dbc8028a0107` | Official MakeHuman asset-pack page (`static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html`). Downloaded by the user and transferred as an 11-volume RAR5 set; extracted with `unar`. | **CC0** for all 94 assets: hair 10, eyebrows 12, eyelashes 4, eyes 11, teeth 6, tongue 1, skins 23, clothes 20, proxy meshes 7. Read from `packs/makehuman_system_assets.json` and matched 94/94 against the official page | `.runtime/charlab/user/extensions/.user/user_default/mpfb/data/` (git-ignored). MPFB reports it as installed and current. |
