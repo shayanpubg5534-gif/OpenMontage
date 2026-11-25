@@ -1,0 +1,120 @@
+{
+  "id": "nadia",
+  "_note": "M2.3b look-development character: a fictional business owner around forty. Not a production cast member. All assets are MakeHuman system assets (CC0).",
+  "rig": "game_engine",
+  "face_normals": 0.95,
+  "lod_ratio": 0.35,
+  "stand": {
+    "_note": "Arms angled a little further from the body than Elias's so the hands clear the skirt (inspection: fingertips inside the skirt at 0.16).",
+    "upperarm_l": [
+      0.24,
+      -0.03,
+      -1.0
+    ],
+    "upperarm_r": [
+      -0.24,
+      -0.03,
+      -1.0
+    ],
+    "lowerarm_l": [
+      0.17,
+      -0.3,
+      -1.0
+    ],
+    "lowerarm_r": [
+      -0.17,
+      -0.3,
+      -1.0
+    ],
+    "hand_l": [
+      0.1,
+      -0.18,
+      -1.0
+    ],
+    "hand_r": [
+      -0.1,
+      -0.18,
+      -1.0
+    ],
+    "head": [
+      0.0,
+      0.03,
+      1.0
+    ]
+  },
+  "preset": {
+    "phenotype": {
+      "gender": 0.0,
+      "age": 0.58,
+      "muscle": 0.45,
+      "weight": 0.48,
+      "height": 0.42,
+      "proportions": 0.8,
+      "cupsize": 0.5,
+      "firmness": 0.55,
+      "race": {
+        "african": 0.25,
+        "caucasian": 0.15,
+        "asian": 0.6
+      }
+    },
+    "eyes": "high-poly/high-poly.mhclo",
+    "eyes_material_type": "MAKESKIN",
+    "eyes_material_settings": {},
+    "eyebrows": "eyebrow003/eyebrow003.mhclo",
+    "eyelashes": "eyelashes02/eyelashes02.mhclo",
+    "teeth": "teeth_base/teeth_base.mhclo",
+    "tongue": "tongue01/tongue01.mhclo",
+    "hair": "ponytail01/ponytail01.mhclo",
+    "clothes": [
+      "female_elegantsuit01/female_elegantsuit01.mhclo",
+      "shoes03/shoes03.mhclo"
+    ],
+    "proxy": "",
+    "skin_mhmat": "middleage_asian_female/middleage_asian_female.mhmat",
+    "skin_material_type": "GAMEENGINE",
+    "skin_material_settings": {},
+    "color_adjustments": {},
+    "targets": [
+      {
+        "target": "l-eye-scale-incr",
+        "value": 0.3
+      },
+      {
+        "target": "r-eye-scale-incr",
+        "value": 0.3
+      }
+    ],
+    "expressions": []
+  },
+  "recolour": {
+    "shoes03": [
+      {
+        "near": [
+          235,
+          235,
+          240
+        ],
+        "to": [
+          44,
+          40,
+          48
+        ],
+        "within": 150
+      },
+      {
+        "near": [
+          200,
+          200,
+          210
+        ],
+        "to": [
+          38,
+          34,
+          42
+        ],
+        "within": 120
+      }
+    ]
+  }
+}

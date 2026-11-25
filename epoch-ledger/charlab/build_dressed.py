@@ -1,4 +1,4 @@
-"""Character lab (M2.3): a fully dressed character from a preset (MPFB + MakeHuman system assets) → GLB.
+"""Character lab (M2.3, M2.3b): a fully dressed character from a preset (MPFB + MakeHuman system assets) → GLB.
 
     BLENDER_USER_RESOURCES=.runtime/charlab/user .runtime/charlab/venv/bin/python \
         epoch-ledger/charlab/build_dressed.py epoch-ledger/charlab/specs/amara.json OUT_DIR [--bvh idle=FILE:START:END]
@@ -220,6 +220,82 @@ def stand_pose(rig, aims):
     LOG["stand_bones"] = names
 
 
+@BC.step("face_normals")
+def face_normals(body, rig, strength, iterations=40):
+    """Clean illustrated face shading (M2.3b): blend the head's shading normals toward those of a heavily smoothed
+    copy of the body, weighted by the head bone's skin weights. Bands then follow the broad form of the head instead
+    of every crease (no patchy, mask-like shadows); the silhouette and geometry are unchanged."""
+    tmp = body.copy()
+    tmp.data = body.data.copy()
+    bpy.context.scene.collection.objects.link(tmp)
+    tmp.shape_key_clear() if tmp.data.shape_keys else None
+    for m in list(tmp.modifiers):
+        tmp.modifiers.remove(m)
+    sm = tmp.modifiers.new("smooth", "SMOOTH")
+    sm.factor, sm.iterations = 1.0, iterations
+    dg = bpy.context.evaluated_depsgraph_get()
+    ev = tmp.evaluated_get(dg)
+    me = ev.to_mesh()
+    smooth = [v.normal.copy() for v in me.vertices]
+    ev.to_mesh_clear()
+    bpy.data.objects.remove(tmp, do_unlink=True)
+    gi = {g.name: g.index for g in body.vertex_groups}
+    head, neck = gi.get("head"), gi.get("neck_01")
+    out, n_face = [], 0
+    for v in body.data.vertices:
+        w = 0.0
+        for g in v.groups:
+            if g.group == head:
+                w += g.weight
+            elif g.group == neck:
+                w += g.weight * .35
+        w = min(1.0, w) * strength
+        n = v.normal.lerp(smooth[v.index], w).normalized()
+        out.append(n)
+        n_face += w > .05
+    body.data.normals_split_custom_set_from_vertices(out)
+    LOG["face_normals"] = {"strength": strength, "vertices_adjusted": n_face, "smooth_iterations": iterations}
+
+
+@BC.step("export_textures")
+def export_textures(rig, out: Path, ident: str):
+    """Every material's images saved as PNG, with a manifest (material → images), for build-time palette processing."""
+    d = out / f"{ident}_tex"
+    d.mkdir(parents=True, exist_ok=True)
+    manifest = {}
+    for o in children(rig):
+        for s_ in o.material_slots:
+            m = s_.material
+            if not m or not m.node_tree:
+                continue
+            for n in m.node_tree.nodes:
+                if n.type == "TEX_IMAGE" and n.image:
+                    name = Path(n.image.name).stem + ".png"
+                    n.image.save_render(str(d / name)) if not n.image.filepath else n.image.save(filepath=str(d / name))
+                    manifest.setdefault(o.name.replace(".", ""), []).append(name)
+    (d / "manifest.json").write_text(json.dumps(manifest, indent=1))
+    LOG["textures"] = str(d)
+
+
+@BC.step("export_lod")
+def export_lod(rig, out: Path, ident: str, ratio: float):
+    """A wide-shot level of detail: shape keys dropped (faces are unreadable at that size) and every mesh decimated."""
+    tris = {}
+    for o in children(rig):
+        if o.data.shape_keys:
+            o.shape_key_clear()
+        d = o.modifiers.new("lod", "DECIMATE")
+        d.ratio = ratio
+        bpy.context.view_layer.objects.active = o
+        bpy.ops.object.modifier_apply(modifier=d.name)
+        tris[o.name] = sum(len(p.vertices) - 2 for p in o.data.polygons)
+    path = out / f"{ident}_lod.glb"
+    bpy.ops.export_scene.gltf(filepath=str(path), export_format="GLB", export_skins=True, export_morph=False,
+                              export_animations=True, export_animation_mode="ACTIONS", export_apply=False, export_yup=True,
+                              export_force_sampling=True, export_frame_range=False)
+    LOG["lod"] = {"glb": str(path), "bytes": path.stat().st_size, "ratio": ratio, "triangles": tris}
+
+
 @BC.step("inventory")
 def inventory(rig):
     objs = {}
@@ -266,8 +342,14 @@ def main(argv):
     if spec.get("stand"):
         stand_pose(rig, spec["stand"])
     finger_actions(rig)
+    if spec.get("face_normals"):
+        face_normals(body, rig, float(spec["face_normals"]))
     inventory(rig)
     BC.export(out, spec["id"])
+    LOG["triangles"] = {o.name: sum(len(p.vertices) - 2 for p in o.data.polygons) for o in children(rig)}
+    export_textures(rig, out, spec["id"])
+    if spec.get("lod_ratio"):
+        export_lod(rig, out, spec["id"], float(spec["lod_ratio"]))
     LOG["total_seconds"] = round(time.time() - BC.T0, 2)
     (out / f"{spec['id']}.report.json").write_text(json.dumps(LOG, indent=2))
     print(json.dumps({k: LOG[k] for k in LOG if k != "objects"}, indent=2))

@@ -80,3 +80,23 @@ Results and the recommended versions: `epoch-ledger/P2_M21_M22_REPORT.md`.
 | Pack | File / SHA-256 | Source | Licence | Installed to |
 |---|---|---|---|---|
 | MakeHuman system assets | `makehuman_system_assets_cc0.zip`, 280,737,770 bytes, `b542127a8e25547c7c29c19f2d1d2adb9a664c80396ecd694095dbc8028a0107` | Official MakeHuman asset-pack page (`static.makehumancommunity.org/assets/assetpacks/makehuman_system_assets.html`). Downloaded by the user and transferred as an 11-volume RAR5 set; extracted with `unar`. | **CC0** for all 94 assets: hair 10, eyebrows 12, eyelashes 4, eyes 11, teeth 6, tongue 1, skins 23, clothes 20, proxy meshes 7. Read from `packs/makehuman_system_assets.json` and matched 94/94 against the official page | `.runtime/charlab/user/extensions/.user/user_default/mpfb/data/` (git-ignored). MPFB reports it as installed and current. |
+
+## M2.3b — editorial art direction (two characters, three treatments)
+
+| File | What it does |
+|---|---|
+| `specs/elias.json`, `specs/nadia.json` | Male and female characters. Opt-in M2.3b fields: `face_normals` (strength of the clean-face shading normals), `lod_ratio` (wide-shot LOD export), `recolour` (palette rules, e.g. the sports socks inside the shoe asset → dark tights). |
+| `build_dressed.py` | Adds `face_normals`, `export_textures` (`<id>_tex/` + manifest) and `export_lod` (`<id>_lod.glb`) when the spec asks for them. |
+| `prepare_textures.py` | Build-time treated textures. `.toon.png` drops photographic detail. `.flat.png` is a controlled palette: k-means per material family; skin is one soft even tone. |
+| `viewer/lookdev2.html` | Treatments `toon2`, `editorial` and `hybrid`; set presets `bakery` and `bank` (light rig, shadow colour, ink colour, grade); several characters; switches for `msaa`, `shadow`, `ink` and `lod`. |
+| `evidence_sheets2.py` | The M2.3b comparison sheets. |
+
+```
+for c in elias nadia; do
+  BLENDER_USER_RESOURCES=$PWD/.runtime/charlab/user .runtime/charlab/venv/bin/python epoch-ledger/charlab/build_dressed.py \
+      epoch-ledger/charlab/specs/$c.json .runtime/charlab/out_m23b --bvh walk=.runtime/charlab/mocap/02_01.bvh
+  python3 epoch-ledger/charlab/prepare_textures.py .runtime/charlab/out_m23b/${c}_tex --spec epoch-ledger/charlab/specs/$c.json
+done
+node epoch-ledger/charlab/lookdev.mjs --page lookdev2.html --three .runtime/charlab/three/r0.186.1 \
+    --query 'env=bank&chars=elias:-.65:0:15,nadia:.7:.1:-20&out=/.runtime/charlab/out_m23b' --shots SHOTS.json --out DIR
+```

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Character lab (M2.3): render look-development stills with viewer/lookdev.html in headless Chromium (CPU WebGL).
 //   node epoch-ledger/charlab/lookdev.mjs --three DIR --glb FILE --plate FILE --shots shots.json --out DIR
+//   node epoch-ledger/charlab/lookdev.mjs --page lookdev2.html --three DIR --query 'env=bank&chars=elias:-.6:0:15,nadia:.7:0:-20&out=/.runtime/charlab/out_m23b' --shots S --out DIR
 // shots.json: [{ "name": "toon_medium", "mode": "toon", "shot": "medium", "e": {...}, "yaw": 0, ... }, ...]
 // Prints the render time of every still; also writes timings.json.
 import { createRequire } from 'node:module';
@@ -21,7 +22,9 @@ const srv = createServer((q, r) => { const p = path.join(ROOT, decodeURIComponen
 const b = await chromium.launch();
 const pg = await b.newPage({ viewport: { width: 1920, height: 1080 } });
 const errs = []; pg.on('pageerror', e => errs.push(String(e))); pg.on('console', m => { if (m.type() === 'error') errs.push(m.text()); });
-const url = `http://127.0.0.1:${srv.address().port}/epoch-ledger/charlab/viewer/lookdev.html?three=/${opt('three')}&glb=/${opt('glb')}` + (opt('plate') ? `&plate=/${opt('plate')}` : '');
+const page = opt('page', 'lookdev.html');                     // lookdev.html (M2.3) or lookdev2.html (M2.3b, with --query)
+const url = `http://127.0.0.1:${srv.address().port}/epoch-ledger/charlab/viewer/${page}?three=/${opt('three')}` +
+  (opt('glb') ? `&glb=/${opt('glb')}` : '') + (opt('plate') ? `&plate=/${opt('plate')}` : '') + (opt('query') ? '&' + opt('query') : '');
 await pg.goto(url); await pg.waitForFunction(() => window.ready || false, null, { timeout: 180000 }).catch(() => {});
 if (!(await pg.evaluate(() => !!window.ready))) { console.error('viewer failed', errs); process.exit(1); }
 console.log(JSON.stringify(await pg.evaluate(() => window.info)));

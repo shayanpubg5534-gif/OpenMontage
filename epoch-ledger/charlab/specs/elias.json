@@ -89,5 +89,15 @@
       }
     ],
     "expressions": []
+  },
+  "face_normals": 0.95,
+  "lod_ratio": 0.35,
+  "palette": {
+    "_note": "M2.3b editorial palette: colours per material family (flat fills) and recolour rules",
+    "hair_rgb": [
+      58,
+      44,
+      38
+    ]
   }
 }
