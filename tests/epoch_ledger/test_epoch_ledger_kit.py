@@ -284,3 +284,16 @@ def test_parallel_jobs_use_separate_hyperframes_slots():
     e1, e2 = r.slot_env(1), r.slot_env(2)
     assert e1["HYPERFRAMES_RENDER_LOCK_DIR"] != e2["HYPERFRAMES_RENDER_LOCK_DIR"]
     assert e1.get("HYPERFRAMES_RENDER_LOCK", "") != "off"             # every slot keeps a real lock
+
+
+def test_shot_markup_is_reproducible_across_processes():
+    """Builds must be byte-stable: Python's str hash() is salted per process, so it must never seed visuals
+    (it did for the film grain, which changed every rebuild and invalidated every render cache)."""
+    code = ("import importlib.util,sys,hashlib; sys.path.insert(0,'epoch-ledger');"
+            "s=importlib.util.spec_from_file_location('ov2','epoch-ledger/episodes/ai-bubble-vs-dot-com/motiontest/office_v2.py');"
+            "m=importlib.util.module_from_spec(s); s.loader.exec_module(m);"
+            "print(hashlib.sha256(m.shot('s1','p.png','<i></i>').encode()).hexdigest())")
+    root = Path(__file__).resolve().parents[2]
+    outs = {subprocess.run([sys.executable, "-c", code], cwd=root, capture_output=True, text=True,
+                           env={**os.environ, "PYTHONHASHSEED": seed}).stdout.strip() for seed in ("1", "2")}
+    assert len(outs) == 1 and "" not in outs, outs

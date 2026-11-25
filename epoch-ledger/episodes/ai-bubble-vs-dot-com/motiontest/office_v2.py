@@ -17,6 +17,7 @@ Static sets are cached plates (kit/plates.py); characters, money and machines an
 from __future__ import annotations
 
 import json
+import zlib
 import shutil
 import subprocess
 import sys
@@ -175,7 +176,7 @@ def svg_sprite(box, markup, sid=""):
 
 
 def shot(sid, plate_png, layers, overlays="", root="contrast(1.05) saturate(1.05)", dim=0.0):
-    over, _ = grade(vignette=.5, grain=.05, seed=hash(sid) % 97)
+    over, _ = grade(vignette=.5, grain=.05, seed=zlib.crc32(sid.encode()) % 97)   # stable across runs (hash() is salted per process)
     return (f'<div class="shot" id="{sid}" style="filter:{root}"><div class="layer" id="{sid}-cam">'
             + (f'<img class="plate" src="{plate_png}"/>' if plate_png else "")
             + (f'<div class="layer" style="background:rgba(8,6,12,{dim})"></div>' if dim else "")

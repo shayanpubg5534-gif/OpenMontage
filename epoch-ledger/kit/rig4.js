@@ -501,6 +501,9 @@ const R4 = (() => {
         continue;
       }
       const w = J['wrist' + pr.side], e = J['elbow' + pr.side];
+      if (pr.rot === 'upright') {    // a sheet held up to read stays level, whatever the wrist angle
+        el.setAttribute('transform', `translate(${f2(w[0])} ${f2(w[1])})`); continue;
+      }
       const ang = Math.atan2(w[1] - e[1], w[0] - e[0]) / D2R + (pr.rot || 0);
       const k = b.hand / 74, gx = w[0] + Math.cos(ang * D2R) * 34 * k, gy = w[1] + Math.sin(ang * D2R) * 34 * k;
       el.setAttribute('transform', `translate(${f2(gx)} ${f2(gy)}) rotate(${f2(ang)})`);
@@ -654,7 +657,7 @@ const R4 = (() => {
       for (const pr of c.props) b = Math.max(b, pr.b);
       if (c.blinkT.length) b = Math.max(b, c.blinkT[c.blinkT.length - 1][0] + .5);
       b = Math.max(b, tl.duration());
-      tl.fromTo(c.el, { '--r4': 0 }, { '--r4': 1, duration: b, ease: 'none', immediateRender: false,
+      tl.fromTo(c.el, { '--r4': 0 }, { '--r4': b, duration: b, ease: 'none', immediateRender: false,      // value = seconds, whatever the document length
         onUpdate() { draw(c, this.startTime() + this.time()); } }, 0);
     }
     drawAll(tl.time());

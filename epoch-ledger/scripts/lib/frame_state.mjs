@@ -12,7 +12,7 @@ export const SEEK = (t) => {
 
 // Attributes, inline style and own text of rendered elements; inert GSAP identity values normalised away.
 export const STATE = `(() => { const out = []; const N = v => (v || '').replace(/matrix\\(1,\\s*0,\\s*0,\\s*1,\\s*0,\\s*0\\)/g, '')
-    .replace(/(translate|rotate|scale): none;|transform: translate\\(0px, 0px\\);|transform-origin:[^;]*;/g, '').replace(/\\s+/g, ' ').trim();
+    .replace(/(translate|rotate|scale): none;|transform: translate\\(0px, 0px\\);|transform-origin:[^;]*;|--r4:[^;]*;/g, '').replace(/\\s+/g, ' ').trim();
   const walk = (e, path) => { const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return;
     const at = Array.from(e.attributes).filter(a => !['style', 'data-svg-origin', 'opacity'].includes(a.name)).map(a => [a.name, N(a.value)]).filter(a => a[1] !== '').map(a => a.join('=')).join(' ');
     const txt = Array.from(e.childNodes).filter(n => n.nodeType === 3).map(n => n.textContent).join('').trim();
