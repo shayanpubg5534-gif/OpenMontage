@@ -114,3 +114,38 @@ Captions are in the approved pilot style.
   only changed scenes re-render.
 - Ways to cut the cost: render static set layers once to PNG per shot, keep camera moves as
   transforms over cached plates, and draft at 540p.
+
+## Office sequence v2: narration-driven choreography (redesign after the rejected motion test)
+
+The user rejected the first motion test because it was mostly static illustrations with small movements: one
+whiteboard composition held for about 14 s while the narration covered five concepts. The redesign gives each
+beat its own visible action:
+
+1. The founder spins the cash tank's valve on "spending".
+2. A match cut follows the coins into a TV, which plays the ad, on "advertising".
+3. The payroll pipe drops coins that turn into pay envelopes on staff desks while they type and a new hire walks in, on "employees".
+4. A technician slides a server into a rack, which lights up, on "infrastructure".
+5. A pull-out to the whole money machine shows three outflows against a trickle of revenue, the tank falling, and MONEY OUT / money in kinetic type, on "without earning enough revenue".
+6. The gauge falls into the red and the alarm starts, on "sustain".
+7. In the Summit boardroom, the investors deliberate.
+8. A stamp slams FUNDED in an insert, on "investors".
+9. The capital valve opens, on "continuing".
+10. The investor pipe pours in and the tank refills, on "capital".
+
+Source: `epoch-ledger/episodes/ai-bubble-vs-dot-com/motiontest/office_v2.py`, with `sfx_office_v2.py` for sound
+and `office_v2_plan.json` for the shot plan.
+
+**Reusable capabilities added after the audit:**
+- `kit/finmech.py` and `kit/finmotion.js`: financial mechanisms and the motion of props and objects.
+- `R3.keys` with `rig3.reach`, `hold` and `hand_point`: action sequences with anticipation, contact and follow-through, and props held in hands.
+- `kit/plates.py` and `kit/camera3d.py`: cached backgrounds with live foreground layers on a shared camera.
+- `FM.stampIn`, `FM.powerOn` and `FM.pop`: object transformations and reveals.
+- The scene-plan `MAX_HOLD` rule, plus the motion-craft §8c rules for narration-triggered choreography and the mute test.
+
+**Gaps that remain:**
+- True shape morphing (flubber-style path interpolation) is not implemented. Transformations use swaps, pops and masks.
+- Cloth and secondary motion on characters is limited to joint keys.
+- There is no lip-sync.
+
+**Performance:** 420 frames at 1080p30 rendered in 143 s, about 0.34 s per frame. That is about 3× faster per frame than
+the first motion test's textured shots (about 1.1 s per frame), because the sets are cached plates.
