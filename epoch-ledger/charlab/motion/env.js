@@ -107,23 +107,24 @@ export function buildEnvironment(stage, spec) {
         box(.12, .02, .02, '#c8ccd3', 0, .2 + i * (h - .2) / 4, d / 2 + .01, g); } return { top: { y: h } }; },
     plant(it, g) { const pot = cyl(.17, .13, .36, it.pot || '#a9573b'); pot.position.y = .18; g.add(pot);
       const lc = it.leaves || ['#2f6b45', '#3d7f52', '#285a3b']; let seed = it.seed || 7; const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
-      for (let i = 0; i < (it.count || 14); i++) { const l = new THREE.Mesh(new THREE.SphereGeometry(.16, 10, 8), M(lc[i % lc.length]));
-        const a = rnd() * Math.PI * 2, r = .05 + rnd() * .14, hgt = .45 + rnd() * (it.height || .9);
-        l.scale.set(.42, 1.0, .22); l.position.set(Math.cos(a) * r, hgt, Math.sin(a) * r); l.rotation.set(rnd() * .8 - .4, a, (rnd() - .5) * 1.2 + (Math.cos(a) * .6));
+      for (let i = 0; i < (it.count || 14) * 2; i++) { const l = new THREE.Mesh(new THREE.SphereGeometry(.11, 10, 8), M(lc[i % lc.length]));
+        const a = rnd() * Math.PI * 2, r = .04 + rnd() * .16, hgt = .4 + rnd() * (it.height || .9);
+        l.scale.set(.32, 1.15, .14); l.position.set(Math.cos(a) * r, hgt, Math.sin(a) * r); l.rotation.set(rnd() * .8 - .4, a, (rnd() - .5) * 1.2 + (Math.cos(a) * .6));
         l.castShadow = true; g.add(l); } return {}; },
     lamp(it, g) { const base = cyl(.07, .09, .03, '#2c2f36'); base.position.y = .015; g.add(base);
       const stem = cyl(.012, .012, .36, '#c9a24f'); stem.position.y = .2; g.add(stem);
       const shade = new THREE.Mesh(new THREE.CylinderGeometry(.06, .13, .1, 24, 1, true), M(it.shade || '#2e6b4f')); shade.position.y = .4; shade.material.side = THREE.DoubleSide; shade.castShadow = true; g.add(shade);
       const glow = new THREE.Mesh(new THREE.CircleGeometry(.11, 24), new THREE.MeshBasicMaterial({ color: new THREE.Color('#fff2c4') })); glow.rotation.x = Math.PI / 2; glow.position.y = .352; glow.userData.noOutline = true; g.add(glow);
-      if (it.light !== false) { const L = new THREE.PointLight(it.lightColor || '#ffd9a0', it.intensity ?? 1.6, 2.6, 2); L.position.set(0, .34, 0); g.add(L); }
+      if (it.light === true) { const L = new THREE.PointLight(it.lightColor || '#ffd9a0', it.intensity ?? .6, 1.6, 2);   // off by default: a point light makes a hard banded disc in two-band shading L.position.set(0, .34, 0); g.add(L); }
       return {}; },
     frame(it, g) { const [w, h] = it.size || [.6, .8]; box(w, h, .03, it.color || '#3a2c22', 0, 0, 0, g);
       if (it.image) { const tex = new THREE.TextureLoader().load(it.image); tex.colorSpace = THREE.SRGBColorSpace;
         const pic = new THREE.Mesh(new THREE.PlaneGeometry(w - .08, h - .08), new THREE.MeshBasicMaterial({ map: tex })); pic.position.z = .017; pic.userData.noOutline = true; g.add(pic); }
       else { const c = document.createElement('canvas'); c.width = 256; c.height = Math.round(256 * h / w); const x = c.getContext('2d');
         x.fillStyle = it.paper || '#efe6d2'; x.fillRect(0, 0, c.width, c.height); x.strokeStyle = '#b08d4a'; x.lineWidth = 6; x.strokeRect(14, 14, c.width - 28, c.height - 28);
-        x.fillStyle = '#3a3226'; x.font = 'bold 22px serif'; x.textAlign = 'center'; (it.text || 'CERTIFICATE').split('\n').forEach((l, i) => x.fillText(l, c.width / 2, 70 + i * 30));
-        x.fillStyle = '#9b2f2a'; x.beginPath(); x.arc(c.width / 2, c.height - 60, 18, 0, 7); x.fill();
+        const lines = (it.text || 'CERTIFICATE').split('\n'), fs = Math.min(22, Math.floor((c.height * .55) / (lines.length + .5)));
+        x.fillStyle = '#3a3226'; x.font = `bold ${fs}px serif`; x.textAlign = 'center'; lines.forEach((l, i) => x.fillText(l, c.width / 2, c.height * .2 + fs + i * fs * 1.3));
+        x.fillStyle = '#9b2f2a'; x.beginPath(); x.arc(c.width / 2, c.height - 34, 13, 0, 7); x.fill();
         const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
         const pic = new THREE.Mesh(new THREE.PlaneGeometry(w - .08, h - .08), new THREE.MeshBasicMaterial({ map: tex })); pic.position.z = .017; pic.userData.noOutline = true; g.add(pic); }
       return {}; },
