@@ -8,12 +8,12 @@ const srv = createServer((q, r) => { const p = path.join(ROOT, decodeURIComponen
   if (!p.startsWith(ROOT) || !existsSync(p) || statSync(p).isDirectory()) { r.writeHead(404); return r.end(); }
   r.writeHead(200, { 'content-type': T[path.extname(p)] || 'application/octet-stream' }); r.end(readFileSync(p)); }).listen(0);
 const b = await chromium.launch(); const res = {};
-const views = suffix ? ['head_front', 'head_34'] : ['body_front', 'body_34', 'body_profile', 'head_front', 'head_34', 'head_profile'];
+const views = process.env.VIEWS ? process.env.VIEWS.split(',') : suffix ? ['head_front', 'head_34'] : ['body_front', 'body_34', 'body_profile', 'head_front', 'head_34', 'head_profile'];
 for (const v of views) {
-  const body = v.startsWith('body'), w = body ? 434 : 700, h = 700;
+  const body = v.startsWith('body'), K = +(process.env.SCALE || 1), w = Math.round((body ? 434 : 700) * K), h = Math.round(700 * K);   // SCALE: pixel density for close-up checks
   const pg = await b.newPage({ viewport: { width: w, height: h } });
   const t = Date.now();
-  await pg.goto(`http://127.0.0.1:${srv.address().port}/epoch-ledger/charlab/viewer/studio.html?three=/.runtime/charlab/three/r0.186.1&glb=/${glb}&frame=/${frame}&view=${v}&w=${w}&h=${h}&morphs=${morphs}&exposure=${process.env.EXPOSURE || 1}`);
+  await pg.goto(`http://127.0.0.1:${srv.address().port}/epoch-ledger/charlab/viewer/studio.html?three=/.runtime/charlab/three/r0.186.1&glb=/${glb}&frame=/${frame}&view=${v}&w=${w}&h=${h}&morphs=${morphs}&exposure=${process.env.EXPOSURE || 1}&look=${process.env.LOOK || ''}`);
   for (let i = 0; i < 600; i++) { if (await pg.evaluate(() => window.ready || window.err)) break; await new Promise(r => setTimeout(r, 250)); }
   const e = await pg.evaluate(() => window.err); if (e) { console.error(e); process.exit(1); }
   res[v] = { ...(await pg.evaluate(() => window.info)), pageMs: Date.now() - t };

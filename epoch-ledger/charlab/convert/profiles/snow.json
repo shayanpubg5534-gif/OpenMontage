@@ -436,15 +436,28 @@
   "eyes": 0.35
  },
  "skip_meshes": [
-  "GEO-snow-eye_dots",
   "GEO-snow_eye_corneas"
  ],
- "_skip_note": "eye highlight cards and corneas rely on transparency/refraction shaders; the runtime draws its own eye glint",
+ "_skip_note": "corneas rely on transparency/refraction and made the eyes pale; the artist's highlight cards (eye_dots) are kept as emissive catch-lights",
  "iris_magnify": {
   "GEO-snow-eyes": {
    "scale": 1.3,
    "radius_in_pupils": 3.2
   }
  },
- "root_bone": "Root"
+ "root_bone": "Root",
+ "dark_interior": {
+  "GEO-snow-eyes": {
+   "behind_front_m": 0.016
+  }
+ },
+ "_dark_interior_note": "the eyeball interior shows through the open pupil; Blender keeps it dark by occlusion, a colour bake does not",
+ "iris_mask": {
+  "GEO-snow-eyes": {
+   "image": ".runtime/charlab/bstudio/x/snow_v4/Snow/textures/eyes_metalic.png",
+   "strength": 0.8,
+   "saturation": 2.6,
+   "value": 0.85
+  }
+ }
 }

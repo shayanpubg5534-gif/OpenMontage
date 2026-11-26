@@ -9,6 +9,7 @@ document.write(`<script type="importmap">${JSON.stringify({ imports: { three: q.
 <script type="module">
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { enhanceCharacter } from '../motion/charlook.js';
 const q = new URLSearchParams(location.search);
 try {
   const W = +(q.get('w') || 700), H = +(q.get('h') || 700);
@@ -43,6 +44,7 @@ try {
     if (o.morphTargetDictionary) { nMorph = Math.max(nMorph, Object.keys(o.morphTargetDictionary).length);
       for (const [k, i] of Object.entries(o.morphTargetDictionary)) o.morphTargetInfluences[i] = morphs[k] || 0; }
     const m = o.material; if (m && m.map) { m.map.anisotropy = 8; } });
+  if (q.get('look') === 'enhanced') window.kinds = enhanceCharacter(root, renderer);
   // arms down like glb_to_blend.py: rotate each upper arm about the character's forward axis (+Z in three)
   root.updateMatrixWorld(true);
   const bone = n => { let b = null; root.traverse(o => { if (o.isBone && o.name === n) b = o; }); return b; };

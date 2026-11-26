@@ -240,6 +240,16 @@ for ob in NEW:
     ntu, ntv = max(1, math.ceil(uv[:, 0].max() - 1e-4) - u0), max(1, math.ceil(uv[:, 1].max() - 1e-4) - v0)
     bake_uv = me.uv_layers.new(name="BAKE"); bake_uv.data.foreach_set("uv", np.stack([(uv[:, 0] - u0) / ntu, (uv[:, 1] - v0) / ntv], 1).ravel())
     me.uv_layers[src_name].active_render = True; me.uv_layers.active = bake_uv      # materials read the source UVs; the bake writes BAKE
+    dk = prof.get("dark_interior", {}).get(ob.name.replace("snow-", "GEO-snow-")) or prof.get("dark_interior", {}).get("GEO-" + ob.name)
+    if dk:   # eye interiors seen through the pupil opening are dark in Blender by occlusion; give them an empty (black) texel
+        P = np.array([(ob.matrix_world @ f.center)[:] for f in me.polygons]); n_dark = 0
+        for side in (P[:, 0] > 0, P[:, 0] <= 0):
+            if not side.any(): continue
+            front = P[side, 1].min()                                  # characters face -Y
+            for fi in np.nonzero(side & (P[:, 1] > front + dk["behind_front_m"]))[0]:
+                for li in me.polygons[fi].loop_indices: bake_uv.data[li].uv = (.999, .001)
+                n_dark += 1
+        REP.setdefault("dark_interior", {})[ob.name] = n_dark
     mats = [m for m in me.materials if m]
     if not mats or all(m.name in SPECIAL for m in mats): continue
     size = TEX if len(me.polygons) > 3000 else TEX // 2
@@ -257,10 +267,29 @@ for ob in NEW:
         bpy.ops.object.bake(type="EMIT", margin=8, use_clear=True)
     except Exception as e:
         REP.setdefault("bake_errors", {})[ob.name] = str(e); continue
+    if dk:   # the collapsed interior faces still bake their own colour into that corner: paint it black
+        W_, H_ = img.size; px = np.array(img.pixels[:], np.float32).reshape(H_, W_, 4); px[:16, W_ - 16:, :3] = 0; img.pixels[:] = px.ravel()
+    im = prof.get("iris_mask", {}).get(ob.name.replace("snow-", "GEO-snow-")) or prof.get("iris_mask", {}).get("GEO-" + ob.name)
+    if im:   # metallic irises read as a dark band in a colour bake; the source's metallic map marks the iris ring (same UV layout)
+        W_, H_ = img.size; px = np.array(img.pixels[:], np.float32).reshape(H_, W_, 4)
+        mk = bpy.data.images.load(im["image"]); mk.scale(W_, H_); ring = np.array(mk.pixels[:], np.float32).reshape(H_, W_, 4)[..., 0] > .5
+        yy, xx = np.nonzero(ring); cy, cx = yy.mean(), xx.mean(); Y, X = np.mgrid[0:H_, 0:W_]; r = np.hypot(Y - cy, X - cx)
+        r_in = r[ring].min(); r_out = np.percentile(r[ring], 99)
+        lum = px[..., :3].mean(2); ref = np.percentile(lum[ring], 85)
+        tgt = px[ring & (lum >= ref), :3].mean(0)                        # the iris's own brown, from its lightest fibres
+        tgt = np.clip(tgt.mean() + (tgt - tgt.mean()) * im.get("saturation", 1.0), 0, 1) * im.get("value", 1.0)
+        det = np.clip(lum / max(ref, 1e-4), .7, 1.25)[..., None]
+        band = (r >= r_in) & (r <= r_out)
+        a = im.get("strength", .8) * np.clip((r - r_in) / 3, 0, 1) * np.clip((r_out - r) / 3, 0, 1)
+        px[..., :3] = np.where(band[..., None], px[..., :3] * (1 - a[..., None]) + tgt * det * a[..., None], px[..., :3])
+        px[r < r_in, :3] = np.minimum(px[r < r_in, :3], .02)              # the true pupil
+        img.pixels[:] = px.ravel(); bpy.data.images.remove(mk)
+        REP.setdefault("iris_mask", {})[ob.name] = {"centre": [round(float(cx)), round(float(cy))], "pupil_px": round(float(r_in), 1), "iris_px": round(float(r_out), 1), "iris_rgb": [round(float(c), 3) for c in tgt]}
     mag = prof.get("iris_magnify", {}).get(ob.name.replace("snow-", "GEO-snow-")) or prof.get("iris_magnify", {}).get("GEO-" + ob.name)
     if mag:   # cornea refraction magnifies the iris; approximate it by a radial warp around the darkest disc (the pupil)
         W_, H_ = img.size; px = np.array(img.pixels[:], np.float32).reshape(H_, W_, 4)
         lum = px[..., :3].mean(2); inside = lum > .01; dark = inside & (lum < np.percentile(lum[inside], 3))
+        if im: dark = r < r_in
         yy, xx = np.nonzero(dark); cy, cx = yy.mean(), xx.mean(); rp = math.sqrt(dark.sum() / math.pi)
         R = rp * mag["radius_in_pupils"]; Y, X = np.mgrid[0:H_, 0:W_].astype(np.float32); dy, dx = Y - cy, X - cx; r = np.sqrt(dx * dx + dy * dy) + 1e-6
         k = np.where(r < R, 1 / mag["scale"] + (1 - 1 / mag["scale"]) * (r / R) ** 2, 1.0)   # smooth back to identity at R
