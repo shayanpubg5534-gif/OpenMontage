@@ -1,0 +1,361 @@
+{
+ "_note": "M3 demo 3 (bank): a restrained explanation. Elias explains with damped mocap gestures; Nadia listens, glances down, returns eye contact, nods; expressions shift gradually.",
+ "env": "bank",
+ "duration": 8.0,
+ "actors": {
+  "elias_c": {
+   "cfg": {
+    "breath": 4.3,
+    "breathPhase": 0.2,
+    "headLag": 0.55
+   },
+   "seed": 3,
+   "body": [
+    {
+     "clip": "talk",
+     "at": 0,
+     "from": 0.4,
+     "place": {
+      "pos": [
+       -0.6,
+       -0.05
+      ],
+      "yaw": 50
+     }
+    }
+   ],
+   "restrainAll": 0.85,
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    },
+    {
+     "t": 0.8,
+     "side": "r",
+     "pose": "present",
+     "dur": 0.35
+    },
+    {
+     "t": 2.4,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.4
+    },
+    {
+     "t": 2.9,
+     "side": "both",
+     "pose": "open",
+     "dur": 0.35
+    },
+    {
+     "t": 4.3,
+     "side": "both",
+     "pose": "relaxed",
+     "dur": 0.4
+    },
+    {
+     "t": 5.0,
+     "side": "l",
+     "pose": "present",
+     "dur": 0.35
+    },
+    {
+     "t": 6.2,
+     "side": "l",
+     "pose": "relaxed",
+     "dur": 0.4
+    },
+    {
+     "t": 6.6,
+     "side": "r",
+     "pose": "open",
+     "dur": 0.3
+    },
+    {
+     "t": 7.5,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.4
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:nadia_c"
+    },
+    {
+     "t": 4.1,
+     "target": [
+      0.2,
+      0.9,
+      0.4
+     ],
+     "w": 0.6
+    },
+    {
+     "t": 4.7,
+     "target": "char:nadia_c",
+     "blink": true
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {
+      "eyebrows-left-inner-up": 0.2,
+      "eyebrows-right-inner-up": 0.2
+     }
+    },
+    {
+     "t": 1.2,
+     "e": {
+      "eyebrows-left-inner-up": 0.5,
+      "eyebrows-right-inner-up": 0.5,
+      "mouth-depression": 0.15
+     },
+     "dur": 0.6
+    },
+    {
+     "t": 5.6,
+     "e": {
+      "mouth-corner-puller": 0.3,
+      "eyebrows-left-inner-up": 0.1,
+      "eyebrows-right-inner-up": 0.1
+     },
+     "dur": 0.8
+    }
+   ],
+   "reach": [
+    {
+     "side": "r",
+     "t0": 0.7,
+     "in": 0.6,
+     "t1": 2.2,
+     "out": 0.6,
+     "local": [
+      0.2,
+      1.05,
+      0.36
+     ],
+     "fd": [
+      0.2,
+      0.05,
+      1
+     ],
+     "pn": [
+      -0.2,
+      1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": 2.8,
+     "in": 0.5,
+     "t1": 4.0,
+     "out": 0.6,
+     "local": [
+      0.17,
+      1.12,
+      0.32
+     ],
+     "fd": [
+      -0.3,
+      0.2,
+      1
+     ],
+     "pn": [
+      -1,
+      0.3,
+      0
+     ]
+    },
+    {
+     "side": "l",
+     "t0": 2.8,
+     "in": 0.5,
+     "t1": 4.0,
+     "out": 0.6,
+     "local": [
+      -0.17,
+      1.12,
+      0.32
+     ],
+     "fd": [
+      0.3,
+      0.2,
+      1
+     ],
+     "pn": [
+      1,
+      0.3,
+      0
+     ]
+    },
+    {
+     "side": "l",
+     "t0": 4.9,
+     "in": 0.6,
+     "t1": 6.0,
+     "out": 0.6,
+     "local": [
+      -0.12,
+      1.02,
+      0.4
+     ],
+     "fd": [
+      0.3,
+      0,
+      1
+     ],
+     "pn": [
+      0.2,
+      1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": 6.5,
+     "in": 0.5,
+     "t1": 7.3,
+     "out": 0.6,
+     "local": [
+      0.06,
+      1.25,
+      0.2
+     ],
+     "fd": [
+      -1,
+      0.1,
+      0.3
+     ],
+     "pn": [
+      0,
+      0,
+      -1
+     ]
+    }
+   ]
+  },
+  "nadia_c": {
+   "cfg": {
+    "breath": 3.8,
+    "breathPhase": 1.1,
+    "headLag": 0.5
+   },
+   "seed": 17,
+   "body": [
+    {
+     "clip": "listen",
+     "at": 0,
+     "from": 1.0,
+     "place": {
+      "pos": [
+       0.6,
+       0.15
+      ],
+      "yaw": -55
+     }
+    }
+   ],
+   "restrainAll": 0.5,
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:elias_c"
+    },
+    {
+     "t": 2.9,
+     "target": [
+      0.1,
+      0.8,
+      0.5
+     ],
+     "w": 0.7
+    },
+    {
+     "t": 3.5,
+     "target": "char:elias_c",
+     "blink": true
+    }
+   ],
+   "gestures": [
+    {
+     "t": 2.2,
+     "type": "nod",
+     "amp": 5,
+     "dur": 0.7
+    },
+    {
+     "t": 6.3,
+     "type": "nod",
+     "amp": 6,
+     "dur": 0.9,
+     "count": 2
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {}
+    },
+    {
+     "t": 3.6,
+     "e": {
+      "eyebrows-left-inner-up": 0.45,
+      "eyebrows-right-inner-up": 0.45,
+      "mouth-compression": 0.2
+     },
+     "dur": 0.6
+    },
+    {
+     "t": 6.2,
+     "e": {
+      "mouth-corner-puller": 0.45
+     },
+     "dur": 0.8
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.15,
+    1.45,
+    3.4
+   ],
+   "look": [
+    0.0,
+    1.32,
+    0
+   ],
+   "fov": 30
+  },
+  {
+   "t": 8,
+   "pos": [
+    0.05,
+    1.45,
+    2.9
+   ],
+   "look": [
+    0.0,
+    1.36,
+    0
+   ],
+   "fov": 30
+  }
+ ]
+}

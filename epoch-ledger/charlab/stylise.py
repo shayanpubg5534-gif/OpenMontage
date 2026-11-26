@@ -621,6 +621,56 @@ def ponytail(body, co, skin, H, cfg, mat, children, tie_rgb):
     return [ob, tie], sum(len(p.vertices) - 2 for p in ob.data.polygons)
 
 
+# ── 5. skirts that follow the legs (M3) ──────────────────────────────────────────────────────────────────────────
+def cloth_follow_legs(body, rig, cfg, children, LOG):
+    """MakeHuman skirts are weighted to the pelvis through the skirt helper, so seated thighs push through them.
+    Below the hips, blend each listed garment's skin weights toward those of its nearest leg vertices (0 at the hip
+    line, full at `depth` metres below it), so the skirt bends with the thighs."""
+    names = cfg.get("objects", [])
+    depth = float(cfg.get("depth", .16))
+    basis = body.data.shape_keys.key_blocks[0] if body.data.shape_keys else None
+    co = [d.co.copy() for d in basis.data] if basis else [v.co.copy() for v in body.data.vertices]
+    hip = (rig.matrix_world @ rig.data.bones["thigh_l"].head_local).z
+    legs = {"thigh_l", "thigh_r", "calf_l", "calf_r", "pelvis"}
+    gid = {g.index: g.name for g in body.vertex_groups if g.name in {b.name for b in rig.data.bones}}
+    pool = [i for i in members(body, "body") if co[i].z < hip + .03]
+    kd = KDTree(len(pool))
+    for n, i in enumerate(pool):
+        kd.insert(co[i], n)
+    kd.balance()
+    done = {}
+    for ob in children:
+        if not any(k in ob.name for k in names):
+            continue
+        bones = {b.name for b in rig.data.bones}
+        vg = {g.index: g.name for g in ob.vertex_groups if g.name in bones}
+        changed = 0
+        for v in ob.data.vertices:
+            p = ob.matrix_world @ v.co
+            f = smoothstep(hip + .02, hip - depth, p.z)
+            if f <= 0:
+                continue
+            orig = {vg[x.group]: x.weight for x in v.groups if x.group in vg}
+            near = {}
+            hits = kd.find_n(p, 6)
+            ws = [(pool[n], 1 / (d + 1e-4)) for _, n, d in hits]
+            sw = sum(w for _, w in ws)
+            for i, w in ws:
+                for x in body.data.vertices[i].groups:
+                    if x.group in gid and gid[x.group] in legs:
+                        near[gid[x.group]] = near.get(gid[x.group], 0) + x.weight * w / sw
+            tot_o, tot_n = sum(orig.values()) or 1, sum(near.values()) or 1
+            new = {}
+            for k in set(orig) | set(near):
+                new[k] = (1 - f) * orig.get(k, 0) / tot_o + f * near.get(k, 0) / tot_n
+            for k, w in new.items():
+                g = ob.vertex_groups.get(k) or ob.vertex_groups.new(name=k)
+                g.add([v.index], w, "REPLACE")
+            changed += 1
+        done[ob.name] = changed
+    LOG["cloth_follow_legs"] = done
+
+
 # ── entry points called from build_dressed.py ─────────────────────────────────────────────────────────────────────
 def design_before_bake(body, rig, spec, children, ClothesService, LOG):
     d = spec.get("design") or {}
@@ -656,5 +706,8 @@ def design_after_expressions(body, rig, spec, children, LOG):
         for n, c in stock.items():
             if "eyelash" in n:
                 remove(c)
+    if d.get("cloth_follow_legs"):
+        live = [o for o in bpy.data.objects if o.parent == rig and o.type == "MESH"]
+        cloth_follow_legs(body, rig, d["cloth_follow_legs"], live, LOG)
     LOG["design_meshes"] = {n: {"expression_keys": k, "vertices": len(bpy.data.objects[n].data.vertices)}
                             for n, k in made.items()}

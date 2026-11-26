@@ -1,0 +1,195 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<!-- Character lab, M3 motion viewer. ?three=<dir with package/>&demo=<demo json>&out=<character build dir>
+     Loads a shot script, builds props, compiles the performance (motion/elmotion.js) and renders frames with the
+     M2.3c flat editorial look (motion/stage.js). window.frame(t, quality) renders one frame; window.qa() measures. -->
+<script>
+const q = new URLSearchParams(location.search);
+document.write(`<script type="importmap">${JSON.stringify({ imports: { three: q.get('three') + '/package/build/three.module.js', 'three/addons/': q.get('three') + '/package/examples/jsm/' } })}<\/script>`);
+</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { createStage } from '../motion/stage.js';
+import * as EL from '../motion/elmotion.js';
+const q = new URLSearchParams(location.search), OUT = q.get('out');
+const demo = await (await fetch(q.get('demo'))).json();
+const T0 = performance.now();
+const stage = await createStage({ env: demo.env });
+const loader = new GLTFLoader(), actors = [];
+for (const [id, a] of Object.entries(demo.actors)) {
+  const g = await loader.loadAsync(`${OUT}/${id}.glb`);
+  await stage.addCharacter(g, id, `${OUT}/${id}_tex`);
+  const A = new EL.Actor(g, id, a.cfg || {});
+  g.scene.updateMatrixWorld(true);
+  const em = A.meshes.find(m => m.userData.eyeU);
+  if (em) { const U = em.userData.eyeU; const mid = U.pivL.value.clone().add(U.pivR.value).multiplyScalar(.5).applyMatrix4(em.matrixWorld);
+    mid.add(new THREE.Vector3(0, 0, .011)); A.eyeLocal = A.bones.head.worldToLocal(mid); }
+  actors.push(A);
+}
+// props
+const props = {};
+const C = c => new THREE.Color(c);
+function makeProp(spec) {
+  const g = new THREE.Group();
+  if (spec.type === 'desk') { const [w, h, d] = spec.size || [1.0, .74, .62];
+    const top = stage.box(w, .04, d, spec.color || '#8a5d3b'); top.position.y = h - .02; g.add(top);
+    for (const sx of [-1, 1]) { const side = stage.box(.05, h - .04, d * .92, spec.leg || '#6e4a30'); side.position.set(sx * (w / 2 - .04), (h - .04) / 2, 0); g.add(side); }
+    const back = stage.box(w - .1, h * .55, .03, spec.leg || '#6e4a30'); back.position.set(0, h * .55, -d / 2 + .06); g.add(back); }
+  if (spec.type === 'chair') { const sh = spec.seat || .46, col = spec.color || '#2f3540';
+    const seat = stage.box(.46, .06, .44, col); seat.position.y = sh - .03; g.add(seat);
+    const back = stage.box(.46, .5, .05, col); back.position.set(0, sh + .25, -.2); g.add(back);
+    for (const [x, z] of [[-.2, -.19], [.2, -.19], [-.2, .19], [.2, .19]]) { const l = stage.box(.035, sh - .06, .035, '#1d2129'); l.position.set(x, (sh - .06) / 2, z); g.add(l); } }
+  if (spec.type === 'folder') { const f = stage.box(.31, .012, .235, spec.color || '#c8a04a'); g.add(f);
+    const paper = stage.box(.29, .004, .215, '#f3efe4'); paper.position.y = .008; g.add(paper); }
+  if (spec.type === 'bag') { const body = stage.box(.36, .26, .09, spec.color || '#5a3a28'); body.position.y = -.17; g.add(body);
+    const h1 = stage.box(.018, .05, .018, '#3d281c'), h2 = h1.clone(); h1.position.set(-.07, -.03, 0); h2.position.set(.07, -.03, 0); g.add(h1, h2);
+    const hb = stage.box(.16, .016, .018, '#3d281c'); hb.position.y = -.005; g.add(hb); }
+  if (spec.pos) g.position.set(...spec.pos); if (spec.rot) g.rotation.set(...spec.rot.map(x => x * Math.PI / 180));
+  stage.addProp(g); g.updateMatrixWorld(true);
+  return { obj: g, keys: spec.keys || [], attach: spec.attach || null, spec };
+}
+for (const [id, spec] of Object.entries(demo.props || {})) props[id] = makeProp(spec);
+const loadMs = performance.now() - T0;
+// compile
+const t1 = performance.now();
+const compiled = EL.compile(demo, actors, props);
+const compileMs = performance.now() - t1;
+// a chair whose seat should meet the sitter's pelvis
+for (const [id, P] of Object.entries(props)) if (P.spec.type === 'chair' && P.spec.seatFor) {
+  const A = actors.find(a => a.id === P.spec.seatFor), D = compiled.actors[A.id];
+  let lo = 9, lf = 0; for (let f = 0; f < D.frames.length; f++) { EL.apply(compiled, [A], {}, f / EL.FPS); const y = A.wpos('pelvis').y; if (y < lo) { lo = y; lf = f; } }
+  EL.apply(compiled, [A], {}, lf / EL.FPS); const pw = A.wpos('pelvis'), fw = A.pelvisFwd.clone().applyQuaternion(A.wquat('pelvis')).setY(0).normalize();
+  P.obj.position.set(pw.x - fw.x * (P.spec.seatBack ?? .07), 0, pw.z - fw.z * (P.spec.seatBack ?? .07)); P.obj.rotation.set(0, Math.atan2(fw.x, fw.z), 0);
+  const seatTop = lo - (P.spec.seatDrop ?? .085); P.obj.scale.y = seatTop / (P.spec.seat || .46); P.obj.updateMatrixWorld(true); P.seatTop = seatTop;
+}
+// camera keys
+const cam = stage.cam;
+function camAt(t) {
+  const K = demo.camera; let a = K[0], b = a; for (const k of K) { if (k.t <= t) a = k; if (k.t > t) { b = k; break; } } if (b.t <= a.t) b = a;
+  const u = b === a ? 0 : (x => x * x * x * (x * (x * 6 - 15) + 10))((t - a.t) / (b.t - a.t));
+  const res = v => Array.isArray(v) ? new THREE.Vector3(...v) : (() => { const A = actors.find(x => x.id === v.char); return (v.eyes ? EL.eyeWorld(A) : A.wpos('pelvis')).add(new THREE.Vector3(...(v.off || [0, 0, 0]))); })();
+  cam.position.copy(res(a.pos).lerp(res(b.pos), u)); cam.lookAt(res(a.look).lerp(res(b.look), u)); cam.fov = a.fov + ((b.fov ?? a.fov) - a.fov) * u; cam.updateProjectionMatrix();
+}
+const gl = stage.renderer.getContext();
+window.frame = (t, quality = {}) => {
+  const s = performance.now();
+  EL.apply(compiled, actors, props, t);
+  for (const A of actors) EL.aimEyes(A);
+  camAt(t);
+  stage.render({ blur: demo.blur || 0, ...quality });
+  gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));   // wait for the GPU (SwiftShader defers work)
+  return performance.now() - s;
+};
+// QA: foot pinning, floor contact, knee direction, eye contact, from the compiled performance
+window.qa = () => {
+  const R = {};
+  for (const A of actors) {
+    const D = compiled.actors[A.id], runs = compiled.qa.plants[A.id], r = { plants: 0, slide_mm_mean: 0, slide_mm_worst: 0, floor_mm_min: 99, floor_mm_max: -99, knee_backward_frames: 0, frames: D.frames.length };
+    let n = 0;
+    for (const s of ['l', 'r']) for (const [a, b] of runs[s]) {
+      r.plants++; let prev = null;
+      for (let f = a + 2; f <= b - 2; f++) { EL.apply(compiled, [A], {}, f / EL.FPS); const p = A.wpos(`foot_${s}`), ball = A.wpos(`ball_${s}`);
+        if (prev) { const d = Math.hypot(p.x - prev.x, p.z - prev.z) * 1000; r.slide_mm_mean += d; n++; r.slide_mm_worst = Math.max(r.slide_mm_worst, d); }
+        prev = p; const fl = (Math.min(p.y - A.rest.ankle, ball.y - A.rest.ball)) * 1000; r.floor_mm_min = Math.min(r.floor_mm_min, fl); r.floor_mm_max = Math.max(r.floor_mm_max, fl); }
+    }
+    r.slide_mm_mean = +(r.slide_mm_mean / Math.max(1, n)).toFixed(2); r.slide_mm_worst = +r.slide_mm_worst.toFixed(1);
+    r.floor_mm_min = +r.floor_mm_min.toFixed(1); r.floor_mm_max = +r.floor_mm_max.toFixed(1);
+    let elbowMin = 180, kneeMin = 180;
+    for (let f = 0; f < D.frames.length; f++) { EL.apply(compiled, [A], {}, f / EL.FPS);
+      const fw = A.pelvisFwd.clone().applyQuaternion(A.wquat('pelvis')).setY(0).normalize();
+      for (const s of ['l', 'r']) { const h = A.wpos(`thigh_${s}`), k = A.wpos(`calf_${s}`), an = A.wpos(`foot_${s}`);
+        if (k.clone().sub(h.clone().lerp(an, .5)).dot(fw) < -.012) r.knee_backward_frames++;
+        kneeMin = Math.min(kneeMin, k.clone().sub(h).angleTo(an.clone().sub(k)) * 180 / Math.PI > 0 ? 180 - k.clone().sub(h).angleTo(an.clone().sub(k)) * 180 / Math.PI : 180);
+        const sh = A.wpos(`upperarm_${s}`), el = A.wpos(`lowerarm_${s}`), wr = A.wpos(`hand_${s}`);
+        elbowMin = Math.min(elbowMin, 180 - el.clone().sub(sh).angleTo(wr.clone().sub(el)) * 180 / Math.PI); } }
+    r.knee_min_deg = +kneeMin.toFixed(1); r.elbow_min_deg = +elbowMin.toFixed(1);
+    // eye contact: eye direction error to the partner when looking at a character (after the ±28° clamp)
+    const looks = (demo.actors[A.id].look || []); let errs = [];
+    for (let f = 0; f < D.frames.length; f += 3) { const t = f / EL.FPS; const L = looks.filter(k => k.t <= t).pop();
+      if (!L || typeof L.target !== 'string' || !L.target.startsWith('char:') || t - L.t < .6) continue;
+      EL.apply(compiled, actors, props, t); EL.aimEyes(A);
+      const e = EL.eyeWorld(A), tgt = EL.resolveTarget(L.target, actors, props, A), hf = A.headFwd.clone().applyQuaternion(A.wquat('head'));
+      const need = hf.angleTo(tgt.clone().sub(e)) * 180 / Math.PI; errs.push(Math.max(0, need - 28)); }
+    r.eye_contact_samples = errs.length; r.eye_contact_within_clamp_pct = errs.length ? +(100 * errs.filter(x => x < 1).length / errs.length).toFixed(1) : null;
+    r.head_turn_needed_deg_max = null;
+    R[A.id] = r;
+  }
+  R.raw_retarget_slide = compiled.qa.rawSlide;
+  return R;
+};
+// clothing penetration: body vertices (CPU-skinned) more than `tol` outside the nearest garment surface, ignoring
+// garment edges (cuffs, collars, hems), where skin legitimately continues past the cloth
+window.clothQA = (every = 6, tols = [0, .004]) => {
+  const R = {};
+  for (const A of actors) {
+    const body = A.meshes.find(m => m.isSkinnedMesh && m.userData.kind === 'skin' && m.geometry.attributes.position.count > 5000);
+    const cloths = A.meshes.filter(m => m.isSkinnedMesh && m.userData.kind === 'cloth');
+    const res = {}, where = {}; for (const c of cloths) res[c.name] = { frames: 0, max: tols.map(() => 0), mean: tols.map(() => 0) };
+    const bnd = new Map();
+    for (const c of cloths) { const ix = c.geometry.index.array, ec = new Map();
+      for (let i = 0; i < ix.length; i += 3) for (const [a, b] of [[ix[i], ix[i + 1]], [ix[i + 1], ix[i + 2]], [ix[i + 2], ix[i]]]) { const k = a < b ? a + ',' + b : b + ',' + a; ec.set(k, (ec.get(k) || 0) + 1); }
+      const s = new Set(); for (const [k, n] of ec) if (n === 1) { const [a, b] = k.split(','); s.add(+a); s.add(+b); } bnd.set(c, s); }
+    const D = compiled.actors[A.id];
+    for (let f = 0; f < D.frames.length; f += every) {
+      EL.apply(compiled, actors, props, f / EL.FPS);
+      for (const c of cloths) {
+        const n = c.geometry.attributes.position.count, P = new Float32Array(n * 3), N = new Float32Array(n * 3), v = new THREE.Vector3();
+        for (let i = 0; i < n; i++) { c.getVertexPosition(i, v); v.applyMatrix4(c.matrixWorld); P[i * 3] = v.x; P[i * 3 + 1] = v.y; P[i * 3 + 2] = v.z; }
+        const ix = c.geometry.index.array, a = new THREE.Vector3(), b = new THREE.Vector3(), cc = new THREE.Vector3(), nn = new THREE.Vector3();
+        for (let i = 0; i < ix.length; i += 3) { a.fromArray(P, ix[i] * 3); b.fromArray(P, ix[i + 1] * 3); cc.fromArray(P, ix[i + 2] * 3);
+          nn.subVectors(b, a).cross(cc.clone().sub(a)); for (const j of [ix[i], ix[i + 1], ix[i + 2]]) { N[j * 3] += nn.x; N[j * 3 + 1] += nn.y; N[j * 3 + 2] += nn.z; } }
+        const cell = .02, grid = new Map(), key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
+        for (let i = 0; i < n; i++) { const k = key(P[i * 3], P[i * 3 + 1], P[i * 3 + 2]); (grid.get(k) || grid.set(k, []).get(k)).push(i); }
+        const cnt = tols.map(() => 0), bn = body.geometry.attributes.position.count;
+        for (let i = 0; i < bn; i++) { body.getVertexPosition(i, v); v.applyMatrix4(body.matrixWorld);
+          let best = -1, bd = .025 * .025; const cx = Math.floor(v.x / cell), cy = Math.floor(v.y / cell), cz = Math.floor(v.z / cell);
+          for (let dx = -1; dx <= 1; dx++) for (let dy = -1; dy <= 1; dy++) for (let dz = -1; dz <= 1; dz++) { const L = grid.get(`${cx + dx},${cy + dy},${cz + dz}`); if (!L) continue;
+            for (const j of L) { const d = (P[j * 3] - v.x) ** 2 + (P[j * 3 + 1] - v.y) ** 2 + (P[j * 3 + 2] - v.z) ** 2; if (d < bd) { bd = d; best = j; } } }
+          if (best < 0 || bnd.get(c).has(best)) continue;
+          { const si = body.geometry.attributes.skinIndex, sw = body.geometry.attributes.skinWeight; let bb = 0, bw = -1;     // skin that is meant to be visible
+            for (let q = 0; q < 4; q++) if (sw.getComponent(i, q) > bw) { bw = sw.getComponent(i, q); bb = si.getComponent(i, q); }
+            if (/^(head|neck_01|hand_|thumb|index|middle|ring|pinky|calf|foot|ball)/.test(body.skeleton.bones[bb].name)) continue; }
+          const nx = N[best * 3], ny = N[best * 3 + 1], nz = N[best * 3 + 2], nl = Math.hypot(nx, ny, nz) || 1;
+          const out = ((v.x - P[best * 3]) * nx + (v.y - P[best * 3 + 1]) * ny + (v.z - P[best * 3 + 2]) * nz) / nl;
+          tols.forEach((tl, k) => { if (out > tl) cnt[k]++; });
+          if (out > tols[tols.length - 1]) { const si = body.geometry.attributes.skinIndex, sw = body.geometry.attributes.skinWeight; let bb = 0, bw = -1;
+            for (let q = 0; q < 4; q++) if (sw.getComponent(i, q) > bw) { bw = sw.getComponent(i, q); bb = si.getComponent(i, q); }
+            const nm = body.skeleton.bones[bb].name; where[nm] = (where[nm] || 0) + 1; } }
+        const r = res[c.name]; r.frames++; tols.forEach((_, k) => { r.max[k] = Math.max(r.max[k], cnt[k]); r.mean[k] += cnt[k]; });
+      }
+    }
+    for (const r of Object.values(res)) r.mean = r.mean.map(x => +(x / Math.max(1, r.frames)).toFixed(1));
+    R[A.id] = { tolerances_m: tols, garments: res, where_bone_vertex_frames: where };
+  }
+  return R;
+};
+// blink completeness: eyeballs painted magenta; count visible magenta pixels in an eye close-up, open vs fully closed
+window.blinkTest = () => {
+  const R = {}, gl2 = stage.renderer.getContext(), W = 640, H = 360;
+  for (const A of actors) {
+    EL.apply(compiled, actors, props, 0); A.root.updateMatrixWorld(true);
+    const eyes = A.meshes.filter(m => m.userData.eyeU), keep = eyes.map(m => m.material);
+    const e = EL.eyeWorld(A), fw = A.headFwd.clone().applyQuaternion(A.wquat('head'));
+    cam.position.copy(e).add(fw.clone().multiplyScalar(.32)); cam.lookAt(e); cam.fov = 20; cam.updateProjectionMatrix();
+    const out = {};
+    for (const [lab, w] of [['open', 0], ['half', .5], ['closed', 1]]) {
+      for (const mesh of A.morphMeshes) for (const [k, j] of Object.entries(mesh.morphTargetDictionary)) mesh.morphTargetInfluences[j] = /eye-(left|right)-closure/.test(k) ? w : 0;
+      eyes.forEach(m => m.material = new THREE.MeshBasicMaterial({ color: 0xff00ff }));
+      stage.renderer.setRenderTarget(null); stage.renderer.setViewport(0, 0, W, H); stage.renderer.setScissorTest(false);
+      stage.renderer.setClearColor(0x000000, 1); stage.renderer.clear(); cam.aspect = W / H; cam.updateProjectionMatrix();
+      stage.renderer.render(stage.scene, cam);
+      const px = new Uint8Array(W * H * 4); gl2.readPixels(0, 0, W, H, gl2.RGBA, gl2.UNSIGNED_BYTE, px);
+      let n = 0; for (let i = 0; i < px.length; i += 4) if (px[i] > 200 && px[i + 1] < 60 && px[i + 2] > 200) n++;
+      out[lab] = n; eyes.forEach((m, i) => m.material = keep[i]);
+    }
+    stage.renderer.setViewport(0, 0, 1920, 1080); cam.aspect = 1920 / 1080; cam.updateProjectionMatrix();
+    R[A.id] = { magenta_eye_pixels: out };
+  }
+  return R;
+};
+window.info = { loadMs: Math.round(loadMs), compileMs: Math.round(compileMs), frames: compiled.frames, duration: demo.duration, timing: compiled.qa.timing,
+  seat: Object.fromEntries(Object.entries(props).filter(([, P]) => P.seatTop).map(([id, P]) => [id, +P.seatTop.toFixed(3)])),
+  pelvis: Object.fromEntries(actors.map(A => { const D = compiled.actors[A.id]; return [A.id, [0, Math.floor(D.frames.length / 2), D.frames.length - 1].map(f => { EL.apply(compiled, [A], {}, f / EL.FPS); const p = A.wpos('pelvis'); return [+p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2)]; })]; })) };
+window.ready = true;
+</script></body></html>

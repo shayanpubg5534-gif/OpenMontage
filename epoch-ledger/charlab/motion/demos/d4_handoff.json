@@ -1,0 +1,393 @@
+{
+ "_note": "M3 demo 4 (bank): Elias picks a folder up from the desk, lifts it and offers it; Nadia reaches and takes it (both hold it for a moment), reads it; Elias points to it; eye contact and a nod close the beat.",
+ "env": "bank",
+ "duration": 7.5,
+ "actors": {
+  "elias_c": {
+   "cfg": {
+    "breath": 4.3,
+    "breathPhase": 0.2,
+    "headLag": 0.55
+   },
+   "seed": 4,
+   "body": [
+    {
+     "clip": "listen",
+     "at": 0,
+     "from": 0.5,
+     "place": {
+      "pos": [
+       -0.78,
+       -0.02
+      ],
+      "yaw": 90
+     }
+    }
+   ],
+   "restrainAll": 0.5,
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    },
+    {
+     "t": 1.0,
+     "side": "r",
+     "pose": "pinch",
+     "dur": 0.3
+    },
+    {
+     "t": 3.6,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.4
+    },
+    {
+     "t": 4.9,
+     "side": "r",
+     "pose": "point",
+     "dur": 0.35
+    },
+    {
+     "t": 6.4,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.4
+    }
+   ],
+   "reach": [
+    {
+     "side": "r",
+     "prop": "folder",
+     "t0": 0.4,
+     "in": 0.8,
+     "t1": 3.6,
+     "out": 0.7,
+     "socket": {
+      "pos": [
+       -0.135,
+       0.004,
+       0.06
+      ],
+      "fd": [
+       1,
+       0,
+       0
+      ],
+      "pn": [
+       0,
+       -1,
+       0
+      ]
+     }
+    },
+    {
+     "side": "r",
+     "point": [
+      0.47,
+      1.12,
+      0.12
+     ],
+     "extend": 0.72,
+     "t0": 4.9,
+     "in": 0.5,
+     "t1": 6.2,
+     "out": 0.6
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "prop:folder"
+    },
+    {
+     "t": 3.1,
+     "target": "char:nadia_c",
+     "blink": true
+    },
+    {
+     "t": 4.9,
+     "target": "prop:folder"
+    },
+    {
+     "t": 6.0,
+     "target": "char:nadia_c"
+    }
+   ],
+   "gestures": [
+    {
+     "t": 6.5,
+     "type": "nod",
+     "amp": 5,
+     "dur": 0.8
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {}
+    },
+    {
+     "t": 3.2,
+     "e": {
+      "mouth-corner-puller": 0.25
+     },
+     "dur": 0.7
+    }
+   ]
+  },
+  "nadia_c": {
+   "cfg": {
+    "breath": 3.8,
+    "breathPhase": 1.1,
+    "headLag": 0.5
+   },
+   "seed": 13,
+   "body": [
+    {
+     "clip": "listen",
+     "at": 0,
+     "from": 3.0,
+     "place": {
+      "pos": [
+       0.8,
+       0.02
+      ],
+      "yaw": -90
+     }
+    }
+   ],
+   "restrainAll": 0.35,
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    },
+    {
+     "t": 3.0,
+     "side": "l",
+     "pose": "pinch",
+     "dur": 0.3
+    }
+   ],
+   "reach": [
+    {
+     "side": "l",
+     "prop": "folder",
+     "t0": 2.5,
+     "in": 0.8,
+     "t1": 99,
+     "socket": {
+      "pos": [
+       0.135,
+       0.004,
+       0.06
+      ],
+      "fd": [
+       -1,
+       0,
+       0
+      ],
+      "pn": [
+       0,
+       -1,
+       0
+      ]
+     }
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:elias_c"
+    },
+    {
+     "t": 2.2,
+     "target": "prop:folder"
+    },
+    {
+     "t": 5.8,
+     "target": "char:elias_c",
+     "blink": true
+    }
+   ],
+   "gestures": [
+    {
+     "t": 6.2,
+     "type": "nod",
+     "amp": 6,
+     "dur": 0.8
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {}
+    },
+    {
+     "t": 4.4,
+     "e": {
+      "eyebrows-left-inner-up": 0.3,
+      "eyebrows-right-inner-up": 0.3
+     },
+     "dur": 0.6
+    },
+    {
+     "t": 6.0,
+     "e": {
+      "mouth-corner-puller": 0.4
+     },
+     "dur": 0.7
+    }
+   ]
+  }
+ },
+ "props": {
+  "desk": {
+   "type": "desk",
+   "size": [
+    0.9,
+    0.74,
+    0.62
+   ],
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  "folder": {
+   "type": "folder",
+   "pos": [
+    -0.2,
+    0.746,
+    0.08
+   ],
+   "keys": [
+    {
+     "t": 0,
+     "pos": [
+      -0.2,
+      0.746,
+      0.08
+     ],
+     "rot": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "t": 1.5,
+     "pos": [
+      -0.2,
+      0.746,
+      0.08
+     ],
+     "rot": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "t": 2.4,
+     "pos": [
+      -0.2,
+      1.0,
+      0.1
+     ],
+     "rot": [
+      0,
+      0,
+      12
+     ]
+    },
+    {
+     "t": 3.2,
+     "pos": [
+      0.04,
+      1.05,
+      0.1
+     ],
+     "rot": [
+      0,
+      0,
+      4
+     ]
+    },
+    {
+     "t": 3.8,
+     "pos": [
+      0.06,
+      1.05,
+      0.1
+     ],
+     "rot": [
+      0,
+      0,
+      0
+     ]
+    },
+    {
+     "t": 4.8,
+     "pos": [
+      0.47,
+      1.12,
+      0.12
+     ],
+     "rot": [
+      0,
+      0,
+      -40
+     ]
+    },
+    {
+     "t": 7.5,
+     "pos": [
+      0.48,
+      1.12,
+      0.12
+     ],
+     "rot": [
+      0,
+      0,
+      -42
+     ]
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.1,
+    1.5,
+    3.4
+   ],
+   "look": [
+    -0.05,
+    1.0,
+    0
+   ],
+   "fov": 36
+  },
+  {
+   "t": 7.5,
+   "pos": [
+    0.1,
+    1.5,
+    3.0
+   ],
+   "look": [
+    0.05,
+    1.05,
+    0
+   ],
+   "fov": 36
+  }
+ ]
+}

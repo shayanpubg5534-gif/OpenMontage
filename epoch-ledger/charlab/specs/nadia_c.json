@@ -478,6 +478,12 @@
         40,
         30
       ]
+    },
+    "cloth_follow_legs": {
+      "objects": [
+        "female_elegantsuit01"
+      ],
+      "depth": 0.16
     }
   }
 }

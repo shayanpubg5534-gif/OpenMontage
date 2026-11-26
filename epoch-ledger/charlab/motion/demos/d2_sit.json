@@ -1,0 +1,272 @@
+{
+ "_note": "M3 demo 2 (bank): Elias invites Nadia to sit with an open hand; she steps to the chair, turns, sits, settles, keeps eye contact, then stands up again. Chair placed under her pelvis from the compiled motion.",
+ "env": "bank",
+ "duration": 7.5,
+ "actors": {
+  "nadia_c": {
+   "cfg": {
+    "breath": 3.8,
+    "breathPhase": 1.1,
+    "headLag": 0.5
+   },
+   "seed": 21,
+   "body": [
+    {
+     "clip": "idle",
+     "at": 0,
+     "loop": "pingpong",
+     "place": "next"
+    },
+    {
+     "clip": "sit",
+     "at": 1.0,
+     "blend": 0.6,
+     "from": 1.05,
+     "pin": 3.4,
+     "place": {
+      "pos": [
+       0.5,
+       -0.1
+      ],
+      "yaw": -25
+     }
+    },
+    {
+     "clip": "idle",
+     "at": 6.0,
+     "blend": 0.7,
+     "loop": "pingpong"
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.35
+    }
+   ],
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:elias_c"
+    },
+    {
+     "t": 1.5,
+     "target": [
+      0.5,
+      0.4,
+      0.4
+     ],
+     "w": 0.5
+    },
+    {
+     "t": 2.6,
+     "target": "char:elias_c",
+     "blink": true
+    }
+   ],
+   "gestures": [
+    {
+     "t": 4.0,
+     "type": "nod",
+     "amp": 6,
+     "dur": 0.8
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {
+      "mouth-corner-puller": 0.15
+     }
+    },
+    {
+     "t": 3.6,
+     "e": {
+      "mouth-corner-puller": 0.42
+     },
+     "dur": 0.7
+    }
+   ],
+   "reach": [
+    {
+     "side": "l",
+     "t0": 3.1,
+     "in": 0.8,
+     "t1": 5.5,
+     "out": 0.7,
+     "local": [
+      -0.11,
+      0.56,
+      0.3
+     ],
+     "fd": [
+      0.35,
+      -0.2,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": 3.2,
+     "in": 0.8,
+     "t1": 5.4,
+     "out": 0.7,
+     "local": [
+      0.12,
+      0.56,
+      0.28
+     ],
+     "fd": [
+      -0.35,
+      -0.2,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    }
+   ]
+  },
+  "elias_c": {
+   "cfg": {
+    "breath": 4.3,
+    "breathPhase": 0.2,
+    "headLag": 0.6
+   },
+   "seed": 9,
+   "body": [
+    {
+     "clip": "listen",
+     "at": 0,
+     "from": 0.8,
+     "place": {
+      "pos": [
+       -0.75,
+       -0.35
+      ],
+      "yaw": 35
+     }
+    }
+   ],
+   "restrainAll": 0.3,
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    },
+    {
+     "t": 0.4,
+     "side": "r",
+     "pose": "present",
+     "dur": 0.4
+    },
+    {
+     "t": 1.9,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.5
+    }
+   ],
+   "reach": [
+    {
+     "side": "r",
+     "t0": 0.3,
+     "in": 0.7,
+     "t1": 1.7,
+     "out": 0.8,
+     "local": [
+      0.32,
+      0.98,
+      0.38
+     ],
+     "fd": [
+      0.5,
+      -0.15,
+      0.8
+     ],
+     "pn": [
+      0,
+      1,
+      0
+     ]
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:nadia_c"
+    }
+   ],
+   "gestures": [
+    {
+     "t": 4.3,
+     "type": "nod",
+     "amp": 6,
+     "dur": 0.8
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {
+      "mouth-corner-puller": 0.3
+     }
+    }
+   ]
+  }
+ },
+ "props": {
+  "chair": {
+   "type": "chair",
+   "seat": 0.46,
+   "seatFor": "nadia_c",
+   "seatDrop": 0.09,
+   "seatBack": 0.07
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.9,
+    1.35,
+    4.2
+   ],
+   "look": [
+    0.0,
+    0.95,
+    0
+   ],
+   "fov": 32
+  },
+  {
+   "t": 7.5,
+   "pos": [
+    0.6,
+    1.3,
+    3.6
+   ],
+   "look": [
+    0.1,
+    0.9,
+    0
+   ],
+   "fov": 32
+  }
+ ]
+}

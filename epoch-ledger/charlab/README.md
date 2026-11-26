@@ -113,3 +113,17 @@ node epoch-ledger/charlab/lookdev.mjs --page lookdev2.html --three .runtime/char
 | `evidence_sheets3.py` | M2.3b vs M2.3c sheets. |
 
 Commands: see `epoch-ledger/P2_M23C_REPORT.md`, "Reproducibility".
+
+## M3 — motion (deterministic performance compiler, animated demos)
+
+| File | What it does |
+|---|---|
+| `motion/elmotion.js` | Compiles a shot script into per-frame poses at 30 fps. Layers:<br>• mocap clip segments with eased crossfades, phase-matched walk transitions, world placement (`pos`/`yaw`, `pin`, `continue`, `next`) and floor calibration;<br>• foot-plant detection and two-bone leg IK (no sliding) with a floor clamp;<br>• arm restraint, wrist relaxation, breathing, nods;<br>• look-at spread over chest, neck and head with a lagging spring, eyes leading, lids following the gaze, automatic and scripted blinks;<br>• eased, overlapping expression transitions;<br>• finger poses from the rig's own grip clip;<br>• arm IK to prop sockets, points or targets in the actor's own frame;<br>• props on scripted paths or hanging from a hand with a damped swing.<br>`apply(t)` poses any frame with no carried state (seekable; frames can render in any order). |
+| `motion/stage.js` | The M2.3c flat editorial renderer as a module, plus eye rotation (shader pivot; no rig change), cloth inflation and a skin depth bias against shallow poke-through, and flat-colour inked props. |
+| `motion/demos/*.json` | Shot scripts: `d1_arrival` (walk start, carry, stop, eye contact), `d2_sit` (invite, sit, settle, stand), `d3_conversation` (restrained explanation, listening, nods), `d4_handoff` (pick up, offer, take, read, point). |
+| `viewer/motion.html` | Loads a demo, builds props (desk, chair placed under the sitter, folder, bag), compiles, renders. QA functions: `qa()` (foot pinning, floor contact, knees, eye contact, raw retarget sliding), `clothQA()` (skin outside covered garment regions, CPU-skinned), `blinkTest()` (visible eyeball pixels with lids closed). |
+| `motion_render.mjs` | Renders a demo frame by frame (standard or lean quality), records per-frame render and readback times, runs QA, encodes MP4 with ffmpeg. |
+| `stylise.py` | Adds `cloth_follow_legs` (M3): below the hips, skirt weights blend toward the nearest leg weights so a seated skirt bends with the thighs. |
+
+Clips used (CMU, free licence; retargeted at build time with `--bvh name=FILE:START:END`): `idle` 137_28, `walk_start`
+82_08, `walk_stop` 16_34, `walk_turn_r` 16_19, `sit` 113_15, `talk` 19_08, `listen` 18_08.
