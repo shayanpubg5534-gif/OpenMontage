@@ -81,7 +81,7 @@ def scenes(T):
     js = (f"tl.fromTo('#L',{{opacity:0}},{{opacity:1,duration:.45,ease:'power2.out',immediateRender:false}},{l0});"
           f"tl.fromTo('#Lcam',{{scale:1.18,rotation:-3,y:120}},{{scale:1.0,rotation:-3,y:0,duration:{l1 - l0 + .3:.2f},ease:'power1.out',immediateRender:false}},{l0});"
           f"tl.to('#L .lr',{{opacity:1,duration:.18,stagger:.045}},{l0 + .15:.2f});"
-          f"tl.fromTo('#lph',{{fill:'#8a7a64'}},{{fill:'{GREEN}',duration:.3}},{W('profit') - .05:.2f});"
+          f"tl.fromTo('#lph',{{fill:'#8a7a64'}},{{fill:'{GREEN}',duration:.3,immediateRender:false}},{W('profit') - .05:.2f});"
           f"tl.to('#L .lp',{{opacity:1,duration:.12,stagger:{(W('month', 1, True) - every) / 12:.3f}}},{every:.2f});"
           f"tl.to('#L .lt',{{opacity:1,duration:.05,stagger:{(W('month', 1, True) - every) / 12:.3f}}},{every + .05:.2f});"
           f"mDrawOn('#L .lt',{every + .05:.2f},{{dur:.22,stagger:{(W('month', 1, True) - every) / 12:.3f}}});"
@@ -158,7 +158,7 @@ def scenes(T):
     went, dry = W("went"), W("dry")
     js = (f"tl.fromTo('#C',{{opacity:0}},{{opacity:1,duration:.4,immediateRender:false}},{c0});"
           f"tl.fromTo('#Ccam',{{scale:1.12}},{{scale:1,duration:{c1 - c0:.2f},ease:'power1.out',immediateRender:false}},{c0});"
-          f"mDrawOn('#czero',{c0 + .1:.2f},{{dur:.5}});"
+          f"tl.fromTo('#czero',{{opacity:0}},{{opacity:1,duration:.4}},{c0 + .1:.2f});"
           # monthly flows: out (red) then in (green), month by month across "more cash went out than came in"
           f"tl.fromTo('#C .fo',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went - .25:.2f});"
           f"tl.fromTo('#C .fi',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went + .05:.2f});"
@@ -166,9 +166,9 @@ def scenes(T):
           # the balance falls month by month and crosses zero on "dry"
           f"mLine('#cline',{went - .3:.2f},{dry - went + .45:.2f});tl.fromTo('#cclipr',{{attr:{{width:{x0}}}}},{{attr:{{width:{px[-1] + 20}}},duration:{dry - went + .45:.2f},ease:'none'}},{went - .3:.2f});"
           f"mCount('#cbal',12000,0,{went - .3:.2f},{dry - went + .45:.2f},{{prefix:'£'}});"
-          f"tl.to('#cbal',{{color:'{RED}',duration:.2}},{dry + .1:.2f});tl.to('#cdot',{{opacity:1,duration:.15}},{dry + .15:.2f});"
+          f"tl.fromTo('#cbal',{{color:'{INK}'}},{{color:'{RED}',duration:.2,immediateRender:false}},{dry + .1:.2f});tl.to('#cdot',{{opacity:1,duration:.15}},{dry + .15:.2f});"
           f"tl.fromTo('#cdot',{{attr:{{r:14}}}},{{attr:{{r:24}},duration:.35,yoyo:true,repeat:1,immediateRender:false}},{dry + .15:.2f});"
-          f"tl.to('#czero',{{stroke:'{RED}',duration:.2}},{dry + .1:.2f});tl.fromTo('#cdry',{{opacity:0,y:12}},{{opacity:1,y:0,duration:.35,immediateRender:false}},{dry + .2:.2f});"
+          f"tl.fromTo('#czero',{{stroke:'{INK}'}},{{stroke:'{RED}',duration:.2,immediateRender:false}},{dry + .1:.2f});tl.fromTo('#cdry',{{opacity:0,y:12}},{{opacity:1,y:0,duration:.35,immediateRender:false}},{dry + .2:.2f});"
           f"tl.to('#C',{{opacity:0,duration:.45,ease:'power1.in'}},{c1 - .15:.2f});")
     out.append(Scene("C", c0, c1 - c0 + .55, f'<div class="m5paper"></div><div class="m5grain"></div><div id="Ccam" class="m5f">{_svg(csvg)}'
                      f'<div class="m5s" style="left:360px;top:120px">Bakery bank balance</div>'

@@ -21,6 +21,14 @@ import numpy as np
 import soundfile as sf
 
 
+def lufs(x, sr):
+    """integrated loudness of a mono signal (ffmpeg ebur128)"""
+    import re, subprocess
+    r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-f", "f32le", "-ar", str(sr), "-ac", "1", "-i", "-", "-af", "ebur128", "-f", "null", "-"],
+                       input=np.ascontiguousarray(x, np.float32).tobytes(), capture_output=True)
+    return float(re.findall(r"I:\s+(-?[\d.]+) LUFS", r.stderr.decode())[-1])
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("episode", type=Path); ap.add_argument("dialogue", type=Path)
@@ -37,7 +45,8 @@ def main(argv=None):
     if not keepw.exists(): shutil.copy(wavf, keepw)
     nar, sr = sf.read(keepw, dtype="float32")
     dl, sr2 = sf.read(a.dialogue / "line.wav", dtype="float32")
-    if nar.ndim > 1: nar = nar.mean(1)
+    nch = nar.shape[1] if nar.ndim > 1 else 1                  # keep the narration's channel layout (loudness is per layout)
+    if nar.ndim > 1: nar = nar[:, 0]
     if dl.ndim > 1: dl = dl.mean(1)
     if sr2 != sr:                                              # Kokoro writes 24 kHz; the narration mix is 48 kHz (ffmpeg resampler)
         import subprocess
@@ -51,13 +60,14 @@ def main(argv=None):
     shift = new_start - seg["start"]
     assert a.at >= max(s["end"] for s in timing["segments"] if s["end"] <= seg["start"]), "dialogue overlaps narration"
     head, tail = nar[:int(cut * sr)], nar[int(cut * sr):]
-    # dialogue at a slightly lower level than narration peak, so the two voices sit together
-    dl = dl * (np.abs(head).max() * .92 / max(1e-6, np.abs(dl).max()))
+    # dialogue loudness matched to the narration's (EBU R128, ffmpeg), so the two voices sit together
+    dl = dl * 10 ** ((lufs(nar, sr) - lufs(dl, sr)) / 20)
     out = np.zeros(int((len(nar) / sr + shift + 0) * sr) + int(a.tail * sr), np.float32)
     out[:len(head)] = head
     i0 = int(a.at * sr); out[i0:i0 + len(dl)] += dl
     j0 = int((cut + shift) * sr); out[j0:j0 + len(tail)] += tail[:len(out) - j0]
-    sf.write(wavf, out, sr)
+    out = np.clip(out, -1, 1)
+    sf.write(wavf, np.repeat(out[:, None], nch, 1) if nch > 1 else out, sr)
     words = json.loads((a.dialogue / "words.json").read_text())
     dpages, cur = [], []
     for w in words:                                            # one page per sentence of the spoken line
