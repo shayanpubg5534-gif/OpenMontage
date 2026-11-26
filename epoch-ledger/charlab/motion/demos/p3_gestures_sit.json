@@ -1,0 +1,126 @@
+{
+ "_note": "P3 gesture & expression sheet (sit); peaks sampled at 0.8 + 2.5 n s. Snow = technical test character only. Snow Rig (CC) Blender Foundation | studio.blender.org",
+ "env": "bank",
+ "look": "cinematic",
+ "duration": 22.5,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.1,
+ "actors": {
+  "snow_cv": {
+   "pbr": true,
+   "cfg": {
+    "breath": 4.0,
+    "headLag": 0.5
+   },
+   "seed": 11,
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "client_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.6
+    }
+   ],
+   "charlook": "enhanced",
+   "perform": [
+    {
+     "do": "listen",
+     "t": 5.0
+    },
+    {
+     "do": "explain",
+     "t": 7.5
+    },
+    {
+     "do": "concern",
+     "t": 10.0,
+     "dur": 1.6
+    },
+    {
+     "do": "uncertain",
+     "t": 12.5,
+     "dur": 1.6
+    },
+    {
+     "do": "thoughtful",
+     "t": 15.0,
+     "dur": 1.6
+    },
+    {
+     "do": "relief",
+     "t": 17.5,
+     "dur": 1.6
+    },
+    {
+     "do": "warm",
+     "t": 20.0
+    }
+   ],
+   "performCtx": {
+    "posture": "sit",
+    "listener": [
+     0.9,
+     1.5,
+     3.2
+    ],
+    "desk": 0.76,
+    "restHands": "lap"
+   },
+   "look": [
+    {
+     "t": 0,
+     "target": [
+      0.9,
+      1.5,
+      3.2
+     ]
+    }
+   ]
+  }
+ },
+ "props": {},
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.25,
+    1.22,
+    1.7
+   ],
+   "look": [
+    -0.95,
+    0.98,
+    -0.45
+   ],
+   "fov": 34,
+   "dof": 0.5,
+   "focusRange": 0.5
+  }
+ ],
+ "_names": [
+  "neutral",
+  "(rest: hands in lap)",
+  "listen",
+  "explain",
+  "concern",
+  "uncertain",
+  "thoughtful",
+  "relief",
+  "warm"
+ ],
+ "fit": {
+  "client_chair": "snow_cv"
+ }
+}

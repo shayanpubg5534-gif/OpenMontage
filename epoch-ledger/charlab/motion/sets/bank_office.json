@@ -393,25 +393,29 @@
     "tint": "#5e3820",
     "rough": 1.0,
     "contrast": 0.7,
-    "env": 0.3
+    "env": 0.3,
+    "spec": 0.35
    },
    "#5e3b26": {
     "set": "oak_veneer_01",
     "size": 0.9,
     "tint": "#6a3f26",
-    "contrast": 0.7
+    "contrast": 0.7,
+    "spec": 0.35
    },
    "#6d4630": {
     "set": "oak_veneer_01",
     "size": 0.9,
     "tint": "#74482c",
-    "contrast": 0.7
+    "contrast": 0.7,
+    "spec": 0.35
    },
    "#6a452e": {
     "set": "oak_veneer_01",
     "size": 1.0,
     "tint": "#6e4630",
-    "contrast": 0.7
+    "contrast": 0.7,
+    "spec": 0.35
    },
    "#4f3322": {
     "set": "oak_veneer_01",

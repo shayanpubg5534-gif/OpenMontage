@@ -26,6 +26,7 @@ export async function loadShot({ demo, OUT, canvas = null }) {
       const an = SET.anchors[s.place.anchor]; if (!an) throw new Error('unknown anchor ' + s.place.anchor); s.place = { pos: an.pos, yaw: an.yaw }; } }
   const loader = new GLTFLoader(), actors = [];
   for (const a of Object.values(demo.actors)) for (const sp of a.speech || []) if (sp.src && !sp.data) sp.data = await (await fetch(sp.src)).json();   // lip-sync tracks (M5)
+  if (Object.values(demo.actors).some(a => a.perform)) { const { expandPerformance } = await import('./perflib.js'); for (const a of Object.values(demo.actors)) expandPerformance(a, { duration: demo.duration }); }   // P3 performance presets (opt-in)
   for (const [id, a] of Object.entries(demo.actors)) {
     const g = await loader.loadAsync(`${OUT}/${id}.glb`);
     await stage.addCharacter(g, id, a.pbr ? null : `${OUT}/${id}_tex`, { look: a.charlook, lookOpts: a.charlookOpts });   // pbr: a converted character keeps its baked materials
@@ -76,8 +77,8 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   const compiled = EL.compile(demo, actors, props);
   const compileMs = performance.now() - t1;
   // set chairs fitted to their sitters (seat top meets the sitter's lowest pelvis height)
-  if (SET) for (const [name, I] of Object.entries(SET.items)) if (I.spec.fitTo) {
-    const A = actors.find(a => a.id === I.spec.fitTo); if (!A) continue;
+  if (SET) for (const [name, I] of Object.entries(SET.items)) if ((demo.fit || {})[name] || I.spec.fitTo) {   // demo.fit: {chair: actor} overrides the set (P3)
+    const A = actors.find(a => a.id === ((demo.fit || {})[name] || I.spec.fitTo)); if (!A) continue;
     const D = compiled.actors[A.id]; let lo = 9;
     for (let f = 0; f < D.frames.length; f += 2) { EL.apply(compiled, [A], {}, f / EL.FPS); lo = Math.min(lo, A.wpos('pelvis').y); }
     I.seatTop = SET.fitSeat(name, lo, I.spec.seatDrop ?? .09); }

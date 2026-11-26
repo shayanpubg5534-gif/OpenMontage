@@ -40,7 +40,7 @@ export async function applyCinematic(stage, SET, cfg = {}) {
   async function pbr(rule) {
     if (!rule.set) return new THREE.MeshStandardMaterial({ color: new THREE.Color(rule.color || '#888'), roughness: rule.rough ?? .7, metalness: rule.metal ?? 0 });
     const s = rule.size || 1, diff = await tex(rule.set, 'diff', s, true);
-    const m = new THREE.MeshStandardMaterial({ map: diff, roughnessMap: await tex(rule.set, 'rough', s), normalMap: await tex(rule.set, 'nor', s),
+    const m = new (rule.spec != null ? THREE.MeshPhysicalMaterial : THREE.MeshStandardMaterial)({ map: diff, ...(rule.spec != null ? { specularIntensity: rule.spec } : {}), roughnessMap: await tex(rule.set, 'rough', s), normalMap: await tex(rule.set, 'nor', s),
       normalScale: new THREE.Vector2(rule.normal ?? 1, rule.normal ?? 1), color: new THREE.Color(rule.tint || '#ffffff'), roughness: rule.rough ?? 1, metalness: rule.metal ?? 0,
       envMapIntensity: rule.env ?? cfg.envSpec ?? .5 });   // the room bounce is soft: no mirror-like sheen on wood or cloth
     if (rule.contrast != null) {          // calm a busy texture: pull every texel towards the texture's mean colour

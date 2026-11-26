@@ -55,7 +55,8 @@ export class Actor {
       const h = this.bones[`hand_${s}`], hp = W(`hand_${s}`), mid = W(`middle_01_${s}`), th = W(`thumb_01_${s}`), pk = W(`pinky_01_${s}`);
       const fd = mid.clone().sub(hp).normalize(), side = th.clone().sub(pk).normalize();
       let pn = new THREE.Vector3().crossVectors(fd, side).normalize();
-      if ((s === 'l' && pn.x > 0) || (s === 'r' && pn.x < 0)) pn.negate();                  // rest palms face the thighs
+      if (Math.abs(pn.x) > .5) { if ((s === 'l' && pn.x > 0) || (s === 'r' && pn.x < 0)) pn.negate(); }   // A-pose rest: palms face the thighs
+      else if (pn.y > 0) pn.negate();                                                                   // T-pose rest (converted characters, P3): palms face down
       const inv = wq(`hand_${s}`).invert();
       const palm = hp.clone().lerp(mid, .55).add(pn.clone().multiplyScalar(.012));
       this.hand[s] = { fd: fd.applyQuaternion(inv), pn: pn.applyQuaternion(inv), palm: h.worldToLocal(palm.clone()),
@@ -313,8 +314,10 @@ export function compile(script, actors, props = {}, opts = {}) {
     for (const L of look) if (L.blink) blinks.push(L.t + .03);
     blinks.sort((x, y) => x - y);
     const morphNames = A.morphNames;
-    const standClip = A.clips.stand; const qs = new Float32Array(N(A) * 4), ps = new Float32Array(N(A) * 3);
-    if (standClip) A.sample(standClip, 0, qs, ps);
+    // the rest stance for restraint and wrist relaxing: the 'stand' clip; converted characters (P3) have none, and an
+    // empty buffer is a zero quaternion, so fall back to the idle clip's first frame (arms down), else the bind pose
+    const standClip = A.clips.stand || A.clips[A.cfg.stanceClip] || A.clips.idle; const qs = new Float32Array(N(A) * 4), ps = new Float32Array(N(A) * 3);
+    if (standClip) A.sample(standClip, 0, qs, ps); else for (let i = 0; i < N(A); i++) { A.restQ[i].toArray(qs, i * 4); A.restP[i].toArray(ps, i * 3); }
     out.actors[A.id] = { frames, morphNames, eyes: [] , blinks };
     out.qa.timing[`${A.id}.passA_ms`] = Math.round(performance.now() - t0);
     A._compile = { base, lock, feet, frames, st, look, face, gest, handsT, reach, restrain, blinks, qs, morphNames, S };
@@ -546,6 +549,11 @@ function attention(A, f, t, actors, props) {
       if (up.length() > .2 && uu.length() > .2) { up.normalize(); uu.normalize();
         const ang = Math.atan2(uu.clone().cross(up).dot(f), clamp(uu.dot(up), -1, 1));
         const a = clamp(ang * k, -.3, .3); if (Math.abs(a) > .002) A.rotWorld('head', Q().setFromAxisAngle(f, a)); } } }
+  // intentional head tilts (P3 gesture library) go on after the levelling, which would otherwise remove them
+  for (const g of C.gest) { if (g.type !== 'tilt') continue; const u = (t - g.t) / (g.dur || .9); if (u < 0 || u > 1) continue;
+    { const a = (g.amp || 4) * Math.PI / 180 * Math.sin(Math.PI * u);     // head roll (P3): uncertainty, thought
+      const fwh = A.headFwd.clone().applyQuaternion(A.wquat('head')).normalize();
+      A.rotWorld('neck_01', Q().setFromAxisAngle(fwh, .35 * a)); A.rotWorld('head', Q().setFromAxisAngle(fwh, .65 * a)); } }
   // eyes: aim directly at the target (saccade over two frames), within ±30°; otherwise straight ahead with micro drift
   const eyeTgt = target ? target.clone() : A.wpos('head').add(A.headFwd.clone().applyQuaternion(A.wquat('head')).multiplyScalar(3));
   C.eyeTarget = eyeTgt;
