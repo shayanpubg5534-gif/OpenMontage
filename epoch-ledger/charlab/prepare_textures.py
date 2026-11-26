@@ -41,19 +41,19 @@ def toon(im: Image.Image, fam: str, size: int) -> Image.Image:
     return rgb
 
 
-def soft_flat_skin(im: Image.Image, size: int) -> tuple[Image.Image, list]:
+def soft_flat_skin(im: Image.Image, size: int, keep: float = .45) -> tuple[Image.Image, list]:
     """Skin for the editorial treatments: one even tone with only the broad, soft variation kept (lips, cheek warmth,
     brow shadow) — no palette islands, which read as patchy make-up on a face."""
     rgb = im.convert("RGB")
     mean = rgb.resize((1, 1), Image.LANCZOS).getpixel((0, 0))
     soft = rgb.resize((48, 48), Image.LANCZOS).resize((size, size), Image.BICUBIC)
-    out = Image.blend(soft, Image.new("RGB", (size, size), mean), .55)
+    out = Image.blend(soft, Image.new("RGB", (size, size), mean), 1 - keep)
     return out, [list(mean)]
 
 
-def flat(im: Image.Image, fam: str, size: int, recolour: list) -> tuple[Image.Image, list]:
+def flat(im: Image.Image, fam: str, size: int, recolour: list, keep: float = .45) -> tuple[Image.Image, list]:
     if fam == "skin":
-        return soft_flat_skin(im, size)
+        return soft_flat_skin(im, size, keep)
     k = K.get(fam, 6)
     rgb = im.convert("RGB").resize((512, 512), Image.LANCZOS).filter(ImageFilter.MedianFilter(7))
     q = rgb.quantize(colors=k, method=Image.Quantize.MEDIANCUT, kmeans=4, dither=Image.Dither.NONE)
@@ -137,7 +137,7 @@ def main(argv=None) -> int:
             result[png.name] = entry
             continue
         tn, fn = png.with_suffix(".toon.png"), png.with_suffix(".flat.png")
-        t_im, (f_im, cols) = toon(im, fam, a.size), flat(im, fam, a.size, [r for key, rs in rules.items() if key in png.stem for r in rs])
+        t_im, (f_im, cols) = toon(im, fam, a.size), flat(im, fam, a.size, [r for key, rs in rules.items() if key in png.stem for r in rs], (spec.get('design') or {}).get('skin_keep', .45))
         if has_alpha:                                        # hair, brows, lashes: keep the alpha shapes
             alpha = im.getchannel("A").resize((a.size, a.size), Image.LANCZOS)
             t_im = t_im.convert("RGBA"); t_im.putalpha(alpha)

@@ -20,16 +20,17 @@ const kindOf = n => { n = n.toLowerCase();
 const TINTS = { skin: { sh: '#dcb4a4', li: '#fff6ef' }, cloth: { sh: '#9ea7c4', li: '#fff8f0' }, shoes: { sh: '#8a90a8', li: '#ffffff' },
   ghair: { sh: '#9a8c96', li: '#fff2e4' }, mouth: { sh: '#c49a96', li: '#fff4ee' }, prop: { sh: '#a7a0b4', li: '#fff8f0' } };
 
-export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null, plate = null } = {}) {
+export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null, plate = null, look = 'cel' } = {}) {
+  const ED = look === 'editorial';   // M5: painted editorial look (opt-in; 'cel' keeps M2.3c–M4 renders unchanged)
   const env = { ...ENV[envName], ...(plate ? { plate } : {}) };
   const renderer = new THREE.WebGLRenderer({ canvas: canvas || undefined, antialias: false, preserveDrawingBuffer: true, alpha: true });
-  renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = ED ? THREE.VSMShadowMap : THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   if (!canvas) document.body.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const hemi = new THREE.HemisphereLight(env.sky, env.ground, env.hemi); scene.add(hemi);
   const key = new THREE.DirectionalLight(env.key, env.keyI); key.position.set(...env.keyPos); key.castShadow = true;
-  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02;
+  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; if (ED) { key.shadow.radius = 9; key.shadow.blurSamples = 16; key.shadow.bias = -0.0008; }
   Object.assign(key.shadow.camera, { left: -4, right: 4, top: 3, bottom: -1.5, near: .1, far: 16 }); scene.add(key);
   const fill = new THREE.DirectionalLight(env.fill, env.fillI); fill.position.set(...env.fillPos); scene.add(fill);
   const catcher = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.ShadowMaterial({ color: env.shadow, opacity: env.shadowA }));
@@ -45,8 +46,16 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
       s.fragmentShader = 'uniform vec3 tSh, tLi, keyV; uniform float rimK;\n' + s.fragmentShader.replace('#include <opaque_fragment>', `{
         vec3 alb = max(diffuseColor.rgb, vec3(1e-3));
         float L = dot(outgoingLight, vec3(.299, .587, .114)) / dot(alb, vec3(.299, .587, .114));
-        float b1 = smoothstep(${kind === 'skin' ? '.34' : '.48'} - .025, ${kind === 'skin' ? '.34' : '.48'} + .025, L);
+        ${ED ? `// editorial: a painted ramp — soft form turning, a warm terminator on skin, edges broken by a brush noise
+        vec2 bc = gl_FragCoord.xy / vec2(14., 5.); vec2 bi = floor(bc), bf = fract(bc); bf = bf * bf * (3. - 2. * bf);
+        float h00 = fract(sin(dot(bi, vec2(12.9898, 78.233))) * 43758.5453), h10 = fract(sin(dot(bi + vec2(1, 0), vec2(12.9898, 78.233))) * 43758.5453);
+        float h01 = fract(sin(dot(bi + vec2(0, 1), vec2(12.9898, 78.233))) * 43758.5453), h11 = fract(sin(dot(bi + vec2(1, 1), vec2(12.9898, 78.233))) * 43758.5453);
+        float bn = mix(mix(h00, h10, bf.x), mix(h01, h11, bf.x), bf.y);   // soft elongated brush cells, not pixel grain
+        float b1 = smoothstep(${kind === 'skin' ? '.16' : '.22'}, ${kind === 'skin' ? '.62' : '.7'}, L + (bn - .5) * ${kind === 'skin' ? '0.' : '.09'});   // no brush noise on skin
         vec3 c = mix(alb * tSh, alb * tLi, b1);
+        ${kind === 'skin' ? 'c += alb * vec3(.18, .04, .0) * (1. - abs(b1 * 2. - 1.)) * .55;' : ''}
+        c = mix(c, c * vec3(.94, .97, 1.06), (1. - b1) * .5);` : `float b1 = smoothstep(${kind === 'skin' ? '.34' : '.48'} - .025, ${kind === 'skin' ? '.34' : '.48'} + .025, L);
+        vec3 c = mix(alb * tSh, alb * tLi, b1);`}
         vec3 N = normalize(normal), V = normalize(vViewPosition);
         float rim = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0);
         c += vec3(1.0, .86, .7) * rim * rimK * alb * step(.4, L);
@@ -55,11 +64,13 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
           c = mix(c, alb * 1.75 + vec3(.012, .009, .008), band * .85);` : ''}
         outgoingLight = c; }
         #include <opaque_fragment>`); };
-    mat.customProgramCacheKey = () => 'm3-' + kind;
+    mat.customProgramCacheKey = () => (ED ? 'm5ed-' : 'm3-') + kind;
   }
-  const heavy = .0032;
+  const heavy = ED ? .0019 : .0032;
+  // editorial line work is coloured per material family (warm brown on skin, deep navy on cloth), not one black hull
+  const LINE = { skin: '#6a3a2c', cloth: '#1d2230', shoes: '#1a1a1e', ghair: '#2a1a14', prop: '#3a2a20' };
   const outline = (mat, kind) => { mat.userData.outlineParameters = { thickness: ['skin', 'cloth', 'shoes', 'prop'].includes(kind) ? heavy : kind === 'ghair' ? heavy * .75 : 0,
-    color: inkA, alpha: 1, visible: ['skin', 'cloth', 'shoes', 'ghair', 'prop'].includes(kind) }; };
+    color: ED ? new THREE.Color(LINE[kind] || '#2a2420').toArray() : inkA, alpha: 1, visible: ['skin', 'cloth', 'shoes', 'ghair', 'prop'].includes(kind) }; };
 
   // ── characters ────────────────────────────────────────────────────────────────────────────────────────────────
   const texLoader = new THREE.TextureLoader();
@@ -124,13 +135,14 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   // ── post: character + prop pass over the plate (as lookdev3) ──────────────────────────────────────────────────
   const outlineFx = new OutlineEffect(renderer);
   const mkRT = samples => new THREE.WebGLRenderTarget(W, H, { samples, colorSpace: THREE.SRGBColorSpace });
-  const rts = { 4: mkRT(4), 2: mkRT(2), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H), normalMat = new THREE.MeshNormalMaterial();
+  const rts = { 4: mkRT(4), 2: mkRT(2), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H, ED ? { depthTexture: new THREE.DepthTexture(W, H) } : {}), normalMat = new THREE.MeshNormalMaterial();
   const plateTex = await texLoader.loadAsync(env.plate); plateTex.colorSpace = THREE.SRGBColorSpace;
   const post = new THREE.ShaderMaterial({
     uniforms: { tChar: { value: null }, tNorm: { value: rtN.texture }, tPlate: { value: plateTex }, inkOn: { value: 1 }, inkCol: { value: ink.clone() },
-                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, aa: { value: 0 }, grade: { value: new THREE.Vector3(...env.grade) } },
+                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, aa: { value: 0 }, tDepth: { value: rtN.depthTexture || null }, cNear: { value: .05 }, cFar: { value: 60 }, ed: { value: ED ? 1 : 0 },
+                ao: { value: ED ? .55 : 0 }, haze: { value: 0 }, hazeCol: { value: new THREE.Color('#e9e2d6') }, hazeNear: { value: 3 }, hazeFar: { value: 12 }, dof: { value: 0 }, focus: { value: 2 }, focusRange: { value: .5 }, grade: { value: new THREE.Vector3(...env.grade) } },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
-    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate; uniform float inkOn, blur, aa; uniform vec3 inkCol, grade; uniform vec2 res;
+    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate, tDepth; uniform float inkOn, blur, aa, cNear, cFar, ed, ao, haze, hazeNear, hazeFar, dof, focus, focusRange; uniform vec3 hazeCol; uniform vec3 inkCol, grade; uniform vec2 res;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
         return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
@@ -149,13 +161,28 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
         vec4 a = .5 * (texture2D(tChar, uv - dir / 6.) + texture2D(tChar, uv + dir / 6.));
         vec4 b = a * .5 + .25 * (texture2D(tChar, uv - dir * .5) + texture2D(tChar, uv + dir * .5));
         float lB = dot(b.rgb, L); return (lB < lMin || lB > lMax) ? a : b; }
-      void main(){ vec4 ch = aa > .5 ? fxaa(vUv) : texture2D(tChar, vUv); vec3 col = ch.rgb;
+      float vz(vec2 uv){ float d = texture2D(tDepth, uv).x; return cNear * cFar / ((cFar - cNear) * d - cFar) * -1.; }   // view distance
+      // depth of field: a disc blur whose radius grows with distance from the focus plane (close-ups only)
+      vec4 dofSample(vec2 uv){ float z = vz(uv), r = clamp(abs(z - focus) / max(focusRange, .01) - 1., 0., 1.) * dof;
+        if (r < .2) return texture2D(tChar, uv); vec4 acc = vec4(0.); float n = 0.;
+        for (int i = 0; i < 16; i++) { float a = float(i) * 2.39996, rr = sqrt(float(i) + .5) / 4.; vec2 o = vec2(cos(a), sin(a)) * rr * r / res;
+          acc += texture2D(tChar, uv + o); n += 1.; } return acc / n; }
+      // screen-space ambient occlusion: neighbours closer to the camera darken creases and contacts (folds, feet, desk)
+      // crease-only: compare the pixel with the mean of two opposite neighbours, so flat or slanted planes never darken
+      float ssao(vec2 uv){ float z = vz(uv), occ = 0.; float rad = clamp(22. / z, 3., 30.);
+        for (int i = 0; i < 8; i++) { float a = float(i) * .3927, rr = .35 + .65 * fract(float(i) * .618); vec2 o = vec2(cos(a), sin(a)) * rr * rad / res;
+          float d = z - .5 * (vz(uv + o) + vz(uv - o)); occ += smoothstep(.006, .05, d) * (1. - smoothstep(.15, .35, d)); }
+        return clamp(occ / 8., 0., 1.); }
+      void main(){ vec4 ch = dof > .01 ? dofSample(vUv) : (aa > .5 ? fxaa(vUv) : texture2D(tChar, vUv)); vec3 col = ch.rgb;
+        if (ed > .5 && inkOn > .5) { float z = vz(vUv);
+          col *= 1. - ao * ssao(vUv) * .7;
+          col = mix(col, hazeCol, haze * smoothstep(hazeNear, hazeFar, z)); }
         if (inkOn > .5) { vec2 px = 1. / res;
           vec3 a = texture2D(tNorm, vUv + vec2(-1,-1)*px).rgb, b = texture2D(tNorm, vUv + vec2(0,-1)*px).rgb, c = texture2D(tNorm, vUv + vec2(1,-1)*px).rgb;
           vec3 d = texture2D(tNorm, vUv + vec2(-1,0)*px).rgb, f = texture2D(tNorm, vUv + vec2(1,0)*px).rgb;
           vec3 g = texture2D(tNorm, vUv + vec2(-1,1)*px).rgb, h = texture2D(tNorm, vUv + vec2(0,1)*px).rgb, i = texture2D(tNorm, vUv + vec2(1,1)*px).rgb;
           vec3 gx = (c + 2.*f + i) - (a + 2.*d + g), gy = (g + 2.*h + i) - (a + 2.*b + c);
-          float e = sqrt(dot(gx, gx) + dot(gy, gy)); col = mix(col, inkCol, smoothstep(.7, 1.3, e) * .6 * step(.5, ch.a)); }
+          float e = sqrt(dot(gx, gx) + dot(gy, gy)); col = mix(col, ed > .5 ? col * .42 : inkCol, smoothstep(.7, 1.3, e) * (ed > .5 ? .55 : .6) * step(.5, ch.a)); }
         col *= grade; vec3 o = mix(plate(vUv), col, ch.a);
         o *= .975 + .025 * noise(vUv * res / 1.5 + 7.);
         gl_FragColor = vec4(o, 1.);
@@ -165,7 +192,9 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), post));
   const cam = new THREE.PerspectiveCamera(30, W / H, .05, 60);
 
-  function render({ msaa = 4, shadow = 2048, inkPass = true, blur = 0, fxaa = false } = {}) {
+  function render({ msaa = 4, shadow = 2048, inkPass = true, blur = 0, fxaa = false, dof = 0, focus = 2, focusRange = .5, haze = null } = {}) {
+    post.uniforms.cNear.value = cam.near; post.uniforms.cFar.value = cam.far; post.uniforms.dof.value = ED && inkPass ? dof : 0; post.uniforms.focus.value = focus; post.uniforms.focusRange.value = focusRange;
+    if (haze !== null) post.uniforms.haze.value = haze;
     if (key.shadow.mapSize.x !== shadow) { key.shadow.mapSize.set(shadow, shadow); if (key.shadow.map) { key.shadow.map.dispose(); key.shadow.map = null; } }
     cam.updateMatrixWorld(); keyView.value.copy(key.position).applyMatrix3(new THREE.Matrix3().setFromMatrix4(cam.matrixWorldInverse)).normalize();
     const rt = rts[msaa] || rts[4];

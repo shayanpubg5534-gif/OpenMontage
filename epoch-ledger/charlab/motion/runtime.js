@@ -17,7 +17,7 @@ export const QUALITY = {
 
 export async function loadShot({ demo, OUT, canvas = null }) {
   const T0 = performance.now();
-  const stage = await createStage({ env: demo.env, canvas, plate: demo.plate || null });
+  const stage = await createStage({ env: demo.env, canvas, plate: demo.plate || null, look: demo.look || 'cel' });
   // a full 3D set (M4.1): build it, take its light rig, and resolve anchor references in the script
   let SET = null;
   if (demo.set) { const spec = await (await fetch(demo.set)).json(); stage.setPropTint((spec.lights || {}).propShadow, (spec.lights || {}).propLight); SET = buildEnvironment(stage, spec); stage.setLights(spec.lights || {});
@@ -56,7 +56,15 @@ export async function loadShot({ demo, OUT, canvas = null }) {
     stage.addProp(g); g.updateMatrixWorld(true);
     return { obj: g, keys: spec.keys || [], attach: spec.attach || null, spec };
   }
-  for (const [id, spec] of Object.entries(demo.props || {})) props[id] = makeProp(spec);
+  for (const [id, spec] of Object.entries(demo.props || {})) {
+    if (spec.type === 'glb') {                       // a static model (e.g. a base mesh under evaluation), shaded like the set
+      const g = await loader.loadAsync(spec.url); const root = g.scene;
+      root.traverse(o => { if (o.isMesh) o.material = stage.propMaterial(/eye/i.test(o.name) ? (spec.eye || '#f1ece6') : (spec.color || '#d9a68a')); });
+      if (spec.pos) root.position.set(...spec.pos); if (spec.rot) root.rotation.set(...spec.rot.map(x => x * Math.PI / 180)); if (spec.scale) root.scale.setScalar(spec.scale);
+      stage.addProp(root); root.updateMatrixWorld(true); props[id] = { obj: root, keys: [], attach: null, spec }; continue;
+    }
+    props[id] = makeProp(spec);
+  }
   const loadMs = performance.now() - T0;
   // compile
   const t1 = performance.now();
@@ -64,7 +72,8 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   const compileMs = performance.now() - t1;
   // set chairs fitted to their sitters (seat top meets the sitter's lowest pelvis height)
   if (SET) for (const [name, I] of Object.entries(SET.items)) if (I.spec.fitTo) {
-    const A = actors.find(a => a.id === I.spec.fitTo), D = compiled.actors[A.id]; let lo = 9;
+    const A = actors.find(a => a.id === I.spec.fitTo); if (!A) continue;
+    const D = compiled.actors[A.id]; let lo = 9;
     for (let f = 0; f < D.frames.length; f += 2) { EL.apply(compiled, [A], {}, f / EL.FPS); lo = Math.min(lo, A.wpos('pelvis').y); }
     I.seatTop = SET.fitSeat(name, lo, I.spec.seatDrop ?? .09); }
   // a chair whose seat should meet the sitter's pelvis
@@ -81,15 +90,17 @@ export async function loadShot({ demo, OUT, canvas = null }) {
     const K = demo.camera; let a = K[0], b = a; for (const k of K) { if (k.t <= t) a = k; if (k.t > t) { b = k; break; } } if (b.t <= a.t || b.cut) b = a;   // a cut: no interpolation across it
     const u = b === a ? 0 : (x => x * x * x * (x * (x * 6 - 15) + 10))((t - a.t) / (b.t - a.t));
     const res = v => Array.isArray(v) ? new THREE.Vector3(...v) : (() => { const A = actors.find(x => x.id === v.char); return (v.eyes ? EL.eyeWorld(A) : A.wpos('pelvis')).add(new THREE.Vector3(...(v.off || [0, 0, 0]))); })();
-    cam.position.copy(res(a.pos).lerp(res(b.pos), u)); cam.lookAt(res(a.look).lerp(res(b.look), u)); cam.fov = a.fov + ((b.fov ?? a.fov) - a.fov) * u; cam.updateProjectionMatrix();
+    const lk = res(a.look).lerp(res(b.look), u);
+    cam.position.copy(res(a.pos).lerp(res(b.pos), u)); cam.lookAt(lk); cam.fov = a.fov + ((b.fov ?? a.fov) - a.fov) * u; cam.updateProjectionMatrix();
+    return { dof: (a.dof ?? 0) + ((b.dof ?? a.dof ?? 0) - (a.dof ?? 0)) * u, focus: cam.position.distanceTo(lk), focusRange: a.focusRange ?? .35 };
   }
   const gl = stage.renderer.getContext();
   const frame = (t, quality = {}) => {
     const s = performance.now();
     EL.apply(compiled, actors, props, t);
     for (const A of actors) EL.aimEyes(A);
-    camAt(t);
-    stage.render({ blur: demo.blur || 0, ...quality });
+    const ck = camAt(t);
+    stage.render({ blur: demo.blur || 0, ...ck, haze: demo.haze ?? null, ...quality });
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));   // wait for the GPU (SwiftShader defers work)
     return performance.now() - s;
   };

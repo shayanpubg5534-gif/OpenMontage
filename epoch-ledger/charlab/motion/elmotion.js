@@ -496,8 +496,19 @@ function attention(A, f, t, actors, props) {
   if (L) w = L.w ?? 1;
   const prevL = C.look.filter(k => k.t <= t).slice(-2)[0];
   const eyeMid = eyeWorld(A);
-  const target = L ? resolveTarget(L.target, actors, props, A) : null;
-  // head spring toward the target (yaw/pitch offsets relative to the animated head)
+  let target = L ? resolveTarget(L.target, actors, props, A) : null;
+  // M5 gaze model. Eye contact is not a lock: during a long look at a person, brief seeded glances away (down and to
+  // the side) every 4–6 s; the eyes lead and the head follows only part of the way.
+  const sd = (A.cfg.seed ?? C.S.seed ?? 7) * 1.37;
+  if (target && L && typeof L.target === 'string' && L.target.startsWith('char:') && L.avert !== false) {
+    const since = t - L.t, per = 4.6 + 1.2 * Math.sin(sd), ph = (since - 2.2 + per) % per;
+    if (since > 2.2 && ph < .75) {
+      const hfw = A.headFwd.clone().applyQuaternion(A.wquat('head')).setY(0).normalize(), rgt = hfw.clone().cross(UP).normalize();
+      const k2 = Math.sin(Math.PI * ph / .75);
+      target = target.clone().add(rgt.multiplyScalar((Math.sin(sd * 3 + Math.floor((since - 2.2) / per)) > 0 ? .28 : -.28) * k2)).add(new THREE.Vector3(0, -.22 * k2, 0));
+    }
+  }
+  // head spring toward the target (yaw/pitch offsets relative to the animated head); the head turns part of the way
   let ty = 0, tp = 0;
   const hf = A.headFwd.clone().applyQuaternion(A.wquat('head'));
   if (target && w > 0) {
@@ -505,17 +516,26 @@ function attention(A, f, t, actors, props) {
     const yawT = Math.atan2(d.x, d.z), yawH = Math.atan2(hf.x, hf.z);
     let dy = yawT - yawH; while (dy > Math.PI) dy -= 2 * Math.PI; while (dy < -Math.PI) dy += 2 * Math.PI;
     const pitchT = Math.asin(clamp(d.y, -1, 1)), pitchH = Math.asin(clamp(hf.y, -1, 1));
-    ty = clamp(dy, -1.3, 1.3) * w * (L.head ?? 1); tp = clamp(pitchT - pitchH, -.6, .5) * w * (L.head ?? 1);
+    const share = L.head ?? .72;
+    ty = clamp(dy, -1.3, 1.3) * w * share; tp = clamp(pitchT - pitchH, -.6, .5) * w * share;
   }
+  // a living head: slow micro-motion (about a degree), different per actor
+  ty += .014 * Math.sin(2 * Math.PI * t / 4.1 + sd) + .008 * Math.sin(2 * Math.PI * t / 2.3 + sd * 2);
+  tp += .011 * Math.sin(2 * Math.PI * t / 3.3 + sd * 3);
   const k = 1 / FPS, om = 2 * Math.PI / (A.cfg.headLag || .55);    // critically damped spring
   const ay = om * om * (ty - st.yaw) - 2 * om * st.vy, ap = om * om * (tp - st.pitch) - 2 * om * st.vp;
   st.vy += ay * k; st.vp += ap * k; st.yaw += st.vy * k; st.pitch += st.vp * k;
   if (f === 0) { st.yaw = ty; st.pitch = tp; st.vy = st.vp = 0; }
-  for (const [n, sy, sp] of [['spine_03', .2, .1], ['neck_01', .35, .4], ['head', .45, .5]]) {
+  // spread over chest, neck and head (the neck carries more of the pitch; the head's own pitch is capped)
+  for (const [n, sy, sp] of [['spine_03', .18, .12], ['neck_01', .37, .46], ['head', .45, .42]]) {
     A.rotWorld(n, Q().setFromAxisAngle(UP, st.yaw * sy));
     const rgt = new THREE.Vector3(1, 0, 0).applyQuaternion(A.wquat('head')).setY(0).normalize();
-    A.rotWorld(n, Q().setFromAxisAngle(rgt, -st.pitch * sp));
+    A.rotWorld(n, Q().setFromAxisAngle(rgt, -clamp(st.pitch * sp, -.26, .26)));
   }
+  // head stabilisation: people keep the head near upright when the torso tilts (mocap stools, posture correction)
+  { const headUp = A.bones.head.localToWorld(new THREE.Vector3(0, 1, 0)).sub(A.wpos('head')).normalize();
+    const ang = headUp.angleTo(UP);
+    if (ang > .03) { const lim = Math.min(1, .17 / ang) * .4; A.rotWorld('head', Q().slerp(Q().setFromUnitVectors(headUp, UP), lim)); } }
   // eyes: aim directly at the target (saccade over two frames), within ±30°; otherwise straight ahead with micro drift
   const eyeTgt = target ? target.clone() : A.wpos('head').add(A.headFwd.clone().applyQuaternion(A.wquat('head')).multiplyScalar(3));
   C.eyeTarget = eyeTgt;

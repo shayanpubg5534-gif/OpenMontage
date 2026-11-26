@@ -1,0 +1,501 @@
+{
+  "id": "elias_d",
+  "_note": "M5 design iteration D of Elias (fictional; not a production cast member). Same body, clothes, rig and generated hair/brows/lashes as elias_c; the face and neck were redesigned after the M5 review: narrower head, visible neck, larger eyes, a defined nose and lips, lighter face-plane smoothing.",
+  "rig": "game_engine",
+  "hair_rgb": [
+    44,
+    34,
+    30
+  ],
+  "stand": {
+    "_note": "World-space aim directions (Blender axes: +X = character's left, -Y = forward, +Z = up) for a relaxed standing pose.",
+    "upperarm_l": [
+      0.16,
+      -0.04,
+      -1.0
+    ],
+    "upperarm_r": [
+      -0.16,
+      -0.04,
+      -1.0
+    ],
+    "lowerarm_l": [
+      0.1,
+      -0.32,
+      -1.0
+    ],
+    "lowerarm_r": [
+      -0.1,
+      -0.32,
+      -1.0
+    ],
+    "hand_l": [
+      0.06,
+      -0.2,
+      -1.0
+    ],
+    "hand_r": [
+      -0.06,
+      -0.2,
+      -1.0
+    ],
+    "head": [
+      0.0,
+      0.03,
+      1.0
+    ]
+  },
+  "preset": {
+    "phenotype": {
+      "gender": 1.0,
+      "age": 0.68,
+      "muscle": 0.55,
+      "weight": 0.56,
+      "height": 0.55,
+      "proportions": 0.8,
+      "cupsize": 0.5,
+      "firmness": 0.5,
+      "race": {
+        "african": 0.35,
+        "caucasian": 0.35,
+        "asian": 0.3
+      }
+    },
+    "eyes": "high-poly/high-poly.mhclo",
+    "eyes_material_type": "MAKESKIN",
+    "eyes_material_settings": {},
+    "eyebrows": "eyebrow010/eyebrow010.mhclo",
+    "eyelashes": "eyelashes01/eyelashes01.mhclo",
+    "teeth": "teeth_base/teeth_base.mhclo",
+    "tongue": "tongue01/tongue01.mhclo",
+    "hair": "short02/short02.mhclo",
+    "clothes": [
+      "male_elegantsuit01/male_elegantsuit01.mhclo",
+      "shoes04/shoes04.mhclo"
+    ],
+    "proxy": "",
+    "skin_mhmat": "middleage_caucasian_male/middleage_caucasian_male.mhmat",
+    "skin_material_type": "GAMEENGINE",
+    "skin_material_settings": {},
+    "color_adjustments": {},
+    "targets": [
+      {
+        "target": "l-eye-scale-incr",
+        "value": 0.55
+      },
+      {
+        "target": "r-eye-scale-incr",
+        "value": 0.55
+      },
+      {
+        "target": "l-eye-height2-incr",
+        "value": 0.35
+      },
+      {
+        "target": "r-eye-height2-incr",
+        "value": 0.35
+      },
+      {
+        "target": "l-eye-bag-decr",
+        "value": 0.7
+      },
+      {
+        "target": "r-eye-bag-decr",
+        "value": 0.7
+      },
+      {
+        "target": "l-eye-trans-out",
+        "value": 0.1
+      },
+      {
+        "target": "r-eye-trans-out",
+        "value": 0.1
+      },
+      {
+        "target": "head-oval",
+        "value": 0.35
+      },
+      {
+        "target": "head-scale-horiz-decr",
+        "value": 0.22
+      },
+      {
+        "target": "head-scale-vert-incr",
+        "value": 0.08
+      },
+      {
+        "target": "head-age-decr",
+        "value": 0.2
+      },
+      {
+        "target": "chin-prominent-incr",
+        "value": 0.3
+      },
+      {
+        "target": "chin-height-incr",
+        "value": 0.2
+      },
+      {
+        "target": "chin-bones-incr",
+        "value": 0.15
+      },
+      {
+        "target": "chin-width-decr",
+        "value": 0.1
+      },
+      {
+        "target": "l-cheek-bones-incr",
+        "value": 0.4
+      },
+      {
+        "target": "r-cheek-bones-incr",
+        "value": 0.4
+      },
+      {
+        "target": "l-cheek-volume-decr",
+        "value": 0.25
+      },
+      {
+        "target": "r-cheek-volume-decr",
+        "value": 0.25
+      },
+      {
+        "target": "nose-scale-vert-incr",
+        "value": 0.3
+      },
+      {
+        "target": "nose-scale-depth-incr",
+        "value": 0.25
+      },
+      {
+        "target": "nose-hump-decr",
+        "value": 0.3
+      },
+      {
+        "target": "nose-point-width-decr",
+        "value": 0.15
+      },
+      {
+        "target": "nose-flaring-decr",
+        "value": 0.3
+      },
+      {
+        "target": "mouth-scale-horiz-incr",
+        "value": 0.18
+      },
+      {
+        "target": "mouth-cupidsbow-incr",
+        "value": 0.5
+      },
+      {
+        "target": "mouth-upperlip-volume-incr",
+        "value": 0.2
+      },
+      {
+        "target": "mouth-lowerlip-volume-incr",
+        "value": 0.35
+      },
+      {
+        "target": "mouth-laugh-lines-in",
+        "value": 0.4
+      },
+      {
+        "target": "measure-neck-height-incr",
+        "value": 0.6
+      },
+      {
+        "target": "neck-scale-horiz-decr",
+        "value": 0.25
+      },
+      {
+        "target": "neck-double-decr",
+        "value": 0.8
+      },
+      {
+        "target": "forehead-temple-decr",
+        "value": 0.2
+      },
+      {
+        "target": "eyebrows-trans-up",
+        "value": 0.25
+      }
+    ],
+    "expressions": []
+  },
+  "face_normals": 0.95,
+  "lod_ratio": 0.35,
+  "palette": {
+    "_note": "M2.3b editorial palette: colours per material family (flat fills) and recolour rules",
+    "hair_rgb": [
+      58,
+      44,
+      38
+    ]
+  },
+  "design": {
+    "_note": "M2.3c: designed geometry. Angles are degrees around the head centre (az 0 = front, +90 = the character's left).",
+    "face_planes": {
+      "strength": 0.35,
+      "iterations": 8
+    },
+    "hair": {
+      "rgb": [
+        74,
+        58,
+        50
+      ],
+      "hairline": [
+        [
+          -180,
+          -40
+        ],
+        [
+          -140,
+          -33
+        ],
+        [
+          -115,
+          -24
+        ],
+        [
+          -100,
+          -10
+        ],
+        [
+          -88,
+          -9
+        ],
+        [
+          -76,
+          -17
+        ],
+        [
+          -66,
+          -2
+        ],
+        [
+          -52,
+          13
+        ],
+        [
+          -30,
+          21
+        ],
+        [
+          0,
+          24
+        ],
+        [
+          30,
+          21
+        ],
+        [
+          52,
+          13
+        ],
+        [
+          66,
+          -2
+        ],
+        [
+          76,
+          -17
+        ],
+        [
+          88,
+          -9
+        ],
+        [
+          100,
+          -10
+        ],
+        [
+          115,
+          -24
+        ],
+        [
+          140,
+          -33
+        ],
+        [
+          180,
+          -40
+        ]
+      ],
+      "volume": {
+        "top": 0.012,
+        "side": 0.0045,
+        "back": 0.0065
+      },
+      "bumps": [
+        {
+          "az": 22,
+          "el": 30,
+          "r": 22,
+          "mm": 6
+        },
+        {
+          "az": -15,
+          "el": 40,
+          "r": 30,
+          "mm": 3
+        }
+      ],
+      "tips": [
+        [
+          -180,
+          2
+        ],
+        [
+          -120,
+          2.5
+        ],
+        [
+          -75,
+          2
+        ],
+        [
+          -50,
+          0.5
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          50,
+          0.5
+        ],
+        [
+          75,
+          2
+        ],
+        [
+          120,
+          2.5
+        ],
+        [
+          180,
+          2
+        ]
+      ],
+      "flow_axis": [
+        15,
+        -6
+      ],
+      "part": [
+        34,
+        42
+      ],
+      "clump_deg": 11,
+      "groove": 0.45,
+      "edge_soft_deg": 3.5,
+      "cuts": 3,
+      "zone": {
+        "rgb": [
+          104,
+          94,
+          90
+        ],
+        "az": [
+          68,
+          112
+        ],
+        "el_max": -3
+      },
+      "edge_thickness": 0.35
+    },
+    "brows": {
+      "rgb": [
+        40,
+        31,
+        29
+      ],
+      "curve": [
+        [
+          -0.019,
+          0.0175,
+          0.0024
+        ],
+        [
+          -0.01,
+          0.0197,
+          0.0025
+        ],
+        [
+          0.003,
+          0.0212,
+          0.0022
+        ],
+        [
+          0.016,
+          0.0208,
+          0.0016
+        ],
+        [
+          0.026,
+          0.0174,
+          0.0006
+        ]
+      ]
+    },
+    "lash_lines": {
+      "rgb": [
+        30,
+        22,
+        22
+      ],
+      "lower_rgb": [
+        96,
+        70,
+        62
+      ],
+      "flick": 0.003,
+      "upper": [
+        [
+          0,
+          0.0009
+        ],
+        [
+          0.5,
+          0.0015
+        ],
+        [
+          0.85,
+          0.0022
+        ],
+        [
+          1,
+          0.0025
+        ]
+      ],
+      "lower": [
+        [
+          0,
+          0
+        ],
+        [
+          0.4,
+          0
+        ],
+        [
+          0.7,
+          0.0005
+        ],
+        [
+          1,
+          0.0007
+        ]
+      ]
+    },
+    "eyes": {
+      "iris_scale": 1.15,
+      "iris_rgb": [
+        92,
+        52,
+        34
+      ]
+    },
+    "skin_keep": 0.4
+  }
+}
