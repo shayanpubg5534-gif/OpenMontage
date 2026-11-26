@@ -58,6 +58,9 @@ cd = bpy.data.cameras.new("c"); cam = bpy.data.objects.new("c", cd); sc.collecti
 sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True
 try: sc.view_settings.view_transform = "AgX"
 except Exception: pass
+try: sc.render.image_settings.media_type = "IMAGE"
+except Exception: pass
+sc.render.image_settings.file_format = "PNG"
 sc.render.resolution_x, sc.render.resolution_y = 1280, 720
 times = {}
 for name, pos, look, lens in (("medium", (head.x + .9, head.y - 3.3, 1.45), (head.x - .1, head.y, 1.15), 40),

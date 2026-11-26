@@ -115,7 +115,10 @@ cam_d = bpy.data.cameras.new("eval_cam"); cam = bpy.data.objects.new("eval_cam",
 sc.render.engine = "CYCLES"; sc.cycles.device = "CPU"; sc.cycles.samples = SAMPLES; sc.cycles.use_denoising = True
 try: sc.cycles.denoiser = "OPENIMAGEDENOISE"
 except Exception: pass
-sc.render.film_transparent = False; sc.render.image_settings.file_format = "PNG"
+sc.render.film_transparent = False
+try: sc.render.image_settings.media_type = "IMAGE"
+except Exception: pass
+sc.render.image_settings.file_format = "PNG"
 try: sc.view_settings.view_transform = "AgX"
 except Exception: sc.view_settings.view_transform = "Filmic"
 sc.view_settings.look = "None"
