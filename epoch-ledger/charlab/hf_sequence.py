@@ -82,16 +82,23 @@ try {{
   const demo = await (await fetch('shot/{sid}.json')).json();
   const SH = await loadShot({{ demo, OUT: 'chars', canvas: document.getElementById('{name}') }});
   const Q = QUALITY[{json.dumps(q)}];
-  (window.__el3dDraw = window.__el3dDraw || {{}})['{sid}'] = t => SH.frame(t, Q);
+  (window.__el3dDraw = window.__el3dDraw || {{}})['{sid}'] = (t, q) => SH.frame(t, q ? QUALITY[q] : Q);
   SH.frame(0, Q);
   (window.__el3dInfo = window.__el3dInfo || {{}})['{sid}'] = {{ load: SH.loadMs, compile: SH.compileMs, quality: {json.dumps(q)} }};
   if (window.__elReady) window.__elReady('{name}'); else (window.__elPending = window.__elPending || []).push('{name}');
 }} catch (e) {{ if (window.__elFail) window.__elFail('{name}', String(e && e.stack || e)); else throw e; }}
 </script>""")
-        regions.append((name, [(t0, t0 + D)],
-                        f"const E_{sid} = {{ t: 0 }};\n"
-                        f"tl.fromTo(E_{sid}, {{ t: 0 }}, {{ t: {D}, duration: {D}, ease: 'none', immediateRender: false, "
-                        f"onUpdate: () => window.__el3dDraw && window.__el3dDraw['{sid}'] && window.__el3dDraw['{sid}'](E_{sid}.t) }}, {t0});"))
+        # windows: split a shot at its cuts so each part is its own cached chunk (rendered in parallel), each with its
+        # own preset (e.g. Standard for a lip-sync close-up, Balanced for the wide that follows)
+        wins = S.get("windows") or [{"to": D}]
+        a0 = 0.0
+        for j, w in enumerate(wins):
+            a1 = min(D, float(w["to"])); wq = a.force_quality or w.get("quality", q); rid = f"{name}_w{j}" if len(wins) > 1 else name
+            regions.append((rid, [(t0 + a0, t0 + a1)],
+                            f"const E_{sid}_{j} = {{ t: {a0} }};\n"
+                            f"tl.fromTo(E_{sid}_{j}, {{ t: {a0} }}, {{ t: {a1}, duration: {a1 - a0:.4f}, ease: 'none', immediateRender: false, "
+                            f"onUpdate: () => window.__el3dDraw && window.__el3dDraw['{sid}'] && window.__el3dDraw['{sid}'](E_{sid}_{j}.t, {json.dumps(wq)}) }}, {t0 + a0});"))
+            a0 = a1
     for cid in sorted(chars):
         (ws / "chars" / f"{cid}_tex").mkdir(parents=True, exist_ok=True)
         shutil.copy(a.chars / f"{cid}.glb", ws / "chars" / f"{cid}.glb"); assets.append(f"chars/{cid}.glb")
@@ -110,7 +117,7 @@ try {{
     (ws / "index.html").write_text(html)
     src = REPO / seq.NARRATION_WAV
     if src.resolve() != (ws / "narration.wav").resolve(): shutil.copy(src, ws / "narration.wav")
-    print(json.dumps({"workspace": str(ws), "duration": seq.DURATION, "shots": [(s["id"], a.force_quality or s.get("quality", a.quality)) for s in seq.SHOTS], "assets": len(assets)}))
+    print(json.dumps({"workspace": str(ws), "duration": seq.DURATION, "regions": [(r[0], r[1]) for r in regions], "assets": len(assets)}))
 
 
 if __name__ == "__main__":

@@ -18,7 +18,9 @@ NARRATION_WAV = "projects/charlab_m5/hf/narration.wav"
 DURATION = 25.0
 SHOTS = [
     {"id": "bakery", "demo": "epoch-ledger/charlab/motion/demos/m5_bakery.json", "start": 0.0},
-    {"id": "bank", "demo": "epoch-ledger/charlab/motion/demos/m5_bank.json", "start": 18.6, "quality": "standard"},   # close-up: faces
+    # split at the cut (Nadia's line ends, narration resumes): Standard for the lip-sync close-up, Balanced for the wide
+    {"id": "bank", "demo": "epoch-ledger/charlab/motion/demos/m5_bank.json", "start": 18.6,
+     "windows": [{"to": 4.214, "quality": "standard"}, {"to": 6.4, "quality": "balanced"}]},
 ]
 
 PAPER, INK, GOLD, RED, GREEN, BROWN = "#f4ecdd", "#2b2118", "#c9963a", "#b5473a", "#3d7a52", "#6e4a30"
@@ -87,11 +89,11 @@ def scenes(T):
     out.append(Scene("L", l0, l1 - l0 + .2, wood + f'<div id="Lcam" class="m5f">{lshadow}<div class="m5f" style="transform:rotate(-3deg)">{_svg(sheet)}</div></div>', js=js))
 
     # ── T: payment timeline — "Her flour supplier wanted payment in thirty days. Her biggest customer, a café chain, paid in ninety."
-    t0, t1 = B["n2"]["start"] - .2, B["n3"]["start"] + .25
+    t0, t1 = B["n2"]["start"] - .2, B["n3"]["start"] + .6
     X = lambda d: 300 + d * 14.0
     ax = 600
     ticks = "".join(f'<g class="tk" opacity="0"><line x1="{X(d)}" y1="{ax - 12}" x2="{X(d)}" y2="{ax + 12}" stroke="{INK}" stroke-width="3"/>'
-                    f'<text x="{X(d)}" y="{ax + 52}" font-family="Inter" font-weight="700" font-size="26" fill="#6b5a48" text-anchor="middle">DAY {d}</text></g>' for d in (0, 30, 60, 90))
+                    f'<text x="{X(d) - (16 if d == 90 else 0)}" y="{ax + 52}" font-family="Inter" font-weight="700" font-size="26" fill="#6b5a48" text-anchor="{"end" if d == 90 else "middle"}">DAY {d}</text></g>' for d in (0, 30, 60, 90))
     sack = (f'<g transform="translate({X(30)} 250)"><g id="tsup" opacity="0"><path d="M-62 70 C-70 10 -50 -40 -30 -55 L30 -55 C50 -40 70 10 62 70 Z" fill="#efe3c6" stroke="{INK}" stroke-width="4"/>'
             f'<path d="M-34 -55 Q0 -75 34 -55" stroke="{INK}" stroke-width="4" fill="none"/><text y="20" font-family="Inter" font-weight="800" font-size="22" fill="{BROWN}" text-anchor="middle">FLOUR</text>'
             f'<text x="95" y="-10" font-family="Fraunces" font-weight="700" font-size="34" fill="{INK}">Flour supplier</text>'
@@ -126,13 +128,13 @@ def scenes(T):
           f"tl.fromTo('#T .steam',{{y:0,opacity:.9}},{{y:-8,opacity:.4,duration:1.2,repeat:3,yoyo:true,ease:'sine.inOut',immediateRender:false}},{W('café'):.2f});"
           f"tl.to('#thead',{{x:{X(90) - X(0)},duration:{ninety - W('paid') + .5:.2f},ease:'power1.inOut'}},{W('paid') - .3:.2f});"
           f"mDrawOn('#tin',{ninety + .05:.2f},{{dur:.45}});tl.to('#tinh',{{opacity:1,duration:.15}},{ninety + .45:.2f});tl.fromTo('#tinl',{{opacity:0,x:-20}},{{opacity:1,x:0,duration:.35,immediateRender:false}},{ninety + .4:.2f});"
-          f"tl.fromTo('#tgap',{{opacity:0}},{{opacity:1,duration:.45}},{ninety + .75:.2f});"
+          f"tl.fromTo('#tgap',{{opacity:0}},{{opacity:1,duration:.4}},{ninety + .3:.2f});"
           f"tl.to('#Tcam',{{scale:1.5,x:-180,y:120,opacity:0,duration:.5,ease:'power2.in'}},{t1 - .45:.2f});")
     out.append(Scene("T", t0, t1 - t0 + .1, f'<div class="m5paper"></div><div class="m5grain"></div><div id="Tcam" class="m5f">{_svg(tsvg)}'
                      f'<div class="m5s" style="left:300px;top:150px">How the money moved</div></div>', js=js))
 
     # ── C: cash balance — "So each month, more cash went out than came in, until the account ran dry." ─────────────────
-    c0, c1 = B["n3"]["start"] - .15, B["dialogue"]["start"] - .45
+    c0, c1 = B["n3"]["start"] + .1, B["dialogue"]["start"] - .45
     mo = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"]
     bal = [12000, 9500, 7000, 4500, 2000, 0]     # "ran dry": exactly £0 (no overdraft is modelled)
     x0, dx, zy, sc = 420, 230, 700, 0.034            # zero line at y=700; £1 = .034 px
