@@ -40,12 +40,13 @@
      "at": 6.0,
      "blend": 0.8,
      "from": 3.0,
-     "to": 4.6,
+     "to": 4.2,
      "loop": "pingpong",
      "pin": 3.4,
      "place": {
       "anchor": "client_chair.seat"
-     }
+     },
+     "calm": true
     }
    ],
    "restrain": [
@@ -303,12 +304,13 @@
      "clip": "sit",
      "at": 0,
      "from": 3.0,
-     "to": 4.6,
+     "to": 4.2,
      "loop": "pingpong",
      "pin": 3.4,
      "place": {
       "anchor": "banker_chair.seat"
-     }
+     },
+     "calm": true
     }
    ],
    "hands": [
@@ -339,7 +341,7 @@
    "reach": [
     {
      "side": "l",
-     "t0": 0,
+     "t0": -1.0,
      "in": 0.1,
      "t1": 99,
      "local": [
@@ -360,7 +362,7 @@
     },
     {
      "side": "r",
-     "t0": 0,
+     "t0": -1.0,
      "in": 0.1,
      "t1": 99,
      "local": [

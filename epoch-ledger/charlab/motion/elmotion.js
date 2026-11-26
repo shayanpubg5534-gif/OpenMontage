@@ -205,7 +205,7 @@ export function compile(script, actors, props = {}, opts = {}) {
       return clamp(from + u, 0, s.clip.duration);
     };
     const segPose = (s, t, qq, pp, calm = false) => {   // pose of one segment at timeline t, pelvis placed in the world
-      const ct = clipTime(s, t); A.sample(s.clip, ct, qq, pp, calm); A.setPose(qq, pp);
+      const ct = clipTime(s, t); A.sample(s.clip, ct, qq, pp, calm || !!s.calm); A.setPose(qq, pp);   // calm: a held segment plays the slow version (no visible reversals)
       const pw = A.wpos('pelvis'), qw = A.wquat('pelvis');
       const R = Q().setFromAxisAngle(UP, s._yaw);
       const pos = pw.clone().sub(s._p0).applyQuaternion(R).add(s._anchor); pos.y = pw.y + calib[s.clip.name];
@@ -288,7 +288,7 @@ export function compile(script, actors, props = {}, opts = {}) {
           // leash: a pinned foot may differ from the animation by at most 3.5 cm; beyond that the pin follows
           // smoothly (mocap subjects shuffle their feet), so a plant never ends with a snap
           const dx = F[f].ankle.x - tgt.x, dz = F[f].ankle.z - tgt.z, dl = Math.hypot(dx, dz);
-          if (dl > .035) { const k = 1 - .035 / dl; tgt.x += dx * k; tgt.z += dz * k; }
+          { const k = .12 * ease((dl - .012) / .03); tgt.x += dx * k; tgt.z += dz * k; }   // soft leash: no speed jump at a threshold
           const w = Math.min(ease((f - a + 1) / 6), ease((b - f + 1) / 6));          // 0.2 s ramps: no snap into or out of a plant
           const T = F[f].ankle.clone(); T.x += (tgt.x - T.x) * w; T.z += (tgt.z - T.z) * w;
           lock[s][f] = T;
@@ -422,7 +422,7 @@ function armLayers(A, f, t, propState) {
       ldir = h.normalize(); const axis = UP.clone().cross(ldir).normalize(), ang = Math.min(.75, ex / .38) * w; leaned += ang;
       for (const [n, k] of [['spine_01', .4], ['spine_02', .35], ['spine_03', .25]]) A.rotWorld(n, Q().setFromAxisAngle(axis, ang * k));
     }
-    if (leaned > 0 && ldir) {                 // counterbalance: hips go back as the torso leans; planted feet re-pinned
+    if (leaned > 0 && ldir && A.wpos('pelvis').y > .7) {          // standing only: a seated pelvis stays on its chair                 // counterbalance: hips go back as the torso leans; planted feet re-pinned
       const pb = A.bones.pelvis, wp = A.wpos('pelvis').sub(ldir.clone().multiplyScalar(.12 * leaned)).add(new THREE.Vector3(0, -.03 * leaned, 0));
       pb.position.copy(pb.parent.worldToLocal(wp)); A.rootBone.updateMatrixWorld(true); pinFeet(A, f);
     }
