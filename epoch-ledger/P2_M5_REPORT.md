@@ -6,7 +6,7 @@ experimental. Rig v4 and the production pipeline are untouched (`render.py`, `ki
 used read-only). The experimental character system is not promoted. M4.1 and M4.2 stay the approved technical baseline.
 Date: 2026-11-26.
 
-**Video:** `projects/charlab_m5/m5_acceptance.mp4` (not in git; sent with this report).
+**Video:** `projects/charlab_m5/m5_acceptance.mp4` (not in git; sent with this report). Key frames: `charlab/evidence/m5_key_frames.jpg`.
 
 ## 0. What I changed in response to your M5 notes
 
@@ -58,10 +58,10 @@ only partly.
 | 1 | Hand-to-socket ≤ 3 px, no penetration | **Not exercised**: no held props in this sequence (M4: 0 mm hand contact). Hands rest on the desk by IK; no penetration seen in review |
 | 2 | No prop without an owner | **Pass** (no loose props) |
 | 3 | Joint limits; nothing hidden during contact | **Pass** in review |
-| 4 | Determinism | QC_DET |
+| 4 | Determinism | **Pass**: `qc.mjs` draws 63 sampled frames in time order and in shuffled order; element state is identical on all of them. The first final failed this on one chart frame (colour tweens without explicit start values), which was fixed. Caching: a re-run with nothing changed took 1.2 s and gave a byte-identical file |
 | 5 | Diagram values labelled when spoken and match the model; no negative balance without an overdraft | **Partly met.** Timing passes: day 30 and 90 land on "thirty" and "ninety"; the twelve profits land on "every month"; the balance reaches exactly £0 on "dry" (the first draft dipped to −£500 and was corrected). But the numbers are illustrative values written into the scene (sales £11,360–12,240 a month, costs £10,180–10,620, £9,000 out at day 30, £11,000 in at day 90, monthly cash out £9,000 vs in £6,500). They are not generated from a financial model file, which the audit requires for production |
-| 6 | No text collision or cropping; captions in their band | LAYOUT |
-| 7 | Frame scan: no black, flash, freeze or opening jump; loudness on target | QC_SCAN |
+| 6 | No text collision or cropping; captions in their band | **Pass**: `layout_check.mjs` every 0.25 s with diagram text included reports 0 issues. The first check found 17, all fixed: chart month labels inside the caption band, ledger rows dipping into it during the push-in, the timeline's café label during its exit, a label overlap in a crossfade, and a cramped ledger header |
+| 7 | Frame scan: no black, flash, freeze or opening jump; loudness on target | **Pass**: no black stretches, flashes or freezes; opening frames consistent; −16 LUFS, true peak −1.7 dBFS. (The first final measured −19.4 LUFS: my dialogue splice wrote mono and matched peaks; it now keeps stereo and matches loudness.) One warning: one frame shows a 3-level pixel difference in caption antialiasing with identical state (Chromium rasterisation) |
 | 8 | At least four shot sizes; no clip repeated within 8 s | **Pass**: wide, medium push-in, close-up, insert (document) and graphic frames; no repeated clip |
 | 9 | ≤ 0.6 s per frame for character shots | **Fail**: see §2b |
 | 10 | Human review | Done at normal speed on the draft and the final: 2 fps strips, frame-by-frame strips around the gesture, full-resolution frames. It found eight problems, all fixed before the final: icons displaced, chart bars showing early, area under the curve showing early, ledger ticks visible as dots, a row under the captions, the gap label barely on screen, the head roll, and the negative balance |
@@ -69,10 +69,14 @@ only partly.
 ### 2b. Performance [M] (4-core CPU container, no GPU; 2 render workers)
 | Run | Wall time | Peak memory | Notes |
 |---|---|---|---|
-| PERF_TABLE |
+| Draft, Lean throughout | 422 s | — | Used for the normal-speed review |
+| Final v1: Balanced bakery, Standard bank (one window) | 939 s | 3.8 GB | The bank chunk alone took 829 s while the other worker sat idle |
+| Final, bank split at its cut (Standard close-up, Balanced wide) | 879 s | 3.6 GB | 6 chunks |
+| Same document again | **1.2 s** | 0.7 GB | All 6 chunks from cache, byte-identical output |
+| After editing only the chart scene | 696 s / 681 s | 3.6 GB | 2 of 6 chunks reused. The chart dissolves into the bank close-up, so they share a chunk and both re-render |
 
-Per-chunk times of the full render: bakery (Balanced, 3D) CHUNK_BAKERY; ledger, timeline and chart (2D) CHUNK_2D; bank close-up
-(Standard) CHUNK_CLOSE; bank wide (Balanced) CHUNK_WIDE. The Standard close-up alone costs about 5 s per frame, and
+Per-chunk times of the full render: bakery (Balanced, 3D) 211 s for 117 frames (1.8 s per frame); ledger, timeline and chart (2D) 77–142 s each; bank close-up
+(Standard) 662 s for 127 frames (5.2 s per frame); bank wide (Balanced) 200 s for 66 frames (3.0 s per frame). The Standard close-up alone costs about 5 s per frame, and
 character shots in Balanced cost 1.8–3 s per frame, so criterion 9 (≤ 0.6 s) fails on this machine. The draft (Lean
 throughout) took 422 s.
 Splitting the bank shot at its cut into two cached windows saved 60 s (939 → 879 s) and lets the expensive close-up be
@@ -90,6 +94,8 @@ re-rendered without the wide. Options if speed matters more than close-up qualit
 - **Props** are built from primitives; they read correctly but are simple.
 - **Speed** fails the audit's per-frame target on this CPU container (above).
 - **Audio:** no sound effects yet (the audit scenario asked for original SFX); narration and dialogue only.
+- **Two small visual nits** left in the final: the shaded area under the chart line starts with a vertical edge, and
+  "account empty" sits on the dashed zero line.
 - **A closed ceiling** darkened the room through the stage's shadow path even with shadow casting off; worked around
   with an unlit ceiling plane (backlog).
 
