@@ -536,6 +536,15 @@ function attention(A, f, t, actors, props) {
   { const headUp = A.bones.head.localToWorld(new THREE.Vector3(0, 1, 0)).sub(A.wpos('head')).normalize();
     const ang = headUp.angleTo(UP);
     if (ang > .03) { const lim = Math.min(1, .17 / ang) * .4; A.rotWorld('head', Q().slerp(Q().setFromUnitVectors(headUp, UP), lim)); } }
+  // head roll (M5 review): seated mocap leaves the head rolled toward a shoulder; people keep the eyes level while
+  // talking. Level the roll around the face axis only (pitch and yaw stay with the gaze). cfg.levelRoll 0..1 (default .8)
+  { const k = A.cfg.levelRoll ?? .8;
+    if (k > 0) { const f = A.headFwd.clone().applyQuaternion(A.wquat('head')).normalize();
+      const u = A.bones.head.localToWorld(new THREE.Vector3(0, 1, 0)).sub(A.wpos('head'));
+      const up = UP.clone().sub(f.clone().multiplyScalar(UP.dot(f))), uu = u.sub(f.clone().multiplyScalar(u.dot(f)));
+      if (up.length() > .2 && uu.length() > .2) { up.normalize(); uu.normalize();
+        const ang = Math.atan2(uu.clone().cross(up).dot(f), clamp(uu.dot(up), -1, 1));
+        const a = clamp(ang * k, -.3, .3); if (Math.abs(a) > .002) A.rotWorld('head', Q().setFromAxisAngle(f, a)); } } }
   // eyes: aim directly at the target (saccade over two frames), within ±30°; otherwise straight ahead with micro drift
   const eyeTgt = target ? target.clone() : A.wpos('head').add(A.headFwd.clone().applyQuaternion(A.wquat('head')).multiplyScalar(3));
   C.eyeTarget = eyeTgt;

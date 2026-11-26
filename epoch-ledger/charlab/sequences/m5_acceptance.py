@@ -61,16 +61,16 @@ def scenes(T):
         f'<text x="900" y="{372 + i * 46}" font-family="Inter" font-size="25" fill="#5a4a3a" text-anchor="end">{(9000 + p * 2):,}</text>'
         f'<text x="1100" y="{372 + i * 46}" font-family="Inter" font-size="25" fill="#5a4a3a" text-anchor="end">{(9000 + p):,}</text>'
         f'<text class="lp" x="1290" y="{372 + i * 46}" font-family="Fraunces" font-weight="700" font-size="27" fill="{GREEN}" text-anchor="end" opacity="0">+£{p:,}</text>'
-        f'<path class="lt" d="M1310 {362 + i * 46} l8 9 l16 -18" stroke="{GREEN}" stroke-width="4" fill="none" stroke-linecap="round"/>'
+        f'<path class="lt" opacity="0" d="M1310 {362 + i * 46} l8 9 l16 -18" stroke="{GREEN}" stroke-width="4" fill="none" stroke-linecap="round"/>'
         f'<line x1="630" y1="{384 + i * 46}" x2="1340" y2="{384 + i * 46}" stroke="#d9ccb4" stroke-width="1.5"/></g>'
         for i, (m, p) in enumerate(zip(months, prof)))
-    sheet = (f'<g id="lsheet"><rect x="580" y="170" width="800" height="900" rx="6" fill="#fbf7ee" stroke="#cdbb98" stroke-width="2"/>'
+    sheet = (f'<g transform="translate(0 -75)"><g id="lsheet"><rect x="580" y="170" width="800" height="900" rx="6" fill="#fbf7ee" stroke="#cdbb98" stroke-width="2"/>'
              f'<text x="640" y="238" font-family="Fraunces" font-weight="700" font-size="40" fill="{INK}">Nadia\'s Bakery</text>'
              f'<text x="640" y="276" font-family="Inter" font-weight="600" font-size="20" fill="#8a7a64" letter-spacing="2">PROFIT AND LOSS · MONTHLY</text>'
              f'<text x="900" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">SALES</text>'
              f'<text x="1100" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">COSTS</text>'
              f'<text id="lph" x="1290" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">PROFIT</text>'
-             f'<line x1="630" y1="336" x2="1340" y2="336" stroke="{INK}" stroke-width="2"/>{rows}</g>')
+             f'<line x1="630" y1="336" x2="1340" y2="336" stroke="{INK}" stroke-width="2"/>{rows}</g></g>')
     wood = ('<div class="m5f" style="background:linear-gradient(180deg,#8a5a3a,#6e4a30);"></div>'
             '<div class="m5f" style="opacity:.25;background:repeating-linear-gradient(92deg,rgba(40,20,10,.5) 0 2px,transparent 2px 38px),repeating-linear-gradient(88deg,rgba(255,220,170,.25) 0 1px,transparent 1px 23px)"></div>'
             '<div class="m5f" style="background:radial-gradient(70% 60% at 45% 35%,rgba(255,226,170,.35),transparent 70%)"></div>')
@@ -81,6 +81,7 @@ def scenes(T):
           f"tl.to('#L .lr',{{opacity:1,duration:.18,stagger:.045}},{l0 + .15:.2f});"
           f"tl.fromTo('#lph',{{fill:'#8a7a64'}},{{fill:'{GREEN}',duration:.3}},{W('profit') - .05:.2f});"
           f"tl.to('#L .lp',{{opacity:1,duration:.12,stagger:{(W('month', 1, True) - every) / 12:.3f}}},{every:.2f});"
+          f"tl.to('#L .lt',{{opacity:1,duration:.05,stagger:{(W('month', 1, True) - every) / 12:.3f}}},{every + .05:.2f});"
           f"mDrawOn('#L .lt',{every + .05:.2f},{{dur:.22,stagger:{(W('month', 1, True) - every) / 12:.3f}}});"
           f"tl.to('#Lcam',{{y:-260,scale:.92,opacity:0,duration:.55,ease:'power2.in'}},{l1 - .45:.2f});")
     out.append(Scene("L", l0, l1 - l0 + .2, wood + f'<div id="Lcam" class="m5f">{lshadow}<div class="m5f" style="transform:rotate(-3deg)">{_svg(sheet)}</div></div>', js=js))
@@ -91,26 +92,26 @@ def scenes(T):
     ax = 600
     ticks = "".join(f'<g class="tk" opacity="0"><line x1="{X(d)}" y1="{ax - 12}" x2="{X(d)}" y2="{ax + 12}" stroke="{INK}" stroke-width="3"/>'
                     f'<text x="{X(d)}" y="{ax + 52}" font-family="Inter" font-weight="700" font-size="26" fill="#6b5a48" text-anchor="middle">DAY {d}</text></g>' for d in (0, 30, 60, 90))
-    sack = (f'<g id="tsup" opacity="0" transform="translate({X(30)} 250)"><path d="M-62 70 C-70 10 -50 -40 -30 -55 L30 -55 C50 -40 70 10 62 70 Z" fill="#efe3c6" stroke="{INK}" stroke-width="4"/>'
+    sack = (f'<g transform="translate({X(30)} 250)"><g id="tsup" opacity="0"><path d="M-62 70 C-70 10 -50 -40 -30 -55 L30 -55 C50 -40 70 10 62 70 Z" fill="#efe3c6" stroke="{INK}" stroke-width="4"/>'
             f'<path d="M-34 -55 Q0 -75 34 -55" stroke="{INK}" stroke-width="4" fill="none"/><text y="20" font-family="Inter" font-weight="800" font-size="22" fill="{BROWN}" text-anchor="middle">FLOUR</text>'
             f'<text x="95" y="-10" font-family="Fraunces" font-weight="700" font-size="34" fill="{INK}">Flour supplier</text>'
-            f'<text x="95" y="28" font-family="Inter" font-weight="600" font-size="24" fill="#6b5a48">wants payment in 30 days</text></g>')
-    cafe = (f'<g id="tcafe" opacity="0" transform="translate({X(90)} 900)"><path d="M-48 -40 H40 V10 C40 45 -48 45 -48 10 Z" fill="#fbf7ee" stroke="{INK}" stroke-width="4"/>'
+            f'<text x="95" y="28" font-family="Inter" font-weight="600" font-size="24" fill="#6b5a48">wants payment in 30 days</text></g></g>')
+    cafe = (f'<g transform="translate({X(90)} 815)"><g id="tcafe" opacity="0"><path d="M-48 -40 H40 V10 C40 45 -48 45 -48 10 Z" fill="#fbf7ee" stroke="{INK}" stroke-width="4"/>'
             f'<path d="M40 -28 C70 -28 70 8 40 8" stroke="{INK}" stroke-width="4" fill="none"/><path d="M-60 52 H52" stroke="{INK}" stroke-width="4"/>'
             f'<path class="steam" d="M-22 -55 c-10 -14 10 -22 0 -38 M2 -55 c-10 -14 10 -22 0 -38" stroke="#8a7a64" stroke-width="3" fill="none"/>'
             f'<text x="-90" y="-10" font-family="Fraunces" font-weight="700" font-size="34" fill="{INK}" text-anchor="end">Café chain</text>'
-            f'<text x="-90" y="28" font-family="Inter" font-weight="600" font-size="24" fill="#6b5a48" text-anchor="end">her biggest customer · pays in 90 days</text></g>')
+            f'<text x="-90" y="28" font-family="Inter" font-weight="600" font-size="24" fill="#6b5a48" text-anchor="end">her biggest customer · pays in 90 days</text></g></g>')
     shop = (f'<g id="tshop" opacity="0" transform="translate({X(0)} {ax})"><circle r="16" fill="{GOLD}" stroke="{INK}" stroke-width="3"/>'
             f'<text x="-30" y="-34" font-family="Fraunces" font-weight="700" font-size="30" fill="{INK}">Nadia\'s cash</text></g>')
     outp = f'<path id="tout" d="M{X(30)} {ax - 18} C{X(30)} {ax - 120} {X(30)} {ax - 170} {X(30)} 330" stroke="{RED}" stroke-width="8" fill="none" stroke-linecap="round"/>'
     outh = f'<path id="touth" opacity="0" d="M{X(30) - 18} 352 L{X(30)} 326 L{X(30) + 18} 352" stroke="{RED}" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
     outl = f'<text id="toutl" opacity="0" x="{X(30) - 26}" y="{ax - 120}" font-family="Fraunces" font-weight="700" font-size="36" fill="{RED}" text-anchor="end">−£9,000 out</text>'
-    inp = f'<path id="tin" d="M{X(90)} 840 C{X(90)} 760 {X(90)} 700 {X(90)} {ax + 22}" stroke="{GREEN}" stroke-width="8" fill="none" stroke-linecap="round"/>'
+    inp = f'<path id="tin" d="M{X(90)} 760 C{X(90)} 720 {X(90)} 690 {X(90)} {ax + 22}" stroke="{GREEN}" stroke-width="8" fill="none" stroke-linecap="round"/>'
     inh = f'<path id="tinh" opacity="0" d="M{X(90) - 18} {ax + 46} L{X(90)} {ax + 20} L{X(90) + 18} {ax + 46}" stroke="{GREEN}" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
     inl = f'<text id="tinl" opacity="0" x="{X(90) + 30}" y="{ax + 130}" font-family="Fraunces" font-weight="700" font-size="36" fill="{GREEN}">+£11,000 in</text>'
     gap = (f'<g id="tgap" opacity="0"><rect x="{X(30)}" y="{ax - 26}" width="{X(90) - X(30)}" height="52" fill="{RED}" opacity=".16"/>'
-           f'<path d="M{X(30)} {ax + 92} v14 H{X(90)} v-14" stroke="{RED}" stroke-width="4" fill="none"/>'
-           f'<text x="{(X(30) + X(90)) / 2}" y="{ax + 150}" font-family="Fraunces" font-weight="700" font-size="40" fill="{RED}" text-anchor="middle">60 days waiting for her money</text></g>')
+           f'<path d="M{X(30)} {ax + 70} v14 H{X(90)} v-14" stroke="{RED}" stroke-width="4" fill="none"/>'
+           f'<text x="{(X(30) + X(90)) / 2}" y="{ax + 128}" font-family="Fraunces" font-weight="700" font-size="38" fill="{RED}" text-anchor="middle">60 days waiting for her money</text></g>')
     head = f'<g id="thead" opacity="0"><circle cx="{X(0)}" cy="{ax}" r="11" fill="{INK}"/></g>'
     tsvg = (f'<path id="taxis" d="M{X(0) - 40} {ax} H{X(90) + 70}" stroke="{INK}" stroke-width="5" fill="none"/>{ticks}{gap}{shop}{sack}{cafe}{outp}{outh}{outl}{inp}{inh}{inl}{head}')
     pay, thirty, ninety = W("payment"), W("thirty") if any(w["word"].lower().startswith("thirty") for w in words) else W("30"), W("ninety") if any(w["word"].lower().startswith("ninety") for w in words) else W("90")
@@ -133,7 +134,7 @@ def scenes(T):
     # ── C: cash balance — "So each month, more cash went out than came in, until the account ran dry." ─────────────────
     c0, c1 = B["n3"]["start"] - .15, B["dialogue"]["start"] - .45
     mo = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"]
-    bal = [12000, 9500, 7000, 4500, 2000, -500]
+    bal = [12000, 9500, 7000, 4500, 2000, 0]     # "ran dry": exactly £0 (no overdraft is modelled)
     x0, dx, zy, sc = 420, 230, 700, 0.034            # zero line at y=700; £1 = .034 px
     px = [x0 + i * dx for i in range(6)]
     py = [zy - b * sc for b in bal]
@@ -144,7 +145,8 @@ def scenes(T):
                     f'<rect class="fi" x="{x + 4}" y="{zy + 70}" width="30" height="{6500 * .022:.0f}" fill="{GREEN}" opacity=".85"/>' for x in px)
     csvg = (f'<line id="czero" x1="{x0 - 60}" y1="{zy}" x2="{px[-1] + 80}" y2="{zy}" stroke="{INK}" stroke-width="3" stroke-dasharray="10 8"/>'
             f'<text x="{x0 - 75}" y="{zy + 10}" font-family="Inter" font-weight="700" font-size="24" fill="#6b5a48" text-anchor="end">£0</text>'
-            f'<path id="carea" d="{area}" fill="{GOLD}" opacity="0"/>'
+            f'<clipPath id="cclip"><rect id="cclipr" x="0" y="0" width="{x0}" height="1080"/></clipPath>'
+            f'<path id="carea" d="{area}" fill="{GOLD}" opacity=".22" clip-path="url(#cclip)"/>'
             f'<path id="cline" d="{line}" stroke="{BROWN}" stroke-width="7" fill="none" stroke-linejoin="round" stroke-linecap="round"/>'
             f'<circle id="cdot" cx="{px[-1]}" cy="{py[-1]}" r="14" fill="{RED}" opacity="0"/>'
             f'{flows}{labels}'
@@ -156,11 +158,11 @@ def scenes(T):
           f"tl.fromTo('#Ccam',{{scale:1.12}},{{scale:1,duration:{c1 - c0:.2f},ease:'power1.out',immediateRender:false}},{c0});"
           f"mDrawOn('#czero',{c0 + .1:.2f},{{dur:.5}});"
           # monthly flows: out (red) then in (green), month by month across "more cash went out than came in"
-          f"tl.fromTo('#C .fo',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle,immediateRender:false}},{went - .25:.2f});"
-          f"tl.fromTo('#C .fi',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle,immediateRender:false}},{went + .05:.2f});"
+          f"tl.fromTo('#C .fo',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went - .25:.2f});"
+          f"tl.fromTo('#C .fi',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went + .05:.2f});"
           f"tl.to('#cleg',{{opacity:1,duration:.3}},{went:.2f});"
           # the balance falls month by month and crosses zero on "dry"
-          f"mLine('#cline',{went - .3:.2f},{dry - went + .45:.2f});tl.to('#carea',{{opacity:.22,duration:1.5}},{went:.2f});"
+          f"mLine('#cline',{went - .3:.2f},{dry - went + .45:.2f});tl.fromTo('#cclipr',{{attr:{{width:{x0}}}}},{{attr:{{width:{px[-1] + 20}}},duration:{dry - went + .45:.2f},ease:'none'}},{went - .3:.2f});"
           f"mCount('#cbal',12000,0,{went - .3:.2f},{dry - went + .45:.2f},{{prefix:'£'}});"
           f"tl.to('#cbal',{{color:'{RED}',duration:.2}},{dry + .1:.2f});tl.to('#cdot',{{opacity:1,duration:.15}},{dry + .15:.2f});"
           f"tl.fromTo('#cdot',{{attr:{{r:14}}}},{{attr:{{r:24}},duration:.35,yoyo:true,repeat:1,immediateRender:false}},{dry + .15:.2f});"
