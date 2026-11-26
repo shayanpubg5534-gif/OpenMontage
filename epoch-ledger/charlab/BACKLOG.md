@@ -73,3 +73,15 @@ animation renders. Character problems named in the review (all open):
 | Code-drawn 2D | Coherent but below premium (hands, bodies, hair) | Not the final style without an illustrator |
 | CharMorph | Realistic bases; hair broken headless; Vitruvian blocked by Git LFS | Not for this brief |
 
+## Producer decision after the artistic-direction gate (option D, hybrid)
+- Snow is the reference for craft, anatomy, expressiveness, hair and shading. Rain to be investigated as a mature adult
+  professional (no unjustified proportion changes; the M5 neck mistake is not to be repeated).
+- Victoria, Ellie, Rex unsuitable as the standard cast; Einar too realistic to mix with Snow. CharMorph and code-drawn 2D
+  stay experimental alternatives; M5 stays an experimental technical baseline.
+- No artist hire, purchases or subscriptions at this stage; automated character development continues.
+- **Environment upgrade (recorded separately, not this milestone):** the bank set looks too simple beside professionally
+  designed characters; sets need modelled props, real materials and designed light to the same standard.
+- Production direction stays a narration-driven hybrid: professional 3D characters only when they serve the story,
+  cinematic 3D environments and object visualisations, advanced financial charts and diagrams, documents, maps,
+  timelines and editorial illustration. Target: 2–3 quality documentaries per week.
+
