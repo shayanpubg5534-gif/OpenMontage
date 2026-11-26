@@ -22,3 +22,15 @@ was started.
 | Wrist and finger data | CMU has no fingers and poor wrists; fingers are posed by the compiler and wrists are eased toward the rest stance | Hand IK and finger poses are fine for documentary gestures; fine manipulation needs authored poses per prop |
 | Skirt and thighs | Fixed for sitting with `cloth_follow_legs` (skirt weights follow the thighs below the hips) | Check other garments (long coats, wide trousers) when they are added |
 | Lip sync | Not part of this milestone | Viseme shapes exist in MakeHuman; drive them from the narration timing later |
+
+## M4 findings (motion quality and environments)
+| Item | State | Direction |
+|---|---|---|
+| Mocap pops (CMU 18_08 jumps the whole upper body at 6.7 s) and jitter | **Fixed** at clip preparation: outlier frames repaired, light 5-tap smoothing | Keep the smoothness analysis (`window.analyze()`) as a gate for new clips |
+| Seated mocap 114_05 slouches (reclined, legs out) | Not used for professional seated characters; the upright seated hold of 113_15 is used instead | Find or capture an upright seated idle with subtle life |
+| Restrained arms looked robotic (snapped toward one stance) | **Changed**: restraint now eases toward the clip's own slow posture | Authored gesture library per character (beat, frame, point, enumerate) |
+| Reach onsets made the elbow jump | **Fixed**: IK weight blending, bend-plane-preserving pole | — |
+| Feet: plant snaps, shuffling | **Fixed**: 0.2 s ramps, 3.5 cm leash | — |
+| Walk-to-chair | Works by chaining walk → stop → sit backwards from the chair anchor (`place: "next"`); not phase-matched | Phase-matched chaining for 'next' placement |
+| Environment props are box-built | Readable and consistent with the editorial look, but simple | Bevels and a few hand-shaped hero props (chairs, lamp) per set |
+| Depth of field | Not implemented for full 3D sets (the plate blur only applied to painted backdrops) | Depth-based blur pass if close-ups need separation |

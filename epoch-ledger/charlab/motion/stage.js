@@ -20,8 +20,8 @@ const kindOf = n => { n = n.toLowerCase();
 const TINTS = { skin: { sh: '#dcb4a4', li: '#fff6ef' }, cloth: { sh: '#9ea7c4', li: '#fff8f0' }, shoes: { sh: '#8a90a8', li: '#ffffff' },
   ghair: { sh: '#9a8c96', li: '#fff2e4' }, mouth: { sh: '#c49a96', li: '#fff4ee' }, prop: { sh: '#a7a0b4', li: '#fff8f0' } };
 
-export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null } = {}) {
-  const env = ENV[envName];
+export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null, plate = null } = {}) {
+  const env = { ...ENV[envName], ...(plate ? { plate } : {}) };
   const renderer = new THREE.WebGLRenderer({ canvas: canvas || undefined, antialias: false, preserveDrawingBuffer: true, alpha: true });
   renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;

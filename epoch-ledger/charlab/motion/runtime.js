@@ -16,7 +16,7 @@ export const QUALITY = {
 
 export async function loadShot({ demo, OUT, canvas = null }) {
   const T0 = performance.now();
-  const stage = await createStage({ env: demo.env, canvas });
+  const stage = await createStage({ env: demo.env, canvas, plate: demo.plate || null });
   // a full 3D set (M4.1): build it, take its light rig, and resolve anchor references in the script
   let SET = null;
   if (demo.set) { const spec = await (await fetch(demo.set)).json(); stage.setPropTint((spec.lights || {}).propShadow, (spec.lights || {}).propLight); SET = buildEnvironment(stage, spec); stage.setLights(spec.lights || {});
