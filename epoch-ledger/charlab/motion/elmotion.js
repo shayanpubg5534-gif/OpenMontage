@@ -550,6 +550,12 @@ function attention(A, f, t, actors, props) {
     for (const key of C.face) { const tt = t - lag(n); if (key.t > tt) break; const u = ease5((tt - key.t) / (key.dur || .5)); prev = v; v = prev + ((key.e[n] || 0) - prev) * u; }
     E[n] = v;
   }
+  // lip sync (M5): only for lines this character actually speaks. speech: [{t, data: visemes.json}] adds mouth-unit weights
+  for (const sp of (C.S.speech || [])) { const d = sp.data; if (!d) continue;
+    const fi = Math.round((t - sp.t) * d.fps); if (fi < 0 || fi >= d.frames.length) continue;
+    const fr = d.frames[fi], k = sp.gain ?? 1;
+    for (const [u, w] of Object.entries(fr)) if (C.morphNames.includes(u)) E[u] = Math.min(1, (E[u] || 0) + w * k);
+    E['mouth-corner-puller'] = (E['mouth-corner-puller'] || 0) * (1 - .5 * Math.min(1, (fr['mouth-pursing'] || 0) * 2)); }
   // lids follow the gaze pitch; blink closes completely
   const hd = eyeTgt.clone().sub(eyeMid).normalize(), hfa = A.headFwd.clone().applyQuaternion(A.wquat('head'));
   const down = clamp(Math.asin(clamp(hfa.y, -1, 1)) - Math.asin(clamp(hd.y, -1, 1)), -.5, .5);

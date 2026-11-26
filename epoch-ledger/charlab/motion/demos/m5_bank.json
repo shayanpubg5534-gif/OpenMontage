@@ -1,0 +1,399 @@
+{
+ "_note": "M5 acceptance, shot B (global 18.6-25.0): Nadia's own line 'We're busy every day. I just can't pay my suppliers.' (lip-synced, Kokoro bf_emma), then 'Profitable, and broke.' (narration: no lip sync).",
+ "env": "bank",
+ "look": "editorial",
+ "duration": 6.4,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.14,
+ "actors": {
+  "nadia_d": {
+   "cfg": {
+    "breath": 3.8,
+    "breathPhase": 1.1,
+    "headLag": 0.5
+   },
+   "seed": 31,
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "client_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.25
+    }
+   ],
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    },
+    {
+     "t": 0.8499999999999979,
+     "side": "r",
+     "pose": "present",
+     "dur": 0.35
+    },
+    {
+     "t": 1.9999999999999978,
+     "side": "r",
+     "pose": "relaxed",
+     "dur": 0.4
+    }
+   ],
+   "reach": [
+    {
+     "side": "l",
+     "t0": -1,
+     "in": 0.1,
+     "t1": 99,
+     "local": [
+      -0.1,
+      0.57,
+      0.3
+     ],
+     "fd": [
+      0.3,
+      -0.25,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": -1,
+     "in": 0.1,
+     "t1": 0.7999999999999978,
+     "out": 0.45,
+     "local": [
+      0.11,
+      0.57,
+      0.29
+     ],
+     "fd": [
+      -0.3,
+      -0.25,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": 0.7999999999999978,
+     "in": 0.45,
+     "t1": 2.099999999999998,
+     "out": 0.6,
+     "local": [
+      0.12,
+      0.86,
+      0.33
+     ],
+     "fd": [
+      -0.25,
+      0.15,
+      1
+     ],
+     "pn": [
+      -0.35,
+      1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": 2.699999999999998,
+     "in": 0.6,
+     "t1": 99,
+     "local": [
+      0.11,
+      0.57,
+      0.29
+     ],
+     "fd": [
+      -0.3,
+      -0.25,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:elias_d"
+    },
+    {
+     "t": 2.049999999999998,
+     "target": [
+      -0.2,
+      0.78,
+      -0.35
+     ],
+     "w": 0.7,
+     "blink": true
+    },
+    {
+     "t": 2.749999999999998,
+     "target": "char:elias_d",
+     "blink": true
+    },
+    {
+     "t": 4.413999999999999,
+     "target": [
+      0.0,
+      0.78,
+      -0.3
+     ],
+     "w": 0.8,
+     "blink": true
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {
+      "mouth-corner-puller": 0.1,
+      "eyebrows-left-inner-up": 0.3,
+      "eyebrows-right-inner-up": 0.3
+     }
+    },
+    {
+     "t": 1.9999999999999978,
+     "e": {
+      "eyebrows-left-inner-up": 0.55,
+      "eyebrows-right-inner-up": 0.55,
+      "mouth-depression": 0.1
+     },
+     "dur": 0.7
+    },
+    {
+     "t": 4.5139999999999985,
+     "e": {
+      "eyebrows-left-inner-up": 0.45,
+      "eyebrows-right-inner-up": 0.45,
+      "mouth-depression": 0.22
+     },
+     "dur": 0.9
+    }
+   ],
+   "gestures": [
+    {
+     "t": 0.8999999999999979,
+     "type": "nod",
+     "amp": 2.5,
+     "dur": 0.6
+    }
+   ],
+   "speech": [
+    {
+     "t": 0.5999999999999979,
+     "src": "/projects/charlab_m5/dialogue_nadia/visemes.json"
+    }
+   ]
+  },
+  "elias_d": {
+   "cfg": {
+    "breath": 4.3,
+    "breathPhase": 0.2,
+    "headLag": 0.6
+   },
+   "seed": 37,
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "banker_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "hands": [
+    {
+     "t": 0,
+     "side": "both",
+     "pose": "relaxed"
+    }
+   ],
+   "reach": [
+    {
+     "side": "l",
+     "t0": -1,
+     "in": 0.1,
+     "t1": 99,
+     "local": [
+      -0.17,
+      0.8,
+      0.36
+     ],
+     "fd": [
+      0.2,
+      -0.2,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    },
+    {
+     "side": "r",
+     "t0": -1,
+     "in": 0.1,
+     "t1": 99,
+     "local": [
+      0.17,
+      0.8,
+      0.36
+     ],
+     "fd": [
+      -0.2,
+      -0.2,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": "char:nadia_d"
+    },
+    {
+     "t": 4.713999999999999,
+     "target": [
+      0.1,
+      0.77,
+      -0.4
+     ],
+     "w": 0.6,
+     "blink": true
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {}
+    },
+    {
+     "t": 2.599999999999998,
+     "e": {
+      "eyebrows-left-inner-up": 0.25,
+      "eyebrows-right-inner-up": 0.25
+     },
+     "dur": 0.8
+    }
+   ],
+   "gestures": [
+    {
+     "t": 3.199999999999998,
+     "type": "nod",
+     "amp": 3.5,
+     "dur": 0.8
+    }
+   ]
+  }
+ },
+ "props": {},
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.9,
+    1.07,
+    0.15
+   ],
+   "look": [
+    -0.98,
+    0.99,
+    -0.5
+   ],
+   "fov": 22,
+   "dof": 1.4,
+   "focusRange": 0.35
+  },
+  {
+   "t": 4.213999999999999,
+   "pos": [
+    0.84,
+    1.07,
+    0.12
+   ],
+   "look": [
+    -0.98,
+    0.99,
+    -0.5
+   ],
+   "fov": 21.5,
+   "dof": 1.4,
+   "focusRange": 0.35
+  },
+  {
+   "t": 4.213999999999999,
+   "cut": true,
+   "pos": [
+    0.25,
+    1.5,
+    3.5
+   ],
+   "look": [
+    0.0,
+    0.9,
+    -0.5
+   ],
+   "fov": 36,
+   "dof": 0.5,
+   "focus": 3.9,
+   "focusRange": 1.5
+  },
+  {
+   "t": 6.4,
+   "pos": [
+    0.3,
+    1.58,
+    4.15
+   ],
+   "look": [
+    0.0,
+    0.9,
+    -0.5
+   ],
+   "fov": 36,
+   "dof": 0.5,
+   "focus": 4.5,
+   "focusRange": 1.5
+  }
+ ]
+}

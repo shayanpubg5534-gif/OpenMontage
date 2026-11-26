@@ -62,10 +62,11 @@ def children(rig):
 
 
 @BC.step("expressions")
-def expressions(body, rig, TargetService, ClothesService, Mhclo):
-    """Expression units on the body, then the same offsets on brows / lashes / teeth via MHCLO correspondence."""
+def expressions(body, rig, TargetService, ClothesService, Mhclo, extra=()):
+    """Expression units on the body, then the same offsets on brows / lashes / teeth via MHCLO correspondence.
+    `extra` (opt-in spec field "extra_units", M5): further MakeHuman units, e.g. the mouth shapes lip sync needs."""
     units = []
-    for unit in BC.EXPRESSION_UNITS:
+    for unit in list(BC.EXPRESSION_UNITS) + [u for u in extra if u not in BC.EXPRESSION_UNITS]:
         p = TargetService.target_full_path(unit)
         if p:
             TargetService.load_target(body, p, weight=0.0, name=unit)
@@ -340,7 +341,7 @@ def main(argv):
         LOG.setdefault("timings", {})["design_face"] = round(time.time() - t, 2)
     TargetService.bake_targets(body)          # phenotype becomes the base shape: only expression keys are exported
     eye_check(body, rig)                      # needs the joint helpers, so before the masks are applied
-    expressions(body, rig, TargetService, ClothesService, Mhclo)
+    expressions(body, rig, TargetService, ClothesService, Mhclo, spec.get("extra_units", ()))
     if spec.get("design"):                    # M2.3c: designed hair, brows, lash lines (need the helpers and the keys)
         t = time.time()
         ST.design_after_expressions(body, rig, spec, children(rig), LOG)

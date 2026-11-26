@@ -23,15 +23,15 @@ import soundfile as sf
 
 FPS = 30
 UNITS = ["mouth-open", "mouth-retraction", "mouth-pursing", "mouth-protusion", "mouth-compression", "mouth-eversion"]
-SHAPES = {   # viseme → unit weights
-    "A": {"mouth-open": .62, "mouth-retraction": .15},
-    "E": {"mouth-open": .32, "mouth-retraction": .55},
-    "I": {"mouth-open": .22, "mouth-retraction": .6},
-    "O": {"mouth-open": .45, "mouth-pursing": .5},
-    "U": {"mouth-open": .15, "mouth-pursing": .7, "mouth-protusion": .35},
-    "MBP": {"mouth-compression": .75},
-    "FV": {"mouth-open": .08, "mouth-eversion": .55, "mouth-compression": .2},
-    "C": {"mouth-open": .2, "mouth-retraction": .25},           # most consonants
+SHAPES = {   # viseme → unit weights (M5 review: jaw opening carries speech; retraction kept light, or it reads as a grimace)
+    "A": {"mouth-open": .85, "mouth-retraction": .05},
+    "E": {"mouth-open": .5, "mouth-retraction": .22},
+    "I": {"mouth-open": .32, "mouth-retraction": .28},
+    "O": {"mouth-open": .6, "mouth-pursing": .45},
+    "U": {"mouth-open": .25, "mouth-pursing": .65, "mouth-protusion": .3},
+    "MBP": {"mouth-compression": .7},
+    "FV": {"mouth-open": .1, "mouth-eversion": .5, "mouth-compression": .15},
+    "C": {"mouth-open": .38, "mouth-retraction": .08},           # most consonants
     "REST": {},
 }
 

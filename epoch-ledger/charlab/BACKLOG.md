@@ -33,4 +33,18 @@ was started.
 | Feet: plant snaps, shuffling | **Fixed**: 0.2 s ramps, 3.5 cm leash | — |
 | Walk-to-chair | Works by chaining walk → stop → sit backwards from the chair anchor (`place: "next"`); not phase-matched | Phase-matched chaining for 'next' placement |
 | Environment props are box-built | Readable and consistent with the editorial look, but simple | Bevels and a few hand-shaped hero props (chairs, lamp) per set |
-| Depth of field | Not implemented for full 3D sets (the plate blur only applied to painted backdrops) | Depth-based blur pass if close-ups need separation |
+| Depth of field | **Done in M5** (editorial look: depth-based 16-tap DOF per camera key) | — |
+
+## M5 findings (look, characters, narration-driven sequence)
+| Item | State | Direction |
+|---|---|---|
+| Characters read as game NPCs | **Improved** (D redesign: smaller skull, longer neck, larger eyes, refined nose and mouth, flatter skin, editorial shading) but still the main gap | The MakeHuman base topology and stock clothes/hair cap the result. Premium hero characters need an artist pass: sculpted head (Blender Human Base Meshes, CC0, is a good start), modelled hair cards, tailored clothes with folds, hand-painted textures. Keep the rig and motion stack; replace meshes |
+| Base mesh alternative (Blender Human Base Meshes v1.4.1, CC0) | Evaluated: better head/neck design, but bare sculpt bases (no clothes, hair, rig compatibility, expressions); cartoon-sized eyes | Use as a sculpt start for an artist pass, not as a drop-in |
+| Head looked stuck / mechanically locked on the other person | **Fixed**: gaze shares head 72%, neck and spine take part, seeded micro-motion and short aversions, head stabilised toward upright | Per-character gaze personality (frequency of aversion) |
+| Lip sync | **New**: only for a character's own spoken line (`speech` track); Kokoro voice + Whisper timing + letter-to-viseme with loudness | Phoneme-level alignment (e.g. a G2P pass) for crisper consonants; teeth read flat grey, mouth interior needs a dark cavity |
+| Hands | Mocap hand poses plus IK contact; fingers stiff and thick | Hand mesh refinement and a richer gesture library |
+| Clothing | Stock MakeHuman proxies with editorial ink; folds painted only by shading | Modelled garments with sculpted fold geometry |
+| Bakery set | **Rebuilt** to read as a bakery (display case, breads, rack, oven, till, chalkboard, baskets, sacks, pendants, tiles, ceiling) | Hand-shaped hero props; food materials with subtle gradients |
+| Lights above a closed ceiling | A ceiling slab darkened the room even with `castShadow=false`; the ceiling is now an unlit plane | Find the stage's shadow path for env meshes |
+| 2D/3D style match | 2D scenes use the same paper, ink and palette as the 3D sets | A shared token file for both |
+

@@ -24,6 +24,7 @@ export async function loadShot({ demo, OUT, canvas = null }) {
     for (const a of Object.values(demo.actors)) for (const s of a.body || []) if (s.place && typeof s.place === "object" && s.place.anchor) {
       const an = SET.anchors[s.place.anchor]; if (!an) throw new Error('unknown anchor ' + s.place.anchor); s.place = { pos: an.pos, yaw: an.yaw }; } }
   const loader = new GLTFLoader(), actors = [];
+  for (const a of Object.values(demo.actors)) for (const sp of a.speech || []) if (sp.src && !sp.data) sp.data = await (await fetch(sp.src)).json();   // lip-sync tracks (M5)
   for (const [id, a] of Object.entries(demo.actors)) {
     const g = await loader.loadAsync(`${OUT}/${id}.glb`);
     await stage.addCharacter(g, id, `${OUT}/${id}_tex`);

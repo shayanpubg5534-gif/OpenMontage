@@ -494,5 +494,11 @@
       "depth": 0.16
     },
     "skin_keep": 0.4
-  }
+  },
+  "extra_units": [
+    "mouth-retraction",
+    "mouth-pursing",
+    "mouth-protusion",
+    "mouth-eversion"
+  ]
 }
