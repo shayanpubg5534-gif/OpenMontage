@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Artistic-direction gate: export a set (motion/sets/*.json) from the runtime to glTF so other renderers can use it. ?three=DIR&set=URL -->
+<script>const q = new URLSearchParams(location.search);
+document.write(`<script type="importmap">${JSON.stringify({ imports: { three: q.get('three') + '/package/build/three.module.js', 'three/addons/': q.get('three') + '/package/examples/jsm/' } })}<\/script>`);</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { createStage } from '../motion/stage.js';
+import { buildEnvironment } from '../motion/env.js';
+const q = new URLSearchParams(location.search);
+try {
+  const stage = await createStage({ env: 'bank', look: 'editorial' });
+  const spec = await (await fetch(q.get('set'))).json();
+  const E = buildEnvironment(stage, spec);
+  // plain PBR copies of the flat materials (the exporter only understands standard materials)
+  E.root.traverse(o => { if (!o.isMesh) return; const ms = Array.isArray(o.material) ? o.material : [o.material];
+    const conv = ms.map(m => { const c = (m.uniforms && m.uniforms.base && m.uniforms.base.value) || m.color || new THREE.Color('#cccccc');
+      return new THREE.MeshStandardMaterial({ color: c.clone ? c.clone() : new THREE.Color(c), map: m.map || (m.uniforms && m.uniforms.map && m.uniforms.map.value) || null, roughness: .8 }); });
+    o.material = Array.isArray(o.material) ? conv : conv[0]; });
+  await new Promise(r => setTimeout(r, 800));
+  const glb = await new GLTFExporter().parseAsync(E.root, { binary: true });
+  const u8 = new Uint8Array(glb); let bin = ''; for (let i = 0; i < u8.length; i += 32768) bin += String.fromCharCode.apply(null, u8.subarray(i, i + 32768)); window.glb = btoa(bin);
+  window.ready = true;
+} catch (e) { window.err = String(e && e.stack || e); }
+</script></body></html>
