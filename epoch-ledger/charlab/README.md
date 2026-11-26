@@ -100,3 +100,16 @@ done
 node epoch-ledger/charlab/lookdev.mjs --page lookdev2.html --three .runtime/charlab/three/r0.186.1 \
     --query 'env=bank&chars=elias:-.65:0:15,nadia:.7:.1:-20&out=/.runtime/charlab/out_m23b' --shots SHOTS.json --out DIR
 ```
+
+## M2.3c — bespoke character geometry (procedural, headless)
+
+| File | What it does |
+|---|---|
+| `stylise.py` | Run by `build_dressed.py` only when a spec has `"design"`. It adds:<br>• face planes (Taubin smoothing of the face skin as a shape key, then the proxies are refitted);<br>• original hair (a designed hairline, a volume map, flow-aligned clump grooves, lock tips, a solid edge, an optional colour zone, an optional ponytail with clearance and a tie);<br>• designed brows;<br>• lash lines on the eyelash helper geometry.<br>The generated meshes are skinned to the head and carry the body's expression keys. |
+| `specs/elias_c.json`, `specs/nadia_c.json` | Designed face targets and `"design"` settings (angles in degrees around the head: az 0 = front, +90 = the character's left). |
+| `prepare_textures.py` | With `design.eyes`: an illustrated eye texture (iris found automatically, enlarged, two tones with a limbal ring). |
+| `viewer/lookdev3.html` | `lookdev2.html` plus the designed mesh types (`ghair`, `gline`). |
+| `verify_design.py` | Skinning, expression, blink and brow-raise measurements for the designed meshes. |
+| `evidence_sheets3.py` | M2.3b vs M2.3c sheets. |
+
+Commands: see `epoch-ledger/P2_M23C_REPORT.md`, "Reproducibility".

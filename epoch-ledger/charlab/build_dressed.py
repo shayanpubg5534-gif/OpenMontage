@@ -1,4 +1,4 @@
-"""Character lab (M2.3, M2.3b): a fully dressed character from a preset (MPFB + MakeHuman system assets) → GLB.
+"""Character lab (M2.3, M2.3b, M2.3c): a fully dressed character from a preset (MPFB + MakeHuman system assets) → GLB.
 
     BLENDER_USER_RESOURCES=.runtime/charlab/user .runtime/charlab/venv/bin/python \
         epoch-ledger/charlab/build_dressed.py epoch-ledger/charlab/specs/amara.json OUT_DIR [--bvh idle=FILE:START:END]
@@ -333,9 +333,18 @@ def main(argv):
     body, rig = build(spec, HumanService)
     LOG["rig"] = rig.name
     LOG["bones"] = len(rig.data.bones)
+    if spec.get("design"):                    # M2.3c bespoke geometry (opt-in): face planes, then proxies refitted
+        import stylise as ST
+        t = time.time()
+        ST.design_before_bake(body, rig, spec, children(rig), ClothesService, LOG)
+        LOG.setdefault("timings", {})["design_face"] = round(time.time() - t, 2)
     TargetService.bake_targets(body)          # phenotype becomes the base shape: only expression keys are exported
     eye_check(body, rig)                      # needs the joint helpers, so before the masks are applied
     expressions(body, rig, TargetService, ClothesService, Mhclo)
+    if spec.get("design"):                    # M2.3c: designed hair, brows, lash lines (need the helpers and the keys)
+        t = time.time()
+        ST.design_after_expressions(body, rig, spec, children(rig), LOG)
+        LOG.setdefault("timings", {})["design_meshes"] = round(time.time() - t, 2)
     apply_masks(rig)
     if clips:
         BC.retarget(rig, clips)

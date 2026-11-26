@@ -25,8 +25,8 @@ from mathutils.bvhtree import BVHTree
 
 def kind(name):
     n = name.lower()
-    if "eyebrow" in n: return "brow"
-    if "eyelash" in n: return "lash"
+    if "eyebrow" in n or "m23c_brows" in n: return "brow"
+    if "eyelash" in n or "m23c_lashline" in n: return "lash"
     if "high-poly" in n or "low-poly" in n: return "eye"
     if "teeth" in n or "tongue" in n: return "mouth"
     if any(h in n for h in ("hair", "bob0", "short0", "long0", "ponytail", "braid", "afro")): return "hair"

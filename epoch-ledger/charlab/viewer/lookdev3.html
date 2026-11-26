@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<!-- Character lab look-development viewer, M2.3c (bespoke character geometry). A copy of lookdev2.html (M2.3b, kept
+     unchanged for reproducibility) that also understands the generated meshes of stylise.py:
+       ghair  designed hair (shell, ponytail locks, tie): flat material colour, two bands, a shaped highlight that breaks on
+              the clump grooves, medium ink; drawn into the interior-ink pass so groove edges read as strand lines
+       gbrow  designed brows and gline lash lines: flat ink-like colour, no lighting, no outline
+     Everything else is identical to lookdev2.html.
+     M2.3b notes follow.
+     ?three=<dir with package/>&env=bakery|bank&chars=<id>:<x>:<z>:<yaw>,...&out=<build dir>
+     Treatments (identical pose, light, camera, environment):
+       toon2     improved refined toon: three crisp bands, hue-shifted shadows, clean face normals, bold silhouette ink
+       editorial flat editorial illustration: build-time palette textures (controlled flat colour), two bands,
+                 variable-weight ink (heavy silhouette, light interior), hair shape highlights, eye catchlights
+       hybrid    editorial base + subtle painterly finish: softened band edges, light Kuwahara on the figure, pigment grain
+     Efficiency switches per render: msaa, shadow map size, interior-ink pass, LOD model. -->
+<script>
+const q = new URLSearchParams(location.search);
+document.write(`<script type="importmap">${JSON.stringify({ imports: { three: q.get('three') + '/package/build/three.module.js', 'three/addons/': q.get('three') + '/package/examples/jsm/' } })}<\/script>`);
+</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js';
+const q = new URLSearchParams(location.search);
+const W = 1920, H = 1080, OUT = q.get('out');
+const ENV = {
+  bakery: { plate: '/projects/profitable-and-broke/hyperframes/plates/shop-bg-6302a081a386.png', sky: '#fff0da', ground: '#6b5a48', hemi: 1.15,
+            key: '#ffd7a2', keyI: 2.5, keyPos: [2.2, 4.2, 3.0], fill: '#b8cfff', fillI: .45, fillPos: [-3, 2, 1.5],
+            shadow: '#3a2414', shadowA: .30, ink: '#2b1d16', grade: [1.03, 1.0, .95] },
+  bank:   { plate: '/projects/profitable-and-broke/hyperframes/plates/bank-bg-b758bcbed821.png', sky: '#e8eefa', ground: '#6f7686', hemi: 1.2,
+            key: '#fff3e4', keyI: 2.3, keyPos: [-2.6, 4.0, 3.0], fill: '#ffd3a6', fillI: .45, fillPos: [3, 2, 1.0],
+            shadow: '#1f2633', shadowA: .28, ink: '#1e2330', grade: [.98, 1.0, 1.03] } };
+const env = ENV[q.get('env') || 'bakery'];
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, alpha: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const hemi = new THREE.HemisphereLight(env.sky, env.ground, env.hemi); scene.add(hemi);
+const key = new THREE.DirectionalLight(env.key, env.keyI); key.position.set(...env.keyPos); key.castShadow = true;
+key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02;
+Object.assign(key.shadow.camera, { left: -2.5, right: 2.5, top: 2.6, bottom: -.4, near: .1, far: 14 }); scene.add(key);
+const fill = new THREE.DirectionalLight(env.fill, env.fillI); fill.position.set(...env.fillPos); scene.add(fill);
+const catcher = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ color: env.shadow, opacity: env.shadowA }));
+catcher.rotation.x = -Math.PI / 2; catcher.receiveShadow = true; scene.add(catcher);
+
+// ── characters (several per scene), with their build-time treated textures ───────────────────────────────────────
+const loader = new GLTFLoader(), texLoader = new THREE.TextureLoader();
+const kindOf = n => { n = n.toLowerCase();
+  if (/m23c_hair/.test(n)) return 'ghair'; if (/m23c_brows|m23c_lashline/.test(n)) return 'gline';
+  return /eyebrow/.test(n) ? 'brow' : /eyelash/.test(n) ? 'lash' : /high-poly|low-poly/.test(n) ? 'eye' : /teeth|tongue/.test(n) ? 'mouth'
+       : /bob|hair|long0|short0|ponytail|braid|afro/.test(n) ? 'hair' : /shoes/.test(n) ? 'shoes' : /suit|fedora|dress|shirt/.test(n) ? 'cloth' : 'skin'; };
+const cast = [];
+async function loadChar(spec, lod) {
+  const [id, x, z, yaw] = spec.split(':'); const file = `${OUT}/${id}${lod ? '_lod' : ''}.glb`;
+  const g = await loader.loadAsync(file);
+  const tr = await (await fetch(`${OUT}/${id}_tex/treatments.json`)).json();
+  const c = { id, root: g.scene, gltf: g, meshes: [], bones: {}, maps: {}, x: +x || 0, z: +z || 0, yaw: +yaw || 0 };
+  g.scene.traverse(o => { if (o.isBone) c.bones[o.name] = o; if (o.isMesh) c.meshes.push(o); });
+  for (const m of c.meshes) {
+    const src = m.material.map && m.material.map.image, name = m.material.map && m.material.map.name;
+    const entry = Object.entries(tr).find(([k]) => name && (name === k.replace('.png', '') || name.startsWith(k.replace('.png', ''))));
+    m.userData.orig = m.material; m.userData.kind = kindOf(m.name);
+    if (entry && entry[1].flat) {
+      const load = f => texLoader.loadAsync(`${OUT}/${id}_tex/${f}`).then(t => { t.colorSpace = THREE.SRGBColorSpace; t.flipY = false; t.anisotropy = 4; return t; });
+      m.userData.maps = { toon2: await load(entry[1].toon), editorial: await load(entry[1].flat), hybrid: null };
+      m.userData.maps.hybrid = m.userData.maps.editorial;
+    }
+  }
+  g.scene.position.set(c.x, 0, c.z); g.scene.rotation.y = c.yaw * Math.PI / 180;
+  c.mixer = new THREE.AnimationMixer(g.scene);
+  scene.add(g.scene); cast.push(c); return c;
+}
+const lod = q.get('lod') === '1';
+for (const s of (q.get('chars') || 'elias:0:0:0').split(',')) await loadChar(s, lod);
+
+// ── illustrated shading ─────────────────────────────────────────────────────────────────────────────────────────────
+const TINTS = {                // shadow / light multipliers (the mid band, toon2 only, sits between them)
+  skin:  { sh: '#dcb4a4', li: '#fff6ef' }, cloth: { sh: '#9ea7c4', li: '#fff8f0' }, shoes: { sh: '#8a90a8', li: '#ffffff' },
+  hair:  { sh: '#8a7a80', li: '#fff4e6' }, ghair: { sh: '#9a8c96', li: '#fff2e4' }, brow: { sh: '#ffffff', li: '#ffffff' }, lash: { sh: '#ffffff', li: '#ffffff' }, mouth: { sh: '#c49a96', li: '#fff4ee' } };
+function shade(mat, kind, mode, ink) {
+  const t = TINTS[kind] || TINTS.cloth, sh = new THREE.Color(t.sh), li = new THREE.Color(t.li);
+  const md = sh.clone().lerp(li, .55);
+  const crisp = mode === 'hybrid' ? .10 : .025;
+  const three = mode === 'toon2';
+  mat.onBeforeCompile = s => {
+    Object.assign(s.uniforms, { tSh: { value: sh }, tMd: { value: md }, tLi: { value: li }, keyV: { value: new THREE.Vector3() }, rimK: { value: kind === 'skin' ? .28 : .14 } });
+    s.uniforms.keyV = keyView;
+    s.fragmentShader = 'uniform vec3 tSh, tMd, tLi, keyV; uniform float rimK;\n' + s.fragmentShader.replace('#include <opaque_fragment>', `{
+      vec3 alb = max(diffuseColor.rgb, vec3(1e-3));
+      float L = dot(outgoingLight, vec3(.299, .587, .114)) / dot(alb, vec3(.299, .587, .114));
+      vec3 c;
+      ${three ? `float b1 = smoothstep(${kind === 'skin' ? '.32' : '.40'} - ${crisp}, ${kind === 'skin' ? '.32' : '.40'} + ${crisp}, L), b2 = smoothstep(.86 - ${crisp}, .86 + ${crisp}, L);
+                 c = mix(mix(alb * tSh, alb * tMd, b1), alb * tLi, b2);`
+              : `float b1 = smoothstep(${kind === 'skin' ? '.34' : '.48'} - ${crisp}, ${kind === 'skin' ? '.34' : '.48'} + ${crisp}, L); c = mix(alb * tSh, alb * tLi, b1);`}
+      vec3 N = normalize(normal), V = normalize(vViewPosition);
+      float rim = pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 3.0);
+      c += vec3(1.0, .86, .7) * rim * rimK * alb * step(.4, L);
+      ${kind === 'ghair' ? `vec3 Hh = normalize(normalize(keyV) + V);              // designed hair: a lighter, warmer shape where the
+        float hd = dot(N, Hh);                                                        // half-vector meets the clumps; grooves break it
+        float band = smoothstep(.86, .89, hd) * (1. - smoothstep(.95, .965, hd)) * step(.45, L);
+        c = mix(c, alb * 1.75 + vec3(.012, .009, .008), band * .85);` : ''}
+      ${kind === 'hair' ? `vec3 Hh = normalize(normalize(keyV) + V);              // shaped hair highlight: a band, broken by the strand clumps
+        float band = smoothstep(.80, .86, dot(N, Hh)) * (1. - smoothstep(.93, .97, dot(N, Hh)));
+        c += alb * 1.4 * band * smoothstep(.25, .6, dot(alb, vec3(.333)) / max(dot(tLi, vec3(.333)), .01) * 3.0);` : ''}
+      outgoingLight = c; }
+      #include <opaque_fragment>`); };
+  mat.customProgramCacheKey = () => ['s2', kind, mode].join();
+}
+const keyView = { value: new THREE.Vector3() };
+const ramp4 = (() => { const t = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1); t.needsUpdate = true; return t; })();
+function setMode(mode, inkColor) {
+  const ink = new THREE.Color(inkColor), inkA = ink.toArray();
+  for (const c of cast) for (const m of c.meshes) {
+    const o = m.userData.orig, kind = m.userData.kind;
+    m.castShadow = !['lash', 'brow', 'gline'].includes(kind); m.receiveShadow = ['skin', 'cloth', 'shoes'].includes(kind);
+    m.visible = true;
+    const map = (m.userData.maps && m.userData.maps[mode]) || o.map;
+    let mat;
+    if (kind === 'gline') {
+      mat = new THREE.MeshBasicMaterial({ color: o.color.clone().lerp(ink, m.name.includes('lower') ? 0 : .25), side: THREE.DoubleSide });
+      mat.userData.outlineParameters = { visible: false }; m.material = mat; continue;
+    }
+    if (kind === 'eye') {
+      // eyes: the painted eyeball plus one controlled catchlight placed in view space (upper left of the iris, as an
+      // illustrator would), so every camera angle gets a readable highlight without depending on the key light
+      mat = new THREE.MeshBasicMaterial({ map: (m.userData.maps && m.userData.maps[mode]) || o.map, alphaTest: .5, color: new THREE.Color('#f4ece6') });
+      mat.onBeforeCompile = s => { s.vertexShader = s.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vNv;')
+          .replace('#include <project_vertex>', '#include <project_vertex>\nvNv = normalize(normalMatrix * objectNormal);');
+        s.vertexShader = s.vertexShader.includes('objectNormal') ? s.vertexShader : s.vertexShader;
+        s.fragmentShader = s.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vNv;').replace('#include <opaque_fragment>',
+          `float cl = smoothstep(.975, .99, dot(normalize(vNv), normalize(vec3(-.32, .42, 1.))));
+           outgoingLight = mix(outgoingLight, vec3(1.), cl * .95);\n#include <opaque_fragment>`); };
+      mat.customProgramCacheKey = () => 'eye-catchlight';
+    } else {
+      const col = kind === 'ghair' ? o.color.clone() : kind === 'hair' ? new THREE.Color('#c9b3a0') : kind === 'brow' ? ink.clone().lerp(new THREE.Color('#6a4a3a'), .35) : kind === 'lash' ? new THREE.Color('#6a4a3a') : new THREE.Color('#ffffff');
+      mat = new THREE.MeshLambertMaterial({ map: kind === 'ghair' ? null : map, color: col });
+      if (kind === 'cloth' && o.normalMap && mode !== 'editorial') { mat.normalMap = o.normalMap; mat.normalScale = new THREE.Vector2(.45, .45); }
+      shade(mat, kind, mode, ink);
+    }
+    if (['hair', 'brow', 'lash'].includes(kind)) { mat.alphaTest = kind === 'hair' ? .5 : kind === 'lash' ? .6 : .4; mat.side = THREE.DoubleSide; }
+    const heavy = mode === 'toon2' ? .0036 : mode === 'editorial' ? .0032 : .0026;
+    mat.userData.outlineParameters = { thickness: ['skin', 'cloth', 'shoes'].includes(kind) ? heavy : kind === 'hair' ? heavy * .55 : kind === 'ghair' ? heavy * .75 : 0,
+      color: inkA, alpha: 1, visible: ['skin', 'cloth', 'shoes', 'hair', 'ghair'].includes(kind) };
+    m.material = mat;
+  }
+}
+
+// pose: body clip ('stand', or a mocap clip) + finger clip; expressions by shape-key name on every mesh
+const isFinger = n => /(thumb|index|middle|ring|pinky)_0/.test(n);
+function part(c, name, fingers) { const k = name + (fingers ? '#f' : '#b'); c.sub = c.sub || {};
+  if (c.sub[k]) return c.sub[k]; const a = c.gltf.animations.find(x => x.name === name); if (!a) return null;
+  return c.sub[k] = new THREE.AnimationClip(k, a.duration, a.tracks.filter(t => isFinger(t.name.split('.')[0]) === fingers)); }
+// a pleasant, attentive neutral for stills (MakeHuman's zero expression reads as a frown)
+const NEUTRAL = { 'mouth-corner-puller': .22, 'eyebrows-left-inner-up': .12, 'eyebrows-right-inner-up': .12, 'eye-left-opened-up': .15, 'eye-right-opened-up': .15 };
+function pose(c, body, t, hands, e) {
+  e = e && Object.keys(e).length ? e : NEUTRAL;
+  const sig = body + '|' + hands;
+  if (sig !== c.sig) { c.mixer.stopAllAction(); c.sig = sig;
+    for (const cl of [part(c, body, false), hands && part(c, hands, true)]) if (cl) { const a = c.mixer.clipAction(cl); a.setLoop(THREE.LoopOnce); a.clampWhenFinished = true; a.play(); } }
+  c.mixer.setTime(t);
+  for (const m of c.meshes) if (m.morphTargetDictionary) for (const k in m.morphTargetDictionary) m.morphTargetInfluences[m.morphTargetDictionary[k]] = (e || {})[k] || 0;
+}
+
+// ── post: character pass over the plate ─────────────────────────────────────────────────────────────────────────────
+const outline = new OutlineEffect(renderer);
+const mkRT = samples => new THREE.WebGLRenderTarget(W, H, { samples, colorSpace: THREE.SRGBColorSpace });
+const rts = { 4: mkRT(4), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H), normalMat = new THREE.MeshNormalMaterial();
+const plateTex = await texLoader.loadAsync(env.plate); plateTex.colorSpace = THREE.SRGBColorSpace;
+const post = new THREE.ShaderMaterial({
+  uniforms: { tChar: { value: null }, tNorm: { value: rtN.texture }, tPlate: { value: plateTex }, hasPlate: { value: 1 }, mode: { value: 0 },
+              inkOn: { value: 1 }, inkCol: { value: new THREE.Color(env.ink) }, res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 },
+              grade: { value: new THREE.Vector3(...env.grade) }, paper: { value: new THREE.Color('#efe5d2') } },
+  vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
+  fragmentShader: `
+    varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate; uniform float hasPlate, mode, inkOn, blur; uniform vec3 inkCol, grade, paper; uniform vec2 res;
+    float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+    float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+      return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
+    vec4 kuwahara(vec2 uv){                                  // light (R=2) Kuwahara: soft brush patches, edges kept
+      vec2 px = 1. / res; vec3 m0 = vec3(0.), m1 = vec3(0.), m2 = vec3(0.), m3 = vec3(0.), s0 = vec3(0.), s1 = vec3(0.), s2 = vec3(0.), s3 = vec3(0.);
+      for (int j = -2; j <= 2; j++) for (int i = -2; i <= 2; i++){ vec3 c = texture2D(tChar, uv + vec2(float(i), float(j)) * px).rgb;
+        if (i <= 0 && j <= 0) { m0 += c; s0 += c*c; } if (i >= 0 && j <= 0) { m1 += c; s1 += c*c; }
+        if (i <= 0 && j >= 0) { m2 += c; s2 += c*c; } if (i >= 0 && j >= 0) { m3 += c; s3 += c*c; } }
+      vec3 u0 = m0/9., u1 = m1/9., u2 = m2/9., u3 = m3/9.;
+      float v0 = dot(abs(s0/9. - u0*u0), vec3(1.)), v1 = dot(abs(s1/9. - u1*u1), vec3(1.)), v2 = dot(abs(s2/9. - u2*u2), vec3(1.)), v3 = dot(abs(s3/9. - u3*u3), vec3(1.));
+      vec3 o = u0; float b = v0; if (v1 < b) { b = v1; o = u1; } if (v2 < b) { b = v2; o = u2; } if (v3 < b) { o = u3; }
+      return vec4(o, texture2D(tChar, uv).a); }
+    vec3 plate(vec2 uv){ if (hasPlate < .5) return paper * (.94 + .06 * noise(uv * res / 3.));
+      if (blur < .5) return texture2D(tPlate, uv).rgb;
+      vec3 c = vec3(0.); for (int j = -3; j <= 3; j++) for (int i = -3; i <= 3; i++) c += texture2D(tPlate, uv + vec2(float(i), float(j)) * blur / res).rgb;
+      return c / 49.; }
+    void main(){
+      vec4 ch = texture2D(tChar, vUv);
+      vec3 col = ch.rgb;
+      if (mode > 1.5) { vec4 k = kuwahara(vUv); col = mix(col, k.rgb, .6);                      // hybrid: subtle painterly finish
+        float l = dot(col, vec3(.299, .587, .114));
+        col = mix(col * vec3(.93, .96, 1.04), col * vec3(1.03, 1.0, .96), smoothstep(.25, .7, l)); col *= .96 + .08 * noise(vUv * res / 2.); }
+      if (inkOn > .5) {                                       // interior ink: light weight, faded on soft creases
+        vec2 px = 1. / res;
+        vec3 a = texture2D(tNorm, vUv + vec2(-1,-1)*px).rgb, b = texture2D(tNorm, vUv + vec2(0,-1)*px).rgb, c = texture2D(tNorm, vUv + vec2(1,-1)*px).rgb;
+        vec3 d = texture2D(tNorm, vUv + vec2(-1,0)*px).rgb, f = texture2D(tNorm, vUv + vec2(1,0)*px).rgb;
+        vec3 g = texture2D(tNorm, vUv + vec2(-1,1)*px).rgb, h = texture2D(tNorm, vUv + vec2(0,1)*px).rgb, i = texture2D(tNorm, vUv + vec2(1,1)*px).rgb;
+        vec3 gx = (c + 2.*f + i) - (a + 2.*d + g), gy = (g + 2.*h + i) - (a + 2.*b + c);
+        float e = sqrt(dot(gx, gx) + dot(gy, gy));
+        float w = mode < .5 ? .75 : mode < 1.5 ? .6 : .45;
+        col = mix(col, inkCol, smoothstep(.7, 1.3, e) * w * step(.5, ch.a)); }
+      col *= grade;                                            // environment grade, shared with the plate below
+      vec3 bg = plate(vUv);
+      vec3 o = mix(bg, col, ch.a);
+      o *= .975 + .025 * noise(vUv * res / 1.5 + 7.);          // shared paper grain: figure and set read as one surface
+      gl_FragColor = vec4(o, 1.);
+      #include <colorspace_fragment>
+    }` });
+const postScene = new THREE.Scene(), postCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), post));
+
+// ── cameras, relative to the subject's bones ────────────────────────────────────────────────────────────────────────
+const cam = new THREE.PerspectiveCamera(30, W / H, .05, 60);
+function shoot(kind, c, az = 0) {
+  scene.updateMatrixWorld(true);
+  const P = n => c.bones[n].getWorldPosition(new THREE.Vector3()), head = P('head'), pel = P('pelvis'), t = new THREE.Vector3();
+  const face = c.yaw * Math.PI / 180;
+  const orbit = (target, dist, height, ang) => { cam.position.set(target.x + Math.sin(ang + face) * dist, height, target.z + Math.cos(ang + face) * dist); cam.lookAt(target); };
+  if (kind === 'wide')   { const mid = cast.reduce((a, x) => a.add(x.bones.pelvis.getWorldPosition(new THREE.Vector3())), new THREE.Vector3()).multiplyScalar(1 / cast.length);
+                           const bank = q.get('env') === 'bank';      // the bank set has no open floor: knees-up two-shot, desk behind
+                           cam.fov = 30; t.set(mid.x, bank ? 1.12 : .95, mid.z); cam.position.set(mid.x + 1.2, bank ? 1.45 : 1.45, mid.z + (bank ? 4.3 : 6.8)); cam.lookAt(t); }
+  if (kind === 'medium') { cam.fov = 30; t.set(pel.x, 1.25, pel.z); orbit(t, 2.7, 1.5, .25 + az); }
+  if (kind === 'close')  { cam.fov = 26; t.copy(head).add(new THREE.Vector3(0, .07, 0)); orbit(t, .95, head.y + .08, .12 + az); }
+  if (kind === 'three')  { cam.fov = 26; t.copy(head).add(new THREE.Vector3(0, .02, 0)); orbit(t, 1.25, head.y + .04, .78 + az); }
+  if (kind === 'profile'){ cam.fov = 26; t.copy(head).add(new THREE.Vector3(0, .06, 0)); orbit(t, .95, head.y + .07, Math.PI / 2 + az); }
+  cam.updateProjectionMatrix();
+}
+
+window.render = ({ mode = 'editorial', shot = 'medium', subject = 0, body = 'stand', t = .03, hands = 'relaxed', e = {}, plate = true, blur = 0,
+                   msaa = 4, shadow = 2048, ink = true, az = 0 } = {}) => {
+  setMode(mode, env.ink);
+  cast.forEach((c, i) => pose(c, body, t, hands, i === subject ? e : {}));
+  if (key.shadow.mapSize.x !== shadow) { key.shadow.mapSize.set(shadow, shadow); if (key.shadow.map) { key.shadow.map.dispose(); key.shadow.map = null; } }
+  shoot(shot, cast[subject], az * Math.PI / 180);
+  keyView.value.copy(key.position).applyMatrix3(new THREE.Matrix3().setFromMatrix4(cam.matrixWorldInverse)).normalize();
+  const rt = rts[msaa] || rts[4];
+  renderer.setRenderTarget(rt); renderer.setClearColor(0, 0); renderer.clear(); outline.render(scene, cam);
+  if (ink) { renderer.setRenderTarget(rtN); renderer.setClearColor(0x8080ff, 1); renderer.clear(); catcher.visible = false;
+    const hid = []; cast.forEach(c => c.meshes.forEach(m => { if (['hair', 'brow', 'lash', 'eye', 'gline'].includes(m.userData.kind)) { m.visible = false; hid.push(m); } }));
+    scene.overrideMaterial = normalMat; renderer.render(scene, cam); scene.overrideMaterial = null; hid.forEach(m => m.visible = true); catcher.visible = true; }
+  renderer.setRenderTarget(null);
+  Object.assign(post.uniforms, {}); post.uniforms.tChar.value = rt.texture; post.uniforms.inkOn.value = ink ? 1 : 0;
+  post.uniforms.mode.value = mode === 'toon2' ? 0 : mode === 'editorial' ? 1 : 2; post.uniforms.hasPlate.value = plate ? 1 : 0; post.uniforms.blur.value = blur;
+  renderer.render(postScene, postCam);
+};
+window.info = { cast: cast.map(c => [c.id, c.meshes.length, c.meshes.filter(m => m.userData.maps).length]), revision: THREE.REVISION };
+window.ready = true;
+</script></body></html>
