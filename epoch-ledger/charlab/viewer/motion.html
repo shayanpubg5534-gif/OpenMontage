@@ -116,6 +116,15 @@ window.qa = () => {
     R[A.id] = r;
   }
   R.raw_retarget_slide = compiled.qa.rawSlide;
+  // contact: palm centre to its prop socket while a reach is fully engaged
+  const contact = {};
+  for (const A of actors) for (const Rr of (demo.actors[A.id].reach || [])) { if (!Rr.prop) continue;
+    let worst = 0, n = 0; const P = props[Rr.prop];
+    for (let f = Math.ceil((Rr.t0 + (Rr.in || .6)) * EL.FPS); f <= Math.min(compiled.frames - 1, Math.floor(Rr.t1 * EL.FPS)); f += 2) {
+      EL.apply(compiled, actors, props, f / EL.FPS); const palm = A.bones[`hand_${Rr.side}`].localToWorld(A.hand[Rr.side].palm.clone());
+      const sk = new THREE.Vector3(...Rr.socket.pos).applyMatrix4(P.obj.matrixWorld); worst = Math.max(worst, palm.distanceTo(sk)); n++; }
+    contact[`${A.id}:${Rr.side}:${Rr.prop}`] = { samples: n, worst_mm: +(worst * 1000).toFixed(1) }; }
+  R.hand_contact = contact;
   return R;
 };
 // clothing penetration: body vertices (CPU-skinned) more than `tol` outside the nearest garment surface, ignoring
