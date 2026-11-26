@@ -36,7 +36,7 @@ def bundle(dst: Path) -> None:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("shot", type=Path); ap.add_argument("chars", type=Path); ap.add_argument("ws", type=Path)
-    ap.add_argument("--quality", default="balanced", choices=["standard", "balanced", "lean"])
+    ap.add_argument("--quality", default="balanced", choices=["standard", "balanced", "msaa2", "lean"])
     ap.add_argument("--narration", type=Path, help="episode dir with artifacts/caption_phrases.json (narration.wav must be in WS or EPISODE/../hf)")
     ap.add_argument("--vendor-from", type=Path, default=REPO / "projects/profitable-and-broke/hyperframes")
     a = ap.parse_args(argv)

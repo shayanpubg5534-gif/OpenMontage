@@ -10,7 +10,8 @@ import { buildEnvironment } from './env.js';
 
 export const QUALITY = {
   standard: { msaa: 4, shadow: 2048, inkPass: true },
-  balanced: { msaa: 2, shadow: 1024, inkPass: true },
+  balanced: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true },   // M4.2: MSAA ×2 saved nothing inside HyperFrames
+  msaa2: { msaa: 2, shadow: 1024, inkPass: true },
   lean: { msaa: 0, shadow: 1024, inkPass: false },
 };
 

@@ -128,15 +128,28 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   const plateTex = await texLoader.loadAsync(env.plate); plateTex.colorSpace = THREE.SRGBColorSpace;
   const post = new THREE.ShaderMaterial({
     uniforms: { tChar: { value: null }, tNorm: { value: rtN.texture }, tPlate: { value: plateTex }, inkOn: { value: 1 }, inkCol: { value: ink.clone() },
-                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, grade: { value: new THREE.Vector3(...env.grade) } },
+                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, aa: { value: 0 }, grade: { value: new THREE.Vector3(...env.grade) } },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
-    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate; uniform float inkOn, blur; uniform vec3 inkCol, grade; uniform vec2 res;
+    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate; uniform float inkOn, blur, aa; uniform vec3 inkCol, grade; uniform vec2 res;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
         return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
       vec3 plate(vec2 uv){ if (blur < .5) return texture2D(tPlate, uv).rgb;
         vec3 c = vec3(0.); for (int j = -3; j <= 3; j++) for (int i = -3; i <= 3; i++) c += texture2D(tPlate, uv + vec2(float(i), float(j)) * blur / res).rgb; return c / 49.; }
-      void main(){ vec4 ch = texture2D(tChar, vUv); vec3 col = ch.rgb;
+      // FXAA-lite (after Lottes): one edge-directed blend instead of multisampling (the 'balanced' preset)
+      vec4 fxaa(vec2 uv){ vec2 px = 1. / res; vec3 L = vec3(.299, .587, .114);
+        vec4 cM = texture2D(tChar, uv);
+        float lNW = dot(texture2D(tChar, uv + vec2(-1., -1.) * px).rgb, L), lNE = dot(texture2D(tChar, uv + vec2(1., -1.) * px).rgb, L);
+        float lSW = dot(texture2D(tChar, uv + vec2(-1., 1.) * px).rgb, L), lSE = dot(texture2D(tChar, uv + vec2(1., 1.) * px).rgb, L), lM = dot(cM.rgb, L);
+        float lMin = min(lM, min(min(lNW, lNE), min(lSW, lSE))), lMax = max(lM, max(max(lNW, lNE), max(lSW, lSE)));
+        if (lMax - lMin < max(.04, lMax * .12)) return cM;
+        vec2 dir = vec2(-((lNW + lNE) - (lSW + lSE)), (lNW + lSW) - (lNE + lSE));
+        float rcp = 1. / (min(abs(dir.x), abs(dir.y)) + max((lNW + lNE + lSW + lSE) * .03125, 1. / 128.));
+        dir = clamp(dir * rcp, -8., 8.) * px;
+        vec4 a = .5 * (texture2D(tChar, uv - dir / 6.) + texture2D(tChar, uv + dir / 6.));
+        vec4 b = a * .5 + .25 * (texture2D(tChar, uv - dir * .5) + texture2D(tChar, uv + dir * .5));
+        float lB = dot(b.rgb, L); return (lB < lMin || lB > lMax) ? a : b; }
+      void main(){ vec4 ch = aa > .5 ? fxaa(vUv) : texture2D(tChar, vUv); vec3 col = ch.rgb;
         if (inkOn > .5) { vec2 px = 1. / res;
           vec3 a = texture2D(tNorm, vUv + vec2(-1,-1)*px).rgb, b = texture2D(tNorm, vUv + vec2(0,-1)*px).rgb, c = texture2D(tNorm, vUv + vec2(1,-1)*px).rgb;
           vec3 d = texture2D(tNorm, vUv + vec2(-1,0)*px).rgb, f = texture2D(tNorm, vUv + vec2(1,0)*px).rgb;
@@ -152,7 +165,7 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   postScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), post));
   const cam = new THREE.PerspectiveCamera(30, W / H, .05, 60);
 
-  function render({ msaa = 4, shadow = 2048, inkPass = true, blur = 0 } = {}) {
+  function render({ msaa = 4, shadow = 2048, inkPass = true, blur = 0, fxaa = false } = {}) {
     if (key.shadow.mapSize.x !== shadow) { key.shadow.mapSize.set(shadow, shadow); if (key.shadow.map) { key.shadow.map.dispose(); key.shadow.map = null; } }
     cam.updateMatrixWorld(); keyView.value.copy(key.position).applyMatrix3(new THREE.Matrix3().setFromMatrix4(cam.matrixWorldInverse)).normalize();
     const rt = rts[msaa] || rts[4];
@@ -162,7 +175,7 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
       const hid = []; scene.traverse(m => { if (m.isMesh && ['gline', 'eye', 'backdrop'].includes(m.userData.kind)) { m.visible = false; hid.push(m); } });
       scene.overrideMaterial = normalMat; renderer.render(scene, cam); scene.overrideMaterial = null; hid.forEach(m => m.visible = true); catcher.visible = catcherOn; }
     renderer.setRenderTarget(null);
-    post.uniforms.tChar.value = rt.texture; post.uniforms.inkOn.value = inkPass ? 1 : 0; post.uniforms.blur.value = blur;
+    post.uniforms.tChar.value = rt.texture; post.uniforms.inkOn.value = inkPass ? 1 : 0; post.uniforms.blur.value = blur; post.uniforms.aa.value = fxaa ? 1 : 0;
     renderer.render(postScene, postCam);
   }
   // a full 3D set (M4.1) brings its own floor and light rig: the shadow catcher is hidden and the lights follow the spec

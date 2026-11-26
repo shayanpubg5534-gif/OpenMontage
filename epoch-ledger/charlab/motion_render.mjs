@@ -16,7 +16,7 @@ const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i
 const flag = k => args.includes('--' + k);
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..');
 const out = path.resolve(opt('out')); mkdirSync(out, { recursive: true });
-const QUAL = { standard: { msaa: 4, shadow: 2048, inkPass: true }, lean: { msaa: 0, shadow: 1024, inkPass: false } };
+const QUAL = { standard: { msaa: 4, shadow: 2048, inkPass: true }, balanced: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true }, msaa2: { msaa: 2, shadow: 1024, inkPass: true }, lean: { msaa: 0, shadow: 1024, inkPass: false } };
 const quality = QUAL[opt('quality', 'standard')];
 const T = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.glb': 'model/gltf-binary', '.png': 'image/png' };
 const srv = createServer((q, r) => { const p = path.join(ROOT, decodeURIComponent(new URL(q.url, 'http://x').pathname));
