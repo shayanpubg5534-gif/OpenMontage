@@ -36,7 +36,7 @@ CSS = f"""
 
 
 def _svg(inner, vb="0 0 1920 1080"):
-    return f'<svg viewBox="{vb}" width="1920" height="1080" style="position:absolute;inset:0" xmlns="http://www.w3.org/2000/svg">{inner}</svg>'
+    return f'<svg data-diagram viewBox="{vb}" width="1920" height="1080" style="position:absolute;inset:0" xmlns="http://www.w3.org/2000/svg">{inner}</svg>'
 
 
 def scenes(T):
@@ -68,7 +68,7 @@ def scenes(T):
         for i, (m, p) in enumerate(zip(months, prof)))
     sheet = (f'<g transform="translate(0 -75)"><g id="lsheet"><rect x="580" y="170" width="800" height="900" rx="6" fill="#fbf7ee" stroke="#cdbb98" stroke-width="2"/>'
              f'<text x="640" y="238" font-family="Fraunces" font-weight="700" font-size="40" fill="{INK}">Nadia\'s Bakery</text>'
-             f'<text x="640" y="276" font-family="Inter" font-weight="600" font-size="20" fill="#8a7a64" letter-spacing="2">PROFIT AND LOSS · MONTHLY</text>'
+             f'<text x="640" y="290" font-family="Inter" font-weight="600" font-size="20" fill="#8a7a64" letter-spacing="2">PROFIT AND LOSS · MONTHLY</text>'
              f'<text x="900" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">SALES</text>'
              f'<text x="1100" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">COSTS</text>'
              f'<text id="lph" x="1290" y="322" font-family="Inter" font-weight="700" font-size="19" fill="#8a7a64" text-anchor="end">PROFIT</text>'
@@ -79,7 +79,7 @@ def scenes(T):
     lshadow = '<div id="lsh" style="position:absolute;left:600px;top:200px;width:800px;height:900px;border-radius:8px;box-shadow:0 30px 60px rgba(30,15,5,.45);transform:rotate(-3deg)"></div>'
     every = W("every", 2)
     js = (f"tl.fromTo('#L',{{opacity:0}},{{opacity:1,duration:.45,ease:'power2.out',immediateRender:false}},{l0});"
-          f"tl.fromTo('#Lcam',{{scale:1.18,rotation:-3,y:120}},{{scale:1.0,rotation:-3,y:0,duration:{l1 - l0 + .3:.2f},ease:'power1.out',immediateRender:false}},{l0});"
+          f"tl.fromTo('#Lcam',{{scale:1.12,rotation:-3,y:-70,transformOrigin:'50% 20%'}},{{scale:1.0,rotation:-3,y:0,transformOrigin:'50% 20%',duration:{l1 - l0 + .3:.2f},ease:'power1.out',immediateRender:false}},{l0});"
           f"tl.to('#L .lr',{{opacity:1,duration:.18,stagger:.045}},{l0 + .15:.2f});"
           f"tl.fromTo('#lph',{{fill:'#8a7a64'}},{{fill:'{GREEN}',duration:.3,immediateRender:false}},{W('profit') - .05:.2f});"
           f"tl.to('#L .lp',{{opacity:1,duration:.12,stagger:{(W('month', 1, True) - every) / 12:.3f}}},{every:.2f});"
@@ -129,7 +129,8 @@ def scenes(T):
           f"tl.to('#thead',{{x:{X(90) - X(0)},duration:{ninety - W('paid') + .5:.2f},ease:'power1.inOut'}},{W('paid') - .3:.2f});"
           f"mDrawOn('#tin',{ninety + .05:.2f},{{dur:.45}});tl.to('#tinh',{{opacity:1,duration:.15}},{ninety + .45:.2f});tl.fromTo('#tinl',{{opacity:0,x:-20}},{{opacity:1,x:0,duration:.35,immediateRender:false}},{ninety + .4:.2f});"
           f"tl.fromTo('#tgap',{{opacity:0}},{{opacity:1,duration:.4}},{ninety + .3:.2f});"
-          f"tl.to('#Tcam',{{scale:1.5,x:-180,y:120,opacity:0,duration:.5,ease:'power2.in'}},{t1 - .45:.2f});")
+          f"tl.to(['#tsup','#tcafe','#tinl','#toutl'],{{opacity:0,duration:.25}},{t1 - .75:.2f});"
+          f"tl.to('#Tcam',{{scale:1.5,transformOrigin:'1140px 600px',opacity:0,duration:.5,ease:'power2.in'}},{t1 - .45:.2f});")
     out.append(Scene("T", t0, t1 - t0 + .1, f'<div class="m5paper"></div><div class="m5grain"></div><div id="Tcam" class="m5f">{_svg(tsvg)}'
                      f'<div class="m5s" style="left:300px;top:150px">How the money moved</div></div>', js=js))
 
@@ -137,28 +138,29 @@ def scenes(T):
     c0, c1 = B["n3"]["start"] + .1, B["dialogue"]["start"] - .45
     mo = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"]
     bal = [12000, 9500, 7000, 4500, 2000, 0]     # "ran dry": exactly £0 (no overdraft is modelled)
-    x0, dx, zy, sc = 420, 230, 700, 0.034            # zero line at y=700; £1 = .034 px
+    x0, dx, zy, sc = 420, 230, 620, 0.034            # zero line at y=620; £1 = .034 px
     px = [x0 + i * dx for i in range(6)]
     py = [zy - b * sc for b in bal]
     line = "M" + " L".join(f"{x:.0f} {y:.0f}" for x, y in zip(px, py))
     area = line + f" L{px[-1]} {zy} L{px[0]} {zy} Z"
-    labels = "".join(f'<text x="{x}" y="{zy + 330}" font-family="Inter" font-weight="700" font-size="24" fill="#6b5a48" text-anchor="middle">{m}</text>' for x, m in zip(px, mo))
-    flows = "".join(f'<rect class="fo" x="{x - 34}" y="{zy + 70}" width="30" height="{9000 * .022:.0f}" fill="{RED}" opacity=".85"/>'
-                    f'<rect class="fi" x="{x + 4}" y="{zy + 70}" width="30" height="{6500 * .022:.0f}" fill="{GREEN}" opacity=".85"/>' for x in px)
+    labels = "".join(f'<text x="{x}" y="{zy + 240}" font-family="Inter" font-weight="700" font-size="24" fill="#6b5a48" text-anchor="middle">{m}</text>' for x, m in zip(px, mo))
+    flows = "".join(f'<rect class="fo" x="{x - 34}" y="{zy + 50}" width="30" height="{9000 * .017:.0f}" fill="{RED}" opacity=".85"/>'
+                    f'<rect class="fi" x="{x + 4}" y="{zy + 50}" width="30" height="{6500 * .017:.0f}" fill="{GREEN}" opacity=".85"/>' for x in px)
     csvg = (f'<line id="czero" x1="{x0 - 60}" y1="{zy}" x2="{px[-1] + 80}" y2="{zy}" stroke="{INK}" stroke-width="3" stroke-dasharray="10 8"/>'
-            f'<text x="{x0 - 75}" y="{zy + 10}" font-family="Inter" font-weight="700" font-size="24" fill="#6b5a48" text-anchor="end">£0</text>'
+            f'<text id="czl" opacity="0" x="{x0 - 75}" y="{zy + 10}" font-family="Inter" font-weight="700" font-size="24" fill="#6b5a48" text-anchor="end">£0</text>'
             f'<clipPath id="cclip"><rect id="cclipr" x="0" y="0" width="{x0}" height="1080"/></clipPath>'
             f'<path id="carea" d="{area}" fill="{GOLD}" opacity=".22" clip-path="url(#cclip)"/>'
             f'<path id="cline" d="{line}" stroke="{BROWN}" stroke-width="7" fill="none" stroke-linejoin="round" stroke-linecap="round"/>'
             f'<circle id="cdot" cx="{px[-1]}" cy="{py[-1]}" r="14" fill="{RED}" opacity="0"/>'
             f'{flows}{labels}'
-            f'<text x="{x0 - 60}" y="{zy + 62}" font-family="Inter" font-weight="700" font-size="20" fill="#6b5a48" letter-spacing="1.5">EACH MONTH</text>'
-            f'<g id="cleg" opacity="0"><rect x="{px[-1] + 70}" y="{zy + 100}" width="22" height="22" fill="{RED}"/><text x="{px[-1] + 102}" y="{zy + 119}" font-family="Inter" font-weight="600" font-size="24" fill="{INK}">cash out</text>'
-            f'<rect x="{px[-1] + 70}" y="{zy + 140}" width="22" height="22" fill="{GREEN}"/><text x="{px[-1] + 102}" y="{zy + 159}" font-family="Inter" font-weight="600" font-size="24" fill="{INK}">cash in</text></g>')
+            f'<text x="{x0 - 75}" y="{zy + 70}" font-family="Inter" font-weight="700" font-size="20" fill="#6b5a48" letter-spacing="1.5" text-anchor="end">EACH MONTH</text>'
+            f'<g id="cleg" opacity="0"><rect x="{px[-1] + 70}" y="{zy + 60}" width="22" height="22" fill="{RED}"/><text x="{px[-1] + 102}" y="{zy + 79}" font-family="Inter" font-weight="600" font-size="24" fill="{INK}">cash out</text>'
+            f'<rect x="{px[-1] + 70}" y="{zy + 100}" width="22" height="22" fill="{GREEN}"/><text x="{px[-1] + 102}" y="{zy + 119}" font-family="Inter" font-weight="600" font-size="24" fill="{INK}">cash in</text></g>')
     went, dry = W("went"), W("dry")
-    js = (f"tl.fromTo('#C',{{opacity:0}},{{opacity:1,duration:.4,immediateRender:false}},{c0});"
-          f"tl.fromTo('#Ccam',{{scale:1.12}},{{scale:1,duration:{c1 - c0:.2f},ease:'power1.out',immediateRender:false}},{c0});"
-          f"tl.fromTo('#czero',{{opacity:0}},{{opacity:1,duration:.4}},{c0 + .1:.2f});"
+    js = (f"tl.set('#czero',{{stroke:'{INK}'}},{c0});tl.set('#cbal',{{color:'{INK}'}},{c0});"   # explicit start state (determinism)
+          f"tl.fromTo('#C',{{opacity:0}},{{opacity:1,duration:.4,immediateRender:false}},{c0});"
+          f"tl.fromTo('#Ccam',{{scale:1.1,transformOrigin:'50% 82%'}},{{scale:1,transformOrigin:'50% 82%',duration:{c1 - c0:.2f},ease:'power1.out',immediateRender:false}},{c0});"
+          f"tl.fromTo('#czero',{{opacity:0}},{{opacity:1,duration:.4}},{c0 + .1:.2f});tl.to('#czl',{{opacity:1,duration:.3}},{c0 + .6:.2f});"
           # monthly flows: out (red) then in (green), month by month across "more cash went out than came in"
           f"tl.fromTo('#C .fo',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went - .25:.2f});"
           f"tl.fromTo('#C .fi',{{scaleY:0,transformOrigin:'50% 0%'}},{{scaleY:1,duration:.3,stagger:.32,ease:MOTION.ease.settle}},{went + .05:.2f});"
@@ -171,7 +173,7 @@ def scenes(T):
           f"tl.fromTo('#czero',{{stroke:'{INK}'}},{{stroke:'{RED}',duration:.2,immediateRender:false}},{dry + .1:.2f});tl.fromTo('#cdry',{{opacity:0,y:12}},{{opacity:1,y:0,duration:.35,immediateRender:false}},{dry + .2:.2f});"
           f"tl.to('#C',{{opacity:0,duration:.45,ease:'power1.in'}},{c1 - .15:.2f});")
     out.append(Scene("C", c0, c1 - c0 + .55, f'<div class="m5paper"></div><div class="m5grain"></div><div id="Ccam" class="m5f">{_svg(csvg)}'
-                     f'<div class="m5s" style="left:360px;top:120px">Bakery bank balance</div>'
-                     f'<div id="cbal" class="m5h" style="left:360px;top:160px;font-size:76px">£12,000</div>'
-                     f'<div id="cdry" class="m5n" style="left:1610px;top:672px;color:{RED};opacity:0">account empty</div></div>', js=js))
+                     f'<div class="m5s" style="left:1230px;top:110px">Bakery bank balance</div>'
+                     f'<div id="cbal" class="m5h" style="left:1230px;top:150px;font-size:76px">£12,000</div>'
+                     f'<div id="cdry" class="m5n" style="left:1610px;top:575px;color:{RED};opacity:0">account empty</div></div>', js=js))
     return out
