@@ -290,7 +290,9 @@
      },
      "dur": 0.9
     }
-   ]
+   ],
+   "upright": 0.85,
+   "maxBack": 4
   },
   "elias_c": {
    "cfg": {
@@ -496,7 +498,9 @@
      },
      "dur": 0.9
     }
-   ]
+   ],
+   "upright": 0.85,
+   "maxBack": 4
   }
  },
  "props": {

@@ -356,6 +356,20 @@ function bodyLayers(A, f, t) {
     if (wr > 0) hb.quaternion.slerp(Q().fromArray(C.qs, i * 4), wr);
     const key = 'wrist_' + s; if (C[key] && f > 0) hb.quaternion.copy(C[key].clone().slerp(hb.quaternion, .45)); C[key] = hb.quaternion.clone(); }
   A.rootBone.updateMatrixWorld(true);
+  // posture (M4): a torso leaning back beyond `maxBack` degrees is brought forward over the three spine bones, so
+  // seated characters sit up at a meeting instead of reclining like the mocap subject on a stool
+  const up = C.S.upright ?? 0;
+  if (up > 0) {
+    const pel = A.wpos('pelvis'), nk = A.wpos('neck_01'), tor = nk.clone().sub(pel).normalize();
+    const fw = A.pelvisFwd.clone().applyQuaternion(A.wquat('pelvis')).setY(0).normalize();
+    const back = Math.atan2(-tor.dot(fw), tor.y), maxB = (C.S.maxBack ?? 5) * Math.PI / 180;
+    if (back > maxB) {
+      const side = fw.clone().cross(UP).normalize(), corr = (back - maxB) * up;
+      const want = tor.clone().applyAxisAngle(side, -corr);
+      const q = Q().setFromUnitVectors(tor, want.normalize());
+      for (const [n, k] of [['spine_01', .4], ['spine_02', .35], ['spine_03', .25]]) A.rotWorld(n, Q().slerp(q, k));
+    }
+  }
   bodyRest(A, f, t);
 }
 
