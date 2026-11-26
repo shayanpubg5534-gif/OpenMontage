@@ -115,7 +115,8 @@ export function buildEnvironment(stage, spec) {
       const stem = cyl(.012, .012, .36, '#c9a24f'); stem.position.y = .2; g.add(stem);
       const shade = new THREE.Mesh(new THREE.CylinderGeometry(.06, .13, .1, 24, 1, true), M(it.shade || '#2e6b4f')); shade.position.y = .4; shade.material.side = THREE.DoubleSide; shade.castShadow = true; g.add(shade);
       const glow = new THREE.Mesh(new THREE.CircleGeometry(.11, 24), new THREE.MeshBasicMaterial({ color: new THREE.Color('#fff2c4') })); glow.rotation.x = Math.PI / 2; glow.position.y = .352; glow.userData.noOutline = true; g.add(glow);
-      if (it.light === true) { const L = new THREE.PointLight(it.lightColor || '#ffd9a0', it.intensity ?? .6, 1.6, 2);   // off by default: a point light makes a hard banded disc in two-band shading L.position.set(0, .34, 0); g.add(L); }
+      // the lamp's point light is off by default: in two-band shading it paints a hard disc on the wall
+      if (it.light === true) { const L = new THREE.PointLight(it.lightColor || '#ffd9a0', it.intensity ?? .6, 1.6, 2); L.position.set(0, .34, 0); g.add(L); }
       return {}; },
     frame(it, g) { const [w, h] = it.size || [.6, .8]; box(w, h, .03, it.color || '#3a2c22', 0, 0, 0, g);
       if (it.image) { const tex = new THREE.TextureLoader().load(it.image); tex.colorSpace = THREE.SRGBColorSpace;
