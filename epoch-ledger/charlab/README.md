@@ -127,3 +127,17 @@ Commands: see `epoch-ledger/P2_M23C_REPORT.md`, "Reproducibility".
 
 Clips used (CMU, free licence; retargeted at build time with `--bvh name=FILE:START:END`): `idle` 137_28, `walk_start`
 82_08, `walk_stop` 16_34, `walk_turn_r` 16_19, `sit` 113_15, `talk` 19_08, `listen` 18_08.
+
+## M4 — environments, storytelling and HyperFrames
+| File | What it does |
+|---|---|
+| `motion/env.js` | Illustrated 3D set component library and builder (room shell, window with backdrop, furniture and dressing), anchors for shot scripts, chairs fitted to sitters. |
+| `motion/sets/*.json` | `bank_office` (the story set), `bakery_shop` (a reuse test). |
+| `motion/runtime.js` | The shot runtime shared by the lab viewer and HyperFrames; quality presets `standard`, `balanced` (FXAA + interior ink), `msaa2`, `lean`. |
+| `motion/hf_entry.js`, `hf_build.py` | Single-file bundle and a HyperFrames workspace builder (production assembler, readiness gate, literal asset manifest, captions, narration). |
+| `motion/demos/story_loan.json` | "The loan meeting": a narrated five-shot documentary beat. |
+| `build_m4.sh` | Character builds with the M4 clip set (adds `sit_idle`). |
+
+Motion-quality layers added in M4 (in `elmotion.js`): cleaned and smoothed clips, calm held segments, posture
+(upright sitting), soft foot leash with 0.2 s ramps, IK weight blending with a bend-plane pole, counterbalance for
+standing object reaches, and `window.analyze()` for acceleration spikes.
