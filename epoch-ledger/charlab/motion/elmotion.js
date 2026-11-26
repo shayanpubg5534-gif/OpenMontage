@@ -27,6 +27,7 @@ const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 function rng(seed) { let s = seed >>> 0 || 1; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
 const FINGERS = ['thumb', 'index', 'middle', 'ring', 'pinky'];
 const ARM = s => [`clavicle_${s}`, `upperarm_${s}`, `lowerarm_${s}`, `hand_${s}`];
+const _qa = new THREE.Quaternion(), _qb = new THREE.Quaternion();
 
 // ── a character's skeleton and clips ─────────────────────────────────────────────────────────────────────────────
 export class Actor {
@@ -64,22 +65,45 @@ export class Actor {
     for (const a of gltf.animations) this.clips[a.name] = this.prepClip(a);
     this.curl = this.fingerAxes();
   }
+  // clips are baked at 30 fps, cleaned and lightly smoothed (M4): CMU data has marker pops (single-frame jumps of
+  // the whole upper body) and jitter. Outlier frames (second difference far above the track's median) are replaced
+  // by interpolation, then a 5-tap binomial filter removes jitter. A 'calm' copy (wide Gaussian) keeps only the
+  // slow posture changes; restraint blends toward it instead of a fixed stance, so restrained arms stay alive.
   prepClip(a) {
-    const tracks = [];
+    const n = Math.max(2, Math.round(a.duration * FPS) + 1), tracks = [];
     for (const t of a.tracks) {
       const [bn, prop] = t.name.split('.'); const i = this.idx[bn]; if (i === undefined) continue;
-      tracks.push({ i, prop, interp: t.createInterpolant(), n: t.getValueSize() });
+      const it = t.createInterpolant(), k = t.getValueSize(), raw = new Float32Array(n * k);
+      for (let f = 0; f < n; f++) raw.set(it.evaluate(Math.min(a.duration, f / FPS)), f * k);
+      if (prop === 'quaternion') for (let f = 1; f < n; f++) { let d = 0; for (let c = 0; c < 4; c++) d += raw[f * 4 + c] * raw[(f - 1) * 4 + c]; if (d < 0) for (let c = 0; c < 4; c++) raw[f * 4 + c] *= -1; }
+      const acc = new Float32Array(n);
+      for (let f = 1; f < n - 1; f++) { let e = 0; for (let c = 0; c < k; c++) e += (raw[(f + 1) * k + c] + raw[(f - 1) * k + c] - 2 * raw[f * k + c]) ** 2; acc[f] = Math.sqrt(e); }
+      const med = [...acc].sort((x, y) => x - y)[n >> 1] + 1e-6, bad = new Uint8Array(n);
+      let repaired = 0;
+      for (let f = 1; f < n - 1; f++) if (acc[f] > Math.max(10 * med, prop === 'quaternion' ? .02 : .01)) { bad[f - 1] = bad[f] = bad[f + 1] = 1; repaired++; }
+      bad[0] = bad[n - 1] = 0;
+      for (let f = 1; f < n - 1; f++) if (bad[f]) { let g = f; while (g < n - 1 && bad[g]) g++; const a0 = f - 1, b0 = g;
+        for (let h = f; h < g; h++) { const u = (h - a0) / (b0 - a0); for (let c = 0; c < k; c++) raw[h * k + c] = raw[a0 * k + c] * (1 - u) + raw[b0 * k + c] * u; } f = g; }
+      const filt = (src, wts) => { const r = wts.length >> 1, out = new Float32Array(n * k);
+        for (let f = 0; f < n; f++) for (let c = 0; c < k; c++) { let sum = 0, ws = 0;
+          for (let j = -r; j <= r; j++) { const g = Math.min(n - 1, Math.max(0, f + j)); sum += src[g * k + c] * wts[j + r]; ws += wts[j + r]; } out[f * k + c] = sum / ws; }
+        if (prop === 'quaternion') for (let f = 0; f < n; f++) { const l = Math.hypot(out[f * 4], out[f * 4 + 1], out[f * 4 + 2], out[f * 4 + 3]) || 1; for (let c = 0; c < 4; c++) out[f * 4 + c] /= l; }
+        return out; };
+      const smooth = filt(raw, [1, 4, 6, 4, 1]);
+      const G = []; for (let j = -24; j <= 24; j++) G.push(Math.exp(-(j * j) / (2 * 10 * 10)));
+      tracks.push({ i, prop, k, data: smooth, calm: filt(raw, G), repaired });
     }
-    return { name: a.name, duration: a.duration, tracks };
+    return { name: a.name, duration: a.duration, tracks, n };
   }
   // write a clip's pose at time t into arrays q (4×N) and p (3×N); bones without tracks keep the rest pose
-  sample(clip, t, q, p) {
+  sample(clip, t, q, p, calm = false) {
     t = clamp(t, 0, clip.duration);
     for (let i = 0; i < this.list.length; i++) { this.restQ[i].toArray(q, i * 4); this.restP[i].toArray(p, i * 3); }
+    const fl = Math.min(clip.n - 1, t * FPS), f0 = Math.floor(fl), f1 = Math.min(clip.n - 1, f0 + 1), u = fl - f0;
     for (const tr of clip.tracks) {
-      const v = tr.interp.evaluate(t);
-      if (tr.prop === 'quaternion') { const o = tr.i * 4; q[o] = v[0]; q[o + 1] = v[1]; q[o + 2] = v[2]; q[o + 3] = v[3]; }
-      else if (tr.prop === 'position') { const o = tr.i * 3; p[o] = v[0]; p[o + 1] = v[1]; p[o + 2] = v[2]; }
+      const d = calm ? tr.calm : tr.data, k = tr.k;
+      if (tr.prop === 'quaternion') { const a4 = _qa.fromArray(d, f0 * 4), b4 = _qb.fromArray(d, f1 * 4); a4.slerp(b4, u); a4.toArray(q, tr.i * 4); }
+      else if (tr.prop === 'position') { const o = tr.i * 3; for (let c = 0; c < 3; c++) p[o + c] = d[f0 * k + c] * (1 - u) + d[f1 * k + c] * u; }
     }
   }
   setPose(q, p) {
@@ -180,8 +204,8 @@ export function compile(script, actors, props = {}, opts = {}) {
       if (s.loop === 'pingpong' && L > 0) { const cyc = Math.floor(u / L), r = u - cyc * L, e = (1 - Math.cos(Math.PI * r / L)) / 2; return from + (cyc % 2 ? (1 - e) : e) * L; }
       return clamp(from + u, 0, s.clip.duration);
     };
-    const segPose = (s, t, qq, pp) => {       // pose of one segment at timeline t, pelvis placed in the world
-      const ct = clipTime(s, t); A.sample(s.clip, ct, qq, pp); A.setPose(qq, pp);
+    const segPose = (s, t, qq, pp, calm = false) => {   // pose of one segment at timeline t, pelvis placed in the world
+      const ct = clipTime(s, t); A.sample(s.clip, ct, qq, pp, calm); A.setPose(qq, pp);
       const pw = A.wpos('pelvis'), qw = A.wquat('pelvis');
       const R = Q().setFromAxisAngle(UP, s._yaw);
       const pos = pw.clone().sub(s._p0).applyQuaternion(R).add(s._anchor); pos.y = pw.y + calib[s.clip.name];
@@ -193,13 +217,13 @@ export function compile(script, actors, props = {}, opts = {}) {
       const i = A.idx.pelvis; lq.toArray(qq, i * 4); lp.toArray(pp, i * 3);
     };
     const qa = new Float32Array(N(A) * 4), pa = new Float32Array(N(A) * 3), qb = new Float32Array(N(A) * 4), pb = new Float32Array(N(A) * 3);
-    const compose = (t, qq, pp, upto = segs.length) => {   // blended base pose at time t using segments [0, upto)
+    const compose = (t, qq, pp, upto = segs.length, calm = false) => {   // blended base pose at time t using segments [0, upto)
       let k = -1; for (let j = 0; j < upto; j++) if (segs[j].at <= t + 1e-9) k = j;
       if (k < 0) k = 0;
       const s = segs[k], w = k > 0 && s.blend ? ease((t - s.at) / s.blend) : 1;
-      segPose(s, t, qq, pp);
+      segPose(s, t, qq, pp, calm);
       if (w < 1) {
-        segPose(segs[k - 1], t, qb, pb);
+        segPose(segs[k - 1], t, qb, pb, calm);
         for (let i = 0; i < N(A); i++) { const a4 = Q().fromArray(qb, i * 4).slerp(Q().fromArray(qq, i * 4), w); a4.toArray(qq, i * 4); }
         for (let i = 0; i < pp.length; i++) pp[i] = pb[i] + (pp[i] - pb[i]) * w;
       }
@@ -243,7 +267,8 @@ export function compile(script, actors, props = {}, opts = {}) {
     const base = [], feet = { l: [], r: [] };
     for (let f = 0; f < nF; f++) {
       const t = f / FPS, qq = new Float32Array(N(A) * 4), pp = new Float32Array(N(A) * 3);
-      compose(t, qq, pp); A.setPose(qq, pp); base.push([qq, pp]);
+      const qc = new Float32Array(N(A) * 4), pc = new Float32Array(N(A) * 3); compose(t, qc, pc, segs.length, true);
+      compose(t, qq, pp); A.setPose(qq, pp); base.push([qq, pp, qc]);
       for (const s of ['l', 'r']) feet[s].push({ ankle: A.wpos(`foot_${s}`), ball: A.wpos(`ball_${s}`), q: A.wquat(`foot_${s}`) });
     }
     // plant detection → locked ankle targets with eased entry and exit
@@ -260,7 +285,11 @@ export function compile(script, actors, props = {}, opts = {}) {
       for (const [a, b] of runs) {
         const m = Math.min(b, a + 2), tgt = F[m].ankle.clone();
         for (let f = a; f <= b; f++) {
-          const w = Math.min(ease((f - a + 1) / 3), ease((b - f + 1) / 3));
+          // leash: a pinned foot may differ from the animation by at most 3.5 cm; beyond that the pin follows
+          // smoothly (mocap subjects shuffle their feet), so a plant never ends with a snap
+          const dx = F[f].ankle.x - tgt.x, dz = F[f].ankle.z - tgt.z, dl = Math.hypot(dx, dz);
+          if (dl > .035) { const k = 1 - .035 / dl; tgt.x += dx * k; tgt.z += dz * k; }
+          const w = Math.min(ease((f - a + 1) / 6), ease((b - f + 1) / 6));          // 0.2 s ramps: no snap into or out of a plant
           const T = F[f].ankle.clone(); T.x += (tgt.x - T.x) * w; T.z += (tgt.z - T.z) * w;
           lock[s][f] = T;
         }
@@ -310,7 +339,28 @@ export function compile(script, actors, props = {}, opts = {}) {
 function bodyLayers(A, f, t) {
   const C = A._compile, [qq, pp] = C.base[f];
   A.setPose(qq, pp);
-  // feet: pin planted ankles with two-bone IK; floor clamp on the rest
+  pinFeet(A, f);
+  // restraint (documentary register): arms eased toward the clip's own slow posture (calm), with a little of the
+  // rest stance, so gestures are damped but the arms keep living with the body
+  let rs = 0; for (const k of C.restrain.filter(k => !k.side)) if (t >= k.t) rs = k.t + (k.dur || .5) > t ? (rs + (k.v - rs) * ease((t - k.t) / (k.dur || .5))) : k.v;
+  if (C.S.restrainAll !== undefined) rs = Math.max(rs, C.S.restrainAll);
+  const side = {};
+  for (const k of C.restrain) if (k.side && t >= k.t) side[k.side] = (side[k.side] ?? 0) + (k.v - (side[k.side] ?? 0)) * ease((t - k.t) / (k.dur || .5));
+  const qc = C.base[f][2];
+  for (const s of ['l', 'r']) { const v = Math.max(rs, side[s] || 0); if (v > 0) for (const n of ARM(s)) { const i = A.idx[n];
+    const tgt = Q().fromArray(qc, i * 4).slerp(Q().fromArray(C.qs, i * 4), .3); A.bones[n].quaternion.slerp(tgt, v); } }
+  // wrists: CMU hand data is poor (wrists bent back up to ~70°); ease free hands toward the rest stance, then let
+  // them trail the forearm slightly (follow-through)
+  const wr = C.S.wristRelax ?? .8;
+  for (const s of ['l', 'r']) { const i = A.idx[`hand_${s}`], hb = A.bones[`hand_${s}`];
+    if (wr > 0) hb.quaternion.slerp(Q().fromArray(C.qs, i * 4), wr);
+    const key = 'wrist_' + s; if (C[key] && f > 0) hb.quaternion.copy(C[key].clone().slerp(hb.quaternion, .45)); C[key] = hb.quaternion.clone(); }
+  A.rootBone.updateMatrixWorld(true);
+  bodyRest(A, f, t);
+}
+
+function pinFeet(A, f) {
+  const C = A._compile;
   for (const s of ['l', 'r']) {
     const anim = C.feet[s][f]; let T = C.lock[s][f] ? C.lock[s][f].clone() : null;
     const probe = T || anim.ankle.clone(), ballY = probe.y + (anim.ball.y - anim.ankle.y);
@@ -320,16 +370,10 @@ function bodyLayers(A, f, t) {
     const knee = A.wpos(`calf_${s}`), fwd = A.pelvisFwd.clone().applyQuaternion(A.wquat('pelvis'));
     twoBone(A, `thigh_${s}`, `calf_${s}`, `foot_${s}`, T, knee.clone().add(fwd.multiplyScalar(.3)), anim.q);
   }
-  // restraint: arms eased toward the rest stance (documentary register)
-  let rs = 0; for (const k of C.restrain.filter(k => !k.side)) if (t >= k.t) rs = k.t + (k.dur || .5) > t ? (rs + (k.v - rs) * ease((t - k.t) / (k.dur || .5))) : k.v;
-  if (C.S.restrainAll !== undefined) rs = Math.max(rs, C.S.restrainAll);
-  const side = {};
-  for (const k of C.restrain) if (k.side && t >= k.t) side[k.side] = (side[k.side] ?? 0) + (k.v - (side[k.side] ?? 0)) * ease((t - k.t) / (k.dur || .5));
-  for (const s of ['l', 'r']) { const v = Math.max(rs, side[s] || 0); if (v > 0) for (const n of ARM(s)) { const i = A.idx[n]; A.bones[n].quaternion.slerp(Q().fromArray(C.qs, i * 4), v); } }
-  // wrists: CMU hand data is poor (wrists bent back up to ~70°); ease free hands toward the rest stance
-  const wr = C.S.wristRelax ?? .8;
-  if (wr > 0) for (const s of ['l', 'r']) { const i = A.idx[`hand_${s}`]; A.bones[`hand_${s}`].quaternion.slerp(Q().fromArray(C.qs, i * 4), wr); }
-  A.rootBone.updateMatrixWorld(true);
+}
+
+function bodyRest(A, f, t) {
+  const C = A._compile;
   // breathing: chest and shoulders, slower and smaller while walking
   const per = A.cfg.breath || 4.0, ph = A.cfg.breathPhase || 0, b = Math.sin(2 * Math.PI * t / per + ph);
   const right = new THREE.Vector3(1, 0, 0).applyQuaternion(A.wquat('pelvis')).setY(0).normalize();
@@ -370,18 +414,26 @@ function armLayers(A, f, t, propState) {
     if (!P) continue;
     const hq = handQuat(A, s, fd, pn);
     // reach assist: a target beyond ~97% of the arm's reach bends the spine toward it first (picking up from a desk)
-    for (let it = 0; it < 3 && R.lean !== false; it++) {
+    let leaned = 0, ldir = null;
+    for (let it = 0; it < 3 && (R.lean ?? !!R.prop); it++) {          // lean only for objects (or when asked)
       const sh = A.wpos(`upperarm_${s}`), to = P.clone().sub(sh), ex = to.length() - .97 * A.hand[s].len - .05;
       if (ex <= .005) break;
       const h = to.clone().setY(0); if (h.lengthSq() < 1e-6) break;
-      const axis = UP.clone().cross(h.normalize()).normalize(), ang = Math.min(.75, ex / .38) * w;
+      ldir = h.normalize(); const axis = UP.clone().cross(ldir).normalize(), ang = Math.min(.75, ex / .38) * w; leaned += ang;
       for (const [n, k] of [['spine_01', .4], ['spine_02', .35], ['spine_03', .25]]) A.rotWorld(n, Q().setFromAxisAngle(axis, ang * k));
     }
+    if (leaned > 0 && ldir) {                 // counterbalance: hips go back as the torso leans; planted feet re-pinned
+      const pb = A.bones.pelvis, wp = A.wpos('pelvis').sub(ldir.clone().multiplyScalar(.12 * leaned)).add(new THREE.Vector3(0, -.03 * leaned, 0));
+      pb.position.copy(pb.parent.worldToLocal(wp)); A.rootBone.updateMatrixWorld(true); pinFeet(A, f);
+    }
     const target = P.clone().sub(A.hand[s].palm.clone().applyQuaternion(hq));   // hand bone so the palm centre lands on P
-    const T = A.wpos(`hand_${s}`).lerp(target, w), TQ = A.wquat(`hand_${s}`).slerp(hq, w);
+    const chain = [`upperarm_${s}`, `lowerarm_${s}`, `hand_${s}`], pre = chain.map(n => A.bones[n].quaternion.clone());
     const pq = A.wquat('pelvis'), fwd = A.pelvisFwd.clone().applyQuaternion(pq).setY(0).normalize(), side = fwd.clone().cross(UP).normalize();
-    const pole = A.wpos(`upperarm_${s}`).add(side.multiplyScalar(s === 'l' ? -.3 : .3)).add(new THREE.Vector3(0, -.5, 0)).add(fwd.multiplyScalar(-.2));
-    twoBone(A, `upperarm_${s}`, `lowerarm_${s}`, `hand_${s}`, T, pole, TQ);
+    // elbow pole: the current elbow, nudged down and out, so the bend plane is kept (no elbow flips at reach onset)
+    const pole = A.wpos(`lowerarm_${s}`).add(side.multiplyScalar(s === 'l' ? -.08 : .08)).add(new THREE.Vector3(0, -.12, 0)).add(fwd.multiplyScalar(-.05));
+    // solve fully, then blend the joint rotations by the reach weight (no elbow jump at a tiny weight)
+    twoBone(A, `upperarm_${s}`, `lowerarm_${s}`, `hand_${s}`, target, pole, hq);
+    if (w < 1) { chain.forEach((n, k) => A.bones[n].quaternion.copy(pre[k].clone().slerp(A.bones[n].quaternion, w))); A.rootBone.updateMatrixWorld(true); }
   }
 }
 

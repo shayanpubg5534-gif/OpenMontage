@@ -197,6 +197,23 @@ window.blinkTest = () => {
   }
   return R;
 };
+// motion smoothness: world-space acceleration of key joints from the compiled frames; spikes are visible pops
+window.analyze = (top = 12) => {
+  const R = {}, J = ['pelvis', 'spine_03', 'head', 'upperarm_l', 'upperarm_r', 'lowerarm_l', 'lowerarm_r', 'hand_l', 'hand_r', 'calf_l', 'calf_r', 'foot_l', 'foot_r'];
+  for (const A of actors) {
+    const D = compiled.actors[A.id], P = J.map(() => []);
+    for (let f = 0; f < D.frames.length; f++) { EL.apply(compiled, [A], {}, f / EL.FPS); J.forEach((n, k) => P[k].push(A.wpos(n))); }
+    const ev = [], stats = {};
+    J.forEach((n, k) => { const acc = [];
+      for (let f = 1; f < P[k].length - 1; f++) acc.push(P[k][f + 1].clone().add(P[k][f - 1]).sub(P[k][f].clone().multiplyScalar(2)).length() * EL.FPS * EL.FPS);
+      const s = [...acc].sort((a, b) => a - b); stats[n] = { p50: +s[s.length >> 1].toFixed(2), p99: +s[Math.floor(s.length * .99)].toFixed(2), max: +s[s.length - 1].toFixed(2) };
+      // a spike: acceleration far above the joint's own typical level and above an absolute floor (m/s²)
+      acc.forEach((a, i) => { if (a > Math.max(8, 6 * stats[n].p50)) ev.push({ t: +((i + 1) / EL.FPS).toFixed(2), joint: n, acc: +a.toFixed(1) }); }); });
+    ev.sort((a, b) => b.acc - a.acc);
+    R[A.id] = { spikes: ev.length, top: ev.slice(0, top), stats };
+  }
+  return R;
+};
 window.info = { loadMs: Math.round(loadMs), compileMs: Math.round(compileMs), frames: compiled.frames, duration: demo.duration, timing: compiled.qa.timing,
   seat: Object.fromEntries(Object.entries(props).filter(([, P]) => P.seatTop).map(([id, P]) => [id, +P.seatTop.toFixed(3)])),
   pelvis: Object.fromEntries(actors.map(A => { const D = compiled.actors[A.id]; return [A.id, [0, Math.floor(D.frames.length / 2), D.frames.length - 1].map(f => { EL.apply(compiled, [A], {}, f / EL.FPS); const p = A.wpos('pelvis'); return [+p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2)]; })]; })) };

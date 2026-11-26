@@ -31,6 +31,7 @@ for (let i = 0; i < 1200 && !errs.length; i++) { if (await pg.evaluate(() => !!w
 if (!(await pg.evaluate(() => !!window.ready))) { console.error('viewer failed', errs); process.exit(1); }
 const info = await pg.evaluate(() => window.info); info.pageMs = Date.now() - t0;
 console.log(JSON.stringify(info));
+if (flag('analyze')) { const an = await pg.evaluate(() => window.analyze()); writeFileSync(`${out}/analyze.json`, JSON.stringify(an, null, 1)); console.log('ANALYZE ' + JSON.stringify(an)); }
 if (flag('qa')) { const qa = await pg.evaluate(() => window.qa()); qa.cloth = await pg.evaluate(() => window.clothQA()); qa.blink = await pg.evaluate(() => window.blinkTest()); writeFileSync(`${out}/qa.json`, JSON.stringify(qa, null, 2)); console.log(JSON.stringify(qa)); }
 const step = +opt('step', 1), from = +opt('from', 0), to = +opt('to', info.duration);
 const times = [], reads = [];
