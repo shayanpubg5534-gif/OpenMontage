@@ -1,0 +1,70 @@
+<!doctype html><html><head><meta charset="utf-8">
+<!-- Conversion check: a converted character in the three.js runtime under a neutral studio that mirrors
+     charlab/bstudio/render_views.py (same cameras, key/fill/rim, grey floor and backdrop, AgX).
+     ?three=DIR&glb=URL&frame=URL(timings.json of the native render)&view=body_front|body_34|body_profile|head_front|head_34|head_profile
+     &w=&h=&morphs=name:w,...&look=pbr|editorial -->
+<style>html,body{margin:0;background:#000}canvas{display:block}</style>
+<script>const q = new URLSearchParams(location.search);
+document.write(`<script type="importmap">${JSON.stringify({ imports: { three: q.get('three') + '/package/build/three.module.js', 'three/addons/': q.get('three') + '/package/examples/jsm/' } })}<\/script>`);</script></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+const q = new URLSearchParams(location.search);
+try {
+  const W = +(q.get('w') || 700), H = +(q.get('h') || 700);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+  renderer.setSize(W, H); renderer.setPixelRatio(1); document.body.appendChild(renderer.domElement);
+  renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.AgXToneMapping; renderer.toneMappingExposure = +(q.get('exposure') || 1.0);
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+  const scene = new THREE.Scene(); scene.background = new THREE.Color('#5c5955');
+  const F = await (await fetch(q.get('frame'))).json();
+  const B2T = v => new THREE.Vector3(v[0], v[2], -v[1]);                     // Blender Z-up → three Y-up
+  const lo = B2T(F.bounds[0]), hi = B2T(F.bounds[1]), Ht = F.height, head = B2T(F.head);
+  const cx = (F.bounds[0][0] + F.bounds[1][0]) / 2, cyB = (F.bounds[0][1] + F.bounds[1][1]) / 2, floor = F.bounds[0][2], s = Ht / 1.75;
+  const C = (x, y, z) => B2T([x, y, z]);
+  // lights: positions as in render_views.py, aimed at the chest
+  const tgt = C(cx, cyB, floor + Ht * .62);
+  const mk = (pos, color, I, shadow) => { const L = new THREE.DirectionalLight(new THREE.Color(...color), I); L.position.copy(pos); L.target.position.copy(tgt); scene.add(L, L.target);
+    if (shadow) { L.castShadow = true; L.shadow.mapSize.set(2048, 2048); L.shadow.radius = 6; L.shadow.blurSamples = 16; const c = L.shadow.camera; c.left = c.bottom = -2; c.right = c.top = 2; c.near = .1; c.far = 12; L.shadow.bias = -.0004; } return L; };
+  mk(C(cx - 2.2 * s, cyB - 2.6 * s, floor + 2.3 * s), [1, .93, .84], 6.0, true);
+  mk(C(cx + 2.8 * s, cyB - 1.6 * s, floor + 1.4 * s), [.85, .9, 1], 1.6);
+  mk(C(cx + 1.2 * s, cyB + 2.6 * s, floor + 2.4 * s), [1, .95, .9], 3.4);
+  scene.add(new THREE.HemisphereLight(new THREE.Color(.42, .40, .38), new THREE.Color(.2, .19, .18), 1.3));
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: new THREE.Color().setRGB(.36, .34, .32, THREE.LinearSRGBColorSpace), roughness: .9 }));
+  fl.rotation.x = -Math.PI / 2; fl.position.y = floor; fl.receiveShadow = true; scene.add(fl);
+  // character
+  const t0 = performance.now();
+  const g = await new GLTFLoader().loadAsync(q.get('glb')); const root = g.scene; scene.add(root);
+  const loadMs = performance.now() - t0;
+  const morphs = Object.fromEntries((q.get('morphs') || '').split(',').filter(Boolean).map(kv => { const [k, v] = kv.split(':'); return [k, +v]; }));
+  let tris = 0, nMorph = 0;
+  root.traverse(o => { if (!o.isMesh) return; o.castShadow = o.receiveShadow = true; o.frustumCulled = false;
+    tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
+    if (o.morphTargetDictionary) { nMorph = Math.max(nMorph, Object.keys(o.morphTargetDictionary).length);
+      for (const [k, i] of Object.entries(o.morphTargetDictionary)) o.morphTargetInfluences[i] = morphs[k] || 0; }
+    const m = o.material; if (m && m.map) { m.map.anisotropy = 8; } });
+  // arms down like glb_to_blend.py: rotate each upper arm about the character's forward axis (+Z in three)
+  root.updateMatrixWorld(true);
+  const bone = n => { let b = null; root.traverse(o => { if (o.isBone && o.name === n) b = o; }); return b; };
+  for (const [side, sgn] of [['l', 1], ['r', -1]]) {
+    const b = bone(`upperarm_${side}`); if (!b) continue;
+    const wq = b.getWorldQuaternion(new THREE.Quaternion()), pq = b.parent.getWorldQuaternion(new THREE.Quaternion());
+    const R = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), THREE.MathUtils.degToRad(-68 * sgn));
+    b.quaternion.copy(pq.invert().multiply(R.multiply(wq)));
+  }
+  root.updateMatrixWorld(true);
+  // camera, as render_views.py: yaw around the character, Blender lens → vertical fov (sensor 36 mm on the larger side)
+  const view = q.get('view') || 'head_front';
+  const yaw = { front: 0, '34': 35, profile: 90 }[view.split('_')[1]] * Math.PI / 180;
+  const isBody = view.startsWith('body');
+  const tB = isBody ? [cx, cyB, floor + Ht * .5] : [F.head[0], F.head[1], F.head[2] - Ht * .01];
+  const dist = isBody ? Ht * 2.15 : Ht * .62, lens = isBody ? 50 : 85;
+  const camB = [tB[0] + Math.sin(yaw) * dist, tB[1] - Math.cos(yaw) * dist, tB[2]];
+  const aspect = W / H, fovV = 2 * Math.atan((aspect >= 1 ? 18 / aspect : 18) / lens) * 180 / Math.PI;
+  const cam = new THREE.PerspectiveCamera(fovV, aspect, .05, 100); cam.position.copy(B2T(camB)); cam.lookAt(B2T(tB));
+  const t1 = performance.now(); renderer.render(scene, cam); renderer.getContext().finish(); const renderMs = performance.now() - t1;
+  window.info = { loadMs: Math.round(loadMs), renderMs: Math.round(renderMs), tris: Math.round(tris), morphTargets: nMorph,
+                  memory: renderer.info.memory, programs: renderer.info.programs ? renderer.info.programs.length : null };
+  window.ready = true;
+} catch (e) { window.err = String(e && e.stack || e); }
+</script></body></html>

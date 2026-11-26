@@ -76,6 +76,12 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   const texLoader = new THREE.TextureLoader();
   const cast = [];
   async function addCharacter(gltf, id, texDir) {
+    if (!texDir) {   // a converted professional character (charlab/convert): keep its baked PBR materials
+      const c = { id, root: gltf.scene, gltf, meshes: [], eyeMeshes: [], pbr: true };
+      gltf.scene.traverse(o => { if (!o.isMesh) return; c.meshes.push(o); o.frustumCulled = false; o.castShadow = true; o.receiveShadow = true;
+        o.userData.kind = 'pbr'; const m = o.material; if (m) { if (m.map) m.map.anisotropy = 8; m.userData.outlineParameters = { visible: false }; } });
+      scene.add(gltf.scene); cast.push(c); return c;
+    }
     const tr = await (await fetch(`${texDir}/treatments.json`)).json();
     const c = { id, root: gltf.scene, gltf, meshes: [], eyeMeshes: [] };
     gltf.scene.traverse(o => { if (o.isMesh) c.meshes.push(o); });

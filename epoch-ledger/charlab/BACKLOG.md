@@ -85,3 +85,15 @@ animation renders. Character problems named in the review (all open):
   cinematic 3D environments and object visualisations, advanced financial charts and diagrams, documents, maps,
   timelines and editorial illustration. Target: 2–3 quality documentaries per week.
 
+## Conversion feasibility (Snow) — see `P2_CONVERT_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Blender → runtime conversion | **Works** (geometry, skeleton, weights, 21 face morphs from his own rig, baked materials, clips) | Adopt as the experimental ingestion path |
+| Eyes | Glassier than the original (no cornea refraction or placed highlight) | Runtime eye shader |
+| Skin | No subsurface scattering in the runtime | Wrap-lighting term |
+| Texture memory | ~350 MB GPU for one character | Half-resolution tiles / LOD |
+| Gestures | Mocap 'talk' too theatrical; IK palm orientation wrong in the test | Calm conversational gesture library, palm presets |
+| HyperFrames | Same loader path, not yet rendered through render.py | One render.py run after approval |
+| Rain | Not adaptable to a mature adult without re-sculpting | Artist work or a different character |
+| Cast | Only one suitable professional character (Snow) | Mikassa/Victor (login) or artist-designed characters, ingested by the converter |
+

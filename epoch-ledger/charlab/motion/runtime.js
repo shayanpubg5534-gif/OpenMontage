@@ -27,10 +27,13 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   for (const a of Object.values(demo.actors)) for (const sp of a.speech || []) if (sp.src && !sp.data) sp.data = await (await fetch(sp.src)).json();   // lip-sync tracks (M5)
   for (const [id, a] of Object.entries(demo.actors)) {
     const g = await loader.loadAsync(`${OUT}/${id}.glb`);
-    await stage.addCharacter(g, id, `${OUT}/${id}_tex`);
+    await stage.addCharacter(g, id, a.pbr ? null : `${OUT}/${id}_tex`);   // pbr: a converted character keeps its baked materials
     const A = new EL.Actor(g, id, a.cfg || {});
     g.scene.updateMatrixWorld(true);
     const em = A.meshes.find(m => m.userData.eyeU);
+    if (!em && A.bones.eye_l && A.bones.eye_r) {   // converted characters: eyes are bones inside the head mesh
+      const mid = A.bones.eye_l.getWorldPosition(new THREE.Vector3()).add(A.bones.eye_r.getWorldPosition(new THREE.Vector3())).multiplyScalar(.5);
+      mid.add(new THREE.Vector3(0, 0, .012)); A.eyeLocal = A.bones.head.worldToLocal(mid); }
     if (em) { const U = em.userData.eyeU; const mid = U.pivL.value.clone().add(U.pivR.value).multiplyScalar(.5).applyMatrix4(em.matrixWorld);
       mid.add(new THREE.Vector3(0, 0, .011)); A.eyeLocal = A.bones.head.worldToLocal(mid); }
     actors.push(A);

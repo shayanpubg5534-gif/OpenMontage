@@ -48,6 +48,7 @@ export class Actor {
     const wq = n => this.bones[n].getWorldQuaternion(Q());
     this.fwdIn = n => new THREE.Vector3(0, 0, 1).applyQuaternion(wq(n).invert());          // world +Z (forward) in bone space
     this.pelvisFwd = this.fwdIn('pelvis'); this.headFwd = this.fwdIn('head');
+    if (this.bones.eye_l && this.bones.eye_r) this.eyeFwd = { l: this.fwdIn('eye_l').normalize(), r: this.fwdIn('eye_r').normalize() };   // converted characters
     // hands: palm normal, finger direction and thumb side in hand space; palm centre offset
     this.hand = {};
     for (const s of ['l', 'r']) {
@@ -634,6 +635,7 @@ export function apply(compiled, actors, props, t) {
 
 // eyes: rotation of each eyeball (bind space) toward the actor's eye target, clamped
 export function aimEyes(A, maxDeg = 28) {
+  if (A.bones.eye_l && A.bones.eye_r && !A.meshes.some(m => m.userData.eyeU)) { aimEyeBones(A, maxDeg); return; }
   for (const m of A.meshes) {
     const U = m.userData.eyeU; if (!U) continue;
     const head = A.bones.head, sk = m.skeleton, hi = sk.bones.indexOf(head);
@@ -648,5 +650,21 @@ export function aimEyes(A, maxDeg = 28) {
       if (ang > max) q = Q().slerp(q, max / ang);
       mat.setFromMatrix4(new THREE.Matrix4().makeRotationFromQuaternion(q));
     }
+  }
+}
+
+// converted characters (charlab/convert): the eyeballs are part of the head mesh and turn with eye bones. Each eye
+// bone is rotated from its rest orientation so its rest forward (character +Z) points at the gaze target, within ±maxDeg.
+function aimEyeBones(A, maxDeg) {
+  if (!A.eyeTarget) return;
+  for (const s of ['l', 'r']) {
+    const b = A.bones[`eye_${s}`], i = A.idx[`eye_${s}`];
+    b.quaternion.copy(A.restQ[i]); b.updateMatrixWorld(true);
+    const c = b.getWorldPosition(new THREE.Vector3());
+    const d = A.eyeTarget.clone().sub(c).normalize().applyQuaternion(b.getWorldQuaternion(new THREE.Quaternion()).invert());
+    let q = new THREE.Quaternion().setFromUnitVectors(A.eyeFwd[s], d);
+    const ang = 2 * Math.acos(Math.min(1, Math.abs(q.w))), max = maxDeg * Math.PI / 180;
+    if (ang > max) q = new THREE.Quaternion().slerp(q, max / ang);
+    b.quaternion.multiply(q); b.updateMatrixWorld(true);
   }
 }

@@ -1,0 +1,450 @@
+{
+ "id": "snow_cv",
+ "_note": "Conversion profile for Blender Studio's Snow (CloudRig). Licence CC-BY; credit: Snow Rig (CC) Blender Foundation | studio.blender.org",
+ "licence": "CC-BY",
+ "credit": "Snow Rig (CC) Blender Foundation | studio.blender.org",
+ "blend": ".runtime/charlab/bstudio/x/snow_v4/Snow/snow_v4.2.blend",
+ "rig": "RIG-Snow",
+ "face_meshes": [
+  "GEO-snow-head",
+  "GEO-snow-eyebrows",
+  "GEO-snow-teeth_upper",
+  "GEO-snow-teeth_lower",
+  "GEO-snow-gums_upper",
+  "GEO-snow-gums_lower",
+  "GEO-snow-tongue",
+  "GEO-snow_eye_corneas",
+  "GEO-snow-eye_dots",
+  "GEO-snow-hair_base",
+  "GEO-snow-body",
+  "GEO-snow-eyes"
+ ],
+ "bones": {
+  "pelvis": [
+   "DEF-Hips"
+  ],
+  "spine_01": [
+   "DEF-Spine"
+  ],
+  "spine_02": [
+   "DEF-RibCage"
+  ],
+  "spine_03": [
+   "DEF-Chest"
+  ],
+  "neck_01": [
+   "DEF-Neck"
+  ],
+  "head": [
+   "DEF-Head"
+  ],
+  "eye_l": [
+   "DEF-Eye.L"
+  ],
+  "eye_r": [
+   "DEF-Eye.R"
+  ],
+  "clavicle_l": [
+   "DEF-Shoulder.L"
+  ],
+  "upperarm_l": [
+   "DEF-UpperArm_1.L",
+   "DEF-UpperArm_2.L"
+  ],
+  "lowerarm_l": [
+   "DEF-Forearm_1.L",
+   "DEF-Forearm_2.L"
+  ],
+  "hand_l": [
+   "DEF-Wrist.L",
+   "DEF-Finger_Index_Carpal.L",
+   "DEF-Finger_Middle_Carpal.L",
+   "DEF-Finger_Ring_Carpal.L",
+   "DEF-Finger_Pinky_Carpal.L"
+  ],
+  "thumb_01_l": [
+   "DEF-Finger_Thumb1.L"
+  ],
+  "thumb_02_l": [
+   "DEF-Finger_Thumb2.L"
+  ],
+  "thumb_03_l": [
+   "DEF-Finger_Thumb3.L"
+  ],
+  "index_01_l": [
+   "DEF-Finger_Index1.L"
+  ],
+  "index_02_l": [
+   "DEF-Finger_Index2.L"
+  ],
+  "index_03_l": [
+   "DEF-Finger_Index3.L"
+  ],
+  "middle_01_l": [
+   "DEF-Finger_Middle1.L"
+  ],
+  "middle_02_l": [
+   "DEF-Finger_Middle2.L"
+  ],
+  "middle_03_l": [
+   "DEF-Finger_Middle3.L"
+  ],
+  "ring_01_l": [
+   "DEF-Finger_Ring1.L"
+  ],
+  "ring_02_l": [
+   "DEF-Finger_Ring2.L"
+  ],
+  "ring_03_l": [
+   "DEF-Finger_Ring3.L"
+  ],
+  "pinky_01_l": [
+   "DEF-Finger_Pinky1.L"
+  ],
+  "pinky_02_l": [
+   "DEF-Finger_Pinky2.L"
+  ],
+  "pinky_03_l": [
+   "DEF-Finger_Pinky3.L"
+  ],
+  "clavicle_r": [
+   "DEF-Shoulder.R"
+  ],
+  "upperarm_r": [
+   "DEF-UpperArm_1.R",
+   "DEF-UpperArm_2.R"
+  ],
+  "lowerarm_r": [
+   "DEF-Forearm_1.R",
+   "DEF-Forearm_2.R"
+  ],
+  "hand_r": [
+   "DEF-Wrist.R",
+   "DEF-Finger_Index_Carpal.R",
+   "DEF-Finger_Middle_Carpal.R",
+   "DEF-Finger_Ring_Carpal.R",
+   "DEF-Finger_Pinky_Carpal.R"
+  ],
+  "thumb_01_r": [
+   "DEF-Finger_Thumb1.R"
+  ],
+  "thumb_02_r": [
+   "DEF-Finger_Thumb2.R"
+  ],
+  "thumb_03_r": [
+   "DEF-Finger_Thumb3.R"
+  ],
+  "index_01_r": [
+   "DEF-Finger_Index1.R"
+  ],
+  "index_02_r": [
+   "DEF-Finger_Index2.R"
+  ],
+  "index_03_r": [
+   "DEF-Finger_Index3.R"
+  ],
+  "middle_01_r": [
+   "DEF-Finger_Middle1.R"
+  ],
+  "middle_02_r": [
+   "DEF-Finger_Middle2.R"
+  ],
+  "middle_03_r": [
+   "DEF-Finger_Middle3.R"
+  ],
+  "ring_01_r": [
+   "DEF-Finger_Ring1.R"
+  ],
+  "ring_02_r": [
+   "DEF-Finger_Ring2.R"
+  ],
+  "ring_03_r": [
+   "DEF-Finger_Ring3.R"
+  ],
+  "pinky_01_r": [
+   "DEF-Finger_Pinky1.R"
+  ],
+  "pinky_02_r": [
+   "DEF-Finger_Pinky2.R"
+  ],
+  "pinky_03_r": [
+   "DEF-Finger_Pinky3.R"
+  ],
+  "thigh_l": [
+   "DEF-Thigh_1.L",
+   "DEF-Thigh_2.L"
+  ],
+  "calf_l": [
+   "DEF-Knee_1.L",
+   "DEF-Knee_2.L"
+  ],
+  "foot_l": [
+   "DEF-Foot.L"
+  ],
+  "ball_l": [
+   "DEF-Toes.L"
+  ],
+  "thigh_r": [
+   "DEF-Thigh_1.R",
+   "DEF-Thigh_2.R"
+  ],
+  "calf_r": [
+   "DEF-Knee_1.R",
+   "DEF-Knee_2.R"
+  ],
+  "foot_r": [
+   "DEF-Foot.R"
+  ],
+  "ball_r": [
+   "DEF-Toes.R"
+  ]
+ },
+ "parents": {
+  "pelvis": null,
+  "spine_01": "pelvis",
+  "spine_02": "spine_01",
+  "spine_03": "spine_02",
+  "neck_01": "spine_03",
+  "head": "neck_01",
+  "eye_l": "head",
+  "eye_r": "head",
+  "clavicle_l": "spine_03",
+  "upperarm_l": "clavicle_l",
+  "lowerarm_l": "upperarm_l",
+  "hand_l": "lowerarm_l",
+  "thumb_01_l": "hand_l",
+  "thumb_02_l": "thumb_01_l",
+  "thumb_03_l": "thumb_02_l",
+  "index_01_l": "hand_l",
+  "index_02_l": "index_01_l",
+  "index_03_l": "index_02_l",
+  "middle_01_l": "hand_l",
+  "middle_02_l": "middle_01_l",
+  "middle_03_l": "middle_02_l",
+  "ring_01_l": "hand_l",
+  "ring_02_l": "ring_01_l",
+  "ring_03_l": "ring_02_l",
+  "pinky_01_l": "hand_l",
+  "pinky_02_l": "pinky_01_l",
+  "pinky_03_l": "pinky_02_l",
+  "clavicle_r": "spine_03",
+  "upperarm_r": "clavicle_r",
+  "lowerarm_r": "upperarm_r",
+  "hand_r": "lowerarm_r",
+  "thumb_01_r": "hand_r",
+  "thumb_02_r": "thumb_01_r",
+  "thumb_03_r": "thumb_02_r",
+  "index_01_r": "hand_r",
+  "index_02_r": "index_01_r",
+  "index_03_r": "index_02_r",
+  "middle_01_r": "hand_r",
+  "middle_02_r": "middle_01_r",
+  "middle_03_r": "middle_02_r",
+  "ring_01_r": "hand_r",
+  "ring_02_r": "ring_01_r",
+  "ring_03_r": "ring_02_r",
+  "pinky_01_r": "hand_r",
+  "pinky_02_r": "pinky_01_r",
+  "pinky_03_r": "pinky_02_r",
+  "thigh_l": "pelvis",
+  "calf_l": "thigh_l",
+  "foot_l": "calf_l",
+  "ball_l": "foot_l",
+  "thigh_r": "pelvis",
+  "calf_r": "thigh_r",
+  "foot_r": "calf_r",
+  "ball_r": "foot_r"
+ },
+ "fold_into_head_patterns": [
+  "Jaw",
+  "Chin",
+  "Lip",
+  "Teeth",
+  "Tongue",
+  "Cheek",
+  "Eyebrow",
+  "Eyelid",
+  "Eye_Ring",
+  "Eye_Highlight",
+  "Nose",
+  "Nostril",
+  "Ear",
+  "Forehead",
+  "Temple",
+  "Mouth",
+  "Ponytail",
+  "Squint",
+  "Sneer",
+  "Face",
+  "Brow"
+ ],
+ "morphs": [
+  {
+   "name": "mouth-open",
+   "bones": [
+    [
+     "Jaw",
+     "locZ",
+     0.045
+    ]
+   ],
+   "gain": 0.65
+  },
+  {
+   "name": "mouth-pursing",
+   "actions": [
+    "Mouth Oo"
+   ]
+  },
+  {
+   "name": "mouth-protusion",
+   "actions": [
+    "Mouth Uu"
+   ]
+  },
+  {
+   "name": "mouth-eversion",
+   "actions": [
+    "Mouth Ff"
+   ]
+  },
+  {
+   "name": "mouth-compression",
+   "actions": [
+    "Mouth Compressed"
+   ]
+  },
+  {
+   "name": "mouth-retraction",
+   "actions": [
+    "Mouth Teethsmile"
+   ],
+   "gain": 0.7
+  },
+  {
+   "name": "mouth-corner-puller",
+   "actions": [
+    "Mouth Teethsmile"
+   ]
+  },
+  {
+   "name": "mouth-depression",
+   "actions": [
+    "Mouth Openfrown"
+   ]
+  },
+  {
+   "name": "mouth-smile-open",
+   "actions": [
+    "Mouth Opensmile"
+   ]
+  },
+  {
+   "name": "mouth-narrow",
+   "actions": [
+    "Mouth Narrow"
+   ]
+  },
+  {
+   "name": "eye-{s}-closure",
+   "actions": [
+    "Eyemask Closed"
+   ]
+  },
+  {
+   "name": "eye-{s}-opened-up",
+   "actions": [
+    "Eyemask Scared"
+   ]
+  },
+  {
+   "name": "eyebrows-{s}-inner-up",
+   "actions": [
+    "Eyemask Sad"
+   ]
+  },
+  {
+   "name": "eyebrows-{s}-down",
+   "actions": [
+    "Eyemask Angry"
+   ]
+  },
+  {
+   "name": "eyes-relaxed",
+   "actions": [
+    "Eyemask Relaxed"
+   ]
+  },
+  {
+   "name": "eyes-cocky",
+   "actions": [
+    "Eyemask Cocky"
+   ]
+  },
+  {
+   "name": "eyes-compressed",
+   "actions": [
+    "Eyemask Compressed"
+   ]
+  }
+ ],
+ "special_materials": {
+  "snow.eyes_cornea": {
+   "kind": "cornea",
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "rough": 0.04,
+   "alpha": 0.03
+  },
+  "snow.eye_dot": {
+   "kind": "highlight",
+   "color": [
+    1,
+    1,
+    1,
+    1
+   ],
+   "rough": 1.0,
+   "emit": [
+    1,
+    1,
+    1,
+    1
+   ]
+  }
+ },
+ "roughness": {
+  "hair": 0.8,
+  "teeth": 0.3,
+  "gums": 0.4,
+  "tongue": 0.4,
+  "skin": 0.55,
+  "shirt": 0.85,
+  "pants": 0.8,
+  "shoe": 0.6,
+  "eyes": 0.35
+ },
+ "specular": {
+  "hair": 0.15,
+  "skin": 0.3,
+  "shirt": 0.15,
+  "pants": 0.15,
+  "eyes": 0.35
+ },
+ "skip_meshes": [
+  "GEO-snow-eye_dots",
+  "GEO-snow_eye_corneas"
+ ],
+ "_skip_note": "eye highlight cards and corneas rely on transparency/refraction shaders; the runtime draws its own eye glint",
+ "iris_magnify": {
+  "GEO-snow-eyes": {
+   "scale": 1.3,
+   "radius_in_pupils": 3.2
+  }
+ },
+ "root_bone": "Root"
+}
