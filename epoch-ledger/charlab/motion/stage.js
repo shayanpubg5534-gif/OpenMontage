@@ -20,12 +20,12 @@ const kindOf = n => { n = n.toLowerCase();
 const TINTS = { skin: { sh: '#dcb4a4', li: '#fff6ef' }, cloth: { sh: '#9ea7c4', li: '#fff8f0' }, shoes: { sh: '#8a90a8', li: '#ffffff' },
   ghair: { sh: '#9a8c96', li: '#fff2e4' }, mouth: { sh: '#c49a96', li: '#fff4ee' }, prop: { sh: '#a7a0b4', li: '#fff8f0' } };
 
-export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004 } = {}) {
+export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null } = {}) {
   const env = ENV[envName];
-  const renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true, alpha: true });
-  renderer.setSize(W, H); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas || undefined, antialias: false, preserveDrawingBuffer: true, alpha: true });
+  renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  document.body.appendChild(renderer.domElement);
+  if (!canvas) document.body.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const hemi = new THREE.HemisphereLight(env.sky, env.ground, env.hemi); scene.add(hemi);
   const key = new THREE.DirectionalLight(env.key, env.keyI); key.position.set(...env.keyPos); key.castShadow = true;
@@ -115,6 +115,8 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   }
 
   // ── props: flat-coloured, inked, shadow-casting ───────────────────────────────────────────────────────────────
+  // a set may warm or cool its own shadow colour (M4.1); call before the set's materials are made
+  function setPropTint(sh, li) { if (sh) TINTS.prop.sh = sh; if (li) TINTS.prop.li = li; }
   function propMaterial(color) { const m = new THREE.MeshLambertMaterial({ color: new THREE.Color(color) }); shade(m, 'prop'); outline(m, 'prop'); return m; }
   function box(w, h, d, color) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), propMaterial(color)); m.castShadow = m.receiveShadow = true; return m; }
   function addProp(obj) { obj.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } }); scene.add(obj); return obj; }
@@ -173,5 +175,5 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
     if (L.ink) post.uniforms.inkCol.value.set(L.ink);
     if (L.grade) post.uniforms.grade.value.set(...L.grade);
   }
-  return { THREE, renderer, scene, cam, env, cast, addCharacter, addProp, box, propMaterial, render, setLights, key, fill, hemi };
+  return { THREE, renderer, scene, cam, env, cast, addCharacter, addProp, box, propMaterial, render, setLights, setPropTint, key, fill, hemi };
 }

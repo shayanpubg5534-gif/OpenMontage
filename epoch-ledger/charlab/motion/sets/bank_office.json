@@ -91,7 +91,9 @@
    0.99,
    1.0,
    1.02
-  ]
+  ],
+  "propShadow": "#c4ada0",
+  "propLight": "#fff6ec"
  },
  "items": [
   {
@@ -278,6 +280,75 @@
    ],
    "rot": -90,
    "text": "E. WARD"
+  },
+  {
+   "type": "cabinet",
+   "id": "credenza",
+   "pos": [
+    -3.42,
+    0,
+    -0.75
+   ],
+   "rot": 90,
+   "size": [
+    1.4,
+    0.78,
+    0.45
+   ],
+   "color": "#6a452e"
+  },
+  {
+   "type": "lamp",
+   "id": "credenza_lamp",
+   "pos": [
+    -3.42,
+    0.78,
+    -1.2
+   ],
+   "shade": "#c9a24f",
+   "intensity": 0.9
+  },
+  {
+   "type": "frame",
+   "id": "side_frame_a",
+   "pos": [
+    -3.64,
+    1.72,
+    -0.95
+   ],
+   "rot": 90,
+   "size": [
+    0.75,
+    0.55
+   ],
+   "text": "HARBOR\nSAVINGS & LOAN\n1956"
+  },
+  {
+   "type": "frame",
+   "id": "side_frame_b",
+   "pos": [
+    -3.64,
+    1.72,
+    -0.2
+   ],
+   "rot": 90,
+   "size": [
+    0.45,
+    0.55
+   ],
+   "text": "MAIN\nSTREET"
+  },
+  {
+   "type": "plant",
+   "id": "plant3",
+   "pos": [
+    -3.42,
+    0.78,
+    -0.25
+   ],
+   "height": 0.3,
+   "count": 7,
+   "seed": 5
   }
  ]
 }

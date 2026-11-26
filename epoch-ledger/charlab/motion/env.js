@@ -58,6 +58,10 @@ export function buildEnvironment(stage, spec) {
     const S = R[side]; if (!S) continue;
     const len = (S.to ?? front) - back;
     box(wallT, R.h, len, S.color || R.wall, x, R.h / 2, back + len / 2);
+    const sgn = x < 0 ? 1 : -1;
+    if (R.wainscot) { box(.03, R.wainscot.h, len, R.wainscot.color, x + sgn * .075, R.wainscot.h / 2, back + len / 2);
+      box(.06, .04, len, R.trim, x + sgn * .09, R.wainscot.h, back + len / 2); }
+    if (R.skirting !== false) box(.04, .1, len, R.trim, x + sgn * .08, .05, back + len / 2);
     if (S.door) { const d = S.door, sg = x < 0 ? 1 : -1;
       box(.05, 2.1, .95, d.color || '#5a3a2a', x + sg * .06, 1.05, d.z); box(.08, 2.2, 1.07, d.frame || R.trim, x + sg * .04, 1.1, d.z).position.x = x + sg * .03;
       const knob = cyl(.025, .025, .05, '#d9b25c'); knob.rotation.z = Math.PI / 2; knob.position.set(x + sg * .1, 1.0, d.z + .35); root.add(knob);
