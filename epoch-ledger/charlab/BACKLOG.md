@@ -63,3 +63,13 @@ animation renders. Character problems named in the review (all open):
 | **Female neck: too large, pasted-on head** | Made worse by the D redesign (`measure-neck-height-incr` 0.6–0.7 lengthened it). Head, neck, jaw and shoulder integration is a mesh-design problem |
 | Documentary elements to plan | Chart typography and hierarchy, financial-model-driven data (one model file per story, illustrative figures labelled), environment detail, original sound effects, render-performance bottleneck (Standard close-ups at ~5 s/frame) |
 
+## Artistic-direction gate (static comparison, 2026-11-26) — see `P2_ARTGATE_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Character foundation | Only professionally designed characters (Blender Studio, CC-BY) reach the brief; none form a consistent, customizable adult cast | Human character artist for a small stylized adult cast on Snow's construction template |
+| Blender-to-runtime conversion | Naive glTF export breaks (modifiers, shaders, rig drivers) | Automated bake/convert step, proved on Snow first |
+| Native Blender rendering on CPU | Cycles 10–30 s per character frame; EEVEE 59–186 s (software GL) | Only with a GPU or more cores |
+| Environments vs. premium characters | Primitive-built sets look simple next to professional characters | Upgrade sets to modelled props and materials |
+| Code-drawn 2D | Coherent but below premium (hands, bodies, hair) | Not the final style without an illustrator |
+| CharMorph | Realistic bases; hair broken headless; Vitruvian blocked by Git LFS | Not for this brief |
+

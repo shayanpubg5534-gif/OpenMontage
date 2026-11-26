@@ -1,6 +1,6 @@
 # Character asset foundations: research for the artistic-direction gate (after M5)
 
-Status: in progress. No assets purchased, no paid APIs. Licences are as stated by the publishers; each one must be
+Status: evaluated at the artistic-direction gate; results in `epoch-ledger/P2_ARTGATE_REPORT.md`. No assets purchased, no paid APIs. Licences are as stated by the publishers; each one must be
 re-checked on the download page before any use.
 
 Target (producer, M5 review): premium, full-colour, stylized animated financial documentary for adults. Not
@@ -12,7 +12,7 @@ natural clothing, refined materials, cinematic light; environments in the same l
 
 | Foundation | Licence | What it is | Fit | Access from this environment |
 |---|---|---|---|---|
-| **Blender Studio character library** (Snow, Rain, Storm; Sprite Fright's Ellie, Victoria, Phil and others) | CC-BY, credit "(CC) Blender Foundation \| studio.blender.org" | Professionally designed, sculpted and rigged film characters with designed hair, clothes, facial rigs and shading. Snow is a stylized adult woman built for the "Stylized Character Workflow" course (Blender 4.1). Sprite Fright rigs need Blender 3.x and CloudRig | **Best artistic match found.** Real character design, not a generic base. Each is a single fixed character (no generator); our own characters would be re-designs from them by an artist, or the characters used as-is with attribution | **Blocked**: the host was added to the environment's allowed list, but fetching it was refused by this session's permission check. Whether downloads need a (free) login is not confirmed |
+| **Blender Studio character library** (Snow, Rain, Storm; Sprite Fright's Ellie, Victoria, Phil and others) | CC-BY, credit "(CC) Blender Foundation \| studio.blender.org" | Professionally designed, sculpted and rigged film characters with designed hair, clothes, facial rigs and shading. Snow is a stylized adult woman built for the "Stylized Character Workflow" course (Blender 4.1). Sprite Fright rigs need Blender 3.x and CloudRig | **Best artistic match found.** Real character design, not a generic base. Each is a single fixed character (no generator); our own characters would be re-designs from them by an artist, or the characters used as-is with attribution | Downloaded after your approval (no login for most; Storm, Mikassa and Victor need a login) |
 | **Blender Human Base Meshes v1.4.1** (already evaluated in M5) | CC0 | Sculpt bases incl. stylized heads and bodies | Good anatomy and neck/shoulder flow; no hair, clothes, expressions or rig. A starting point for an artist, not a character | Available (download.blender.org) |
 | **CharMorph** (Blender add-on, GPLv3) with Antonia (CC-BY), Vitruvian (CC0), Reom (CC-BY), MB-Lab base (AGPL) | Per base model | Character generator descended from MB-Lab: morphs, Rigify incl. facial rig, hair, fitted clothing | Automatable, rigged, expressive face rig. Bases are realistic in proportion and surface, so stylization would be ours to add. Better anatomy and face rig than MakeHuman, same "generator" look risk | Needs GitHub read access to the `Upliner/CharMorph*` repositories (not enabled for this session) |
 | **MakeHuman / MPFB** (current) | CC0 assets | What M2–M5 used | Rejected at M5 review as an artistic standard | — |
