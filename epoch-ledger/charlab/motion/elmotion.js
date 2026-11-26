@@ -297,9 +297,10 @@ export function compile(script, actors, props = {}, opts = {}) {
     const t = f / FPS;
     for (const A of order) bodyLayers(A, f, t);
     scriptedProps(propState, t);                 // props on a scripted path: hands reach for their sockets
+    for (const A of order) attention(A, f, t, actors, props);   // look-at turns the chest: before the arms, so hands stay on target
     for (const A of order) armLayers(A, f, t, propState);
     attachedProps(propState, actors);            // carried props ride on the hand
-    for (const A of order) { attention(A, f, t, actors, props); snapshot(A, f, t); }
+    for (const A of order) snapshot(A, f, t);
     for (const [id, s] of Object.entries(propState)) if (s.keys.length || s.attach) (out.props[id] = out.props[id] || []).push(s.obj.matrixWorld.toArray());
   }
   out.qa.timing.compile_ms = Math.round(performance.now() - t0);
@@ -368,6 +369,14 @@ function armLayers(A, f, t, propState) {
     else if (R.pos) { P = new THREE.Vector3(...R.pos); fd = new THREE.Vector3(...(R.fd || [0, -.3, 1])); pn = new THREE.Vector3(...(R.pn || [0, -1, 0])); }
     if (!P) continue;
     const hq = handQuat(A, s, fd, pn);
+    // reach assist: a target beyond ~97% of the arm's reach bends the spine toward it first (picking up from a desk)
+    for (let it = 0; it < 3 && R.lean !== false; it++) {
+      const sh = A.wpos(`upperarm_${s}`), to = P.clone().sub(sh), ex = to.length() - .97 * A.hand[s].len - .05;
+      if (ex <= .005) break;
+      const h = to.clone().setY(0); if (h.lengthSq() < 1e-6) break;
+      const axis = UP.clone().cross(h.normalize()).normalize(), ang = Math.min(.75, ex / .38) * w;
+      for (const [n, k] of [['spine_01', .4], ['spine_02', .35], ['spine_03', .25]]) A.rotWorld(n, Q().setFromAxisAngle(axis, ang * k));
+    }
     const target = P.clone().sub(A.hand[s].palm.clone().applyQuaternion(hq));   // hand bone so the palm centre lands on P
     const T = A.wpos(`hand_${s}`).lerp(target, w), TQ = A.wquat(`hand_${s}`).slerp(hq, w);
     const pq = A.wquat('pelvis'), fwd = A.pelvisFwd.clone().applyQuaternion(pq).setY(0).normalize(), side = fwd.clone().cross(UP).normalize();
