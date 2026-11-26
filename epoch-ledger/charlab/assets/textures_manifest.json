@@ -1,0 +1,187 @@
+{
+ "desk_wood": {
+  "asset": "oak_veneer_01",
+  "name": "Oak Veneer 01",
+  "authors": [
+   "Jenelle van Heerden"
+  ],
+  "source": "https://polyhaven.com/a/oak_veneer_01",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_veneer_01/diff.jpg",
+    "bytes": 641756
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_veneer_01/rough.jpg",
+    "bytes": 865194
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_veneer_01/oak_veneer_01_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_veneer_01/nor.jpg",
+    "bytes": 484844
+   }
+  }
+ },
+ "trim_wood": {
+  "asset": "dark_wood",
+  "name": "Dark Wood",
+  "authors": [
+   "Dario Barresi",
+   "Dimitrios Savva",
+   "Rico Cilliers"
+  ],
+  "source": "https://polyhaven.com/a/dark_wood",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_wood/dark_wood_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/dark_wood/diff.jpg",
+    "bytes": 754754
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_wood/dark_wood_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/dark_wood/rough.jpg",
+    "bytes": 574415
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_wood/dark_wood_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/dark_wood/nor.jpg",
+    "bytes": 344338
+   }
+  }
+ },
+ "floor_wood": {
+  "asset": "oak_wood_planks",
+  "name": "Oak Wood Planks",
+  "authors": [
+   "Dimitrios Savva"
+  ],
+  "source": "https://polyhaven.com/a/oak_wood_planks",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_wood_planks/oak_wood_planks_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_wood_planks/diff.jpg",
+    "bytes": 696814
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_wood_planks/oak_wood_planks_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_wood_planks/rough.jpg",
+    "bytes": 845590
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/oak_wood_planks/oak_wood_planks_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/oak_wood_planks/nor.jpg",
+    "bytes": 392213
+   }
+  }
+ },
+ "wall_plaster": {
+  "asset": "grey_plaster_02",
+  "name": "Grey Plaster 02",
+  "authors": [
+   "Rob Tuytel"
+  ],
+  "source": "https://polyhaven.com/a/grey_plaster_02",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_plaster_02/grey_plaster_02_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/grey_plaster_02/diff.jpg",
+    "bytes": 772312
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_plaster_02/grey_plaster_02_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/grey_plaster_02/rough.jpg",
+    "bytes": 626062
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grey_plaster_02/grey_plaster_02_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/grey_plaster_02/nor.jpg",
+    "bytes": 636432
+   }
+  }
+ },
+ "leather": {
+  "asset": "brown_leather",
+  "name": "Brown Leather",
+  "authors": [
+   "Rob Tuytel"
+  ],
+  "source": "https://polyhaven.com/a/brown_leather",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_leather/brown_leather_albedo_1k.jpg",
+    "local": ".runtime/charlab/textures/brown_leather/diff.jpg",
+    "bytes": 503348
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_leather/brown_leather_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/brown_leather/rough.jpg",
+    "bytes": 686142
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_leather/brown_leather_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/brown_leather/nor.jpg",
+    "bytes": 863280
+   }
+  }
+ },
+ "fabric": {
+  "asset": "rough_linen",
+  "name": "Rough Linen",
+  "authors": [
+   "colormass",
+   "Rico Cilliers"
+  ],
+  "source": "https://polyhaven.com/a/rough_linen",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/rough_linen/diff.jpg",
+    "bytes": 835801
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/rough_linen/rough.jpg",
+    "bytes": 1083725
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rough_linen/rough_linen_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/rough_linen/nor.jpg",
+    "bytes": 916843
+   }
+  }
+ },
+ "carpet": {
+  "asset": "dirty_carpet",
+  "name": "Dirty Carpet",
+  "authors": [
+   "Rohit Seervi"
+  ],
+  "source": "https://polyhaven.com/a/dirty_carpet",
+  "license": "CC0 1.0 Universal \u2014 https://polyhaven.com/license",
+  "maps": {
+   "diff": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_diff_1k.jpg",
+    "local": ".runtime/charlab/textures/dirty_carpet/diff.jpg",
+    "bytes": 978020
+   },
+   "rough": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_rough_1k.jpg",
+    "local": ".runtime/charlab/textures/dirty_carpet/rough.jpg",
+    "bytes": 434062
+   },
+   "nor": {
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_nor_gl_1k.jpg",
+    "local": ".runtime/charlab/textures/dirty_carpet/nor.jpg",
+    "bytes": 1089297
+   }
+  }
+ }
+}

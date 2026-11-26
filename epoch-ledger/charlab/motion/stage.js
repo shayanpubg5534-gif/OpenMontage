@@ -22,15 +22,17 @@ const TINTS = { skin: { sh: '#dcb4a4', li: '#fff6ef' }, cloth: { sh: '#9ea7c4', 
 
 export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, clothInflate = .004, canvas = null, plate = null, look = 'cel' } = {}) {
   const ED = look === 'editorial';   // M5: painted editorial look (opt-in; 'cel' keeps M2.3c–M4 renders unchanged)
+  const CIN = look === 'cinematic';  // P3: physically based set + converted characters, HDR buffers, neutral tone mapping, AO/DOF, no ink (opt-in)
   const env = { ...ENV[envName], ...(plate ? { plate } : {}) };
   const renderer = new THREE.WebGLRenderer({ canvas: canvas || undefined, antialias: false, preserveDrawingBuffer: true, alpha: true });
-  renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = ED ? THREE.VSMShadowMap : THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(1); renderer.setSize(W, H, !canvas); renderer.shadowMap.enabled = true; renderer.shadowMap.type = ED || CIN ? THREE.VSMShadowMap : THREE.PCFSoftShadowMap;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  if (CIN) { renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1; }   // applied once, in the post pass (the only pass drawn to the screen)
   if (!canvas) document.body.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const hemi = new THREE.HemisphereLight(env.sky, env.ground, env.hemi); scene.add(hemi);
   const key = new THREE.DirectionalLight(env.key, env.keyI); key.position.set(...env.keyPos); key.castShadow = true;
-  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; if (ED) { key.shadow.radius = 9; key.shadow.blurSamples = 16; key.shadow.bias = -0.0008; }
+  key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02; if (ED || CIN) { key.shadow.radius = CIN ? 5 : 9; key.shadow.blurSamples = 16; key.shadow.bias = -0.0008; }
   Object.assign(key.shadow.camera, { left: -4, right: 4, top: 3, bottom: -1.5, near: .1, far: 16 }); scene.add(key);
   const fill = new THREE.DirectionalLight(env.fill, env.fillI); fill.position.set(...env.fillPos); scene.add(fill);
   const catcher = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.ShadowMaterial({ color: env.shadow, opacity: env.shadowA }));
@@ -75,11 +77,12 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   // ── characters ────────────────────────────────────────────────────────────────────────────────────────────────
   const texLoader = new THREE.TextureLoader();
   const cast = [];
-  async function addCharacter(gltf, id, texDir) {
+  async function addCharacter(gltf, id, texDir, opts = {}) {
     if (!texDir) {   // a converted professional character (charlab/convert): keep its baked PBR materials
       const c = { id, root: gltf.scene, gltf, meshes: [], eyeMeshes: [], pbr: true };
       gltf.scene.traverse(o => { if (!o.isMesh) return; c.meshes.push(o); o.frustumCulled = false; o.castShadow = true; o.receiveShadow = true;
         o.userData.kind = 'pbr'; const m = o.material; if (m) { if (m.map) m.map.anisotropy = 8; m.userData.outlineParameters = { visible: false }; } });
+      if (opts.look === 'enhanced') c.look = (await import('./charlook.js')).enhanceCharacter(gltf.scene, renderer, opts.lookOpts || {});   // P3, opt-in
       scene.add(gltf.scene); cast.push(c); return c;
     }
     const tr = await (await fetch(`${texDir}/treatments.json`)).json();
@@ -134,21 +137,22 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   // ── props: flat-coloured, inked, shadow-casting ───────────────────────────────────────────────────────────────
   // a set may warm or cool its own shadow colour (M4.1); call before the set's materials are made
   function setPropTint(sh, li) { if (sh) TINTS.prop.sh = sh; if (li) TINTS.prop.li = li; }
-  function propMaterial(color) { const m = new THREE.MeshLambertMaterial({ color: new THREE.Color(color) }); shade(m, 'prop'); outline(m, 'prop'); return m; }
+  function propMaterial(color) { if (CIN) { const m = new THREE.MeshStandardMaterial({ color: new THREE.Color(color), roughness: .7 }); m.userData.outlineParameters = { visible: false }; return m; }
+    const m = new THREE.MeshLambertMaterial({ color: new THREE.Color(color) }); shade(m, 'prop'); outline(m, 'prop'); return m; }
   function box(w, h, d, color) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), propMaterial(color)); m.castShadow = m.receiveShadow = true; return m; }
   function addProp(obj) { obj.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } }); scene.add(obj); return obj; }
 
   // ── post: character + prop pass over the plate (as lookdev3) ──────────────────────────────────────────────────
   const outlineFx = new OutlineEffect(renderer);
-  const mkRT = samples => new THREE.WebGLRenderTarget(W, H, { samples, colorSpace: THREE.SRGBColorSpace });
-  const rts = { 4: mkRT(4), 2: mkRT(2), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H, ED ? { depthTexture: new THREE.DepthTexture(W, H) } : {}), normalMat = new THREE.MeshNormalMaterial();
+  const mkRT = samples => new THREE.WebGLRenderTarget(W, H, CIN ? { samples, type: THREE.HalfFloatType, colorSpace: THREE.LinearSRGBColorSpace } : { samples, colorSpace: THREE.SRGBColorSpace });
+  const rts = { 4: mkRT(4), 2: mkRT(2), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H, ED || CIN ? { depthTexture: new THREE.DepthTexture(W, H) } : {}), normalMat = new THREE.MeshNormalMaterial();
   const plateTex = await texLoader.loadAsync(env.plate); plateTex.colorSpace = THREE.SRGBColorSpace;
   const post = new THREE.ShaderMaterial({
     uniforms: { tChar: { value: null }, tNorm: { value: rtN.texture }, tPlate: { value: plateTex }, inkOn: { value: 1 }, inkCol: { value: ink.clone() },
-                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, aa: { value: 0 }, tDepth: { value: rtN.depthTexture || null }, cNear: { value: .05 }, cFar: { value: 60 }, ed: { value: ED ? 1 : 0 },
-                ao: { value: ED ? .55 : 0 }, haze: { value: 0 }, hazeCol: { value: new THREE.Color('#e9e2d6') }, hazeNear: { value: 3 }, hazeFar: { value: 12 }, dof: { value: 0 }, focus: { value: 2 }, focusRange: { value: .5 }, grade: { value: new THREE.Vector3(...env.grade) } },
+                res: { value: new THREE.Vector2(W, H) }, blur: { value: 0 }, aa: { value: 0 }, tDepth: { value: rtN.depthTexture || null }, cNear: { value: .05 }, cFar: { value: 60 }, ed: { value: ED || CIN ? 1 : 0 }, cin: { value: CIN ? 1 : 0 },
+                ao: { value: ED ? .55 : CIN ? .7 : 0 }, haze: { value: 0 }, hazeCol: { value: new THREE.Color('#e9e2d6') }, hazeNear: { value: 3 }, hazeFar: { value: 12 }, dof: { value: 0 }, focus: { value: 2 }, focusRange: { value: .5 }, grade: { value: new THREE.Vector3(...env.grade) } },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0., 1.); }',
-    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate, tDepth; uniform float inkOn, blur, aa, cNear, cFar, ed, ao, haze, hazeNear, hazeFar, dof, focus, focusRange; uniform vec3 hazeCol; uniform vec3 inkCol, grade; uniform vec2 res;
+    fragmentShader: `varying vec2 vUv; uniform sampler2D tChar, tNorm, tPlate, tDepth; uniform float inkOn, blur, aa, cNear, cFar, ed, cin, ao, haze, hazeNear, hazeFar, dof, focus, focusRange; uniform vec3 hazeCol; uniform vec3 inkCol, grade; uniform vec2 res;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
         return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }
@@ -183,14 +187,18 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
         if (ed > .5 && inkOn > .5) { float z = vz(vUv);
           col *= 1. - ao * ssao(vUv) * .7;
           col = mix(col, hazeCol, haze * smoothstep(hazeNear, hazeFar, z)); }
-        if (inkOn > .5) { vec2 px = 1. / res;
+        if (inkOn > .5 && cin < .5) { vec2 px = 1. / res;
           vec3 a = texture2D(tNorm, vUv + vec2(-1,-1)*px).rgb, b = texture2D(tNorm, vUv + vec2(0,-1)*px).rgb, c = texture2D(tNorm, vUv + vec2(1,-1)*px).rgb;
           vec3 d = texture2D(tNorm, vUv + vec2(-1,0)*px).rgb, f = texture2D(tNorm, vUv + vec2(1,0)*px).rgb;
           vec3 g = texture2D(tNorm, vUv + vec2(-1,1)*px).rgb, h = texture2D(tNorm, vUv + vec2(0,1)*px).rgb, i = texture2D(tNorm, vUv + vec2(1,1)*px).rgb;
           vec3 gx = (c + 2.*f + i) - (a + 2.*d + g), gy = (g + 2.*h + i) - (a + 2.*b + c);
           float e = sqrt(dot(gx, gx) + dot(gy, gy)); col = mix(col, ed > .5 ? col * .42 : inkCol, smoothstep(.7, 1.3, e) * (ed > .5 ? .55 : .6) * step(.5, ch.a)); }
-        col *= grade; vec3 o = mix(plate(vUv), col, ch.a);
-        o *= .975 + .025 * noise(vUv * res / 1.5 + 7.);
+        col *= grade;
+        #ifdef TONE_MAPPING
+        if (cin > .5) col = toneMapping(col);
+        #endif
+        vec3 o = mix(plate(vUv), col, ch.a);
+        o *= cin > .5 ? .99 + .01 * noise(vUv * res / 1.5 + 7.) : .975 + .025 * noise(vUv * res / 1.5 + 7.);
         gl_FragColor = vec4(o, 1.);
         #include <colorspace_fragment>
       }` });
@@ -199,12 +207,12 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   const cam = new THREE.PerspectiveCamera(30, W / H, .05, 60);
 
   function render({ msaa = 4, shadow = 2048, inkPass = true, blur = 0, fxaa = false, dof = 0, focus = 2, focusRange = .5, haze = null } = {}) {
-    post.uniforms.cNear.value = cam.near; post.uniforms.cFar.value = cam.far; post.uniforms.dof.value = ED && inkPass ? dof : 0; post.uniforms.focus.value = focus; post.uniforms.focusRange.value = focusRange;
+    post.uniforms.cNear.value = cam.near; post.uniforms.cFar.value = cam.far; post.uniforms.dof.value = (ED || CIN) && inkPass ? dof : 0; post.uniforms.focus.value = focus; post.uniforms.focusRange.value = focusRange;
     if (haze !== null) post.uniforms.haze.value = haze;
     if (key.shadow.mapSize.x !== shadow) { key.shadow.mapSize.set(shadow, shadow); if (key.shadow.map) { key.shadow.map.dispose(); key.shadow.map = null; } }
     cam.updateMatrixWorld(); keyView.value.copy(key.position).applyMatrix3(new THREE.Matrix3().setFromMatrix4(cam.matrixWorldInverse)).normalize();
     const rt = rts[msaa] || rts[4];
-    renderer.setRenderTarget(rt); renderer.setClearColor(0, 0); renderer.clear(); outlineFx.render(scene, cam);
+    renderer.setRenderTarget(rt); renderer.setClearColor(0, 0); renderer.clear(); if (CIN) renderer.render(scene, cam); else outlineFx.render(scene, cam);
     const catcherOn = catcher.visible;
     if (inkPass) { renderer.setRenderTarget(rtN); renderer.setClearColor(0x8080ff, 1); renderer.clear(); catcher.visible = false;
       const hid = []; scene.traverse(m => { if (m.isMesh && ['gline', 'eye', 'backdrop'].includes(m.userData.kind)) { m.visible = false; hid.push(m); } });
@@ -223,5 +231,5 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
     if (L.ink) post.uniforms.inkCol.value.set(L.ink);
     if (L.grade) post.uniforms.grade.value.set(...L.grade);
   }
-  return { THREE, renderer, scene, cam, env, cast, addCharacter, addProp, box, propMaterial, render, setLights, setPropTint, key, fill, hemi };
+  return { THREE, renderer, scene, cam, env, cast, look, post, addCharacter, addProp, box, propMaterial, render, setLights, setPropTint, key, fill, hemi };
 }

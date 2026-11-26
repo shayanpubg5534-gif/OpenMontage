@@ -78,6 +78,7 @@ export function enhanceCharacter(root, renderer, opts = {}) {
       m = new THREE.MeshPhysicalMaterial({ map, roughness: kind === 'shoes' ? .6 : .82, specularIntensity: .25, sheen: kind === 'cloth' ? .4 : 0,
         sheenRoughness: .8, sheenColor: new THREE.Color('#888888'), envMap: env, envMapIntensity: .2 });
     }
+    if (kind === 'glint') o.castShadow = o.receiveShadow = false;
     m.name = old.name + '_charlook'; m.userData.outlineParameters = { visible: false };
     o.material = m; report[o.name] = kind;
   });

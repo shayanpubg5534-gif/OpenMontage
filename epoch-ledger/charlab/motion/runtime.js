@@ -21,13 +21,14 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   // a full 3D set (M4.1): build it, take its light rig, and resolve anchor references in the script
   let SET = null;
   if (demo.set) { const spec = await (await fetch(demo.set)).json(); stage.setPropTint((spec.lights || {}).propShadow, (spec.lights || {}).propLight); SET = buildEnvironment(stage, spec); stage.setLights(spec.lights || {});
+    if (stage.look === 'cinematic' && spec.cinematic) SET.cinematic = await (await import('./cinematic.js')).applyCinematic(stage, { ...SET, spec }, spec.cinematic);   // P3, opt-in
     for (const a of Object.values(demo.actors)) for (const s of a.body || []) if (s.place && typeof s.place === "object" && s.place.anchor) {
       const an = SET.anchors[s.place.anchor]; if (!an) throw new Error('unknown anchor ' + s.place.anchor); s.place = { pos: an.pos, yaw: an.yaw }; } }
   const loader = new GLTFLoader(), actors = [];
   for (const a of Object.values(demo.actors)) for (const sp of a.speech || []) if (sp.src && !sp.data) sp.data = await (await fetch(sp.src)).json();   // lip-sync tracks (M5)
   for (const [id, a] of Object.entries(demo.actors)) {
     const g = await loader.loadAsync(`${OUT}/${id}.glb`);
-    await stage.addCharacter(g, id, a.pbr ? null : `${OUT}/${id}_tex`);   // pbr: a converted character keeps its baked materials
+    await stage.addCharacter(g, id, a.pbr ? null : `${OUT}/${id}_tex`, { look: a.charlook, lookOpts: a.charlookOpts });   // pbr: a converted character keeps its baked materials
     const A = new EL.Actor(g, id, a.cfg || {});
     g.scene.updateMatrixWorld(true);
     const em = A.meshes.find(m => m.userData.eyeU);

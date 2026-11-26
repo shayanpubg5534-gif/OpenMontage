@@ -350,5 +350,262 @@
    "count": 7,
    "seed": 5
   }
- ]
+ ],
+ "cinematic": {
+  "_note": "P3 opt-in: read only when the demo's look is 'cinematic' (motion/cinematic.js). CC0 texture sets from Poly Haven, fetched by assets/fetch_textures.py; licences in assets/textures_manifest.json",
+  "textures": "/.runtime/charlab/textures",
+  "materials": {
+   "#56627a": {
+    "set": "oak_wood_planks",
+    "size": 1.4,
+    "tint": "#a89482",
+    "rough": 1.0
+   },
+   "#eae1d0": {
+    "set": "grey_plaster_02",
+    "size": 3.0,
+    "tint": "#f6ead6",
+    "normal": 0.35,
+    "contrast": 0.22
+   },
+   "#e3d8c4": {
+    "set": "grey_plaster_02",
+    "size": 3.0,
+    "tint": "#efe2cc",
+    "normal": 0.35,
+    "contrast": 0.22
+   },
+   "#b99c7a": {
+    "set": "dark_wood",
+    "size": 1.0,
+    "tint": "#a07656",
+    "contrast": 0.6
+   },
+   "#3b2e26": {
+    "set": "dark_wood",
+    "size": 0.8,
+    "tint": "#6a4e3c",
+    "contrast": 0.6
+   },
+   "#7a4f33": {
+    "set": "oak_veneer_01",
+    "size": 0.9,
+    "tint": "#5e3820",
+    "rough": 1.0,
+    "contrast": 0.7,
+    "env": 0.3
+   },
+   "#5e3b26": {
+    "set": "oak_veneer_01",
+    "size": 0.9,
+    "tint": "#6a3f26",
+    "contrast": 0.7
+   },
+   "#6d4630": {
+    "set": "oak_veneer_01",
+    "size": 0.9,
+    "tint": "#74482c",
+    "contrast": 0.7
+   },
+   "#6a452e": {
+    "set": "oak_veneer_01",
+    "size": 1.0,
+    "tint": "#6e4630",
+    "contrast": 0.7
+   },
+   "#4f3322": {
+    "set": "oak_veneer_01",
+    "size": 1.0,
+    "tint": "#4a2e1e",
+    "contrast": 0.7
+   },
+   "#384152": {
+    "set": "rough_linen",
+    "size": 0.35,
+    "tint": "#5d6c8c"
+   },
+   "#3b2a24": {
+    "set": "brown_leather",
+    "size": 0.5,
+    "tint": "#a07a68"
+   },
+   "#7d8592": {
+    "color": "#7f8794",
+    "rough": 0.45,
+    "metal": 0.55
+   },
+   "#6e3631": {
+    "set": "rough_linen",
+    "size": 0.3,
+    "tint": "#8e3a30",
+    "contrast": 1.0
+   },
+   "#80443a": {
+    "set": "rough_linen",
+    "size": 0.3,
+    "tint": "#a24a3a",
+    "contrast": 1.0
+   },
+   "#c9a24f": {
+    "color": "#c9a24f",
+    "rough": 0.3,
+    "metal": 1.0
+   },
+   "#2d3340": {
+    "color": "#2d3340",
+    "rough": 0.4,
+    "metal": 0.3
+   },
+   "curtain": {
+    "set": "rough_linen",
+    "size": 0.5,
+    "tint": "#ffd6ac",
+    "contrast": 0.5
+   },
+   "brass": {
+    "color": "#b8913f",
+    "rough": 0.35,
+    "metal": 1.0
+   },
+   "radiator": {
+    "color": "#ddd5c6",
+    "rough": 0.5
+   },
+   "leather": {
+    "set": "brown_leather",
+    "size": 0.5,
+    "tint": "#5c4a3e"
+   },
+   "trim": {
+    "set": "dark_wood",
+    "size": 0.8,
+    "tint": "#6a4e3c",
+    "contrast": 0.6
+   },
+   "wall": {
+    "set": "grey_plaster_02",
+    "size": 3.0,
+    "tint": "#f6ead6",
+    "normal": 0.35,
+    "contrast": 0.22
+   }
+  },
+  "dressing": [
+   {
+    "type": "pad",
+    "pos": [
+     0.12,
+     0.76,
+     -0.38
+    ],
+    "size": [
+     0.42,
+     0.66
+    ]
+   },
+   {
+    "type": "ledgers",
+    "pos": [
+     0.24,
+     0.76,
+     0.52
+    ],
+    "list": [
+     [
+      "#2f4b3e",
+      0.045,
+      0,
+      0,
+      4
+     ],
+     [
+      "#6b2c27",
+      0.04,
+      0.01,
+      0.01,
+      -6
+     ],
+     [
+      "#24324a",
+      0.05,
+      -0.01,
+      0,
+      9
+     ]
+    ]
+   },
+   {
+    "type": "pens",
+    "pos": [
+     0.33,
+     0.76,
+     -0.18
+    ]
+   }
+  ],
+  "lights": {
+   "sun": {
+    "color": "#ffe6c4",
+    "i": 3.4,
+    "dir": [
+     -0.45,
+     0.7,
+     -1.0
+    ],
+    "target": [
+     -0.6,
+     0.0,
+     -0.6
+    ]
+   },
+   "sky": {
+    "color": "#f1eee8",
+    "i": 1.6
+   },
+   "practicals": [
+    {
+     "item": "lamp",
+     "color": "#ffc787",
+     "i": 1.4,
+     "dist": 2.6
+    },
+    {
+     "item": "credenza_lamp",
+     "color": "#ffc787",
+     "i": 1.1,
+     "dist": 2.4
+    }
+   ],
+   "fill": {
+    "color": "#ffe0c2",
+    "i": 0.25,
+    "pos": [
+     2.5,
+     2.0,
+     3.0
+    ]
+   },
+   "bounce": 0.28,
+   "hemi": 0.08,
+   "key": {
+    "color": "#fff0de",
+    "i": 9,
+    "pos": [
+     1.6,
+     2.6,
+     3.2
+    ],
+    "target": [
+     -0.3,
+     1.2,
+     0.4
+    ],
+    "angle": 38,
+    "penumbra": 1,
+    "dist": 10
+   }
+  },
+  "windowGlow": 2.4,
+  "glow": 5
+ }
 }
