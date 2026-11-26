@@ -49,7 +49,8 @@ def main(argv=None):
     prepare_workspace(ws)
     bundle(ws / "el3d.js")
     shot = json.loads(a.shot.read_text())
-    assets = ["el3d.js", "shot.json"]
+    assets = ["el3d.js", "shot/shot.json"]
+    (ws / "shot").mkdir(exist_ok=True)   # not at the root: render.py --isolate links root *.json twice (config pass)
     # set and plate: copied in, paths made workspace-relative
     plates = ws / "plates"; plates.mkdir(exist_ok=True)
     def local_plate(url):
@@ -64,8 +65,8 @@ def main(argv=None):
         for it in st.get("items", []):
             if it.get("image"):
                 it["image"] = local_plate(it["image"])
-        (ws / "set.json").write_text(json.dumps(st)); shot["set"] = "set.json"; assets.append("set.json")
-    (ws / "shot.json").write_text(json.dumps(shot))
+        (ws / "shot/set.json").write_text(json.dumps(st)); shot["set"] = "shot/set.json"; assets.append("shot/set.json")
+    (ws / "shot/shot.json").write_text(json.dumps(shot))
     # characters: GLB, texture treatments and the flat textures the stage loads
     for cid in shot["actors"]:
         (ws / "chars" / f"{cid}_tex").mkdir(parents=True, exist_ok=True)
@@ -81,7 +82,7 @@ def main(argv=None):
 import {{ loadShot, QUALITY }} from './el3d.js';
 // runtime assets, named literally for render.py's dependency scan: {json.dumps(assets)}
 try {{
-  const demo = await (await fetch('shot.json')).json();
+  const demo = await (await fetch('shot/shot.json')).json();
   const SH = await loadShot({{ demo, OUT: 'chars', canvas: document.getElementById('el3d') }});
   const Q = QUALITY[{json.dumps(a.quality)}];
   window.__el3dDraw = t => SH.frame(t, Q);

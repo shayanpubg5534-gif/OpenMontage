@@ -1,0 +1,84 @@
+{
+ "_note": "M4.1 reuse test: the bakery set with Nadia behind her counter (stills).",
+ "env": "bakery",
+ "set": "/epoch-ledger/charlab/motion/sets/bakery_shop.json",
+ "duration": 3.0,
+ "actors": {
+  "nadia_c": {
+   "cfg": {
+    "breath": 3.8
+   },
+   "seed": 3,
+   "upright": 0.6,
+   "body": [
+    {
+     "clip": "idle",
+     "at": 0,
+     "loop": "pingpong",
+     "calm": true,
+     "place": {
+      "anchor": "counter.behind"
+     }
+    }
+   ],
+   "reach": [
+    {
+     "side": "l",
+     "t0": -1,
+     "in": 0.1,
+     "t1": 99,
+     "local": [
+      -0.2,
+      0.97,
+      0.4
+     ],
+     "fd": [
+      0.3,
+      -0.2,
+      1
+     ],
+     "pn": [
+      0,
+      -1,
+      0
+     ]
+    }
+   ],
+   "look": [
+    {
+     "t": 0,
+     "target": [
+      0.5,
+      1.5,
+      3.0
+     ],
+     "w": 0.8
+    }
+   ],
+   "face": [
+    {
+     "t": 0,
+     "e": {
+      "mouth-corner-puller": 0.3
+     }
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    1.2,
+    1.55,
+    3.6
+   ],
+   "look": [
+    -0.3,
+    1.1,
+    -1.2
+   ],
+   "fov": 38
+  }
+ ]
+}

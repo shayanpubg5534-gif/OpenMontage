@@ -1,0 +1,232 @@
+{
+ "id": "bakery_shop",
+ "_note": "M4.1 reuse test: Nadia's bakery from the same component library (no new code).",
+ "room": {
+  "w": 7.0,
+  "back": -2.3,
+  "front": 3.2,
+  "h": 3.0,
+  "floor": "#7a6252",
+  "wall": "#f1e2c8",
+  "trim": "#5a3a2a",
+  "wainscot": {
+   "h": 1.0,
+   "color": "#c89c6c"
+  },
+  "left": {
+   "color": "#ead8ba",
+   "door": {
+    "z": 1.0,
+    "color": "#2f5a4a"
+   }
+  },
+  "right": {
+   "color": "#ead8ba"
+  }
+ },
+ "window": {
+  "x": 1.6,
+  "w": 2.2,
+  "h": 1.5,
+  "sill": 1.0,
+  "panes": 2,
+  "frame": "#2f5a4a",
+  "backdrop": {
+   "image": "/projects/profitable-and-broke/hyperframes/plates/bank-bg-b758bcbed821.png",
+   "crop": [
+    0.11,
+    0.03,
+    0.56,
+    0.36
+   ],
+   "distance": 4.5,
+   "tint": "#fbf3e6",
+   "lift": 0.1
+  }
+ },
+ "lights": {
+  "hemi": {
+   "sky": "#fff1dc",
+   "ground": "#6b5a48",
+   "i": 1.15
+  },
+  "key": {
+   "color": "#ffd9a8",
+   "i": 2.3,
+   "pos": [
+    2.6,
+    4.2,
+    3.0
+   ],
+   "target": [
+    0,
+    0.8,
+    -0.6
+   ]
+  },
+  "fill": {
+   "color": "#bcd0ff",
+   "i": 0.45,
+   "pos": [
+    -3,
+    2,
+    1.5
+   ]
+  },
+  "shadow": {
+   "left": -5,
+   "right": 5,
+   "top": 5,
+   "bottom": -5,
+   "near": 0.1,
+   "far": 20
+  },
+  "ink": "#2b1d16",
+  "grade": [
+   1.03,
+   1.0,
+   0.95
+  ],
+  "propShadow": "#c9a890",
+  "propLight": "#fff6e8"
+ },
+ "items": [
+  {
+   "type": "counter",
+   "id": "counter",
+   "pos": [
+    -0.6,
+    0,
+    -0.9
+   ],
+   "size": [
+    3.0,
+    0.95,
+    0.65
+   ],
+   "color": "#8a5a3a",
+   "top": "#e8d9bd",
+   "anchors": {
+    "behind": {
+     "pos": [
+      -0.6,
+      -1.5
+     ],
+     "yaw": 0
+    }
+   }
+  },
+  {
+   "type": "bookshelf",
+   "id": "bread_shelf",
+   "pos": [
+    -1.4,
+    0,
+    -2.08
+   ],
+   "size": [
+    2.2,
+    2.0,
+    0.4
+   ],
+   "color": "#7a4f33",
+   "rows": 4,
+   "books": [
+    "#d9a45a",
+    "#c98a3e",
+    "#e7c08a",
+    "#b8763a",
+    "#f0d6a4"
+   ],
+   "seed": 9
+  },
+  {
+   "type": "sign",
+   "id": "menu",
+   "pos": [
+    1.6,
+    2.65,
+    -2.22
+   ],
+   "size": [
+    2.0,
+    0.42
+   ],
+   "color": "#2b3a33",
+   "text": "Nadia's Bakery",
+   "sub": "SOURDOUGH \u00b7 RYE \u00b7 BAGUETTE",
+   "textColor": "#f1d99a"
+  },
+  {
+   "type": "chair",
+   "id": "cafe_chair",
+   "pos": [
+    1.7,
+    0,
+    0.6
+   ],
+   "rot": -120,
+   "color": "#2f5a4a"
+  },
+  {
+   "type": "desk",
+   "id": "cafe_table",
+   "pos": [
+    2.3,
+    0,
+    0.2
+   ],
+   "size": [
+    0.7,
+    0.74,
+    0.7
+   ],
+   "color": "#8a5a3a",
+   "body": "#6a452e",
+   "panel": "xn"
+  },
+  {
+   "type": "plant",
+   "id": "plant",
+   "pos": [
+    3.0,
+    0,
+    -1.8
+   ],
+   "height": 0.9
+  },
+  {
+   "type": "frame",
+   "id": "license",
+   "pos": [
+    0.3,
+    1.85,
+    -2.22
+   ],
+   "size": [
+    0.45,
+    0.6
+   ],
+   "text": "BUSINESS\nLICENCE\n2021"
+  },
+  {
+   "type": "mug",
+   "id": "mug",
+   "pos": [
+    -0.2,
+    0.95,
+    -0.8
+   ]
+  },
+  {
+   "type": "papers",
+   "id": "invoices",
+   "pos": [
+    -1.0,
+    0.95,
+    -0.85
+   ],
+   "rot": -10
+  }
+ ]
+}
