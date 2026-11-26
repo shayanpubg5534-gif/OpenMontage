@@ -55,7 +55,7 @@ Ratings: ●●● strong, ●● adequate, ● weak, ✗ fails or absent.
 
 Notes from the review of the sheets:
 - **Environments must rise with the characters.** Snow placed in our bank set (`A_in_set.png`, Cycles, about 22 s per
-  1280×720 frame) shows the mismatch at once: next to a professionally made character, our primitive-built furniture and
+  1280×720 frame; Victoria 37 s medium and 103 s close-up because of strand hair) shows the mismatch at once: next to a professionally made character, our primitive-built furniture and
   painted window read as simple. A premium cast needs environments built to the same standard (modelled props, real
   materials, designed light), from CC0 sources such as Poly Haven plus our own set components.
 - **Snow** is the only professionally designed character that suits an adult documentary as-is: a stylized young man
