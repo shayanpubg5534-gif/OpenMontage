@@ -1,6 +1,6 @@
 # Narration-driven direction (experimental production guideline)
 
-Status: **experimental**. Recorded in M5 at the producer's request as a permanent documentary principle. It applies
+Status: **experimental; a permanent production principle subject to final approval.** Recorded in M5 at the producer's request and reconfirmed at the M5 review. It applies
 to all character-lab work now and is meant to be merged into the production guidelines (`epoch-ledger/QUALITY.md`,
 `skills/creative/epoch-ledger.md`) once the character system is approved. Until then, production docs are unchanged.
 
@@ -18,6 +18,10 @@ name, when the words name it. A scene changes because the story moved on, never 
   a document stamped, a face reacting.
 - **Key to words, not durations.** Animation beats are tied to the timed words (Whisper word timestamps), e.g. the
   twelve monthly profits tick in across "every month", and the balance line crosses zero on "dry". No fixed shot lengths.
+- **Characters appear when they serve the story.** Documents, animated charts, diagrams, maps, objects, environments
+  and financial mechanisms appear whenever they communicate the narration better than a person would.
+- **Camera-angle changes alone are not visual variety.** Cutting between angles of the same room while the narrator
+  explains something else does not count as showing it.
 - **Mix the vocabulary.** Use the right form for each beat: 3D scenes with characters for place and people; object and
   document close-ups for evidence; animated diagrams, timelines and charts for mechanisms and numbers.
 - **Transitions carry meaning.** A transition connects two ideas. Examples: a camera push into the shop ends on the
@@ -25,6 +29,8 @@ name, when the words name it. A scene changes because the story moved on, never 
   zero line dissolves into the bank meeting. No arbitrary wipes.
 - **Lip sync only for speech.** Characters' mouths move only when that character speaks their own line on the
   soundtrack. Third-person narration never drives a mouth. Narrated scenes use acting (look, posture, gesture, expression).
+- **Figures are honest.** Illustrative financial figures are labelled as illustrative on screen or in the script, and
+  come from one internally consistent model (one source file per story) rather than being typed into scenes.
 - **Captions follow the voice.** Gold captions show what is being said, narration and dialogue alike.
 
 ## How it is done in the lab (M5)

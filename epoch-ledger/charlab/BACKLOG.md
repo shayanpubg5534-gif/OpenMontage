@@ -48,3 +48,18 @@ was started.
 | Lights above a closed ceiling | A ceiling slab darkened the room even with `castShadow=false`; the ceiling is now an unlit plane | Find the stage's shadow path for env meshes |
 | 2D/3D style match | 2D scenes use the same paper, ink and palette as the 3D sets | A shared token file for both |
 
+## M5 review (producer, 2026-11-26): characters rejected as an artistic standard
+M5 is conditionally accepted as an experimental technical baseline only. Next gate: static artistic comparison, no
+animation renders. Character problems named in the review (all open):
+| Problem | Note |
+|---|---|
+| Helmet-like hair | Stock MakeHuman proxies and our procedural hair are shells, not designed hairstyles |
+| Artificial skin and facial shading; flat, game-like lighting | Two-band shading on a generic mesh; no designed light on faces |
+| Lifeless expressions (eyes, brows, cheeks, jaw) | Only 16 MakeHuman units; no cheek or jaw-driven deformation, no designed expression set |
+| Thick, unnatural hands | Stock MakeHuman hand topology |
+| Poor clothing geometry and materials | Stock proxies, no modelled folds |
+| Limited individuality | Both characters come from the same generic base |
+| Unconvincing mouths and teeth | Flat teeth, no mouth cavity |
+| **Female neck: too large, pasted-on head** | Made worse by the D redesign (`measure-neck-height-incr` 0.6–0.7 lengthened it). Head, neck, jaw and shoulder integration is a mesh-design problem |
+| Documentary elements to plan | Chart typography and hierarchy, financial-model-driven data (one model file per story, illustrative figures labelled), environment detail, original sound effects, render-performance bottleneck (Standard close-ups at ~5 s/frame) |
+
