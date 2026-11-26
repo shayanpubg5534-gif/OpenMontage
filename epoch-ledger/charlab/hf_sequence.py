@@ -66,6 +66,14 @@ def main(argv=None):
                 st["window"]["backdrop"]["image"] = local(st["window"]["backdrop"]["image"])
             for it in st.get("items", []):
                 if it.get("image"): it["image"] = local(it["image"])
+            cin = st.get("cinematic")
+            if cin and shot.get("look") == "cinematic":   # P3: the texture sets the cinematic look uses, copied in by name
+                tdir = REPO / cin.get("textures", "/.runtime/charlab/textures").lstrip("/")
+                for setname in sorted({r["set"] for r in cin.get("materials", {}).values() if r.get("set")}):
+                    for f in sorted((tdir / setname).glob("*.jpg")):
+                        (ws / "tex" / setname).mkdir(parents=True, exist_ok=True); shutil.copy(f, ws / "tex" / setname / f.name)
+                        if f"tex/{setname}/{f.name}" not in assets: assets.append(f"tex/{setname}/{f.name}")
+                cin["textures"] = "tex"
             (ws / f"shot/{sid}_set.json").write_text(json.dumps(st)); shot["set"] = f"shot/{sid}_set.json"; assets.append(f"shot/{sid}_set.json")
         for act in shot["actors"].values():
             for sp in act.get("speech", []):
@@ -102,6 +110,7 @@ try {{
     for cid in sorted(chars):
         (ws / "chars" / f"{cid}_tex").mkdir(parents=True, exist_ok=True)
         shutil.copy(a.chars / f"{cid}.glb", ws / "chars" / f"{cid}.glb"); assets.append(f"chars/{cid}.glb")
+        if not (a.chars / f"{cid}_tex/treatments.json").exists(): continue   # converted (pbr) characters carry their own materials
         tr = json.loads((a.chars / f"{cid}_tex/treatments.json").read_text())
         shutil.copy(a.chars / f"{cid}_tex/treatments.json", ws / "chars" / f"{cid}_tex/treatments.json"); assets.append(f"chars/{cid}_tex/treatments.json")
         for e in tr.values():

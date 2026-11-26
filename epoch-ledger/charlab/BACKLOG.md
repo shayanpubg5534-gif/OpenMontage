@@ -97,3 +97,17 @@ animation renders. Character problems named in the review (all open):
 | Rain | Not adaptable to a mature adult without re-sculpting | Artist work or a different character |
 | Cast | Only one suitable professional character (Snow) | Mikassa/Victor (login) or artist-designed characters, ingested by the converter |
 
+
+## P3 — professional character runtime and cinematic integration — see `../P3_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Snow's proportions | 5.9 heads tall, shoulders 1.25 head heights, eyes 27% of head width: inherent in the design (camera adds 7%) | **Technical test character only**; not a cast member |
+| Rain | Young by design | Younger roles only |
+| Adult cast | None meets the requirements (`CAST.md`) | **Your decision:** one month of Blender Studio membership (Mikassa, Victor, Storm; CC-BY) and/or a commissioned artist |
+| Skin | Wrap + scatter approximation; tone matches native | Real SSS only with a heavier renderer |
+| Eyes | Iris colour, pupil size, dark interior and catch-light now match the native | Cornea refraction is still approximated |
+| Hair / shirt | Slightly darker than native | Per-character material tuning |
+| Texture memory | 1024 px tiles: 84 MiB GPU vs 336, no visible close-up loss (PSNR 50 dB) | Use half resolution by default for converted characters |
+| Gestures | Library of 11 presets; palms correct; seated rest hands; mocap sit clip still drives the torso | More seated clips; gesture variety per character |
+| Cinematic set | CC0 PBR textures, detail, motivated light; about 2× the editorial render cost | Apply to the bakery set; textured books, real chairs |
+| Window view | Painted plate, softened | A 3D street or photographic plate |
