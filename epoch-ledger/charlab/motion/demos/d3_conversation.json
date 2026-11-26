@@ -1,5 +1,5 @@
 {
- "_note": "M3 demo 3 (bank): a restrained explanation. Elias explains with damped mocap gestures; Nadia listens, glances down, returns eye contact, nods; expressions shift gradually.",
+ "_note": "M3 demo 3 (bank): a restrained explanation. Elias explains with damped mocap gestures; Nadia listens, glances down, returns eye contact, nods; expressions shift gradually. Elias's base motion is the stable listener clip (the 19_08 talk clip drifted and turned him away); his gestures are authored with arm IK.",
  "env": "bank",
  "duration": 8.0,
  "actors": {
@@ -12,9 +12,9 @@
    "seed": 3,
    "body": [
     {
-     "clip": "talk",
+     "clip": "listen",
      "at": 0,
-     "from": 0.4,
+     "from": 0.5,
      "place": {
       "pos": [
        -0.6,
@@ -24,7 +24,7 @@
      }
     }
    ],
-   "restrainAll": 0.85,
+   "restrainAll": 0.6,
    "hands": [
     {
      "t": 0,
@@ -332,13 +332,13 @@
   {
    "t": 0,
    "pos": [
-    0.15,
+    0.1,
     1.45,
-    3.4
+    3.9
    ],
    "look": [
     0.0,
-    1.32,
+    1.25,
     0
    ],
    "fov": 30
@@ -348,11 +348,11 @@
    "pos": [
     0.05,
     1.45,
-    2.9
+    3.45
    ],
    "look": [
     0.0,
-    1.36,
+    1.3,
     0
    ],
    "fov": 30
