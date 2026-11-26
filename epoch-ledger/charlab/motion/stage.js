@@ -27,7 +27,7 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   document.body.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
-  scene.add(new THREE.HemisphereLight(env.sky, env.ground, env.hemi));
+  const hemi = new THREE.HemisphereLight(env.sky, env.ground, env.hemi); scene.add(hemi);
   const key = new THREE.DirectionalLight(env.key, env.keyI); key.position.set(...env.keyPos); key.castShadow = true;
   key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02;
   Object.assign(key.shadow.camera, { left: -4, right: 4, top: 3, bottom: -1.5, near: .1, far: 16 }); scene.add(key);
@@ -122,7 +122,7 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
   // ── post: character + prop pass over the plate (as lookdev3) ──────────────────────────────────────────────────
   const outlineFx = new OutlineEffect(renderer);
   const mkRT = samples => new THREE.WebGLRenderTarget(W, H, { samples, colorSpace: THREE.SRGBColorSpace });
-  const rts = { 4: mkRT(4), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H), normalMat = new THREE.MeshNormalMaterial();
+  const rts = { 4: mkRT(4), 2: mkRT(2), 0: mkRT(0) }, rtN = new THREE.WebGLRenderTarget(W, H), normalMat = new THREE.MeshNormalMaterial();
   const plateTex = await texLoader.loadAsync(env.plate); plateTex.colorSpace = THREE.SRGBColorSpace;
   const post = new THREE.ShaderMaterial({
     uniforms: { tChar: { value: null }, tNorm: { value: rtN.texture }, tPlate: { value: plateTex }, inkOn: { value: 1 }, inkCol: { value: ink.clone() },
@@ -155,12 +155,23 @@ export async function createStage({ env: envName = 'bank', W = 1920, H = 1080, c
     cam.updateMatrixWorld(); keyView.value.copy(key.position).applyMatrix3(new THREE.Matrix3().setFromMatrix4(cam.matrixWorldInverse)).normalize();
     const rt = rts[msaa] || rts[4];
     renderer.setRenderTarget(rt); renderer.setClearColor(0, 0); renderer.clear(); outlineFx.render(scene, cam);
+    const catcherOn = catcher.visible;
     if (inkPass) { renderer.setRenderTarget(rtN); renderer.setClearColor(0x8080ff, 1); renderer.clear(); catcher.visible = false;
-      const hid = []; scene.traverse(m => { if (m.isMesh && ['gline', 'eye'].includes(m.userData.kind)) { m.visible = false; hid.push(m); } });
-      scene.overrideMaterial = normalMat; renderer.render(scene, cam); scene.overrideMaterial = null; hid.forEach(m => m.visible = true); catcher.visible = true; }
+      const hid = []; scene.traverse(m => { if (m.isMesh && ['gline', 'eye', 'backdrop'].includes(m.userData.kind)) { m.visible = false; hid.push(m); } });
+      scene.overrideMaterial = normalMat; renderer.render(scene, cam); scene.overrideMaterial = null; hid.forEach(m => m.visible = true); catcher.visible = catcherOn; }
     renderer.setRenderTarget(null);
     post.uniforms.tChar.value = rt.texture; post.uniforms.inkOn.value = inkPass ? 1 : 0; post.uniforms.blur.value = blur;
     renderer.render(postScene, postCam);
   }
-  return { THREE, renderer, scene, cam, env, cast, addCharacter, addProp, box, propMaterial, render };
+  // a full 3D set (M4.1) brings its own floor and light rig: the shadow catcher is hidden and the lights follow the spec
+  function setLights(L = {}) {
+    catcher.visible = false;
+    if (L.hemi) { hemi.color.set(L.hemi.sky); hemi.groundColor.set(L.hemi.ground); hemi.intensity = L.hemi.i; }
+    if (L.key) { key.color.set(L.key.color); key.intensity = L.key.i; key.position.set(...L.key.pos); if (L.key.target) key.target.position.set(...L.key.target); key.target.updateMatrixWorld(); }
+    if (L.fill) { fill.color.set(L.fill.color); fill.intensity = L.fill.i; fill.position.set(...L.fill.pos); }
+    if (L.shadow) Object.assign(key.shadow.camera, L.shadow); key.shadow.camera.updateProjectionMatrix();
+    if (L.ink) post.uniforms.inkCol.value.set(L.ink);
+    if (L.grade) post.uniforms.grade.value.set(...L.grade);
+  }
+  return { THREE, renderer, scene, cam, env, cast, addCharacter, addProp, box, propMaterial, render, setLights, key, fill, hemi };
 }

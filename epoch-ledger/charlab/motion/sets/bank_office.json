@@ -1,0 +1,283 @@
+{
+ "id": "bank_office",
+ "_note": "M4.1 set: a small-business lending office. Components from motion/env.js; anchors used by shot scripts.",
+ "palette": {
+  "wood": "#7a4f33",
+  "wood_dark": "#5e3b26",
+  "ink": "#1e2330"
+ },
+ "room": {
+  "w": 7.4,
+  "back": -2.4,
+  "front": 3.2,
+  "h": 3.0,
+  "floor": "#56627a",
+  "wall": "#eae1d0",
+  "trim": "#3b2e26",
+  "wainscot": {
+   "h": 0.95,
+   "color": "#b99c7a"
+  },
+  "left": {
+   "color": "#e3d8c4",
+   "door": {
+    "z": 1.1,
+    "color": "#5a3a2a"
+   }
+  },
+  "right": {
+   "color": "#e3d8c4"
+  }
+ },
+ "window": {
+  "x": -1.25,
+  "w": 2.4,
+  "h": 1.6,
+  "sill": 0.92,
+  "panes": 3,
+  "frame": "#2d3340",
+  "backdrop": {
+   "image": "/projects/profitable-and-broke/hyperframes/plates/bank-bg-b758bcbed821.png",
+   "crop": [
+    0.11,
+    0.03,
+    0.56,
+    0.36
+   ],
+   "distance": 3.5,
+   "tint": "#f1f4fa",
+   "lift": 0.1
+  }
+ },
+ "lights": {
+  "hemi": {
+   "sky": "#e9eef8",
+   "ground": "#6f6a72",
+   "i": 1.15
+  },
+  "key": {
+   "color": "#fff1de",
+   "i": 2.25,
+   "pos": [
+    -2.4,
+    4.4,
+    3.2
+   ],
+   "target": [
+    0,
+    0.8,
+    -0.6
+   ]
+  },
+  "fill": {
+   "color": "#ffd1a0",
+   "i": 0.5,
+   "pos": [
+    3.0,
+    2.0,
+    1.2
+   ]
+  },
+  "shadow": {
+   "left": -5,
+   "right": 5,
+   "top": 5,
+   "bottom": -5,
+   "near": 0.1,
+   "far": 20
+  },
+  "ink": "#1e2330",
+  "grade": [
+   0.99,
+   1.0,
+   1.02
+  ]
+ },
+ "items": [
+  {
+   "type": "rug",
+   "id": "rug",
+   "pos": [
+    0.0,
+    0,
+    -0.35
+   ],
+   "size": [
+    3.2,
+    2.3
+   ],
+   "color": "#6e3631",
+   "inner": "#80443a"
+  },
+  {
+   "type": "desk",
+   "id": "desk",
+   "pos": [
+    0.0,
+    0,
+    -0.45
+   ],
+   "size": [
+    0.85,
+    0.76,
+    1.6
+   ],
+   "panel": "xn"
+  },
+  {
+   "type": "office_chair",
+   "id": "banker_chair",
+   "pos": [
+    0.92,
+    0,
+    -0.45
+   ],
+   "rot": -90,
+   "fitTo": "elias_c"
+  },
+  {
+   "type": "chair",
+   "id": "client_chair",
+   "pos": [
+    -0.98,
+    0,
+    -0.45
+   ],
+   "rot": 90,
+   "color": "#384152",
+   "fitTo": "nadia_c"
+  },
+  {
+   "type": "bookshelf",
+   "id": "shelf",
+   "pos": [
+    1.95,
+    0,
+    -2.16
+   ],
+   "size": [
+    1.5,
+    2.1,
+    0.34
+   ]
+  },
+  {
+   "type": "cabinet",
+   "id": "cabinet",
+   "pos": [
+    3.15,
+    0,
+    -2.06
+   ],
+   "size": [
+    0.55,
+    1.3,
+    0.55
+   ]
+  },
+  {
+   "type": "plant",
+   "id": "plant",
+   "pos": [
+    -3.05,
+    0,
+    -1.95
+   ],
+   "height": 1.0
+  },
+  {
+   "type": "plant",
+   "id": "plant2",
+   "pos": [
+    3.2,
+    1.3,
+    -2.05
+   ],
+   "height": 0.35,
+   "count": 8,
+   "seed": 11
+  },
+  {
+   "type": "frame",
+   "id": "certificate",
+   "pos": [
+    0.62,
+    1.72,
+    -2.33
+   ],
+   "size": [
+    0.5,
+    0.66
+   ],
+   "text": "SMALL BUSINESS\nLENDING\n1998"
+  },
+  {
+   "type": "frame",
+   "id": "frame_left",
+   "pos": [
+    -3.0,
+    1.75,
+    -2.33
+   ],
+   "size": [
+    0.55,
+    0.7
+   ],
+   "text": "HARBOR\nCOMMUNITY\nBANK"
+  },
+  {
+   "type": "sign",
+   "id": "sign",
+   "pos": [
+    1.95,
+    2.45,
+    -2.32
+   ],
+   "size": [
+    1.5,
+    0.3
+   ],
+   "text": "Harbor Community Bank",
+   "sub": "BUSINESS LENDING"
+  },
+  {
+   "type": "lamp",
+   "id": "lamp",
+   "pos": [
+    0.22,
+    0.76,
+    -1.08
+   ]
+  },
+  {
+   "type": "papers",
+   "id": "papers",
+   "pos": [
+    0.15,
+    0.76,
+    -0.95
+   ],
+   "rot": 15
+  },
+  {
+   "type": "mug",
+   "id": "mug",
+   "pos": [
+    0.28,
+    0.76,
+    0.12
+   ]
+  },
+  {
+   "type": "nameplate",
+   "id": "nameplate",
+   "pos": [
+    -0.33,
+    0.76,
+    -0.72
+   ],
+   "rot": -90,
+   "text": "E. WARD"
+  }
+ ]
+}

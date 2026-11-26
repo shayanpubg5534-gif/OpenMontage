@@ -12,10 +12,16 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createStage } from '../motion/stage.js';
 import * as EL from '../motion/elmotion.js';
+import { buildEnvironment } from '../motion/env.js';
 const q = new URLSearchParams(location.search), OUT = q.get('out');
 const demo = await (await fetch(q.get('demo'))).json();
 const T0 = performance.now();
 const stage = await createStage({ env: demo.env });
+// a full 3D set (M4.1): build it, take its light rig, and resolve anchor references in the script
+let SET = null;
+if (demo.set) { const spec = await (await fetch(demo.set)).json(); SET = buildEnvironment(stage, spec); stage.setLights(spec.lights || {});
+  for (const a of Object.values(demo.actors)) for (const s of a.body || []) if (s.place && typeof s.place === "object" && s.place.anchor) {
+    const an = SET.anchors[s.place.anchor]; if (!an) throw new Error('unknown anchor ' + s.place.anchor); s.place = { pos: an.pos, yaw: an.yaw }; } }
 const loader = new GLTFLoader(), actors = [];
 for (const [id, a] of Object.entries(demo.actors)) {
   const g = await loader.loadAsync(`${OUT}/${id}.glb`);
@@ -55,6 +61,11 @@ const loadMs = performance.now() - T0;
 const t1 = performance.now();
 const compiled = EL.compile(demo, actors, props);
 const compileMs = performance.now() - t1;
+// set chairs fitted to their sitters (seat top meets the sitter's lowest pelvis height)
+if (SET) for (const [name, I] of Object.entries(SET.items)) if (I.spec.fitTo) {
+  const A = actors.find(a => a.id === I.spec.fitTo), D = compiled.actors[A.id]; let lo = 9;
+  for (let f = 0; f < D.frames.length; f += 2) { EL.apply(compiled, [A], {}, f / EL.FPS); lo = Math.min(lo, A.wpos('pelvis').y); }
+  I.seatTop = SET.fitSeat(name, lo, I.spec.seatDrop ?? .09); }
 // a chair whose seat should meet the sitter's pelvis
 for (const [id, P] of Object.entries(props)) if (P.spec.type === 'chair' && P.spec.seatFor) {
   const A = actors.find(a => a.id === P.spec.seatFor), D = compiled.actors[A.id];
@@ -66,7 +77,7 @@ for (const [id, P] of Object.entries(props)) if (P.spec.type === 'chair' && P.sp
 // camera keys
 const cam = stage.cam;
 function camAt(t) {
-  const K = demo.camera; let a = K[0], b = a; for (const k of K) { if (k.t <= t) a = k; if (k.t > t) { b = k; break; } } if (b.t <= a.t) b = a;
+  const K = demo.camera; let a = K[0], b = a; for (const k of K) { if (k.t <= t) a = k; if (k.t > t) { b = k; break; } } if (b.t <= a.t || b.cut) b = a;   // a cut: no interpolation across it
   const u = b === a ? 0 : (x => x * x * x * (x * (x * 6 - 15) + 10))((t - a.t) / (b.t - a.t));
   const res = v => Array.isArray(v) ? new THREE.Vector3(...v) : (() => { const A = actors.find(x => x.id === v.char); return (v.eyes ? EL.eyeWorld(A) : A.wpos('pelvis')).add(new THREE.Vector3(...(v.off || [0, 0, 0]))); })();
   cam.position.copy(res(a.pos).lerp(res(b.pos), u)); cam.lookAt(res(a.look).lerp(res(b.look), u)); cam.fov = a.fov + ((b.fov ?? a.fov) - a.fov) * u; cam.updateProjectionMatrix();
@@ -215,7 +226,7 @@ window.analyze = (top = 12) => {
   return R;
 };
 window.info = { loadMs: Math.round(loadMs), compileMs: Math.round(compileMs), frames: compiled.frames, duration: demo.duration, timing: compiled.qa.timing,
-  seat: Object.fromEntries(Object.entries(props).filter(([, P]) => P.seatTop).map(([id, P]) => [id, +P.seatTop.toFixed(3)])),
+  seat: Object.fromEntries([...Object.entries(props).filter(([, P]) => P.seatTop).map(([id, P]) => [id, +P.seatTop.toFixed(3)]), ...(SET ? Object.entries(SET.items).filter(([, I]) => I.seatTop).map(([n, I]) => [n, +I.seatTop.toFixed(3)]) : [])]),
   pelvis: Object.fromEntries(actors.map(A => { const D = compiled.actors[A.id]; return [A.id, [0, Math.floor(D.frames.length / 2), D.frames.length - 1].map(f => { EL.apply(compiled, [A], {}, f / EL.FPS); const p = A.wpos('pelvis'); return [+p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2)]; })]; })) };
 window.ready = true;
 </script></body></html>
