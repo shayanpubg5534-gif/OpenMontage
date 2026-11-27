@@ -81,7 +81,7 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   for (const [id, spec] of Object.entries(demo.props || {})) {
     if (spec.type === 'glb') {                       // a static model (e.g. a base mesh under evaluation), shaded like the set
       const g = await loader.loadAsync(spec.url); const root = g.scene;
-      root.traverse(o => { if (o.isMesh) o.material = stage.propMaterial(/eye/i.test(o.name) ? (spec.eye || '#f1ece6') : (spec.color || '#d9a68a')); });
+      if (!spec.keepMaterials) root.traverse(o => { if (o.isMesh) o.material = stage.propMaterial(/eye/i.test(o.name) ? (spec.eye || '#f1ece6') : (spec.color || '#d9a68a')); });   // P6 opt-in: keepMaterials keeps the model's own PBR materials
       if (spec.pos) root.position.set(...spec.pos); if (spec.rot) root.rotation.set(...spec.rot.map(x => x * Math.PI / 180)); if (spec.scale) root.scale.setScalar(spec.scale);
       stage.addProp(root); root.updateMatrixWorld(true); props[id] = { obj: root, keys: [], attach: null, spec }; continue;
     }

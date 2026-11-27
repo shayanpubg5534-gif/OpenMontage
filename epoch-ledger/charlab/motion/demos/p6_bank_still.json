@@ -1,0 +1,17 @@
+{
+ "_note": "P6 contextual still (experimental): the P6 stylised prototype (static GLB, no rig) standing in the P4 cinematic bank set. A single frame; not an animation.",
+ "env": "bank",
+ "look": "cinematic",
+ "cinematicVariant": "p4",
+ "exposure": 1.12,
+ "duration": 1.0,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "actors": {},
+ "props": {
+  "p6": {"type": "glb", "url": "/.runtime/charlab/p6/bank_char.glb", "keepMaterials": true, "pos": [0.55, 0, 0.3], "rot": [0, 38, 0]}
+ },
+ "camera": [
+  {"t": 0, "pos": [2.45, 1.52, 2.75], "look": [0.45, 1.12, 0.1], "fov": 30, "dof": 0.4, "focusRange": 0.8}
+ ]
+}

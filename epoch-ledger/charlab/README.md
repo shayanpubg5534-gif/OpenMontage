@@ -157,3 +157,15 @@ Narration is an independent voice-over, not character dialogue. Characters never
 shots are acted (breathing, blinks, gaze, expressions, gestures, interaction with the set). Lip sync (`lipsync.py`,
 `splice_dialogue.py`, an actor's `speech` entry) is retained but off by default, and is used only for a line the script
 gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5 and `DIRECTION.md`.
+
+## P6 mature stylised prototype (experimental; see `../P6_REPORT.md`)
+| File | What it does |
+|---|---|
+| `p6/build_p6.py` | Builds a variant (raw, A, B or C) from the CharMorph Reom database (`$CHARMORPH_DB`): anatomical morphs, geometric stylisation, LBS pose, wardrobe, mesh hair and brows, painted skin; writes `.blend` and measurements |
+| `p6/render_p6.py` | Five comparison views in one neutral studio (Cycles) |
+| `p6/ortho_p6.py` | Orthographic silhouettes at one scale |
+| `p6/make_sheets.py` | Variant, overview and proportion sheets |
+| `p6/export_glb.py` | Static runtime GLB (skin paint baked to a texture) |
+| `p6/still.mjs` | One runtime frame of a demo to PNG |
+| `motion/demos/p6_bank_still.json` | The prototype in the P4 cinematic bank set (static `glb` prop with `keepMaterials`) |
+

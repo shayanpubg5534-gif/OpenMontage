@@ -139,3 +139,14 @@ animation renders. Character problems named in the review (all open):
 | Narrator lip sync | Forbidden by standard; never existed in code (mouth tracks only from explicit `speech` / `say()`); now documented and test-guarded | Keep |
 | Scripted dialogue lip sync | Retained, opt-in per line with an assigned voice, off by default | Use only where the script gives a character a line |
 | Acting in narrated scenes | Breathing, blinks, gaze, expressions and gesture presets exist (elmotion, perflib) | More environmental interactions (handling documents, tools) and listening/reacting presets; no animation tests run in P6 |
+
+## P6 — mature stylised character prototype — see `../P6_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Proportions and maturity | Measured pass for A/B/C: 7.41 / 7.51 / 7.74 heads, shoulders 1.50 / 1.53 / 1.59 hh, eyes 17–19% | Keep Reom plus the measured morph recipe as the base |
+| Premium stylised look | **Not reached:** undesigned smooth forms, helmet-like hair, ribbon brows, plain eyes, plastic skin | Artist-made style kit on this base (your decision) |
+| Wardrobe | Procedural shirt, collar, tie, trousers, belt and shoes, separate reusable meshes; padded sleeve heads, generic folds | Tailored garment meshes or cloth sim on cut patterns |
+| Rig and face | Rigify weights and joints and 51 facial blendshapes present; only static LBS posing tested | Rigify profile for `convert_char.py`; map the blendshapes to our expression and viseme units (lip sync off by default) |
+| Runtime | Static GLB, 252k triangles, in the P4 bank set | Skinned conversion after appearance approval |
+| Female and other identities | Antonia (CC-BY 3.0) on the same system; not built | After the style kit |
+

@@ -63,6 +63,14 @@ Narration is an independent voice-over, not character dialogue.
   narrator-driven scenes do not ask for it.
 - **Face-rig requirement unchanged:** §2's lip units are still required, so a character *can* speak a scripted line.
 
+## 6. P6 prototype (CharMorph Reom, geometric stylisation): measured against this standard
+- **§1 passes for all three variants:** 7.41 / 7.51 / 7.74 heads; shoulders 1.50 / 1.53 / 1.59 head heights; eye
+  opening 16.9–18.6% of head width.
+- **Construction:** separate wardrobe and mesh hair; Rigify rig data and 51 facial blendshapes present (untested).
+- **The style band is not met:** the forms, hair, brows, eyes and materials still read as a generic sculpted avatar,
+  not a premium stylised character.
+- A proportion pass alone does not make a character acceptable. See `../P6_REPORT.md`.
+
 ## 6. Candidates checked in P4 (official public previews only; nothing downloaded or purchased)
 Sheet: `projects/charlab_p4/5_candidates.png` (compressed copy: `evidence/p4_5_candidates.jpg`).
 
