@@ -64,7 +64,14 @@ def main(argv=None):
     layers, regions, gate, chars = [], [], [], set()
     shot_timings = {}
     for k, S in enumerate(seq.SHOTS):
-        sid = S["id"]; shot = json.loads((REPO / S["demo"]).read_text())
+        sid = S["id"]
+        if S.get("video"):   # P10 (opt-in): an already-rendered shot (e.g. a 2.5D shot) placed as a muted, timed video clip
+            src = REPO / S["video"]; name = f"shots/{sid}_{src.stem}.mp4"; (ws / "shots").mkdir(exist_ok=True)
+            shutil.copy(src, ws / name); assets.append(name)
+            layers.append(f'<video id="v_{sid}" class="clip" src="{name}" data-start="{float(S["start"])}" data-duration="{float(S["duration"])}" '
+                          f'data-track-index="{k}" muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>')
+            continue
+        shot = json.loads((REPO / S["demo"]).read_text())
         if a.prerender:   # P5: one continuous session per shot → a cached mp4 → a muted, timed <video> clip
             import subprocess
             q = a.force_quality or S.get("quality", a.quality)

@@ -1,0 +1,62 @@
+{
+ "_note": "pointing arm: forearm and hand turn at the elbow over a joint disc in the sleeve colour and the artist's line weight. Root units, pad=600.",
+ "pieces": [
+  {
+   "id": "fore",
+   "z": "over",
+   "pivot": [
+    1079,
+    1136
+   ],
+   "disc": {
+    "r": 71,
+    "fill": "#2f3b52",
+    "width": 10
+   },
+   "cut": [
+    [
+     1066,
+     1064
+    ],
+    [
+     1100,
+     1232
+    ],
+    [
+     1520,
+     1232
+    ],
+    [
+     1520,
+     640
+    ],
+    [
+     1205,
+     640
+    ]
+   ],
+   "clip": [
+    [
+     1063,
+     1060
+    ],
+    [
+     1097,
+     1236
+    ],
+    [
+     1520,
+     1236
+    ],
+    [
+     1520,
+     640
+    ],
+    [
+     1200,
+     640
+    ]
+   ]
+  }
+ ]
+}

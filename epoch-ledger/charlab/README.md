@@ -189,3 +189,17 @@ gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5
 | `p9/wardrobe.mjs` | Wardrobe feasibility: recolours the artist's fills, adds collar and tie in the artist's line weight |
 | `p9/sheet.mjs`, `p9/measure.py` | Labelled contact sheets; wall time and peak RSS of a command's process tree |
 | `p9/points_shot{1,2}.json`, `p9/paint_filter.txt` | Character and foreground anchors in world space; the painterly ffmpeg filter |
+
+## P10 fast 2.5D production path (experimental; see `../P10_REPORT.md`)
+| File | What it does |
+|---|---|
+| `p10/run_p10.sh` | The narrated test end to end, cold (narration, plates, depth, paint, cast, shots, HyperFrames, QC), every step timed |
+| `p10/compose.mjs` | Fast 2.5D compositor: one set still per camera, 2D camera with depth-layer parallax, characters rasterised once per shot into lit bitmap layers (body, one head per expression, rig pieces), occluders cut once from the depth pass |
+| `p10/render_shot.mjs` | Renders a shot with several compositor workers (frame ranges) and joins the segments by stream copy, checking the frame count |
+| `p10/rig.mjs`, `p10/rigs/*.json` | Limited cut-out rig on the artist's drawing: joints hidden under clothing (wrist under a cuff) or bridged by a joint disc in the limb's colour and line weight (elbow); pieces and cuts are masks |
+| `p10/prepare.py` | Cast (formal banker, rigged baker), faces as layers, and the per-shot performance keyed to the narration's word times |
+| `p10/wardrobe2.mjs` | Formal wardrobe: the artist's own fill shapes recoloured by index, a tie drawn in the artist's line weight |
+| `p10/survey.py`, `p10/sheets.sh` | Art-coverage survey (every pose, bust and head) and the P10 investigation sheets |
+| `p10/rig_test.mjs`, `p10/grid.mjs` | Joint inspection at several angles; coordinate grid for placing joints |
+| `motion/demos/p10_cam{A,B,C}.json` | One-frame plate demos (locked cameras: two-shot, banker close-up, baker close-up) |
+| `sequences/p10_test.py` | The narrated sequence: three 2.5D shots as video clips, the balance-sheet and new-money graphics, gold captions |

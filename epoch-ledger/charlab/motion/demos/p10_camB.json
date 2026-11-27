@@ -1,0 +1,30 @@
+{
+ "env": "bank",
+ "look": "cinematic",
+ "cinematicVariant": "p4",
+ "exposure": 1.32,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.04,
+ "actors": {},
+ "props": {},
+ "duration": 0.03333333333333333,
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    -0.15,
+    1.48,
+    1.9
+   ],
+   "look": [
+    0.52,
+    1.42,
+    -0.25
+   ],
+   "fov": 21,
+   "dof": 0.5,
+   "focusRange": 0.7
+  }
+ ],
+ "_note": "P10 static plate (one frame, no characters): medium close-up on the banker, lead room on the left for the ledger graphic"
+}

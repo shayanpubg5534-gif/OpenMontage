@@ -1,0 +1,30 @@
+{
+ "env": "bank",
+ "look": "cinematic",
+ "cinematicVariant": "p4",
+ "exposure": 1.32,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.04,
+ "actors": {},
+ "props": {},
+ "duration": 0.03333333333333333,
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.05,
+    1.38,
+    3.05
+   ],
+   "look": [
+    0.0,
+    1.18,
+    -0.3
+   ],
+   "fov": 25,
+   "dof": 0.25,
+   "focusRange": 1.2
+  }
+ ],
+ "_note": "P10 static plate (one frame, no characters): medium two-shot across the desk (both characters waist-up)"
+}
