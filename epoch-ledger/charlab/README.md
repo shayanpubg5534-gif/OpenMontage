@@ -179,3 +179,13 @@ gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5
 | `p8/bm_pose.py` | Poses a Rigify character with its own controls; static posed GLB for the runtime |
 | `p8/make_sheets.py`, `p8/svg_to_png.mjs` | Inspection and comparison sheets |
 
+## P9 2.5D animation test (experimental; see `../P9_REPORT.md`)
+| File | What it does |
+|---|---|
+| `p9/run_p9.sh` | The whole test end to end (plates, painterly pass, track, characters, assembly, QC, wardrobe), timed |
+| `p9/prepare.py` | Characters with all their faces as switchable layers, and the per-shot performance timeline (seeded blinks) |
+| `p9/cam_track.mjs` | Replays a demo's camera: projected world anchors per frame and a set depth pass |
+| `p9/animate.mjs` | Per-frame 2.5D composite: layer animation, cut-out arm, lighting, shadows, depth occlusion, grain |
+| `p9/wardrobe.mjs` | Wardrobe feasibility: recolours the artist's fills, adds collar and tie in the artist's line weight |
+| `p9/sheet.mjs`, `p9/measure.py` | Labelled contact sheets; wall time and peak RSS of a command's process tree |
+| `p9/points_shot{1,2}.json`, `p9/paint_filter.txt` | Character and foreground anchors in world space; the painterly ffmpeg filter |

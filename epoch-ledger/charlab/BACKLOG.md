@@ -173,3 +173,14 @@ animation renders. Character problems named in the review (all open):
 | Fab businessman | MPFB/MakeHuman look (M5-rejected family); rig and face bones work | Not pursued as cast; 3D kept for sets and props |
 | Runtime prop rotation | `rot` had no visible effect on the static GLB prop | Investigate in `runtime.js` (worked around by baking facing) |
 
+## P9 — 2.5D animation test in the bank — see `../P9_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Front-only art | Cameras must stay in front; no reverse, over-the-shoulder or turning shots | Three-quarter (and profile) views in the Open Peeps style (needs new art; decision) |
+| Limb motion | Cut-out arm works up to about 5°, then an elbow seam shows | Separate arm and hand parts for real gestures (new art) |
+| Pose changes | Hidden by cuts; the banker keeps one pose because other blazer poses change the legs | Compatible pose sets per character (new art) |
+| Formal wardrobe | Suit trousers and shoes by recolouring; collar and tie added by us; the investor's ink trousers cannot be recoloured; banker shirt opening set by hand | Formal and period wardrobe parts (new art) |
+| Integration | Painted shading; characters do not receive set shadows (window frame); no haze on the far character | Projected shadow mask from the depth pass; distance haze |
+| Shot 1 framing | Client small and partly behind the desk; foreground plant reads as a green smear | Different foreground element or framing |
+| Render cost | 21.5 min for 17 s (4 vCPU); the 3D plate is 53% | Static or illustrated plates for dialogue-free beats; parallel shots |
+| Fab businessman | **Archived as an evaluated alternative** | Not pursued; raw files stay in `.runtime/` only |

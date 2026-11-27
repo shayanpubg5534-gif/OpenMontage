@@ -1,0 +1,1 @@
+[0]bilateral=sigmaS=8:sigmaR=0.08,eq=saturation=0.88:contrast=1.08:gamma=0.98,colorbalance=rm=0.03:gm=0.01:bm=-0.04,split[a][b];[b]bilateral=sigmaS=10:sigmaR=0.12,edgedetect=low=0.04:high=0.12:mode=wires,negate,format=gray,gblur=sigma=0.7,format=rgb24[e];[a][e]blend=all_mode=multiply:all_opacity=0.42
