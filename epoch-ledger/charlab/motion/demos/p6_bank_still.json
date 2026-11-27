@@ -12,6 +12,6 @@
   "p6": {"type": "glb", "url": "/.runtime/charlab/p6/bank_char.glb", "keepMaterials": true, "pos": [0.55, 0, 0.3], "rot": [0, 38, 0]}
  },
  "camera": [
-  {"t": 0, "pos": [2.45, 1.52, 2.75], "look": [0.45, 1.12, 0.1], "fov": 30, "dof": 0.4, "focusRange": 0.8}
+  {"t": 0, "pos": [2.45, 1.52, 2.75], "look": [0.45, 0.98, 0.1], "fov": 44, "dof": 0.4, "focusRange": 0.8}
  ]
 }

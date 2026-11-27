@@ -144,6 +144,14 @@ What the runtime still does **not** carry over from Cycles:
 
 The character is static: there is no skeleton, so it does not breathe, blink or look.
 
+**What the still shows** (full figure, 44° lens, standing in front of the desk):
+- The character sits correctly in the set's light and scale.
+- Problems:
+  - The padded sleeve heads.
+  - The shirt reads flatter and whiter than in Cycles.
+  - The fingernails come out black, a bake artefact on the nail UV islands.
+  - The face lacks modelling under the set's soft light.
+
 One opt-in runtime change was needed: a static GLB prop can now keep its own materials with `keepMaterials: true`.
 Every other demo keeps the old shading (tested).
 

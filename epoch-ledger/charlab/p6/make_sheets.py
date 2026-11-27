@@ -61,11 +61,12 @@ def overview():
            font=font(32, True), fill=GOLD)
     for k, v in enumerate("ABC"):
         y = 90 + k * (H + 20); d.text((24, y + 10), NAMES[v].split(" · ")[0], font=font(64, True), fill=GOLD)
-        d.text((24, y + 90), NAMES[v].split(" · ")[1], font=font(20, True), fill=TXT)
+        for j2, ln in enumerate(NAMES[v].split(" · ")[1].replace(" stylisation", "").split(" ", 1) if v == "C" else [NAMES[v].split(" · ")[1]]):
+            d.text((24, y + 90 + 24 * j2), ln, font=font(20, True), fill=TXT)
         m = M[v]
         for j, t in enumerate([f"{m['heads_tall']} heads", f"shoulders {m['shoulder_width_hh']} hh", f"eyes {m['eye_w_over_head_w'] * 100:.1f}% of head",
                                f"accent {m['accent']} · head ×{m['head_scale']}"]):
-            d.text((24, y + 130 + 28 * j), t, font=font(20), fill=DIM)
+            d.text((24, y + 150 + 28 * j), t, font=font(20), fill=DIM)
         x = 330
         for im in rows[v]: img.paste(im, (x, y)); x += im.width + 10
     img.save(D / "sheet_overview.png")
