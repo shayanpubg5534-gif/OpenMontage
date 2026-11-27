@@ -214,3 +214,12 @@ gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5
 | `p11/run_p11.sh` | The test end to end, cold, with QC and semantic sync inspection |
 | `motion/demos/p11_camD.json`, `sequences/p11_test.py` | The desk-from-above plate; the sequence with narration-synchronised graphics (one timing source) |
 
+## P12 production-quality refinement (experimental; see `../P12_REPORT.md`)
+| File | What it does |
+|---|---|
+| `p12/cast.py`, `p12/continuity.mjs` | Character identities and wardrobe by garment role; allowed bodies per character; continuity checked on definitions and on rendered pixels |
+| `p12/visuals.py` | Reusable explanation formats: environmental typography, document close-up (pen, budget bar), world map (arcs, buyers, flows that stop, value panel), line chart, newspaper with timeline, stamp, label |
+| `p12/three_shot.mjs`, `p12/scenes/stack.js`, `p12/render_3d.sh` | Reusable selective-3D renderer (procedural scene modules, camera keyed from the map, static holds rendered once); the mortgage-bundle scene |
+| `p12/prepare.py`, `p12/map_p12.json`, `p12/run_p12.sh` | The validation passage: shots from the cast identities, the narration-to-visual map, the cold end-to-end run |
+| `sequences/p12_test.py` | The passage's sequence: formats chosen per clause, timed from the map |
+

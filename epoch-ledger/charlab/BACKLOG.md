@@ -206,3 +206,13 @@ animation renders. Character problems named in the review (all open):
 | 3D cost | The vault is 44% of render time (software WebGL ≈ 2.5 s per frame) | 3D only where space or physical state is the point; 0.75 internal scale; cache reusable 3D moves |
 | Procedural 3D look | Vault clean but simpler than the bank set | Wear, decals and a matching painterly treatment for reusable 3D locations |
 | Sync measurement | 21/23 within ±0.2 s; fades and early card fade-ins sit at the threshold | Per-event tolerance by medium (writing, fades) |
+
+## P12 — production-quality refinement — see `../P12_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Art coverage | Three-quarter only; no hands-on actions; inserts and framing carry actions | Small art brief: hand actions, more garment families with props (decision) |
+| Locations | Bank set reused (office, window, desk) | A home interior and an exterior as cached plates |
+| Chart data | Indicative shape | Plot published series from the episode's Ledger of figures |
+| 3D cost | About 1.0–1.5 s per 3D frame (static holds reused) | Cache reusable 3D moves; keep 3D to scale and physical-state beats |
+| Received shadows | Characters do not receive set shadows | Shadow mask from the depth pass |
+| Memory | 6.7 GB peak in HyperFrames with 4 jobs | 2–3 jobs on smaller machines |

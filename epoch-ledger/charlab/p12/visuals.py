@@ -162,7 +162,7 @@ def line_chart(sid, t0, dur, *, series, turn, t_fall, title, note, source, ylabe
     pk = dict(up)[turn]
     svg = (f'<svg width="1920" height="1080" style="position:absolute;inset:0"><line x1="200" y1="862" x2="1680" y2="862" stroke="{INK}" stroke-width="3"/>{ticks}'
            f'<path id="{sid}u" d="{path(up)}" fill="none" stroke="{INK}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>'
-           f'<path id="{sid}d" d="{path(dn)}" fill="none" stroke="{RED}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>'
+           f'<path id="{sid}d" d="{path(dn)}" opacity="0" fill="none" stroke="{RED}" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>'
            f'<g id="{sid}pk" opacity="0"><circle cx="{X(turn):.0f}" cy="{Y(pk):.0f}" r="13" fill="{GOLD}"/>'
            f'<text x="{X(turn):.0f}" y="{Y(pk) - 34:.0f}" text-anchor="middle" font-family="Fraunces" font-weight="700" font-size="44" fill="{INK}">Peak {turn}</text></g>'
            f'<text id="{sid}n" x="{X(xs[-1]) - 10:.0f}" y="{Y(series[-1][1]) - 40:.0f}" text-anchor="end" font-family="Fraunces" font-weight="700" font-size="46" fill="{RED}" opacity="0">{E(note)}</text></svg>')
@@ -172,7 +172,7 @@ def line_chart(sid, t0, dur, *, series, turn, t_fall, title, note, source, ylabe
              f'<div style="position:absolute;right:240px;top:104px;width:620px;text-align:right;font:500 20px Inter;color:{MUTED}">{E(source)}</div>')
     js = (f"mDrawOn('#{sid}u',{t0 + .05:.2f},{{dur:{max(.4, t_fall - t0 - .35):.2f},ease:'power1.inOut'}});"
           f"tl.fromTo('#{sid}pk',{{opacity:0}},{{opacity:1,duration:.25,immediateRender:false}},{t_fall - .3:.2f});"
-          f"mDrawOn('#{sid}d',{t_fall:.2f},{{dur:.8,ease:'power2.in'}});"
+          f"gsap.set('#{sid}d',{{opacity:0}});tl.set('#{sid}d',{{opacity:1}},{t_fall - .05:.2f});mDrawOn('#{sid}d',{t_fall - .05:.2f},{{dur:.7,ease:'none'}});"   # the fall starts on its word
           f"tl.fromTo('#{sid}n',{{opacity:0}},{{opacity:1,duration:.3,immediateRender:false}},{t_fall + .6:.2f});")
     return Scene(sid, t0, dur, html_, js=js)
 

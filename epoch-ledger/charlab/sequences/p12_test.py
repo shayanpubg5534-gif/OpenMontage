@@ -68,7 +68,7 @@ def scenes(T):
     s = SH["S6"]
     out.append(V.document("notice", s["t0"], d("S6"), title="MORTGAGE PAYMENT", fields=[("Due", "This month"), ("Status", "Not received")],
                           box=(1080, 470, 620, 470), transform="rotateX(30deg) rotateZ(5deg)"))
-    out.append(V.stamp("od", s["t0"], d("S6"), text="OVERDUE", box=(1300, 600, 300, 92), rotate=-8, t_in=E["e20"]))
+    out.append(V.stamp("od", s["t0"], d("S6"), text="OVERDUE", box=(1310, 650, 290, 88), rotate=-8, t_in=E["e20"]))
     s = SH["S7"]
     out.append(V.world_map("mapb", s["t0"], d("S7"), origin=("United States", -74.0, 40.7), buyers=buyers,
                            title="The payments stop", t_dry=E["e22"], center=(22, 26), scale=6.4,
