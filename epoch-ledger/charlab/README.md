@@ -141,3 +141,13 @@ Clips used (CMU, free licence; retargeted at build time with `--bvh name=FILE:ST
 Motion-quality layers added in M4 (in `elmotion.js`): cleaned and smoothed clips, calm held segments, posture
 (upright sitting), soft foot leash with 0.2 s ramps, IK weight blending with a bend-plane pole, counterbalance for
 standing object reaches, and `window.analyze()` for acceleration spikes.
+
+## Continuous-session rendering for cinematic 3D shots (P5, experimental, opt-in)
+- **`shot_render.mjs`:** renders one shot (one demo) in a single browser session at native 1080p30. Frames are piped
+  into ffmpeg in 30-frame segments (resumable), joined by stream copy, and cached under a fingerprint of every input.
+- **`hf_sequence.py SEQ CHARS WS --prerender`:** composites each cached shot as a muted, timed `<video>` under
+  captions and graphics. `render.py` and HyperFrames are used unchanged. Without `--prerender`, the live-canvas
+  path (M4.2) is used, which stays the default and the fallback.
+- **Measure:** `bench/e2e_prerender.sh`.
+- **Determinism:** `bench/determinism_check.mjs`.
+- **Report:** `../P5_REPORT.md`.

@@ -1,0 +1,8 @@
+✓ determinism: 19 frames have identical element state in time order and shuffled order (6 s)
+✓ no black stretches
+✓ no single-frame flashes
+✓ opening frames consistent (mean |Δ| 0→1 0.45)
+✓ no frozen stretches ≥ 3 s
+✓ study: 2 cuts detected at 3, 6.867s (information only)
+✓ loudness -15.8 LUFS, true peak -1.2 dBFS
+QC passed

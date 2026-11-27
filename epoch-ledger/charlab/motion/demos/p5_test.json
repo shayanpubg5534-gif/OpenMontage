@@ -1,0 +1,199 @@
+{
+ "_note": "P5 end-to-end test (9.96 s): P4 look (cinematicVariant p4), Balanced profile, continuous-session renderer. Snow is used ONLY to validate rendering; he is not a cast member. Snow Rig (CC) Blender Foundation | studio.blender.org",
+ "env": "bank",
+ "look": "cinematic",
+ "exposure": 1.12,
+ "duration": 9.96,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "fit": {
+  "client_chair": "snow_cv"
+ },
+ "actors": {
+  "snow_cv": {
+   "pbr": true,
+   "charlook": "enhanced",
+   "seed": 7,
+   "cfg": {
+    "breath": 4.2,
+    "headLag": 0.5
+   },
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "client_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.6
+    }
+   ],
+   "performCtx": {
+    "posture": "sit",
+    "listener": [
+     0.92,
+     1.22,
+     -0.45
+    ],
+    "restHands": "lap",
+    "desk": 0.76
+   },
+   "perform": [
+    {
+     "do": "listen",
+     "t": 0.2,
+     "nodAt": 0.9
+    },
+    {
+     "do": "concern",
+     "t": 1.7,
+     "dur": 1.0,
+     "amount": 0.8
+    },
+    {
+     "do": "warm",
+     "t": 3.0
+    },
+    {
+     "do": "explain",
+     "t": 3.75,
+     "side": "r",
+     "dur": 1.0
+    },
+    {
+     "do": "open_hands",
+     "t": 4.95,
+     "dur": 1.1
+    },
+    {
+     "do": "concern",
+     "t": 5.0,
+     "dur": 1.1,
+     "amount": 0.5,
+     "glance": false
+    },
+    {
+     "do": "thoughtful",
+     "t": 7.0,
+     "dur": 2.5
+    }
+   ],
+   "speech": [
+    {
+     "t": 3.2,
+     "src": "/projects/charlab_p3/dialogue_snow/visemes.json"
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    2.25,
+    1.52,
+    1.75
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "pos": [
+    2.02,
+    1.49,
+    1.48
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "cut": true,
+   "pos": [
+    0.22,
+    1.25,
+    0.2
+   ],
+   "look": [
+    -0.9,
+    1.17,
+    -0.45
+   ],
+   "fov": 28,
+   "dof": 0.7,
+   "focusRange": 0.35
+  },
+  {
+   "t": 6.85,
+   "pos": [
+    0.22,
+    1.25,
+    0.2
+   ],
+   "look": [
+    -0.9,
+    1.17,
+    -0.45
+   ],
+   "fov": 28,
+   "dof": 0.7,
+   "focusRange": 0.35
+  },
+  {
+   "t": 6.85,
+   "cut": true,
+   "pos": [
+    -0.15,
+    1.48,
+    1.55
+   ],
+   "look": [
+    -0.8,
+    1.0,
+    -0.6
+   ],
+   "fov": 32,
+   "dof": 0.4,
+   "focusRange": 0.7
+  },
+  {
+   "t": 9.96,
+   "pos": [
+    0.05,
+    1.52,
+    1.95
+   ],
+   "look": [
+    -0.8,
+    1.0,
+    -0.6
+   ],
+   "fov": 32,
+   "dof": 0.4,
+   "focusRange": 0.7
+  }
+ ],
+ "cinematicVariant": "p4",
+ "dofScale": 9
+}

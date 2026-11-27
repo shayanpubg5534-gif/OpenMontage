@@ -1,4 +1,17 @@
-# The Epoch Ledger — production character standard (P4, draft for approval)
+# The Epoch Ledger — production character standard (approved in P5)
+
+**Approved (P5):** 7.5 heads is the preferred adult target, 7.0–8.0 the accepted range. Snow and Rain are technical test
+characters only and are never promoted into the adult cast.
+
+**Desired aesthetic:** premium stylised 3D adult animation with:
+- natural adult proportions and smaller heads;
+- moderately sized eyes;
+- defined adult jaws, noses and facial structure;
+- natural shoulders and integrated necks;
+- articulated hands;
+- sophisticated hair and clothing;
+- expressive but restrained faces;
+- illustrated, stylised materials: not photoreal skin and not plastic toy surfaces.
 
 Characters appear only when they serve the story. When they do, they must read as **mature adults in a premium,
 stylized financial and historical documentary**: not children's animation, not a video game.

@@ -2,6 +2,7 @@
 
     .runtime/charlab/venv/bin/python epoch-ledger/charlab/bstudio/render_views.py FILE.blend OUTDIR [--samples 48] [--res 900]
 
+Options: --illustrated (P5: Workbench texture colour + cavity + outline, a shading-only stylisation test).
 Renders, with one neutral light rig for every candidate (so designs are compared, not lighting):
 full body front / three-quarter / profile, and head close-ups front / three-quarter / profile.
 Framing comes from the rig's head bone and the visible meshes' bounds. timings.json records seconds per image.
@@ -123,6 +124,12 @@ try: sc.view_settings.view_transform = "AgX"
 except Exception: sc.view_settings.view_transform = "Filmic"
 sc.view_settings.look = "None"
 sc.cycles.max_bounces = 6; sc.render.threads_mode = "AUTO"
+if "--illustrated" in argv:   # P5 adaptation test: shading-only stylisation (no geometry/rig change), same cameras
+    sc.render.engine = "BLENDER_WORKBENCH"; sh = sc.display.shading
+    sh.light = "STUDIO"; sh.color_type = "TEXTURE"; sh.show_cavity = True; sh.cavity_type = "BOTH"
+    sh.cavity_ridge_factor, sh.cavity_valley_factor = 1.2, 1.6; sh.show_object_outline = True; sh.object_outline_color = (.12, .09, .08)
+    sh.show_shadows = True; sh.shadow_intensity = .35; sh.show_specular_highlight = False
+    sc.display.render_aa = "16"
 
 # character faces -Y in Blender Studio files (front view from -Y)
 def shot(name, yaw_deg, target, dist, lens, w, h):

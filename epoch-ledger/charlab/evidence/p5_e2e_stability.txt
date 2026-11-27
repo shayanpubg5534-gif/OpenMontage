@@ -1,0 +1,2 @@
+final vs intermediate (centre): PSNR median 43.4 dB, min 42.1; mean RGB offset [0.11 0.03 0.17]
+frames 299; frame-to-frame Δ median 1.51 p95 3.31; cuts at [90, 206]; spikes >3x median (non-cut): []

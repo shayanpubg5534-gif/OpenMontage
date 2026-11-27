@@ -1,0 +1,50 @@
+{
+ "rc_build": 0,
+ "rc_render": 0,
+ "phase1_prerender_and_build_s": 433.2,
+ "phase2_hyperframes_composite_s": 72.3,
+ "total_wall_s": 505.5,
+ "peak_system_mem_mb": 2292,
+ "baseline_mem_mb": 627,
+ "shots": {
+  "bank": {
+   "mp4": "/home/user/OpenMontage/.runtime/charlab/shotcache_e2e/21ef5c26d987e32651509998/shot.mp4",
+   "fingerprint": "21ef5c26d987e32651509998",
+   "cached": false,
+   "frames": 299,
+   "inputs": 35,
+   "timings": {
+    "segments": 10,
+    "resumed_segments": 0,
+    "frames_rendered": 299,
+    "init_s": 1.357,
+    "warmup_s": 15.238,
+    "render_frames_s": 354.9453000000087,
+    "png_capture_s": 23.312899999992457,
+    "loop_s": 410.957,
+    "join_s": 0.551,
+    "wall_s": 428.209
+   }
+  }
+ },
+ "output": {
+  "programs": [],
+  "streams": [
+   {
+    "codec_type": "video",
+    "width": 1920,
+    "height": 1080,
+    "r_frame_rate": "30/1",
+    "nb_frames": "299"
+   },
+   {
+    "codec_type": "audio",
+    "r_frame_rate": "0/0",
+    "nb_frames": "468"
+   }
+  ],
+  "format": {
+   "duration": "9.966667"
+  }
+ }
+}

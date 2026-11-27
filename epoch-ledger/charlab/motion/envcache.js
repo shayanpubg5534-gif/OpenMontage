@@ -84,6 +84,9 @@ export function createEnvCache(stage, { env, chars, W, H, pad = 80, grid = [240,
     const cv = chars.map(o => o.visible); show(chars, false);
     const pcf = renderer.shadowMap.type === THREE.PCFShadowMap || renderer.shadowMap.type === THREE.PCFSoftShadowMap;
     renderer.shadowMap.autoUpdate = false; if (!S || !pcf) renderer.shadowMap.needsUpdate = true;    // set-only shadow map
+    if (S && pcf) {   // after the first anchor the key light's map holds min(set, characters at the PREVIOUS frame): restore the set-only
+      compose.uniforms.tEnv.value = S.envRT.depthTexture; compose.uniforms.tChar.value = S.envRT.depthTexture;   // depth, or that frame's
+      renderer.setRenderTarget(key.shadow.map); renderer.clearDepth(); quad.material = compose; renderer.render(quadScene, ortho); }   // character shadow is baked into the cache (history-dependent)
     renderer.setRenderTarget(envRT); renderer.setClearColor(0, 0); renderer.clear(); renderer.render(scene, anchor);
     if (pcf && !S) cacheEnvShadow();
     const ki = key.intensity; key.intensity = 0;                                                   // the set without the key light

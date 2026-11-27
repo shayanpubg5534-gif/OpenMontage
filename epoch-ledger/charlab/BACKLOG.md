@@ -122,3 +122,13 @@ animation renders. Character problems named in the review (all open):
 | P4 look cost | +0.2–0.4 s per frame in Balanced (extra lights, bevels, street) | Move the rim and face key onto character-only lighting |
 | Furniture | Bevelled boxes; books and chairs still simple | Modelled props (CC0 or commissioned) |
 | Cast | No adult meets the standard; Mikassa is the closest (paid membership needed to measure) | Your decision: one month of membership and/or an artist commission |
+
+## P5 — continuous-session rendering and mature cast research — see `../P5_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Cinematic shot rendering | Continuous session: 9.96 s cold end-to-end in 505.5 s (8.4 min); warm re-render 1.6 s; resume frame-identical | GPU or many-core host for the 3–5 min target; locked-off and slow moves where the story allows |
+| Per-frame render cost | 1.19 s per frame Balanced (SwiftShader) dominates | Hardware; fewer anchor rebuilds; lighter character shaders |
+| Revision granularity | Per demo (shot) file | One demo per shot in documentaries; per-camera-cut ranges later if needed |
+| Mature cast | No free or automatic route reaches the approved aesthetic; proportions solvable (CharMorph bases 7.4–7.9 heads) | Your decision: Mikassa (membership) and/or an artist-made stylised style kit on a parametric base |
+| Einar | 6.98 heads; realistic; costume and prosthetic arm | Only with sculpting and wardrobe work |
+| CharMorph bases | Exports unrigged; particle hair broken | Re-verify Rigify face-rig generation if pursued |
