@@ -150,3 +150,10 @@ animation renders. Character problems named in the review (all open):
 | Runtime | Static GLB, 252k triangles, in the P4 bank set | Skinned conversion after appearance approval |
 | Female and other identities | Antonia (CC-BY 3.0) on the same system; not built | After the style kit |
 
+## P7 — professional character asset research — see `../P7_ASSET_RESEARCH.md`
+| Item | State | Direction |
+|---|---|---|
+| Existing systems | None verified to meet the premium stylised standard out of the box; CC5 + ActorMIXER is the only complete system that plausibly can | Your decision: a CC5 trial look test on a Windows PC, or the Reom style kit |
+| Preview inspection | Vendor hosts are blocked from this environment; previews not viewed by me | Review the links, or allow the hosts so they can be compared |
+| Licence open points | Reallusion: confirm that real-time (three.js) rendering for video is covered. Daz: interactive licence risk. AutoCharacters: inconsistent licence fields | Confirm in writing before any purchase |
+
