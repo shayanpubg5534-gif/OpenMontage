@@ -153,7 +153,7 @@ function faceAt(c, t) {
 function headAngle(c, t) {
   let a = 0;
   for (const [t0, t1, deg] of c.tilts || []) a += deg * ss((t - t0) / 0.6) * (1 - ss((t - (t1 - 0.6)) / 0.6));
-  for (const [tn, d] of c.nods || []) { const u = (t - tn) / d; if (u > 0 && u < 1) a += 6.5 * Math.sin(Math.PI * u) * (1 - 0.35 * u); }
+  for (const [tn, d, amp = 6.5] of c.nods || []) { const u = (t - tn) / d; if (u > 0 && u < 1) a += amp * Math.sin(Math.PI * u) * (1 - 0.35 * u); }   // amp: optional (P11)
   return a;
 }
 function sway(c, t, ph) { let a = 0.3 * Math.sin(2 * Math.PI * t / 5.3 + ph); for (const [ts, d, deg] of c.shifts || []) a += deg * ss((t - ts) / d); return a; }

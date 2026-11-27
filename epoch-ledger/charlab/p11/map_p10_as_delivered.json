@@ -1,0 +1,247 @@
+{
+ "title": "P10 as delivered (for comparison: the same narration and concepts, the visuals P10 actually showed)",
+ "words": "projects/charlab_p10/story/artifacts/words.json",
+ "duration": 16.5,
+ "sync": {
+  "lead": 0.35,
+  "lag": 0.3,
+  "first_event": 0.5,
+  "max_gap": 2.6,
+  "clause_lag": 0.5
+ },
+ "shots": [
+  {
+   "id": "A",
+   "t0": 0.0,
+   "t1": 5.7,
+   "medium": "2.5d",
+   "introduces": [
+    "context",
+    "action"
+   ],
+   "purpose": "two-shot: baker explains, banker listens"
+  },
+  {
+   "id": "B",
+   "t0": 5.7,
+   "t1": 11.75,
+   "medium": "2.5d",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "banker close-up; balance-sheet card"
+  },
+  {
+   "id": "C",
+   "t0": 11.75,
+   "t1": 16.5,
+   "medium": "2.5d",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "baker close-up; new-money counter"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "k1",
+   "idea": "the borrower, at his bank",
+   "anchor": {
+    "word": "baker"
+   }
+  },
+  {
+   "id": "k2",
+   "idea": "he asks for a loan",
+   "anchor": {
+    "word": "asks"
+   }
+  },
+  {
+   "id": "k3",
+   "idea": "the amount: $10,000",
+   "anchor": {
+    "word": "$10,000."
+   }
+  },
+  {
+   "id": "k4",
+   "idea": "the vault stays shut",
+   "anchor": {
+    "word": "vault"
+   }
+  },
+  {
+   "id": "k5",
+   "idea": "physical cash does not move",
+   "anchor": {
+    "word": "cash"
+   }
+  },
+  {
+   "id": "k6",
+   "idea": "the banker records the loan (digitally)",
+   "anchor": {
+    "word": "records"
+   }
+  },
+  {
+   "id": "k7",
+   "idea": "the loan is a bank asset",
+   "anchor": {
+    "word": "loan",
+    "n": 2
+   }
+  },
+  {
+   "id": "k8",
+   "idea": "the baker's account is credited (a deposit, a bank liability)",
+   "anchor": {
+    "word": "credits"
+   }
+  },
+  {
+   "id": "k9",
+   "idea": "a new $10,000 deposit exists in the baker's account",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   }
+  },
+  {
+   "id": "k10",
+   "idea": "it is new money (deposits grow, vault cash unchanged)",
+   "anchor": {
+    "word": "new"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "p01",
+   "anchor": {
+    "word": "baker"
+   },
+   "offset": -0.2,
+   "shot": "A",
+   "medium": "cut",
+   "what": "two-shot of baker and banker",
+   "depicts": [
+    "k1"
+   ]
+  },
+  {
+   "id": "p02",
+   "anchor": {
+    "word": "loan"
+   },
+   "offset": -0.05,
+   "shot": "A",
+   "medium": "character-action",
+   "what": "baker raises his forearm",
+   "depicts": [
+    "k2"
+   ]
+  },
+  {
+   "id": "p03",
+   "anchor": {
+    "word": "$10,000."
+   },
+   "offset": 0.15,
+   "shot": "A",
+   "medium": "character-action",
+   "what": "baker raises his forearm again (the amount is only in the caption)",
+   "depicts": []
+  },
+  {
+   "id": "p04",
+   "anchor": {
+    "word": "opened,"
+   },
+   "offset": -0.2,
+   "shot": "A",
+   "medium": "character-action",
+   "what": "banker smiles and nods (no vault is shown)",
+   "depicts": []
+  },
+  {
+   "id": "p05",
+   "anchor": {
+    "word": "cash"
+   },
+   "offset": -0.3,
+   "shot": "B",
+   "medium": "cut",
+   "what": "cut to banker close-up (no cash is shown)",
+   "depicts": []
+  },
+  {
+   "id": "p06",
+   "anchor": {
+    "word": "records"
+   },
+   "offset": -0.3,
+   "shot": "B",
+   "medium": "diagram",
+   "what": "balance-sheet card appears",
+   "depicts": [
+    "k6"
+   ]
+  },
+  {
+   "id": "p07",
+   "anchor": {
+    "word": "loan",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "B",
+   "medium": "diagram",
+   "what": "Assets: loan +$10,000",
+   "depicts": [
+    "k7"
+   ]
+  },
+  {
+   "id": "p08",
+   "anchor": {
+    "word": "credits"
+   },
+   "offset": 0.05,
+   "shot": "B",
+   "medium": "diagram",
+   "what": "Liabilities: deposit +$10,000",
+   "depicts": [
+    "k8"
+   ]
+  },
+  {
+   "id": "p09",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   },
+   "offset": -0.2,
+   "shot": "C",
+   "medium": "cut",
+   "what": "baker close-up",
+   "depicts": []
+  },
+  {
+   "id": "p10",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "C",
+   "medium": "graphic",
+   "what": "New money counter to $10,000",
+   "depicts": [
+    "k9",
+    "k10"
+   ]
+  }
+ ]
+}

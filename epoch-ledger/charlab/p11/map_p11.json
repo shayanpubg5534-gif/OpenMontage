@@ -1,0 +1,581 @@
+{
+ "title": "P11 \u00b7 Ten thousand new dollars (narration-driven re-direction of the P10 test; same narration)",
+ "words": "projects/charlab_p10/story/artifacts/words.json",
+ "duration": 16.5,
+ "sync": {
+  "lead": 0.35,
+  "lag": 0.3,
+  "first_event": 0.5,
+  "max_gap": 2.6,
+  "clause_lag": 0.5
+ },
+ "shots": [
+  {
+   "id": "S1",
+   "t0": 0.0,
+   "t1": 1.85,
+   "medium": "2.5d",
+   "introduces": [
+    "context",
+    "action"
+   ],
+   "purpose": "who and where: a baker at his bank's desk hands the banker a loan application"
+  },
+  {
+   "id": "S2",
+   "t0": 1.85,
+   "t1": 3.95,
+   "medium": "insert",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "what he asks for: the application on the desk, the amount written as it is said"
+  },
+  {
+   "id": "S3",
+   "t0": 3.95,
+   "t1": 7.75,
+   "medium": "3d",
+   "introduces": [
+    "context",
+    "information"
+   ],
+   "purpose": "what does NOT happen: the vault stays sealed and the cash inside stays put (one continuous 3D move, lock to cash)"
+  },
+  {
+   "id": "S4",
+   "t0": 7.75,
+   "t1": 11.75,
+   "medium": "2.5d",
+   "introduces": [
+    "action",
+    "information"
+   ],
+   "purpose": "what does happen: the banker types; her screen shows the loan recorded and the baker's account credited, two sides of the balance sheet"
+  },
+  {
+   "id": "S5",
+   "t0": 11.75,
+   "t1": 16.5,
+   "medium": "2.5d",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "the result: the baker sees $10,000 in his account; the money supply grows by a new deposit while vault cash is unchanged"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "k1",
+   "idea": "the borrower, at his bank",
+   "anchor": {
+    "word": "baker"
+   }
+  },
+  {
+   "id": "k2",
+   "idea": "he asks for a loan",
+   "anchor": {
+    "word": "asks"
+   }
+  },
+  {
+   "id": "k3",
+   "idea": "the amount: $10,000",
+   "anchor": {
+    "word": "$10,000."
+   }
+  },
+  {
+   "id": "k4",
+   "idea": "the vault stays shut",
+   "anchor": {
+    "word": "vault"
+   }
+  },
+  {
+   "id": "k5",
+   "idea": "physical cash does not move",
+   "anchor": {
+    "word": "cash"
+   }
+  },
+  {
+   "id": "k6",
+   "idea": "the banker records the loan (digitally)",
+   "anchor": {
+    "word": "records"
+   }
+  },
+  {
+   "id": "k7",
+   "idea": "the loan is a bank asset",
+   "anchor": {
+    "word": "loan",
+    "n": 2
+   }
+  },
+  {
+   "id": "k8",
+   "idea": "the baker's account is credited (a deposit, a bank liability)",
+   "anchor": {
+    "word": "credits"
+   }
+  },
+  {
+   "id": "k9",
+   "idea": "a new $10,000 deposit exists in the baker's account",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   }
+  },
+  {
+   "id": "k10",
+   "idea": "it is new money (deposits grow, vault cash unchanged)",
+   "anchor": {
+    "word": "new"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "e01",
+   "anchor": {
+    "word": "baker"
+   },
+   "offset": -0.2,
+   "shot": "S1",
+   "medium": "cut",
+   "what": "Open on the baker standing at the banker's desk, application in hand",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k1"
+   ]
+  },
+  {
+   "id": "e02",
+   "anchor": {
+    "word": "asks"
+   },
+   "offset": 0.0,
+   "shot": "S1",
+   "medium": "prop",
+   "what": "He slides the loan application across the desk toward the banker",
+   "region": [
+    0.25,
+    0.62,
+    0.62,
+    0.9
+   ],
+   "depicts": [
+    "k2"
+   ]
+  },
+  {
+   "id": "e03",
+   "anchor": {
+    "word": "bank"
+   },
+   "offset": 0.0,
+   "shot": "S1",
+   "medium": "character-action",
+   "what": "The banker looks down at the form and nods",
+   "region": [
+    0.74,
+    0.12,
+    0.92,
+    0.42
+   ],
+   "depicts": []
+  },
+  {
+   "id": "e04",
+   "anchor": {
+    "word": "loan"
+   },
+   "offset": -0.11,
+   "shot": "S2",
+   "medium": "cut",
+   "what": "Insert, from above: the form on the desk reads LOAN APPLICATION",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k2"
+   ]
+  },
+  {
+   "id": "e05",
+   "anchor": {
+    "word": "$10,000."
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "insert",
+   "what": "The amount is written on the form as it is said: $10,000",
+   "region": [
+    0.42,
+    0.44,
+    0.74,
+    0.6
+   ],
+   "depicts": [
+    "k3"
+   ]
+  },
+  {
+   "id": "e06",
+   "anchor": {
+    "word": "$10,000."
+   },
+   "offset": 0.3,
+   "shot": "S2",
+   "medium": "insert",
+   "what": "The amount is underlined and the request is marked: Requested",
+   "region": [
+    0.42,
+    0.58,
+    0.74,
+    0.74
+   ],
+   "depicts": [
+    "k3"
+   ]
+  },
+  {
+   "id": "e07",
+   "anchor": {
+    "word": "No"
+   },
+   "offset": -0.2,
+   "shot": "S3",
+   "medium": "cut",
+   "what": "3D: the bank's vault, its steel gate shut and locked",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k4"
+   ]
+  },
+  {
+   "id": "e08",
+   "anchor": {
+    "word": "vault"
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "3d",
+   "what": "The camera moves in on the lock; a red SEALED tag hangs from it",
+   "region": [
+    0.3,
+    0.25,
+    0.7,
+    0.75
+   ],
+   "depicts": [
+    "k4"
+   ]
+  },
+  {
+   "id": "e09",
+   "anchor": {
+    "word": "opened,"
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "graphic",
+   "what": "Status: VAULT SEALED \u00b7 not opened",
+   "region": [
+    0.06,
+    0.08,
+    0.42,
+    0.2
+   ],
+   "depicts": [
+    "k4"
+   ]
+  },
+  {
+   "id": "e10",
+   "anchor": {
+    "word": "no",
+    "n": 2
+   },
+   "offset": -0.05,
+   "shot": "S3",
+   "medium": "3d",
+   "what": "The camera moves past the lock to the cash stacked inside, untouched",
+   "region": [
+    0.25,
+    0.2,
+    0.95,
+    0.85
+   ],
+   "depicts": [
+    "k5"
+   ]
+  },
+  {
+   "id": "e11",
+   "anchor": {
+    "word": "cash"
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "graphic",
+   "what": "Label on the cash: Vault cash (illustrative stacks)",
+   "region": [
+    0.58,
+    0.08,
+    0.94,
+    0.22
+   ],
+   "depicts": [
+    "k5"
+   ]
+  },
+  {
+   "id": "e12",
+   "anchor": {
+    "word": "hands."
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "graphic",
+   "what": "The label confirms: untouched (no cash moves)",
+   "region": [
+    0.58,
+    0.2,
+    0.94,
+    0.3
+   ],
+   "depicts": [
+    "k5"
+   ]
+  },
+  {
+   "id": "e13",
+   "anchor": {
+    "word": "banker"
+   },
+   "offset": -0.24,
+   "shot": "S4",
+   "medium": "character-action",
+   "what": "The banker at her laptop, typing",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k6"
+   ]
+  },
+  {
+   "id": "e14",
+   "anchor": {
+    "word": "records"
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Her screen opens: the bank's ledger, a new entry being typed",
+   "region": [
+    0.05,
+    0.14,
+    0.5,
+    0.57
+   ],
+   "depicts": [
+    "k6"
+   ]
+  },
+  {
+   "id": "e15",
+   "anchor": {
+    "word": "loan",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Assets: Loan to the baker +$10,000",
+   "region": [
+    0.075,
+    0.32,
+    0.26,
+    0.41
+   ],
+   "depicts": [
+    "k7"
+   ]
+  },
+  {
+   "id": "e16",
+   "anchor": {
+    "word": "credits"
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Liabilities: Baker's deposit +$10,000",
+   "region": [
+    0.28,
+    0.32,
+    0.47,
+    0.41
+   ],
+   "depicts": [
+    "k8"
+   ]
+  },
+  {
+   "id": "e17",
+   "anchor": {
+    "word": "account."
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "The two entries are joined: one loan, one deposit, balanced",
+   "region": [
+    0.075,
+    0.435,
+    0.47,
+    0.49
+   ],
+   "depicts": [
+    "k7",
+    "k8"
+   ]
+  },
+  {
+   "id": "e18",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   },
+   "offset": -0.2,
+   "shot": "S5",
+   "medium": "character-action",
+   "what": "The baker checks his phone",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k9"
+   ]
+  },
+  {
+   "id": "e19",
+   "anchor": {
+    "word": "10,000",
+    "n": 2
+   },
+   "offset": 0.1,
+   "shot": "S5",
+   "medium": "graphic",
+   "what": "His account balance counts up to $10,000 (a new deposit)",
+   "region": [
+    0.47,
+    0.48,
+    0.63,
+    0.64
+   ],
+   "depicts": [
+    "k9"
+   ]
+  },
+  {
+   "id": "e20",
+   "anchor": {
+    "word": "new"
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "diagram",
+   "what": "Money in the economy: bank deposits grow by a new $10,000",
+   "region": [
+    0.65,
+    0.21,
+    0.97,
+    0.28
+   ],
+   "depicts": [
+    "k10"
+   ]
+  },
+  {
+   "id": "e21",
+   "anchor": {
+    "word": "dollars"
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "diagram",
+   "what": "Vault cash beside it: unchanged",
+   "region": [
+    0.65,
+    0.32,
+    0.97,
+    0.39
+   ],
+   "depicts": [
+    "k10"
+   ]
+  },
+  {
+   "id": "e22",
+   "anchor": {
+    "word": "exist."
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "diagram",
+   "what": "The new deposit is marked: new money, created by the loan",
+   "region": [
+    0.65,
+    0.42,
+    0.96,
+    0.49
+   ],
+   "depicts": [
+    "k10"
+   ]
+  },
+  {
+   "id": "e23",
+   "anchor": {
+    "word": "exist."
+   },
+   "offset": 0.05,
+   "shot": "S5",
+   "medium": "character-action",
+   "what": "The baker smiles",
+   "region": [
+    0.1,
+    0.15,
+    0.32,
+    0.5
+   ],
+   "depicts": []
+  }
+ ]
+}
