@@ -88,10 +88,19 @@ async function setup(plate, depth) {
     const mg = (r1[0] - r0[0]) * 0.18, box = [r0[0] - mg, r0[1] - mg, r1[0] - r0[0] + 2 * mg, r1[1] - r0[1] + 2 * mg];
     // window light, fixed for a locked plate: which side of the drawing faces it; filter sizes in units (≈ px on screen)
     const win = SHOT.pts[SHOT.window], lx = win ? Math.sign(win[0] - F[0]) * flip : 1, u = 1.5;   // filter sizes in drawing units (scale with the figure)
-    const L = { shadow: .26, rim: .30, tint: '#f3d9b0', tintA: .07, ...(c.light || {}) };
+    const L = { shadow: .26, rim: .30, tint: '#f3d9b0', tintA: .07, shade: '#2a170d', ...(c.light || {}) };
+    if (L.match) {   // P12 (opt-in): take the ambient tint and the shadow colour from the plate around the character
+      const cx0 = Math.max(0, Math.min(1919, F[0] - 300)), cy0 = Math.max(0, Math.min(1079, H[1])), cw = Math.min(600, 1920 - cx0), chh = Math.max(1, Math.min(1080 - cy0, F[1] - H[1]));
+      const g2 = canvas(cw, chh).getContext('2d'); g2.drawImage(P, -cx0, -cy0); const q = g2.getImageData(0, 0, cw, chh).data; let r = 0, gg = 0, bb2 = 0, n = 0;
+      for (let i = 0; i < q.length; i += 16) { r += q[i]; gg += q[i + 1]; bb2 += q[i + 2]; n++; }
+      const avg = [r / n, gg / n, bb2 / n], hx = v => '#' + v.map(x => Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, '0')).join('');
+      const lum = (avg[0] * .3 + avg[1] * .59 + avg[2] * .11) / 255;
+      L.tint = hx(avg.map(x => x * 1.25 + 30)); L.tintA = L.match.tint ?? .12; L.shade = hx(avg.map(x => x * .35));
+      L.shadow = (L.match.shadow ?? .22) + (1 - lum) * .08;   // a darker room deepens the form shadow slightly, never to black
+    }
     const LIGHT = '<filter id="lt" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">' +
       '<feOffset in="SourceAlpha" dx="' + (-14 * lx * u) + '" dy="' + (4 * u) + '" result="o"/><feComposite in="SourceAlpha" in2="o" operator="out" result="b"/><feGaussianBlur in="b" stdDeviation="' + 3 * u + '" result="b2"/>' +
-      '<feComposite in="b2" in2="SourceAlpha" operator="in" result="b3"/><feFlood flood-color="#2a170d" flood-opacity="' + L.shadow + '"/><feComposite in2="b3" operator="in" result="sh"/>' +
+      '<feComposite in="b2" in2="SourceAlpha" operator="in" result="b3"/><feFlood flood-color="' + L.shade + '" flood-opacity="' + L.shadow + '"/><feComposite in2="b3" operator="in" result="sh"/>' +
       '<feOffset in="SourceAlpha" dx="' + (5 * lx * u) + '" dy="' + (8 * u) + '" result="o2"/><feComposite in="SourceAlpha" in2="o2" operator="out" result="c"/><feGaussianBlur in="c" stdDeviation="' + 2 * u + '" result="c2"/>' +
       '<feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.2 2.4 0.4 0 -0.75" result="lum"/>' +   // the artist's ink lines are never lit
       '<feComposite in="c2" in2="lum" operator="in" result="c3"/><feFlood flood-color="#ffe6bd" flood-opacity="' + L.rim + '"/><feComposite in2="c3" operator="in" result="rim"/>' +

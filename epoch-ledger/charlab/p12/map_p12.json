@@ -1,0 +1,777 @@
+{
+ "title": "P12 \u00b7 Sold on: how a 2006 mortgage reached Lehman Brothers (illustrative family; 2006\u20132008 events)",
+ "words": "projects/charlab_p12/story/artifacts/words.json",
+ "duration": 30.0,
+ "sync": {
+  "lead": 0.35,
+  "lag": 0.3,
+  "first_event": 0.5,
+  "max_gap": 2.6,
+  "clause_lag": 0.5
+ },
+ "shots": [
+  {
+   "id": "S1",
+   "t0": 0.0,
+   "t1": 2.1,
+   "medium": "2.5d",
+   "introduces": [
+    "context"
+   ],
+   "purpose": "who and when: a family at the lender's office; 2006 on the desk calendar"
+  },
+  {
+   "id": "S2",
+   "t0": 2.1,
+   "t1": 5.3,
+   "medium": "insert",
+   "introduces": [
+    "action",
+    "information"
+   ],
+   "purpose": "the mortgage is signed; its payment barely fits their income"
+  },
+  {
+   "id": "S3",
+   "t0": 5.3,
+   "t1": 12.5,
+   "medium": "3d",
+   "introduces": [
+    "action",
+    "information"
+   ],
+   "purpose": "the loan is not kept: the family's folder is sold, and joins thousands of others in one bundle, a single security",
+   "hold_reason": "one continuous reveal: the camera pulls back from one folder to the bundle as the narration counts them"
+  },
+  {
+   "id": "S4",
+   "t0": 12.5,
+   "t1": 17.2,
+   "medium": "diagram",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "who buys it and why: investors worldwide, paid steadily from the mortgages"
+  },
+  {
+   "id": "S5",
+   "t0": 17.2,
+   "t1": 19.2,
+   "medium": "diagram",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "the turn: US house prices peak in 2006 and fall"
+  },
+  {
+   "id": "S6",
+   "t0": 19.2,
+   "t1": 20.95,
+   "medium": "2.5d",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "what that means at home: the payment is overdue"
+  },
+  {
+   "id": "S7",
+   "t0": 20.95,
+   "t1": 24.2,
+   "medium": "diagram",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "what that means for investors: the payments stop and the securities' value collapses"
+  },
+  {
+   "id": "S8",
+   "t0": 24.2,
+   "t1": 30.0,
+   "medium": "insert",
+   "introduces": [
+    "consequence",
+    "context"
+   ],
+   "purpose": "where it ends: September 2008, Lehman Brothers' bankruptcy on the front page",
+   "hold_reason": "the passage's last image: the front page holds after the final word"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "k1",
+   "idea": "the year: 2006",
+   "anchor": {
+    "word": "2006,"
+   }
+  },
+  {
+   "id": "k2",
+   "idea": "a family borrows",
+   "anchor": {
+    "word": "family"
+   }
+  },
+  {
+   "id": "k3",
+   "idea": "they sign a mortgage",
+   "anchor": {
+    "word": "signs"
+   }
+  },
+  {
+   "id": "k4",
+   "idea": "they can barely afford it",
+   "anchor": {
+    "word": "barely"
+   }
+  },
+  {
+   "id": "k5",
+   "idea": "the lender does not keep the loan",
+   "anchor": {
+    "word": "keep"
+   }
+  },
+  {
+   "id": "k6",
+   "idea": "the loan is sold on",
+   "anchor": {
+    "word": "sells"
+   }
+  },
+  {
+   "id": "k7",
+   "idea": "bundled with thousands of others",
+   "anchor": {
+    "word": "thousands"
+   }
+  },
+  {
+   "id": "k8",
+   "idea": "one security",
+   "anchor": {
+    "word": "single"
+   }
+  },
+  {
+   "id": "k9",
+   "idea": "investors around the world buy it",
+   "anchor": {
+    "word": "world"
+   }
+  },
+  {
+   "id": "k10",
+   "idea": "it promises steady payments",
+   "anchor": {
+    "word": "steady"
+   }
+  },
+  {
+   "id": "k11",
+   "idea": "house prices fall",
+   "anchor": {
+    "word": "fall"
+   }
+  },
+  {
+   "id": "k12",
+   "idea": "families stop paying",
+   "anchor": {
+    "word": "stop"
+   }
+  },
+  {
+   "id": "k13",
+   "idea": "the payments dry up",
+   "anchor": {
+    "word": "dry"
+   }
+  },
+  {
+   "id": "k14",
+   "idea": "the securities collapse",
+   "anchor": {
+    "word": "collapse,"
+   }
+  },
+  {
+   "id": "k15",
+   "idea": "September 2008",
+   "anchor": {
+    "word": "September"
+   }
+  },
+  {
+   "id": "k16",
+   "idea": "Lehman Brothers goes bankrupt",
+   "anchor": {
+    "word": "Lehman"
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "e01",
+   "anchor": {
+    "word": "In",
+    "n": 1
+   },
+   "offset": -0.1,
+   "shot": "S1",
+   "medium": "cut",
+   "what": "The family at the lender's office",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e02",
+   "anchor": {
+    "word": "2006,",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S1",
+   "medium": "graphic",
+   "what": "2006 appears on the desk calendar (environmental typography)",
+   "depicts": [
+    "k1"
+   ],
+   "region": [
+    0.03,
+    0.08,
+    0.24,
+    0.34
+   ]
+  },
+  {
+   "id": "e03",
+   "anchor": {
+    "word": "family",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S1",
+   "medium": "character-action",
+   "what": "He turns to her; she nods",
+   "depicts": [
+    "k2"
+   ],
+   "region": [
+    0.3,
+    0.1,
+    0.75,
+    0.5
+   ]
+  },
+  {
+   "id": "e04",
+   "anchor": {
+    "word": "signs",
+    "n": 1
+   },
+   "offset": -0.1,
+   "shot": "S2",
+   "medium": "cut",
+   "what": "Insert from above: the mortgage agreement",
+   "depicts": [
+    "k3"
+   ],
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e05",
+   "anchor": {
+    "word": "signs",
+    "n": 1
+   },
+   "offset": 0.05,
+   "shot": "S2",
+   "medium": "prop",
+   "what": "A pen signs it (the hand is out of frame)",
+   "depicts": [
+    "k3"
+   ],
+   "region": [
+    0.36,
+    0.62,
+    0.66,
+    0.76
+   ]
+  },
+  {
+   "id": "e06",
+   "anchor": {
+    "word": "barely",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "insert",
+   "what": "Printed on it: the monthly payment fills almost all of their income",
+   "depicts": [
+    "k4"
+   ],
+   "region": [
+    0.36,
+    0.36,
+    0.66,
+    0.48
+   ]
+  },
+  {
+   "id": "e07",
+   "anchor": {
+    "word": "afford.",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "insert",
+   "what": "The little that is left is marked: barely affordable",
+   "depicts": [
+    "k4"
+   ],
+   "region": [
+    0.56,
+    0.36,
+    0.68,
+    0.52
+   ]
+  },
+  {
+   "id": "e08",
+   "anchor": {
+    "word": "The",
+    "n": 1
+   },
+   "offset": -0.05,
+   "shot": "S3",
+   "medium": "cut",
+   "what": "3D: the family's folder in the lender's out-tray, labelled For sale",
+   "depicts": [
+    "k5"
+   ],
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e09",
+   "anchor": {
+    "word": "keep",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "graphic",
+   "what": "SOLD is stamped on the tray label: the lender does not keep it",
+   "depicts": [
+    "k5"
+   ],
+   "region": [
+    0.55,
+    0.55,
+    0.95,
+    0.8
+   ]
+  },
+  {
+   "id": "e10",
+   "anchor": {
+    "word": "sells",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "3d",
+   "what": "The camera pulls back from the folder",
+   "depicts": [
+    "k6"
+   ],
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e10b",
+   "anchor": {
+    "word": "bundled",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "3d",
+   "what": "Other folders come into view around it: a bundle",
+   "depicts": [
+    "k7"
+   ],
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e11",
+   "anchor": {
+    "word": "thousands",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "3d",
+   "what": "...revealing thousands of folders stacked and strapped together",
+   "depicts": [
+    "k7"
+   ],
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e12",
+   "anchor": {
+    "word": "single",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S3",
+   "medium": "graphic",
+   "what": "The bundle is labelled: one mortgage-backed security",
+   "depicts": [
+    "k8"
+   ],
+   "region": [
+    0.3,
+    0.08,
+    0.7,
+    0.26
+   ]
+  },
+  {
+   "id": "e13",
+   "anchor": {
+    "word": "Investors",
+    "n": 1
+   },
+   "offset": -0.1,
+   "shot": "S4",
+   "medium": "cut",
+   "what": "Map: the security in the United States",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e14",
+   "anchor": {
+    "word": "world",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Routes draw to investors in London, Frankfurt, Zurich, Tokyo and Singapore",
+   "depicts": [
+    "k9"
+   ],
+   "region": [
+    0.05,
+    0.15,
+    0.95,
+    0.75
+   ]
+  },
+  {
+   "id": "e15",
+   "anchor": {
+    "word": "buy",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Each investor buys a share of it",
+   "depicts": [
+    "k9"
+   ],
+   "region": [
+    0.4,
+    0.15,
+    0.95,
+    0.6
+   ]
+  },
+  {
+   "id": "e16",
+   "anchor": {
+    "word": "steady",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Payments flow out to them, steadily",
+   "depicts": [
+    "k10"
+   ],
+   "region": [
+    0.05,
+    0.15,
+    0.95,
+    0.75
+   ]
+  },
+  {
+   "id": "e17",
+   "anchor": {
+    "word": "house",
+    "n": 1
+   },
+   "offset": -0.15,
+   "shot": "S5",
+   "medium": "cut",
+   "what": "Chart: US house prices, rising to 2006",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e18",
+   "anchor": {
+    "word": "fall",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "diagram",
+   "what": "...and falling after the peak",
+   "depicts": [
+    "k11"
+   ],
+   "region": [
+    0.55,
+    0.2,
+    0.95,
+    0.8
+   ]
+  },
+  {
+   "id": "e19",
+   "anchor": {
+    "word": "families",
+    "n": 1
+   },
+   "offset": -0.08,
+   "shot": "S6",
+   "medium": "cut",
+   "what": "At home: her coffee, and a notice on the table",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e20",
+   "anchor": {
+    "word": "stop",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S6",
+   "medium": "character-action",
+   "what": "PAYMENT OVERDUE; her face falls",
+   "depicts": [
+    "k12"
+   ],
+   "region": [
+    0.05,
+    0.55,
+    0.55,
+    0.95
+   ]
+  },
+  {
+   "id": "e21",
+   "anchor": {
+    "word": "payments",
+    "n": 2
+   },
+   "offset": -0.1,
+   "shot": "S7",
+   "medium": "cut",
+   "what": "The map again: the payments flowing",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e22",
+   "anchor": {
+    "word": "dry",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "diagram",
+   "what": "The flows stop; the routes go grey",
+   "depicts": [
+    "k13"
+   ],
+   "region": [
+    0.05,
+    0.15,
+    0.6,
+    0.75
+   ]
+  },
+  {
+   "id": "e23",
+   "anchor": {
+    "word": "securities",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "diagram",
+   "what": "Value of the securities: before",
+   "depicts": [
+    "k14"
+   ],
+   "region": [
+    0.66,
+    0.18,
+    0.96,
+    0.7
+   ]
+  },
+  {
+   "id": "e24",
+   "anchor": {
+    "word": "collapse,",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "diagram",
+   "what": "...and after: collapsed",
+   "depicts": [
+    "k14"
+   ],
+   "region": [
+    0.66,
+    0.18,
+    0.96,
+    0.7
+   ]
+  },
+  {
+   "id": "e25",
+   "anchor": {
+    "word": "and",
+    "n": 2
+   },
+   "offset": -0.02,
+   "shot": "S8",
+   "medium": "cut",
+   "what": "A newspaper on a desk, under a 2006\u20132008 timeline",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e26",
+   "anchor": {
+    "word": "September",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S8",
+   "medium": "diagram",
+   "what": "The timeline marker moves to September 2008",
+   "depicts": [
+    "k15"
+   ],
+   "region": [
+    0.05,
+    0.03,
+    0.95,
+    0.14
+   ]
+  },
+  {
+   "id": "e27",
+   "anchor": {
+    "word": "Lehman",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S8",
+   "medium": "insert",
+   "what": "Headline: Lehman Brothers files for bankruptcy",
+   "depicts": [
+    "k16"
+   ],
+   "region": [
+    0.25,
+    0.3,
+    0.75,
+    0.6
+   ]
+  },
+  {
+   "id": "e28",
+   "anchor": {
+    "word": "bankrupt.",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S8",
+   "medium": "insert",
+   "what": "The word BANKRUPTCY is underlined",
+   "depicts": [
+    "k16"
+   ],
+   "region": [
+    0.25,
+    0.3,
+    0.75,
+    0.6
+   ]
+  }
+ ]
+}
