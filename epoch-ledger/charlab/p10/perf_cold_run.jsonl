@@ -1,0 +1,16 @@
+{"label": "narrate", "wall_s": 16.9, "peak_rss_mb": 1416, "rc": 0}
+{"label": "plate_A", "wall_s": 18.7, "peak_rss_mb": 1382, "rc": 0}
+{"label": "track_A", "wall_s": 4.6, "peak_rss_mb": 895, "rc": 0}
+{"label": "paint_A", "wall_s": 0.8, "peak_rss_mb": 332, "rc": 0}
+{"label": "plate_B", "wall_s": 19.7, "peak_rss_mb": 1294, "rc": 0}
+{"label": "track_B", "wall_s": 4.8, "peak_rss_mb": 886, "rc": 0}
+{"label": "paint_B", "wall_s": 0.8, "peak_rss_mb": 332, "rc": 0}
+{"label": "plate_C", "wall_s": 18.4, "peak_rss_mb": 1336, "rc": 0}
+{"label": "track_C", "wall_s": 4.6, "peak_rss_mb": 892, "rc": 0}
+{"label": "paint_C", "wall_s": 0.8, "peak_rss_mb": 332, "rc": 0}
+{"label": "prepare", "wall_s": 1.3, "peak_rss_mb": 96, "rc": 0}
+{"label": "compose_A", "wall_s": 29.7, "peak_rss_mb": 6516, "rc": 0}
+{"label": "compose_B", "wall_s": 25.5, "peak_rss_mb": 6074, "rc": 0}
+{"label": "compose_C", "wall_s": 22.7, "peak_rss_mb": 6279, "rc": 0}
+{"label": "hf_build", "wall_s": 1.0, "peak_rss_mb": 139, "rc": 0}
+{"label": "hf_render", "wall_s": 79.6, "peak_rss_mb": 6388, "rc": 0}

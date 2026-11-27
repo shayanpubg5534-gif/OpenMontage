@@ -184,3 +184,15 @@ animation renders. Character problems named in the review (all open):
 | Shot 1 framing | Client small and partly behind the desk; foreground plant reads as a green smear | Different foreground element or framing |
 | Render cost | 21.5 min for 17 s (4 vCPU); the 3D plate is 53% | Static or illustrated plates for dialogue-free beats; parallel shots |
 | Fab businessman | **Archived as an evaluated alternative** | Not pursued; raw files stay in `.runtime/` only |
+
+## P10 — fast 2.5D path and character improvements — see `../P10_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Render cost | 9.2 min per finished minute (video), 15.1 with narration, captions and graphics; P9 was 76 | Cache plates across episodes per set and camera; 2D camera only where it suffices |
+| Memory | 6.5 GB peak with 4 workers | 2 workers on smaller machines (≈3.2 GB, about 30% slower) |
+| Views | Three-quarter only (mirrorable); no profile, back or front | New art (decision) |
+| Limbs | Elbow and wrist rigs on two poses; no shoulder rotation; rigs placed by hand per pose | Art drawn in separate parts (decision); a small rig library for the poses we use |
+| Pose continuity | One pose per character per film (raised hand carries into the close-up) | Compatible pose sets; cut on a pose change |
+| Parallax | Subtle by design (2D camera on a still) | Moving 3D plate only for shots that need it (P5/P9 path) |
+| Wardrobe | Ink-drawn trousers stay black; ties are ours; no period dress | New parts in the Open Peeps style (decision) |
+| Lighting | Painted, fixed per shot; no set shadows on characters | Shadow mask from the depth pass |
