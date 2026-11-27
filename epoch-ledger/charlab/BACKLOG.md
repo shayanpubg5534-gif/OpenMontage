@@ -157,3 +157,10 @@ animation renders. Character problems named in the review (all open):
 | Preview inspection | Vendor hosts are blocked from this environment; previews not viewed by me | Review the links, or allow the hosts so they can be compared |
 | Licence open points | Reallusion: confirm that real-time (three.js) rendering for video is covered. Daz: interactive licence risk. AutoCharacters: inconsistent licence fields | Confirm in writing before any purchase |
 
+## P7b — Android + Linux automation, affordable assets, 2D vs 3D — see `../P7B_AUTOMATION_AND_AFFORDABLE_ASSETS.md`
+| Item | State | Direction |
+|---|---|---|
+| CC5 | Windows-only GUI; Python runs inside the GUI; headless reported crashing | Withdrawn under the phone + Linux constraint |
+| Affordable 3D cast | None verified as a consistent premium 6–10 cast; Lab3 Studio is the candidate | Screenshots from your phone before any decision |
+| 2.5D / hybrid | 3.6× faster than 3D (measured); already automated; limited by artwork source | Proposed P8 direction (your decision) |
+
