@@ -25,7 +25,9 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 | `kit/lightfx.py` | Skies, haze, light shafts, bloom, depth of field, colour grade + grain |
 | `kit/rig3.py` | Character rig v3: 7.5-head figures with detailed faces, hands, costumes, IK poses; `closeup_svg` modelled close-ups |
 | `kit/diegetic.py` | Financial data on objects: whiteboard chart, CRT chart, market board, gauge, press clipping |
-| `kit/scene_plan.py` | Mandatory shot plan + validator (shot size, technique, graphics, guides consulted) |
+| `kit/treatment.py` | Creative treatment checker (STANDARD §3A): thesis, through-line, worlds, concepts incl. the literal baseline, accuracy, acting, transitions, human anchor; hero storyboard gate (`--gate motion`); writes `treatment.md` |
+| `direction/` | Creative references (not templates): `VISUAL_LANGUAGE.md`, `CONCEPT_NOTES.md`, `used_devices.json` (signatures and metaphors already used) |
+| `kit/scene_plan.py` | Mandatory shot plan + validator (shot size, technique, graphics, guides consulted; `"direction": 2` adds world, acting, transition_in) |
 | `kit/assets/` | CC0 textures (Poly Haven) with a per-asset licence register `LICENSES.md` |
 | `scripts/still.mjs` | 1920×1080 still of a page (style frames for approval) |
 | `scripts/motion_demo.py` | 30 s reference composition showing every motion helper |
@@ -45,7 +47,7 @@ approved 2026-11-24). Its builder reproduces the approved composition byte-for-b
 | `scripts/render.py` | Scene-cached chunk renders, previews, no-re-encode assembly |
 | `scripts/vendor.sh` | Fetch GSAP, Three.js and fonts into a workspace |
 | `scripts/new_episode.py` | Scaffold `episodes/<slug>/` + `projects/<slug>/hyperframes/` |
-| `templates/episode/` | Starter `script.json`, `art-direction.md`, `build.py` |
+| `templates/episode/` | Starter `script.json`, `treatment.json`, `art-direction.md`, `build.py` |
 | `episodes/<slug>/` | Episode **source** (script, builder, art direction, timing artifacts) — committed |
 
 Generated media (narration WAV, renders, caches) lives in `projects/<slug>/` (git-ignored).

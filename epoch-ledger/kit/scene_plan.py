@@ -7,12 +7,14 @@ Plan file: JSON {"episode": ..., "shots": [shot, ...]}. Each shot needs (errors 
   optional.
 Pacing and framing numbers (MAX_HOLD, MIN_SHOT, MAX_CUTS_PER_10S, runs of one size) are *warnings*: pacing serves
 comprehension, so the director may exceed them with a hold_reason / insert_reason or accept them knowingly.
-`python -m kit.scene_plan PLAN.json` exits 1 on errors only. In code: validate(plan) -> errors; review(plan) ->
+With "direction": 2 (STANDARD §3A, opt-in) every shot also names its `world`, a `transition_in` with a motive, and
+`acting` (who / wants / does / feels) when characters are on screen. `python -m kit.scene_plan PLAN.json` exits 1 on errors only. In code: validate(plan) -> errors; review(plan) ->
 {"errors", "warnings"}.
 """
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -25,6 +27,8 @@ MAX_HOLD = 6.0   # seconds one composition carries narration before the checker 
 MIN_SHOT = 2.0   # seconds a composition needs to be recognised and understood (inserts: 0.5 s, with insert_reason)
 MAX_CUTS_PER_10S = 4   # pacing hint: more composition changes than this in any 10 s window often reads as frantic
 FIELDS = ("id", "beat", "understanding", "shot", "focal_point", "technique", "graphics", "rationale")        # required (errors)
+MINOR_ACTING = {"head", "turns", "turn", "nods", "nod", "blinks", "blink", "tilts", "tilt", "mouth", "eyes", "looks", "look",
+                "smiles", "smile", "his", "her", "their", "the", "a", "and", "slightly", "at", "to", "she", "he", "they"}
 ADVISED = ("camera", "lighting", "components")                                                              # recommended (warnings)
 
 
@@ -84,6 +88,22 @@ def review(plan: dict) -> dict:
                         errs.append(f"{sid}: meaning.{k} missing — say what happens, why, and what follows before designing visuals")
         if len(s.get("understanding", "")) < 15:
             errs.append(f"{sid}: 'understanding' must say what the viewer learns")
+    # creative direction (STANDARD §3A), opt-in with "direction": 2 so earlier plans are unchanged: every shot says
+    # where it happens, how it is entered, and what any character physically does
+    if plan.get("direction", 1) >= 2:
+        for s in shots:
+            sid = s.get("id", "?")
+            if not s.get("world"): errs.append(f"{sid}: direction 2: name the 'world' (the story place) or 'abstract: <reason>'")
+            tr = s.get("transition_in") or {}
+            if s is not shots[0] and len(str(tr.get("motive", ""))) < 10:
+                errs.append(f"{sid}: direction 2: 'transition_in' needs a motive (match cut, follow the object, reveal, …)")
+            people = {"rig", "rig3", "2.5d"} & set(s.get("technique", []))
+            if people and not s.get("acting"):
+                errs.append(f"{sid}: direction 2: a shot with characters needs 'acting' (who wants / does / feels)")
+            for a in s.get("acting", []):
+                words = set(re.findall(r"[a-z]+", str(a.get("does", "")).lower()))
+                if words and words <= MINOR_ACTING:
+                    warns.append(f"{sid}: acting for {a.get('who', '?')} is only head, eye or mouth movement: add a story action or frame an insert")
     # pacing: composition changes per 10 s window
     starts = sorted(a for a, _ in timed)
     for a in starts:

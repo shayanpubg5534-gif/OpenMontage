@@ -1,0 +1,11 @@
+{
+ "_note": "Signature devices and metaphors already used, so new episodes do not repeat them by habit (kit/treatment.py warns). Add an entry when an episode is approved.",
+ "signatures": {
+  "how-banks-create-money": "the double-entry ink line",
+  "p11-test": "the sealed vault beside the new deposit"
+ },
+ "metaphors": {
+  "sealed vault": ["p11-test", "how-banks-create-money"],
+  "strapped bundle of folders": ["p12-validation"]
+ }
+}

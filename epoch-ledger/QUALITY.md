@@ -4,6 +4,11 @@ The rules live in **[`STANDARD.md`](STANDARD.md)**, the authoritative production
 checklist to run before asking for approval. It adds no creative rules of its own.
 
 ## Before building
+- [ ] `treatment.json` written (STANDARD §3A) and `python -m kit.treatment episodes/<slug>/treatment.json` reports no
+      errors: thesis, through-line, worlds, and per sequence at least two concepts (one the literal baseline) with the
+      choice and its reason, accuracy notes for metaphors, a human anchor and motivated transitions.
+- [ ] Hero storyboard key frames (stills made with the production tools) approved in one batch before animation
+      (`python -m kit.treatment … --gate motion`).
 - [ ] Brief written for each passage: `meaning` (what / why / consequence), key moments, and shot ideas with reasons
       (STANDARD §2.7, §5).
 - [ ] `python -m kit.scene_plan PLAN.json` reports no errors. Warnings are answered with a reason or accepted
@@ -24,6 +29,25 @@ checklist to run before asking for approval. It adds no creative rules of its ow
       intersections, foot sliding, continuity). Automated gates are necessary, not sufficient.
 - [ ] Watched the render with sound and muted. The story is followable, and key moments land on their words
       (§3).
+
+## Director's review (judged on the rendered frames, not on fields or tests)
+Review a contact sheet of the actual frames (and watch the film) against the treatment, then write a short answer to
+each question in the report. A "no" needs a fix or a stated reason.
+- [ ] **Concept:** does each sequence read as its chosen concept, and is the idea clear with the sound off?
+- [ ] **Literal or meaningful:** is any sequence the literal baseline by default, an object in a void or a floating
+      card standing in for a story?
+- [ ] **Places:** are the environments story places, and does an empty space have a reason?
+- [ ] **Acting:** do the characters do something story-relevant (hands, posture, objects, eyes, weight, reactions),
+      or mostly turn heads and blink? Where the art cannot act, do inserts and reactions tell it? Does any object move
+      by itself where a person should be moving it?
+- [ ] **Through-line and transitions:** can the viewer follow the thread across cuts, and is every transition
+      motivated?
+- [ ] **Human consequence:** does each act connect the system to people?
+- [ ] **Accuracy:** does each metaphor stay true to the mechanism (for example, pooling, issuance, payment
+      distribution and loss allocation are not confused)? Are the data genuine and sourced?
+- [ ] **Craft:** is there one focal point, motivated light, depth, readable figures and captions, and continuity?
+- [ ] **Distinctness:** could this frame belong to last week's episode? Does it reuse a logged signature device?
+- [ ] **Economy:** does every element serve the story? Is anything spectacle or filler?
 
 ## Asset policy (unchanged)
 - Free local tools only, with no paid APIs; there is no background music.

@@ -1,0 +1,25 @@
+{
+ "episode": "<slug>",
+ "thesis": {"understand": "<what the audience must understand by the end>", "feel": "<what they should feel>"},
+ "arc": "<the emotional shape in one line, e.g. curiosity → confidence → dread → consequence>",
+ "through_line": "<what the audience follows: a person, an object, a sum of money, a place across time>",
+ "worlds": [
+  {"id": "w1", "place": "<a story place>", "role": "<what happens there in the story>", "build": "2.5d", "status": "new"}
+ ],
+ "motifs": ["<a recurring image or colour that means something here>"],
+ "signature": "<this episode's own signature device (check direction/used_devices.json)>",
+ "sequences": [
+  {"id": "q1", "narration": "<the clause or lines>", "hero": true,
+   "understand": "<…>", "feel": "<…>",
+   "concepts": [
+    {"name": "literal baseline", "kind": "literal", "idea": "<the literal picture of the words>", "verdict": "rejected", "why": "<why it is not the strongest>"},
+    {"name": "<concept>", "kind": "journey", "idea": "<…>", "verdict": "chosen", "why": "<why it is the strongest>"}
+   ],
+   "accuracy": ["<what is true, what the image must not imply, the source of any data>"],
+   "human_anchor": "<who this happens to>",
+   "worlds": ["w1"],
+   "acting": [{"who": "<character>", "wants": "<…>", "does": "<a story action: hands, posture, an object, a reaction>", "feels": "<…>"}],
+   "transitions": [{"to": "end", "motive": "<match cut / follow the object / reveal …>"}],
+   "storyboard": [], "approved": false}
+ ]
+}

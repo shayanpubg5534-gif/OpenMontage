@@ -55,6 +55,7 @@ Use these for new or regenerated scenes. Approval stills live in `episodes/ai-bu
 
 | Component | Where | Use |
 |---|---|---|
+| `treatment.py` (`review`, `to_markdown`, `python -m kit.treatment treatment.json [--gate motion]`) | `kit/treatment.py` | **creative direction first** (STANDARD §3A): one concise treatment per episode, checked for thesis, through-line, worlds, considered concepts (literal baseline included), accuracy notes, acting, transitions, human anchor; storyboard gate before animation. References: `direction/VISUAL_LANGUAGE.md`, `direction/CONCEPT_NOTES.md` |
 | `scene_plan.py` (`validate`, `python -m kit.scene_plan PLAN.json`) | `kit/scene_plan.py` | **mandatory** per-shot plan: beat, understanding, shot size, focal point, camera, lighting, technique, components, graphics (diegetic/standalone/overlay+why), rationale, guides consulted. Enforces shot-size variety and no unjustified overlays |
 | `S3.camera({pos, look, fov, shift})` | `kit/scene3d.js` | real perspective camera with lens shift (vertical-safe architecture), `project()` for anchoring glows/labels to 3D points |
 | `S3.scene()` → `box`, `quad`/`poly`, `cyl`, `tube`, `extrude`, `wheel`, `ground` | `kit/scene3d.js` | build sets in metres; faces lit by sun + sky/ground hemisphere + point lamps, fog, soft cast shadows |

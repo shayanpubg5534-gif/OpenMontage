@@ -74,8 +74,16 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    creative principles, process). Craft techniques and the helper library are in
    `skills/creative/epoch-ledger-motion-craft.md` (skill `epoch-ledger-motion-craft`); they are guidance, not
    formulas.
+4a. **Direction** (STANDARD §3A) → load `skills/creative/epoch-ledger-director.md` (skill `epoch-ledger-director`).
+   - Write `treatment.json` (template `templates/episode/treatment.json`): thesis (understand and feel), through-line,
+     story worlds, and per sequence the concepts considered (the literal baseline included), the choice and its
+     reason, accuracy notes, the human anchor, acting and motivated transitions.
+   - Run `python -m kit.treatment`; it writes `treatment.md`.
+   - Storyboard the 3–5 hero sequences as stills with the production tools and batch them for approval
+     (`--gate motion`) before animating. Every other sequence is still directed.
+   - Creative quality is judged on the rendered frames (`QUALITY.md` director's review), not on fields or tests.
 5. **Brief + plan** → for each passage write `meaning` (what / why / consequence), the key moments and the shot
-   ideas with reasons, in `storyboard/scene_plan.json`; `python -m kit.scene_plan` reports errors (objective
+   ideas with reasons, in `storyboard/scene_plan.json` (`"direction": 2` adds world, acting and transition_in per shot); `python -m kit.scene_plan` reports errors (objective
    problems) and warnings (pacing — answer with a reason). Figures come from one `kit/finstate.Ledger`. Tools:
    `kit/scene3d.js` + `kit/plates.py` (sets), `kit/lightfx.py`, `kit/rig3.py`/`rig3.js` (characters),
    `kit/money.py`, `kit/explain.py` (charts), `kit/finmech.py`, `kit/diegetic.py`; stills via `scripts/still.mjs`

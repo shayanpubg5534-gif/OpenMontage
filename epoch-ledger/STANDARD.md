@@ -8,8 +8,10 @@ the craft techniques, or hold machine settings.
 **Precedence:**
 1. §2, the hard requirements.
 2. The user's direction for the episode.
-3. §3, the creative principles.
-4. Craft guidance in `skills/creative/epoch-ledger-motion-craft.md`.
+3. §3, the creative principles, and §3A, creative direction.
+4. Direction guidance in `skills/creative/epoch-ledger-director.md` (skill `epoch-ledger-director`) and its references in
+   `epoch-ledger/direction/`; craft guidance in `skills/creative/epoch-ledger-motion-craft.md`. Both are references,
+   not templates.
 5. Machine settings in `config/production.json` (voice, captions, render, palette, motion tokens), which are
    defaults rather than creative rules.
 
@@ -86,6 +88,74 @@ every scene.
 - **Life on screen.** Ambient movement is welcome when it supports the world, but it never substitutes for
   meaningful action, and constant motion is not a goal.
 
+## 3A. Creative direction (permanent; approved 2026-11-27)
+
+We do not merely show what the narration says. For every idea we look for the most compelling, intelligent, accurate
+and memorable way to make the audience understand it and feel it, then work out how to make it with our tools.
+
+1. **Concept before implementation.**
+   - Every passage starts from two questions: what must the audience *understand*, and what must they *feel*?
+   - Then consider at least two concepts, one of them the literal baseline (written down so it is never chosen by
+     default), and choose the strongest with a reason. The concept is chosen first and the means second.
+2. **A through-line.**
+   - Each sequence follows something: a person, an object, a sum of money, a place across time.
+   - Transitions are motivated by that thread (match cuts, following the object, a move that connects two worlds),
+     never by "next shot".
+3. **Story places, not empty rooms.**
+   - Scenes happen where the story happens: a kitchen table, a street, a servicing floor, a trading room, a port.
+   - An abstract or empty space needs a reason, such as an isolated mechanism.
+4. **Characters act with intent.**
+   - Every character beat says what the person wants, does and feels.
+   - The acting is physical and story-relevant: hand gestures, posture changes, object interactions, eye direction,
+     weight shifts and emotional reactions. It does not rely mainly on head turns, blinks or mouths.
+   - When the artwork cannot perform an action convincingly, framing tells it: an insert of the hands and the object,
+     a reaction shot, or an off-screen cause with an on-screen effect.
+   - Objects never move by themselves when a person should be moving them.
+5. **Metaphors are exact.**
+   - Use a metaphor when it explains what a literal image cannot. It must be accurate: it may not imply anything
+     false about the mechanism.
+   - Once introduced, it keeps its rules for the sequence, and it is not reused by habit across episodes
+     (`direction/CONCEPT_NOTES.md` logs uses).
+6. **Human consequence.**
+   - Systems are connected to people. Every act ties the mechanism to someone it happens to, and data alone never
+     ends an emotional beat.
+7. **The right medium for each idea.** Choose by what the idea needs, not by what is available:
+   - 2.5D illustration for people;
+   - 3D for scale, space and physical state;
+   - maps for geography;
+   - charts for quantities;
+   - diagrams for mechanisms;
+   - documents for evidence;
+   - reconstructions for period and place.
+
+   Combine media, invent new ones, and build what is missing.
+8. **Cinematic language.**
+   - Composition has one focal point.
+   - Light is motivated (the series' light language: `direction/VISUAL_LANGUAGE.md`).
+   - Depth comes in layers.
+   - Camera moves have reasons.
+   - Continuity holds across cuts.
+9. **Every element serves the story.** No spectacle for its own sake, no decorative motion, no filler. Ask of each
+   element: what does this make the viewer understand or feel? If the answer is nothing, it goes.
+10. **Every sequence is directed.**
+    - Three to five hero sequences per episode may receive more production investment.
+    - Every other sequence is still deliberately directed: no generic layouts, repeated two-shots or low-effort
+      cards because a sequence is "not a hero".
+11. **Rejected by default** (allowed only with a written reason):
+    - the literal object in a void;
+    - floating information cards as the main visual;
+    - repeated two-shots;
+    - decorative motion;
+    - unmotivated cuts;
+    - data with no human anchor;
+    - repeating a previous episode's signature device.
+12. **Creative freedom.**
+    - The visual language, concept notes and medium guidance are references, not restrictions.
+    - Invent new techniques, environments, compositions, transitions and metaphors whenever the subject benefits.
+13. **Judged on the output.**
+    - Creative quality is judged on the rendered frames and the watched film: the director's review in `QUALITY.md`.
+    - Completed schema fields and passing tests show the thinking was written down, not that it is good.
+
 ## 4. Capabilities
 
 `epoch-ledger/COMPONENTS.md` indexes the kit:
@@ -97,12 +167,22 @@ Use what serves the scene, and build new parts when nothing fits (then index the
 
 ## 5. Process
 
-1. **Brief.** For each passage, write the meaning, the key moments, and the shot ideas with a reason for each.
+1. **Treatment** (§3A). One concise `treatment.json` per episode:
+   - thesis (understand, feel), emotional arc, through-line, worlds, motifs and signature device;
+   - per sequence: the concepts considered (including the literal baseline), the chosen concept and why, the
+     accuracy notes for any metaphor, the human anchor and the motivated transitions.
+
+   Checked by `python -m kit.treatment`, which also writes `treatment.md` for reading.
+2. **Storyboard gate.** Key frames of the hero sequences, as stills made with the production tools, are approved in
+   one batch before animation. Directed sequences that are not heroes need no storyboard gate unless the look
+   changes.
+3. **Brief.** For each passage, write the meaning, the key moments, and the shot ideas with a reason for each.
    Shot plans live in a `scene_plan.json` checked by `kit/scene_plan.py`, which reports errors for objective
-   problems and warnings for pacing.
-2. **Build** with the kit and render previews (`scripts/render.py range` / `render`).
-3. **Check:**
+   problems and warnings for pacing. With `"direction": 2`, shots also carry `world`, `acting` and `transition_in`.
+4. **Build** with the kit and render previews (`scripts/render.py range` / `render`).
+5. **Check:**
    - Automated, by `scripts/qc.mjs`: determinism, frame scan (black, flash, frozen), loudness and timing study
      (information only), plus `scripts/layout_check.mjs` for text.
    - **Not evidence of creative quality:** motion frequency, cut counts, camera drift, blinking or particles.
-4. **Watch** the render with sound and muted, then ask for approval.
+6. **Watch** the render with sound and muted, run the director's review (`QUALITY.md`) on the frames, then ask
+   for approval.
