@@ -138,10 +138,30 @@ Reusing kit components is expected; looking the same every week is not. Per epis
 Last 5–20 s only: `endscreen_html()` + `mEndScreen()` over a live continuation of the final
 world. There is no logo intro or sting anywhere in an episode.
 
+## Narration and dialogue (permanent standard)
+
+Narration is an independent voice-over, not character dialogue.
+- **Characters never lip-sync to the narrator.** No mouth motion is driven by, or timed to, the
+  Kokoro narration track. A narrated scene with a character on screen has closed or resting mouths.
+- **Narrated scenes are acted, not voiced.** Prioritise natural body language, subtle breathing,
+  blinking, eye movements and gaze that leads the head, emotional expressions, meaningful gestures
+  and interaction with the environment (documents, desks, tools, other people).
+- **Lip sync is opt-in, per line.** It is enabled only when the script gives a character an
+  explicit line of dialogue with an assigned speaking voice (a Kokoro voice distinct from the
+  narrator). Then, and only for that line's time range:
+  - Rig v4: `say(id, start, end)`; nothing else moves a Rig v4 mouth.
+  - Character lab: `charlab/lipsync.py` (line → voice → visemes), `charlab/splice_dialogue.py`
+    (places it between narration lines), and an actor `speech: [{t, src}]` entry in the shot.
+- **Off by default.** Without `say()` calls or a `speech` entry, no mouth moves. The lip-sync tools
+  stay in the kit as an optional capability; do not remove them, and do not add them to
+  narrator-only scenes.
+- Captions still follow the voice: narration and dialogue alike.
+
 ## Known limits (say them up front)
 
 - Characters are clean flat-cartoon vector, not painterly; hands are simple shapes; the rig
-  has elbows/knees/neck but no fingers or facial morphs; mouths flap rather than lip-sync.
+  has elbows/knees/neck but no fingers or facial morphs; mouths flap rather than lip-sync, and only on
+  scripted dialogue (see "Narration and dialogue").
 - 3D is low-poly procedural geometry (no downloaded models, no GPU): good lighting, shadows and
   camera work, but not photoreal.
 - No free music source in the cloud environment; no GPU, so CPU rendering ≈ 14 min per minute

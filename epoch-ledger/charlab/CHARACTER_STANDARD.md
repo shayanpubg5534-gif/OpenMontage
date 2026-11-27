@@ -50,7 +50,20 @@ from wardrobe, not new bodies.
 - A character passes only if it meets every row of §1 and §2 in measured numbers and in front, three-quarter and
   profile views. Lip sync or a good test render alone is not proof.
 
-## 5. Candidates checked in P4 (official public previews only; nothing downloaded or purchased)
+## 5. Performance in narrated documentary scenes (permanent standard)
+Narration is an independent voice-over, not character dialogue.
+- **No automatic lip sync to the narrator.** A character's mouth is never driven by, or timed to, the narration track.
+- **What a character does instead**, in priority order: natural body language and weight; subtle breathing; blinks;
+  eye movements, with the eyes leading the head; restrained emotional expressions; meaningful gestures; interaction
+  with the environment (documents, desks, tools, other characters).
+- **Lip sync only for scripted dialogue with an assigned voice.** A character speaks only when the script gives them
+  an explicit line and a speaking voice of their own (not the narrator's). Only that line's time range moves the mouth.
+- **Retained, disabled by default.** The lip-sync capability stays (`lipsync.py`, `splice_dialogue.py`, the actor
+  `speech` track in `elmotion.js`; `say()` in Rig v4). It does nothing unless a shot asks for it explicitly, and
+  narrator-driven scenes do not ask for it.
+- **Face-rig requirement unchanged:** §2's lip units are still required, so a character *can* speak a scripted line.
+
+## 6. Candidates checked in P4 (official public previews only; nothing downloaded or purchased)
 Sheet: `projects/charlab_p4/5_candidates.png` (compressed copy: `evidence/p4_5_candidates.jpg`).
 
 | Candidate | Access | Licence (per page) | Fit against §1 | Verdict |

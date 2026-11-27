@@ -11,6 +11,10 @@
    for o/u/w), spread over the word's spoken duration, eased between shapes (co-articulation) and scaled by the
    audio's loudness, so the mouth closes in pauses and opens with stressed syllables.
 Deterministic for a given text, voice and speed.
+
+Permanent standard: narration is a voice-over, not dialogue. Run this only for an explicit scripted line with the
+character's own assigned voice; never on the narration track. The result is used only where a shot opts in with an
+actor `speech` entry (off by default).
 """
 from __future__ import annotations
 

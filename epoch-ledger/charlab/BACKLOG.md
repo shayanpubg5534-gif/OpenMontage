@@ -132,3 +132,10 @@ animation renders. Character problems named in the review (all open):
 | Mature cast | No free or automatic route reaches the approved aesthetic; proportions solvable (CharMorph bases 7.4–7.9 heads) | Your decision: Mikassa (membership) and/or an artist-made stylised style kit on a parametric base |
 | Einar | 6.98 heads; realistic; costume and prosthetic arm | Only with sculpting and wardrobe work |
 | CharMorph bases | Exports unrigged; particle hair broken | Re-verify Rigify face-rig generation if pursued |
+
+## P6 — permanent documentary animation standard (narration is not dialogue)
+| Item | State | Direction |
+|---|---|---|
+| Narrator lip sync | Forbidden by standard; never existed in code (mouth tracks only from explicit `speech` / `say()`); now documented and test-guarded | Keep |
+| Scripted dialogue lip sync | Retained, opt-in per line with an assigned voice, off by default | Use only where the script gives a character a line |
+| Acting in narrated scenes | Breathing, blinks, gaze, expressions and gesture presets exist (elmotion, perflib) | More environmental interactions (handling documents, tools) and listening/reacting presets; no animation tests run in P6 |

@@ -76,8 +76,11 @@ every scene.
 - **Characters act like people.**
   - Intent shows through posture and weight, eyes leading the head, overlapping action, contact with objects and
     reactions to each other.
-  - Characters do not move their mouths because the narrator is speaking. Mouths move only when the character is
-    shown speaking in the story.
+  - Narration is an independent voice-over, not character dialogue. Characters never lip-sync to the narrator.
+    Mouths move only when the character has an explicit scripted line with an assigned speaking voice, and only for
+    that line. Lip sync is off by default and opt-in per line (Rig v4 `say()`; the lab's `speech` track).
+  - In narrated scenes the acting carries the moment: body language, subtle breathing, blinks, eye movements,
+    expressions, meaningful gestures and interaction with the environment.
 - **Depth of treatment by importance.** Spend operation and transaction detail only where understanding depends on
   it; there is no fixed treatment per company or machine.
 - **Life on screen.** Ambient movement is welcome when it supports the world, but it never substitutes for

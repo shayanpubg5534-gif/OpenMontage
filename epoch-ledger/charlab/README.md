@@ -151,3 +151,9 @@ standing object reaches, and `window.analyze()` for acceleration spikes.
 - **Measure:** `bench/e2e_prerender.sh`.
 - **Determinism:** `bench/determinism_check.mjs`.
 - **Report:** `../P5_REPORT.md`.
+
+## Narration and dialogue (permanent standard, P6)
+Narration is an independent voice-over, not character dialogue. Characters never lip-sync to the narrator; narrated
+shots are acted (breathing, blinks, gaze, expressions, gestures, interaction with the set). Lip sync (`lipsync.py`,
+`splice_dialogue.py`, an actor's `speech` entry) is retained but off by default, and is used only for a line the script
+gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5 and `DIRECTION.md`.

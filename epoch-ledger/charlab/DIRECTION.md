@@ -27,8 +27,12 @@ name, when the words name it. A scene changes because the story moved on, never 
 - **Transitions carry meaning.** A transition connects two ideas. Examples: a camera push into the shop ends on the
   ledger; the ledger's date column becomes the timeline axis; the gap on the timeline becomes the cash chart; the chart's
   zero line dissolves into the bank meeting. No arbitrary wipes.
-- **Lip sync only for speech.** Characters' mouths move only when that character speaks their own line on the
-  soundtrack. Third-person narration never drives a mouth. Narrated scenes use acting (look, posture, gesture, expression).
+- **Narration is a voice-over, not dialogue (permanent standard).** Characters never lip-sync to the narrator; the
+  narration track never drives or times a mouth. Narrated scenes are acted: body language, subtle breathing, blinks,
+  eye movements, restrained expressions, meaningful gestures and interaction with the set and props.
+- **Lip sync only for scripted dialogue.** A mouth moves only for an explicit line the script gives that character,
+  voiced with that character's own assigned voice, and only over that line. Lip sync is opt-in per line (an actor
+  `speech` entry) and off by default; the tools stay available but are not used in narrator-only scenes.
 - **Figures are honest.** Illustrative financial figures are labelled as illustrative on screen or in the script, and
   come from one internally consistent model (one source file per story) rather than being typed into scenes.
 - **Captions follow the voice.** Gold captions show what is being said, narration and dialogue alike.
@@ -51,4 +55,4 @@ name, when the words name it. A scene changes because the story moved on, never 
 2. What must the viewer *see* to understand it: a place, a person, an object, a mechanism or a consequence?
 3. Which word is the beat keyed to?
 4. How does the previous picture lead into this one?
-5. Does anyone on screen speak? If not, no mouth motion.
+5. Does a character have a scripted line with an assigned voice? If not, no mouth motion: act the beat instead.
