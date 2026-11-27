@@ -61,7 +61,7 @@ def test_bank_still_demo_is_static_and_silent():
 def test_runtime_prop_shading_default_unchanged():
     rt = (REPO / "epoch-ledger/charlab/motion/runtime.js").read_text()
     assert "if (!spec.keepMaterials) root.traverse(o => { if (o.isMesh) o.material = stage.propMaterial(" in rt
-    others = [p for p in (REPO / "epoch-ledger/charlab/motion/demos").glob("*.json") if p.name != "p6_bank_still.json"]
+    others = [p for p in (REPO / "epoch-ledger/charlab/motion/demos").glob("*.json") if not p.name.startswith(("p6_bank_still", "p8_bank_"))]   # lab stills only
     assert not any('"keepMaterials"' in p.read_text() for p in others)
 
 

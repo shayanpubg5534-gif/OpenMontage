@@ -164,3 +164,12 @@ animation renders. Character problems named in the review (all open):
 | Affordable 3D cast | None verified as a consistent premium 6–10 cast; Lab3 Studio is the candidate | Screenshots from your phone before any decision |
 | 2.5D / hybrid | 3.6× faster than 3D (measured); already automated; limited by artwork source | Proposed P8 direction (your decision) |
 
+## P8 — free assets, 2.5D vs 3D — see `../P8_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Open Peeps 2.5D | Six-adult cast, consistent style, in the real bank set (still) | Animation test after approval: blink and face swaps, head motion, breathing, pose-swap gestures, plate parallax |
+| Wardrobe gap | Casual contemporary only; no suits or period dress | New parts in the Open Peeps style (decision) |
+| Limb motion | Arms and legs drawn into poses | Cut-out limbs (new art) if bending gestures are needed |
+| Fab businessman | MPFB/MakeHuman look (M5-rejected family); rig and face bones work | Not pursued as cast; 3D kept for sets and props |
+| Runtime prop rotation | `rot` had no visible effect on the static GLB prop | Investigate in `runtime.js` (worked around by baking facing) |
+

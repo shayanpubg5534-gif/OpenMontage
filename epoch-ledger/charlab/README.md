@@ -169,3 +169,13 @@ gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5
 | `p6/still.mjs` | One runtime frame of a demo to PNG |
 | `motion/demos/p6_bank_still.json` | The prototype in the P4 cinematic bank set (static `glb` prop with `keepMaterials`) |
 
+## P8 free-asset evaluation (experimental; see `../P8_REPORT.md`, provenance in `p8/ASSETS.md`)
+| File | What it does |
+|---|---|
+| `p8/figdecode.py` | Reads Figma `.fig` files (Kiwi schema + document) without Figma |
+| `p8/peeps_extract.py` | Renders Figma nodes (frames, component instances with swaps and overrides) to SVG |
+| `p8/peeps_compose.py` | Builds Open Peeps characters from parts and remaps colours to a muted palette |
+| `p8/compose_25d.py` | 2.5D still: characters composited into a rendered set plate, placed through its camera, with lighting |
+| `p8/bm_pose.py` | Poses a Rigify character with its own controls; static posed GLB for the runtime |
+| `p8/make_sheets.py`, `p8/svg_to_png.mjs` | Inspection and comparison sheets |
+

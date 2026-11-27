@@ -1,0 +1,30 @@
+{
+ "env": "bank",
+ "look": "cinematic",
+ "cinematicVariant": "p4",
+ "exposure": 1.12,
+ "duration": 1.0,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "actors": {},
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    2.45,
+    1.52,
+    2.75
+   ],
+   "look": [
+    0.2,
+    1.0,
+    -0.1
+   ],
+   "fov": 44,
+   "dof": 0.4,
+   "focusRange": 0.9
+  }
+ ],
+ "_note": "P8 2.5D plate: the P4 cinematic bank set, same camera as the 3D still, no characters",
+ "props": {}
+}

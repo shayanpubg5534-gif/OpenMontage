@@ -1,0 +1,46 @@
+{
+ "env": "bank",
+ "look": "cinematic",
+ "cinematicVariant": "p4",
+ "exposure": 1.12,
+ "duration": 1.0,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "actors": {},
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    2.45,
+    1.52,
+    2.75
+   ],
+   "look": [
+    0.2,
+    1.0,
+    -0.1
+   ],
+   "fov": 44,
+   "dof": 0.4,
+   "focusRange": 0.9
+  }
+ ],
+ "_note": "P8 3D still: free Fab businessman (Daydreams Creative Studios, Standard License; MPFB/MakeHuman-built), posed with its own Rigify rig, static GLB; same camera as the 2.5D plate",
+ "props": {
+  "businessman": {
+   "type": "glb",
+   "url": "/.runtime/charlab/p8/bm/point.glb",
+   "keepMaterials": true,
+   "pos": [
+    0.55,
+    0,
+    0.3
+   ],
+   "rot": [
+    0,
+    -50,
+    0
+   ]
+  }
+ }
+}
