@@ -203,3 +203,14 @@ gives a character with their own assigned voice. See `CHARACTER_STANDARD.md` §5
 | `p10/rig_test.mjs`, `p10/grid.mjs` | Joint inspection at several angles; coordinate grid for placing joints |
 | `motion/demos/p10_cam{A,B,C}.json` | One-frame plate demos (locked cameras: two-shot, banker close-up, baker close-up) |
 | `sequences/p10_test.py` | The narrated sequence: three 2.5D shots as video clips, the balance-sheet and new-money graphics, gold captions |
+
+## P11 narration-driven storytelling (experimental; see `../P11_REPORT.md`, method in `p11/NARRATION_TO_VISUAL.md`)
+| File | What it does |
+|---|---|
+| `p11/visual_map.py` | The reusable method: clauses from word timestamps, concepts and word-anchored events, `check` (coverage, semantic and timing rules, table) and `inspect` (when each planned change actually appears in the rendered film) |
+| `p11/map_p11.json`, `p11/map_p10_as_delivered.json` | The P11 plan; P10 described with the same concepts (the comparison) |
+| `p11/prepare.py` | 2.5D shots and performance keyed to the resolved events (bust characters with a laptop and a phone for story actions) |
+| `p11/vault3d.mjs`, `p11/render_vault.sh` | Procedural 3D vault (sealed gate, cash inside) with the camera keyed to the narration; painterly pass to match the plates |
+| `p11/run_p11.sh` | The test end to end, cold, with QC and semantic sync inspection |
+| `motion/demos/p11_camD.json`, `sequences/p11_test.py` | The desk-from-above plate; the sequence with narration-synchronised graphics (one timing source) |
+

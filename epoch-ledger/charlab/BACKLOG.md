@@ -196,3 +196,13 @@ animation renders. Character problems named in the review (all open):
 | Parallax | Subtle by design (2D camera on a still) | Moving 3D plate only for shots that need it (P5/P9 path) |
 | Wardrobe | Ink-drawn trousers stay black; ties are ours; no period dress | New parts in the Open Peeps style (decision) |
 | Lighting | Painted, fixed per shot; no set shadows on characters | Shadow mask from the depth pass |
+
+## P11 — narration-driven visual storytelling — see `../P11_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Planning method | `visual_map.py` check + inspect; maps written by hand per passage | Template maps per recurring explanation (balance sheet, flows, timelines); use for every narrated passage |
+| Hand-to-hand actions | The form slides; the baker cannot reach to push it (elbow range) | Pose or limb art for handing over (decision) |
+| Wardrobe continuity across busts | The banker's laptop bust is a navy shirt, not her blazer | Bust bodies recoloured or redrawn to match each character |
+| 3D cost | The vault is 44% of render time (software WebGL ≈ 2.5 s per frame) | 3D only where space or physical state is the point; 0.75 internal scale; cache reusable 3D moves |
+| Procedural 3D look | Vault clean but simpler than the bank set | Wear, decals and a matching painterly treatment for reusable 3D locations |
+| Sync measurement | 21/23 within ±0.2 s; fades and early card fade-ins sit at the threshold | Per-event tolerance by medium (writing, fades) |
