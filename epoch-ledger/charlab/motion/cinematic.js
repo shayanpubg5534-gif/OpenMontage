@@ -13,6 +13,26 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+// UVs in metres by box projection (dominant normal axis): textures keep their real scale on any shape (bevelled boxes)
+function boxProjectUV(geo) {
+  const p = geo.attributes.position, n = geo.attributes.normal, uv = geo.attributes.uv;
+  for (let i = 0; i < p.count; i++) { const ax = Math.abs(n.getX(i)), ay = Math.abs(n.getY(i)), az = Math.abs(n.getZ(i));
+    if (ax >= ay && ax >= az) uv.setXY(i, p.getZ(i), p.getY(i)); else if (ay >= az) uv.setXY(i, p.getX(i), p.getZ(i)); else uv.setXY(i, p.getX(i), p.getY(i)); }
+  uv.needsUpdate = true; geo.userData.metric = true; return geo;
+}
+// a procedural facade: rows of windows on a stone or brick colour (canvas, deterministic from the seed)
+function facadeTexture(base, win, seed, floors = 10, cols = 8) {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 512; const x = c.getContext('2d');
+  let s = seed; const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
+  x.fillStyle = base; x.fillRect(0, 0, 256, 512);
+  const cw = 256 / cols, fh = 512 / floors;
+  for (let f = 0; f < floors; f++) { x.fillStyle = f % 4 === 3 ? 'rgba(255,255,255,.22)' : 'rgba(0,0,0,.08)'; x.fillRect(0, f * fh + fh - (f % 4 === 3 ? 6 : 3), 256, f % 4 === 3 ? 6 : 3);
+    for (let k = 0; k < cols; k++) { const lit = rnd(); x.fillStyle = lit > .86 ? '#e9d9b0' : win; x.fillRect(k * cw + cw * .2, f * fh + fh * .22, cw * .6, fh * .52);
+      x.fillStyle = 'rgba(255,255,255,.08)'; x.fillRect(k * cw + cw * .2, f * fh + fh * .22, cw * .6, fh * .08); } }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
+}
 
 const deg = d => d * Math.PI / 180;
 
@@ -113,6 +133,38 @@ export async function applyCinematic(stage, SET, cfg = {}) {
   }
   await Promise.all([...jobs, ...jobs0]);
 
+  // bevelled furniture (P4): sharp CG boxes become rounded boxes whose edges catch the light
+  if (cfg.bevel) { const B = cfg.bevel; let n = 0;
+    root.traverse(o => { if (!o.isMesh || !o.geometry || o.geometry.type !== 'BoxGeometry' || o.userData.kind === 'backdrop') return;
+      const { width: w, height: h, depth: d } = o.geometry.parameters, mn = Math.min(w, h, d);
+      if (mn < (B.minDim ?? .015) || Math.max(w, h, d) > (B.maxDim ?? 3)) return;
+      const r = Math.min(B.radius ?? .012, mn * .3), seg = Math.max(w, h, d) > .3 ? 2 : 1;
+      const g = new RoundedBoxGeometry(w, h, d, seg, r); boxProjectUV(g); o.geometry = g; n++; });
+    report.bevelled = n; }
+
+
+  // the view: a 3D street of buildings under a sky (replaces the painted plate; it covers every angle through the window)
+  if (cfg.exterior && W) { const X = cfg.exterior, G = new THREE.Group(); G.name = 'exterior'; root.add(G);
+    let s = X.seed || 3; const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
+    const sky = new THREE.Mesh(new THREE.SphereGeometry(90, 32, 16), new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: true,
+      uniforms: { top: { value: new THREE.Color(X.skyTop || '#9fb7d6').multiplyScalar(X.skyGain ?? 1.6) }, hor: { value: new THREE.Color(X.skyHorizon || '#eef0ec').multiplyScalar(X.skyGain ?? 1.6) } },
+      vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }',
+      fragmentShader: 'uniform vec3 top, hor; varying vec3 vP; void main(){ gl_FragColor = vec4(mix(hor, top, smoothstep(.0, .6, vP.y)), 1.); }' }));
+    sky.position.set(W.x, 0, R.back); sky.userData.kind = 'sky'; sky.castShadow = sky.receiveShadow = false; G.add(sky);
+    const pal = X.facades || [['#b9a48a', '#3b4552'], ['#cdbfa8', '#42505f'], ['#9b8670', '#2f3946'], ['#d8d1c4', '#4a5866'], ['#8f7d6a', '#323c48']];
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 80), new THREE.MeshStandardMaterial({ color: X.street || '#7d7a74', roughness: .95 }));
+    ground.rotation.x = -Math.PI / 2; ground.position.set(W.x, -(X.floorHeight ?? 6), R.back - 40); G.add(ground);
+    for (let i = 0; i < (X.count || 26); i++) {
+      const row = i % 3, dz = (X.near ?? 9) + row * 9 + rnd() * 5, wdt = 6 + rnd() * 9, hgt = 10 + rnd() * (18 + row * 10), dep = 8 + rnd() * 6;
+      const x0 = W.x + (rnd() - .5) * (40 + row * 20); const [base, win] = pal[Math.floor(rnd() * pal.length)];
+      const tex = facadeTexture(base, win, i * 7 + 1, Math.round(hgt / 3.2), Math.max(4, Math.round(wdt / 1.6)));
+      const wash = X.wash ?? .3, hz = new THREE.Color(X.skyHorizon || '#eef0ec');                    // aerial perspective: distance lowers contrast
+      const m = new THREE.MeshStandardMaterial({ map: tex, roughness: .9, metalness: 0, color: new THREE.Color(1, 1, 1).multiplyScalar(1 - wash * .5), emissive: hz.clone().multiplyScalar(wash * (1 + row * .25)) });
+      const b = new THREE.Mesh(new THREE.BoxGeometry(wdt, hgt, dep), [m, m, new THREE.MeshStandardMaterial({ color: base, roughness: .95 }), m, m, m]);
+      b.position.set(x0, hgt / 2 - (X.floorHeight ?? 6), R.back - dz - dep / 2); b.castShadow = false; b.receiveShadow = false; G.add(b); }
+    root.traverse(o => { if (o.userData.kind === 'backdrop') o.visible = false; });                                // the painted plate retires
+    report.exterior = X.count || 26; }
+
   // ── 3. motivated light ────────────────────────────────────────────────────────────────────────────────────────
   const L = cfg.lights || {};
   const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; pm.dispose();
@@ -139,6 +191,9 @@ export async function applyCinematic(stage, SET, cfg = {}) {
     I.group.traverse(o => { if (o.isMesh && o.geometry.type === 'CylinderGeometry' && o.geometry.parameters.openEnded) {   // the shade glows from inside
       o.material = o.material.clone(); o.material.emissive = new THREE.Color(p.color || '#ffcf8f'); o.material.emissiveIntensity = p.shadeGlow ?? .35; } });
   }
+  for (const sp of L.spots || []) {               // P4: extra motivated spots (a soft face key from the room, a window rim for separation)
+    const l = new THREE.SpotLight(sp.color || '#fff1e0', sp.i ?? 4, sp.dist ?? 8, deg(sp.angle ?? 30), sp.penumbra ?? 1, 2);
+    l.position.set(...sp.pos); l.target.position.set(...sp.target); scene.add(l, l.target); report.lights.push('spot:' + (sp.name || '')); }
   if (L.key) { const sp = new THREE.SpotLight(L.key.color || '#fff1e0', L.key.i ?? 6, L.key.dist ?? 9, deg(L.key.angle ?? 40), L.key.penumbra ?? 1, 2);
     sp.position.set(...L.key.pos); sp.target.position.set(...L.key.target); scene.add(sp, sp.target); report.lights.push('key'); }
   if (L.fill) { fill.color.set(L.fill.color); fill.intensity = L.fill.i; fill.position.set(...L.fill.pos); }

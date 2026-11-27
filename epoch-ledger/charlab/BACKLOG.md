@@ -111,3 +111,14 @@ animation renders. Character problems named in the review (all open):
 | Gestures | Library of 11 presets; palms correct; seated rest hands; mocap sit clip still drives the torso | More seated clips; gesture variety per character |
 | Cinematic set | CC0 PBR textures, detail, motivated light; about 2× the editorial render cost | Apply to the bakery set; textured books, real chairs |
 | Window view | Painted plate, softened | A 3D street or photographic plate |
+
+## P4 — mature standard, cinematic quality, CPU optimisation — see `../P4_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| HyperFrames cold starts | The local planner splits renders into chunks of about 10 frames, each a new page (GLB, textures, about 14 s of shader compile); this dominates cinematic render time | Single-session 3D shot renderer, composited in HyperFrames as a video layer (needs approval) |
+| Balanced speed | 0.62–1.44 s per 1080p frame single-session (target 3–5 min per 10 s met only for locked-off wide shots) | GPU or many-core machine; locked-off or slow-move cinematography |
+| Anchor switches on moving cameras | Small edge steps every 4–6 frames | Cross-fade between anchors, or a finer tolerance on edge-heavy shots |
+| Balanced shadows | PCF (harder than VSM) | Soft PCF filter in the composed map |
+| P4 look cost | +0.2–0.4 s per frame in Balanced (extra lights, bevels, street) | Move the rim and face key onto character-only lighting |
+| Furniture | Bevelled boxes; books and chairs still simple | Modelled props (CC0 or commissioned) |
+| Cast | No adult meets the standard; Mikassa is the closest (paid membership needed to measure) | Your decision: one month of membership and/or an artist commission |

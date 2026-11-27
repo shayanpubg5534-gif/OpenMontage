@@ -1,0 +1,53 @@
+{
+ "demo": "epoch-ledger/charlab/motion/demos/p4_bench_push.json",
+ "windows": [
+  [
+   0.6,
+   2.1
+  ],
+  [
+   3.6,
+   5.1
+  ],
+  [
+   7.6,
+   9.1
+  ]
+ ],
+ "profiles": {
+  "cin_balanced": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 1164,
+     "median_ms": 618,
+     "max_ms": 3458
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 1072,
+     "median_ms": 910,
+     "max_ms": 3415
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 1075,
+     "median_ms": 1023,
+     "max_ms": 3291
+    }
+   ],
+   "samples": {},
+   "env": {
+    "anchors": 18,
+    "frames": 138,
+    "shadowCompose": true
+   }
+  }
+ }
+}

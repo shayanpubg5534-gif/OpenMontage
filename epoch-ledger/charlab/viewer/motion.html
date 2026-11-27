@@ -16,7 +16,7 @@ const q = new URLSearchParams(location.search), OUT = q.get('out');
 const demo = await (await fetch(q.get('demo'))).json();
 const SH = await loadShot({ demo, OUT });
 const { stage, actors, props, compiled, SET, cam, camAt, loadMs, compileMs } = SH;
-window.frame = SH.frame;
+window.frame = SH.frame; window.SH = SH;   // P4 profiler access
 // QA: foot pinning, floor contact, knee direction, eye contact, from the compiled performance
 window.qa = () => {
   const R = {};

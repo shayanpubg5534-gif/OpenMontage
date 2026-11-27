@@ -1,0 +1,254 @@
+{
+ "_note": "P4 cinematic test (prepared; not rendered before approval) (13.7 s): narration-driven; Snow is a technical test character only, not a cast member. Snow Rig (CC) Blender Foundation | studio.blender.org",
+ "env": "bank",
+ "look": "cinematic",
+ "exposure": 1.12,
+ "duration": 13.71,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "fit": {
+  "client_chair": "snow_cv"
+ },
+ "actors": {
+  "snow_cv": {
+   "pbr": true,
+   "charlook": "enhanced",
+   "seed": 7,
+   "cfg": {
+    "breath": 4.2,
+    "headLag": 0.5
+   },
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "client_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.6
+    }
+   ],
+   "performCtx": {
+    "posture": "sit",
+    "listener": [
+     0.92,
+     1.22,
+     -0.45
+    ],
+    "restHands": "lap",
+    "desk": 0.76
+   },
+   "perform": [
+    {
+     "do": "listen",
+     "t": 0.2,
+     "nodAt": 1.0
+    },
+    {
+     "do": "concern",
+     "t": 1.85,
+     "dur": 1.15,
+     "amount": 0.8
+    },
+    {
+     "do": "explain",
+     "t": 3.45,
+     "side": "r",
+     "dur": 1.15
+    },
+    {
+     "do": "uncertain",
+     "t": 4.85,
+     "dur": 1.6,
+     "dir": 1
+    },
+    {
+     "do": "warm",
+     "t": 6.75
+    },
+    {
+     "do": "open_hands",
+     "t": 8.65,
+     "dur": 1.15
+    },
+    {
+     "do": "concern",
+     "t": 8.75,
+     "dur": 1.2,
+     "amount": 0.55,
+     "glance": false
+    },
+    {
+     "do": "thoughtful",
+     "t": 10.7,
+     "dur": 2.6
+    }
+   ],
+   "speech": [
+    {
+     "t": 7.0,
+     "src": "/projects/charlab_p3/dialogue_snow/visemes.json"
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    2.25,
+    1.52,
+    1.75
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "pos": [
+    1.95,
+    1.47,
+    1.38
+   ],
+   "look": [
+    -0.85,
+    1.02,
+    -0.5
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "cut": true,
+   "pos": [
+    0.62,
+    1.22,
+    0.62
+   ],
+   "look": {
+    "char": "snow_cv",
+    "eyes": true,
+    "off": [
+     0,
+     -0.28,
+     0
+    ]
+   },
+   "fov": 30,
+   "dof": 0.55,
+   "focusRange": 0.5
+  },
+  {
+   "t": 6.9,
+   "pos": [
+    0.5,
+    1.22,
+    0.5
+   ],
+   "look": {
+    "char": "snow_cv",
+    "eyes": true,
+    "off": [
+     0,
+     -0.26,
+     0
+    ]
+   },
+   "fov": 30,
+   "dof": 0.55,
+   "focusRange": 0.5
+  },
+  {
+   "t": 6.9,
+   "cut": true,
+   "pos": [
+    0.12,
+    1.24,
+    0.12
+   ],
+   "look": {
+    "char": "snow_cv",
+    "eyes": true,
+    "off": [
+     0,
+     -0.06,
+     0
+    ]
+   },
+   "fov": 27,
+   "dof": 0.75,
+   "focusRange": 0.35
+  },
+  {
+   "t": 10.6,
+   "pos": [
+    0.08,
+    1.24,
+    0.06
+   ],
+   "look": {
+    "char": "snow_cv",
+    "eyes": true,
+    "off": [
+     0,
+     -0.06,
+     0
+    ]
+   },
+   "fov": 27,
+   "dof": 0.75,
+   "focusRange": 0.35
+  },
+  {
+   "t": 10.6,
+   "cut": true,
+   "pos": [
+    0.55,
+    1.4,
+    1.45
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 32,
+   "dof": 0.35,
+   "focusRange": 0.7
+  },
+  {
+   "t": 13.71,
+   "pos": [
+    0.85,
+    1.45,
+    1.95
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 32,
+   "dof": 0.35,
+   "focusRange": 0.7
+  }
+ ],
+ "cinematicVariant": "p4",
+ "dofScale": 9
+}

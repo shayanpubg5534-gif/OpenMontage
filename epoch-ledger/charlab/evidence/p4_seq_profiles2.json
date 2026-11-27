@@ -1,0 +1,87 @@
+{
+ "demo": "epoch-ledger/charlab/motion/demos/p3_cinematic_test.json",
+ "windows": [
+  [
+   0.6,
+   2.1
+  ],
+  [
+   3.6,
+   5.1
+  ],
+  [
+   7.6,
+   9.1
+  ]
+ ],
+ "profiles": {
+  "cin_balanced": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 1169,
+     "median_ms": 614,
+     "max_ms": 3264
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 1155,
+     "median_ms": 894,
+     "max_ms": 3261
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 1437,
+     "median_ms": 1034,
+     "max_ms": 3201
+    }
+   ],
+   "samples": {},
+   "env": {
+    "anchors": 28,
+    "frames": 138,
+    "shadowCompose": true
+   }
+  },
+  "cin_balanced_t5": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 974,
+     "median_ms": 616,
+     "max_ms": 2962
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 1122,
+     "median_ms": 905,
+     "max_ms": 3385
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 1413,
+     "median_ms": 1020,
+     "max_ms": 3227
+    }
+   ],
+   "samples": {},
+   "env": {
+    "anchors": 23,
+    "frames": 138,
+    "shadowCompose": true
+   }
+  }
+ }
+}

@@ -6,7 +6,7 @@ set -u
 WS=$1; OUT=$2; LOG=$3; TAG=$4; mkdir -p "$LOG"
 cd "$(dirname "$0")/../../.."
 t0=$(date +%s.%N)
-EPOCH_RENDER_TIMEOUT_PER_FRAME=${EPOCH_RENDER_TIMEOUT_PER_FRAME:-3} python3 epoch-ledger/scripts/render.py render "$WS" --isolate --jobs 2 -o "$OUT" > "$LOG/$TAG.log" 2>&1 &
+EPOCH_RENDER_TIMEOUT_PER_FRAME=${EPOCH_RENDER_TIMEOUT_PER_FRAME:-3} python3 epoch-ledger/scripts/render.py render "$WS" --isolate --jobs ${JOBS:-2} -o "$OUT" > "$LOG/$TAG.log" 2>&1 &
 pid=$!
 while kill -0 $pid 2>/dev/null; do
   tree=$(pstree -p $pid 2>/dev/null | grep -o '([0-9]*)' | tr -d '()' | tr '\n' ',' | sed 's/,$//')

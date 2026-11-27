@@ -11,6 +11,15 @@ import { buildEnvironment } from './env.js';
 export const QUALITY = {
   standard: { msaa: 4, shadow: 2048, inkPass: true },
   balanced: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true },   // M4.2: MSAA ×2 saved nothing inside HyperFrames
+  // P4 (experimental, cinematic look): measured profiles. All keep 1080p, every frame rendered, real animation.
+  //   cin_fast     — drafts: environment cache, PCF shadows, no AO/DOF
+  //   cin_balanced — environment cache (anchors re-rendered every 3 cm of camera travel), AO + DOF + haze, FXAA
+  //   cin_cinematic— full re-render every frame, 4× MSAA, 2048 shadows (depth from the main pass)
+  cin_fast: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true, mainDepth: true, envCache: { tol: .05 }, shadowType: 'pcf', ao: 0, dof: 0 },
+  cin_balanced: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true, mainDepth: true, envCache: { tol: .03 }, shadowType: 'pcf' },
+  cin_balanced_t5: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true, mainDepth: true, envCache: { tol: .05 }, shadowType: 'pcf' },   // tolerance study
+  cin_cinematic: { msaa: 4, shadow: 2048, inkPass: true, mainDepth: true },
+  cin_reference_pcf: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true, mainDepth: true, shadowType: 'pcf' },   // Balanced without the cache: ground truth for it
   msaa2: { msaa: 2, shadow: 1024, inkPass: true },
   lean: { msaa: 0, shadow: 1024, inkPass: false },
 };
@@ -19,10 +28,16 @@ export async function loadShot({ demo, OUT, canvas = null }) {
   const T0 = performance.now();
   const stage = await createStage({ env: demo.env, canvas, plate: demo.plate || null, look: demo.look || 'cel' });
   if (demo.exposure) stage.renderer.toneMappingExposure = demo.exposure;   // P3 cinematic look (tone-mapped in the post pass)
+  if (demo.dofScale) stage.post.uniforms.dofScale.value = demo.dofScale;   // P4: a real lens blur for cinematic demos (P3 dof values were sub-pixel)
   // a full 3D set (M4.1): build it, take its light rig, and resolve anchor references in the script
   let SET = null;
   if (demo.set) { const spec = await (await fetch(demo.set)).json(); stage.setPropTint((spec.lights || {}).propShadow, (spec.lights || {}).propLight); SET = buildEnvironment(stage, spec); stage.setLights(spec.lights || {});
-    if (stage.look === 'cinematic' && spec.cinematic) SET.cinematic = await (await import('./cinematic.js')).applyCinematic(stage, { ...SET, spec }, spec.cinematic);   // P3, opt-in
+    if (stage.look === 'cinematic' && spec.cinematic) {   // P3, opt-in; demo.cinematicVariant (P4) overlays a named variant of the set's cinematic block
+      let cin = spec.cinematic; const v = demo.cinematicVariant && (spec.cinematic_variants || {})[demo.cinematicVariant];
+      if (demo.cinematicVariant && !v) throw new Error('unknown cinematic variant ' + demo.cinematicVariant);
+      if (v) { cin = { ...cin, ...v, materials: { ...cin.materials, ...(v.materials || {}) }, lights: { ...cin.lights, ...(v.lights || {}) } };
+        for (const [k, m] of Object.entries(v.materialPatch || {})) cin.materials[k] = { ...cin.materials[k], ...m }; }
+      SET.cinematic = await (await import('./cinematic.js')).applyCinematic(stage, { ...SET, spec }, cin); }
     for (const a of Object.values(demo.actors)) for (const s of a.body || []) if (s.place && typeof s.place === "object" && s.place.anchor) {
       const an = SET.anchors[s.place.anchor]; if (!an) throw new Error('unknown anchor ' + s.place.anchor); s.place = { pos: an.pos, yaw: an.yaw }; } }
   const loader = new GLTFLoader(), actors = [];
@@ -101,15 +116,45 @@ export async function loadShot({ demo, OUT, canvas = null }) {
     cam.position.copy(res(a.pos).lerp(res(b.pos), u)); cam.lookAt(lk); cam.fov = a.fov + ((b.fov ?? a.fov) - a.fov) * u; cam.updateProjectionMatrix();
     return { dof: (a.dof ?? 0) + ((b.dof ?? a.dof ?? 0) - (a.dof ?? 0)) * u, focus: cam.position.distanceTo(lk), focusRange: a.focusRange ?? .35 };
   }
+  // environment-cache anchors (P4): a pure function of time. Each camera segment (keys up to the next cut or key) is split
+  // greedily into groups of frames whose camera stays within `tol` metres of travel and within 90% of the cache's overscan
+  // margin in rotation (the look target can follow a character, so rotation is measured on the real camera path); a group's
+  // anchor is its first frame. Groups depend only on the camera path, never on which frames were rendered before.
+  const anchorCam = cam.clone(), groupCache = {};
+  const camPose = f => { EL.apply(compiled, actors, props, f / EL.FPS); for (const A of actors) EL.aimEyes(A); camAt(f / EL.FPS); return { p: cam.position.clone(), q: cam.quaternion.clone(), fov: cam.fov }; };
+  function groupsFor(i, tol) {
+    const ck = i + ':' + tol; if (groupCache[ck]) return groupCache[ck];
+    const K = demo.camera, nF = compiled.frames, f0 = Math.round(K[i].t * EL.FPS);
+    let f1 = nF - 1; for (let j = i + 1; j < K.length; j++) if (K[j].t > K[i].t) { f1 = Math.min(nF - 1, Math.round(K[j].t * EL.FPS) - 1); break; }
+    const out = []; let g = null;
+    for (let f = f0; f <= f1; f++) { const c = camPose(f);
+      const margin = Math.atan(Math.tan(c.fov * Math.PI / 360) * (1 + 160 / 1920)) * 180 / Math.PI - c.fov / 2;   // envcache pad 80 px each side
+      if (!g || c.p.distanceTo(g.p) > tol || c.q.angleTo(g.q) * 180 / Math.PI > .9 * margin) { g = { f0: f, p: c.p, q: c.q }; out.push(g); }
+      g.f1 = f; }
+    return (groupCache[ck] = out);
+  }
+  function anchorFor(t, tol) {
+    const K = demo.camera; let i = 0; for (let j = 0; j < K.length; j++) if (K[j].t <= t) i = j;
+    const G = groupsFor(i, tol), f = Math.round(t * EL.FPS); let k = 0; while (k < G.length - 1 && G[k + 1].f0 <= f) k++;
+    return { key: `s${i}:${k}`, t: G[k].f0 / EL.FPS };
+  }
+  stage.layers = SET ? { env: SET.root, chars: stage.cast.map(c => c.root) } : null;
   const gl = stage.renderer.getContext();
   const frame = (t, quality = {}) => {
     const s = performance.now();
     EL.apply(compiled, actors, props, t);
     for (const A of actors) EL.aimEyes(A);
     const ck = camAt(t);
-    stage.render({ blur: demo.blur || 0, ...ck, haze: demo.haze ?? null, ...quality });
+    let q = quality;
+    if (quality.envCache && SET) {                              // P4: the environment layer comes from a cached anchor
+      const an = anchorFor(t, quality.envCache.tol ?? .03);
+      EL.apply(compiled, actors, props, an.t); for (const A of actors) EL.aimEyes(A); camAt(an.t); anchorCam.copy(cam); anchorCam.updateMatrixWorld();
+      EL.apply(compiled, actors, props, t); for (const A of actors) EL.aimEyes(A); camAt(t);                 // back to this frame (groupsFor may have walked the path)
+      q = { ...quality, envCache: { cam: anchorCam, key: an.key } };
+    }
+    stage.render({ blur: demo.blur || 0, ...ck, haze: demo.haze ?? null, ...q });
     gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));   // wait for the GPU (SwiftShader defers work)
     return performance.now() - s;
   };
-  return { stage, demo, actors, props, compiled, SET, cam, camAt, frame, EL, THREE, loadMs, compileMs };
+  return { stage, demo, actors, props, compiled, SET, cam, camAt, frame, EL, THREE, loadMs, compileMs, anchorFor, anchorCam };
 }

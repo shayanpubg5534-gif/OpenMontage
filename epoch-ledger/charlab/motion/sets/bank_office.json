@@ -611,5 +611,127 @@
   },
   "windowGlow": 2.4,
   "glow": 5
+ },
+ "cinematic_variants": {
+  "p4": {
+   "_note": "P4 (opt-in through demo.cinematicVariant='p4'): facial key and window rim for separation, calmer desk, bevelled furniture, a 3D street instead of the painted plate",
+   "bevel": {
+    "radius": 0.012,
+    "minDim": 0.015
+   },
+   "exterior": {
+    "seed": 5,
+    "count": 30,
+    "near": 20,
+    "skyGain": 1.2,
+    "floorHeight": 6,
+    "skyTop": "#a9c0dc",
+    "skyHorizon": "#f2efe6",
+    "facades": [
+     [
+      "#d9cbb3",
+      "#56657a"
+     ],
+     [
+      "#e4dccd",
+      "#4d5d72"
+     ],
+     [
+      "#c9b49a",
+      "#465569"
+     ],
+     [
+      "#efe8da",
+      "#5a6a80"
+     ],
+     [
+      "#b8a58e",
+      "#3f4d60"
+     ],
+     [
+      "#d4c2a8",
+      "#52627a"
+     ]
+    ],
+    "wash": 0.35
+   },
+   "materialPatch": {
+    "#7a4f33": {
+     "spec": 0.12,
+     "env": 0.12,
+     "rough": 1.0
+    },
+    "#5e3b26": {
+     "spec": 0.2,
+     "env": 0.2
+    },
+    "#6d4630": {
+     "spec": 0.2,
+     "env": 0.2
+    },
+    "#6a452e": {
+     "spec": 0.2,
+     "env": 0.2
+    }
+   },
+   "lights": {
+    "sky": {
+     "color": "#eef0f2",
+     "i": 1.25
+    },
+    "spots": [
+     {
+      "name": "face",
+      "color": "#fff1e4",
+      "i": 9,
+      "pos": [
+       0.75,
+       1.85,
+       1.15
+      ],
+      "target": [
+       -0.9,
+       1.22,
+       -0.45
+      ],
+      "angle": 20,
+      "penumbra": 1,
+      "dist": 6
+     },
+     {
+      "name": "rim",
+      "color": "#e6eeff",
+      "i": 18,
+      "pos": [
+       -2.3,
+       2.0,
+       -1.9
+      ],
+      "target": [
+       -0.9,
+       1.35,
+       -0.45
+      ],
+      "angle": 16,
+      "penumbra": 0.8,
+      "dist": 6
+     }
+    ],
+    "sun": {
+     "color": "#ffe6c4",
+     "i": 3.4,
+     "dir": [
+      -0.35,
+      1.25,
+      -1.0
+     ],
+     "target": [
+      -1.0,
+      0.0,
+      -1.3
+     ]
+    }
+   }
+  }
  }
 }

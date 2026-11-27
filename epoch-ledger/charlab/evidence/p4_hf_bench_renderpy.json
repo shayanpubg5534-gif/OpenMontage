@@ -1,0 +1,8 @@
+{
+ "tag": "hf_j1",
+ "rc": 0,
+ "wall_s": 345.9,
+ "peak_system_used_mb": 2961,
+ "baseline_system_used_mb": 624,
+ "peak_render_tree_rss_mb": 2956
+}

@@ -17,7 +17,7 @@ const flag = k => args.includes('--' + k);
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..');
 const out = path.resolve(opt('out')); mkdirSync(out, { recursive: true });
 const QUAL = { standard: { msaa: 4, shadow: 2048, inkPass: true }, balanced: { msaa: 0, shadow: 1024, inkPass: true, fxaa: true }, msaa2: { msaa: 2, shadow: 1024, inkPass: true }, lean: { msaa: 0, shadow: 1024, inkPass: false } };
-const quality = QUAL[opt('quality', 'standard')];
+const quality = QUAL[opt('quality', 'standard')] || { __preset: opt('quality') };   // P4: cin_* profiles come from runtime.js QUALITY
 const T = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.glb': 'model/gltf-binary', '.png': 'image/png' };
 const srv = createServer((q, r) => { const p = path.join(ROOT, decodeURIComponent(new URL(q.url, 'http://x').pathname));
   if (!p.startsWith(ROOT) || !existsSync(p) || statSync(p).isDirectory()) { r.writeHead(404); return r.end(); }
@@ -37,7 +37,7 @@ const step = +opt('step', 1), from = +opt('from', 0), to = +opt('to', info.durat
 const times = [], reads = [];
 let n = 0;
 for (let f = Math.round(from * 30); f <= Math.round(to * 30); f += step) {
-  const ms = await pg.evaluate(([t, qu]) => window.frame(t, qu), [f / 30, quality]);
+  const ms = await pg.evaluate(async ([t, qu]) => { if (qu.__preset) qu = (await import('../motion/runtime.js')).QUALITY[qu.__preset]; return window.frame(t, qu); }, [f / 30, quality]);
   const r0 = Date.now();
   const data = await pg.evaluate(() => document.querySelector('canvas').toDataURL('image/png'));
   writeFileSync(`${out}/f${String(f).padStart(4, '0')}.png`, Buffer.from(data.split(',')[1], 'base64'));

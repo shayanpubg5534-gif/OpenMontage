@@ -1,0 +1,236 @@
+{
+ "_note": "P4 benchmark variant: locked-off cameras (each shot holds its first pose), fixed look points",
+ "env": "bank",
+ "look": "cinematic",
+ "exposure": 1.12,
+ "duration": 13.71,
+ "set": "/epoch-ledger/charlab/motion/sets/bank_office.json",
+ "haze": 0.06,
+ "fit": {
+  "client_chair": "snow_cv"
+ },
+ "actors": {
+  "snow_cv": {
+   "pbr": true,
+   "charlook": "enhanced",
+   "seed": 7,
+   "cfg": {
+    "breath": 4.2,
+    "headLag": 0.5
+   },
+   "body": [
+    {
+     "clip": "sit",
+     "at": 0,
+     "from": 3.0,
+     "to": 4.2,
+     "loop": "pingpong",
+     "pin": 3.4,
+     "place": {
+      "anchor": "client_chair.seat"
+     },
+     "calm": true
+    }
+   ],
+   "restrain": [
+    {
+     "t": 0,
+     "v": 0.6
+    }
+   ],
+   "performCtx": {
+    "posture": "sit",
+    "listener": [
+     0.92,
+     1.22,
+     -0.45
+    ],
+    "restHands": "lap",
+    "desk": 0.76
+   },
+   "perform": [
+    {
+     "do": "listen",
+     "t": 0.2,
+     "nodAt": 1.0
+    },
+    {
+     "do": "concern",
+     "t": 1.85,
+     "dur": 1.15,
+     "amount": 0.8
+    },
+    {
+     "do": "explain",
+     "t": 3.45,
+     "side": "r",
+     "dur": 1.15
+    },
+    {
+     "do": "uncertain",
+     "t": 4.85,
+     "dur": 1.6,
+     "dir": 1
+    },
+    {
+     "do": "warm",
+     "t": 6.75
+    },
+    {
+     "do": "open_hands",
+     "t": 8.65,
+     "dur": 1.15
+    },
+    {
+     "do": "concern",
+     "t": 8.75,
+     "dur": 1.2,
+     "amount": 0.55,
+     "glance": false
+    },
+    {
+     "do": "thoughtful",
+     "t": 10.7,
+     "dur": 2.6
+    }
+   ],
+   "speech": [
+    {
+     "t": 7.0,
+     "src": "/projects/charlab_p3/dialogue_snow/visemes.json"
+    }
+   ]
+  }
+ },
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    2.25,
+    1.52,
+    1.75
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "pos": [
+    2.25,
+    1.52,
+    1.75
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 36,
+   "dof": 0.0
+  },
+  {
+   "t": 3.0,
+   "cut": true,
+   "pos": [
+    0.62,
+    1.22,
+    0.62
+   ],
+   "look": [
+    -0.9,
+    0.9199999999999999,
+    -0.45
+   ],
+   "fov": 30,
+   "dof": 0.55,
+   "focusRange": 0.5
+  },
+  {
+   "t": 6.9,
+   "pos": [
+    0.62,
+    1.22,
+    0.62
+   ],
+   "look": [
+    -0.9,
+    0.9199999999999999,
+    -0.45
+   ],
+   "fov": 30,
+   "dof": 0.55,
+   "focusRange": 0.5
+  },
+  {
+   "t": 6.9,
+   "cut": true,
+   "pos": [
+    0.12,
+    1.24,
+    0.12
+   ],
+   "look": [
+    -0.9,
+    1.14,
+    -0.45
+   ],
+   "fov": 27,
+   "dof": 0.75,
+   "focusRange": 0.35
+  },
+  {
+   "t": 10.6,
+   "pos": [
+    0.12,
+    1.24,
+    0.12
+   ],
+   "look": [
+    -0.9,
+    1.14,
+    -0.45
+   ],
+   "fov": 27,
+   "dof": 0.75,
+   "focusRange": 0.35
+  },
+  {
+   "t": 10.6,
+   "cut": true,
+   "pos": [
+    0.55,
+    1.4,
+    1.45
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 32,
+   "dof": 0.35,
+   "focusRange": 0.7
+  },
+  {
+   "t": 13.71,
+   "pos": [
+    0.55,
+    1.4,
+    1.45
+   ],
+   "look": [
+    -0.85,
+    1.0,
+    -0.55
+   ],
+   "fov": 32,
+   "dof": 0.35,
+   "focusRange": 0.7
+  }
+ ]
+}

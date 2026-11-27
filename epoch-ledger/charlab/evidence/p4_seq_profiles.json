@@ -1,0 +1,177 @@
+{
+ "demo": "epoch-ledger/charlab/motion/demos/p3_cinematic_test.json",
+ "windows": [
+  [
+   0.6,
+   2.1
+  ],
+  [
+   3.6,
+   5.1
+  ],
+  [
+   7.6,
+   9.1
+  ]
+ ],
+ "profiles": {
+  "balanced": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 2502,
+     "median_ms": 2492,
+     "max_ms": 3387
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 2777,
+     "median_ms": 2770,
+     "max_ms": 2970
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 2665,
+     "median_ms": 2667,
+     "max_ms": 2825
+    }
+   ],
+   "samples": {},
+   "env": null
+  },
+  "cin_fast": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 1349,
+     "median_ms": 624,
+     "max_ms": 4516
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 975,
+     "median_ms": 805,
+     "max_ms": 4613
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 999,
+     "median_ms": 916,
+     "max_ms": 4496
+    }
+   ],
+   "samples": {},
+   "env": {
+    "anchors": 15,
+    "frames": 138,
+    "shadowCompose": true
+   }
+  },
+  "cin_balanced": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 1834,
+     "median_ms": 643,
+     "max_ms": 4380
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 1231,
+     "median_ms": 895,
+     "max_ms": 4749
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 1184,
+     "median_ms": 1033,
+     "max_ms": 4464
+    }
+   ],
+   "samples": {},
+   "env": {
+    "anchors": 24,
+    "frames": 138,
+    "shadowCompose": true
+   }
+  },
+  "cin_reference_pcf": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 2031,
+     "median_ms": 2018,
+     "max_ms": 2639
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 2374,
+     "median_ms": 2381,
+     "max_ms": 2515
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 2262,
+     "median_ms": 2242,
+     "max_ms": 2458
+    }
+   ],
+   "samples": {},
+   "env": null
+  },
+  "cin_cinematic": {
+   "windows": [
+    {
+     "from": 0.6,
+     "to": 2.1,
+     "frames": 45,
+     "mean_ms": 3280,
+     "median_ms": 3286,
+     "max_ms": 3741
+    },
+    {
+     "from": 3.6,
+     "to": 5.1,
+     "frames": 45,
+     "mean_ms": 3771,
+     "median_ms": 3741,
+     "max_ms": 4249
+    },
+    {
+     "from": 7.6,
+     "to": 9.1,
+     "frames": 45,
+     "mean_ms": 3523,
+     "median_ms": 3529,
+     "max_ms": 3827
+    }
+   ],
+   "samples": {},
+   "env": null
+  }
+ }
+}

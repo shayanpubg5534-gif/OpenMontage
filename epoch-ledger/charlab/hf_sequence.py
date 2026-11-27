@@ -33,7 +33,7 @@ PLATES = {"bank": "/projects/profitable-and-broke/hyperframes/plates/bank-bg-b75
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("sequence", type=Path); ap.add_argument("chars", type=Path); ap.add_argument("ws", type=Path)
-    ap.add_argument("--quality", default="balanced", choices=["standard", "balanced", "msaa2", "lean"],
+    ap.add_argument("--quality", default="balanced", choices=["standard", "balanced", "msaa2", "lean", "cin_fast", "cin_balanced", "cin_cinematic"],
                     help="preset for shots that do not name their own")
     ap.add_argument("--force-quality", help="override every shot's preset (e.g. lean for drafts)")
     ap.add_argument("--vendor-from", type=Path, default=REPO / "projects/profitable-and-broke/hyperframes")
