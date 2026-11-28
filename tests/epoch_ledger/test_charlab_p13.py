@@ -28,8 +28,11 @@ def test_treatment_is_complete_and_gated():
     assert r == {"errors": [], "warnings": []}
     heroes = [s for s in T["sequences"] if s["hero"]]
     assert 3 <= len(heroes) <= 5 and all(s["storyboard"] for s in heroes)
-    gate = treatment.review(T, P13, gate="motion")["errors"]
-    assert gate and all("not approved" in e for e in gate)               # frames exist; only approval is missing
+    assert treatment.review(T, P13, gate="motion")["errors"] == []      # approved 2026-11-28: the storyboard gate is open
+    unapproved = copy.deepcopy(T)
+    for s in unapproved["sequences"]: s["approved"] = False
+    gate = treatment.review(unapproved, P13, gate="motion")["errors"]
+    assert gate and all("not approved" in e for e in gate)               # frames exist; without approval the gate closes
     for s in T["sequences"]:
         lit = next(c for c in s["concepts"] if c["kind"] == "literal")
         assert lit["verdict"] == "rejected"                              # the P12 literal picture is never the default
@@ -81,3 +84,67 @@ def test_p12_cast_is_untouched_and_the_extension_is_declared():
 def test_devices_are_logged():
     used = json.loads((REPO / "epoch-ledger/direction/used_devices.json").read_text())
     assert used["signatures"]["p13-storyboard"] == T["signature"]
+
+
+# ── P13 pilot (animated): plan, accuracy rules, formats, and the automatic creative-direction workflow ────────────
+
+def test_pilot_map_checks_and_covers_every_clause():
+    sys.path.insert(0, str(REPO / "epoch-ledger/charlab/p11"))
+    import visual_map as VM
+    m = json.loads((P13 / "map_p13.json").read_text())
+    r = VM.check(m, VM.load_words(REPO / m["words"]))
+    assert r["errors"] == []
+    assert m["words"].startswith("projects/charlab_p12/")                     # the P12 narration, unchanged
+    media = {s["medium"] for s in m["shots"]}
+    assert {"2.5d", "3d", "diagram", "insert"} <= media
+
+
+def test_pilot_treatment_is_approved_before_animation():
+    assert treatment.review(T, P13, gate="motion")["errors"] == []
+
+
+def test_building_keeps_payment_priority_and_loss_allocation_apart():
+    js = (P13 / "scenes/building.js").read_text()
+    assert "(NF - 1 - f.idx) / NF" in js                                       # payments: the top floor is first in line
+    assert "floodAt" in js and "PH + fl * 3 * FH" in js                       # losses: from the foundation up
+    assert "f.name === 'senior' ? .9" in js                                    # senior still paid while cash shrinks
+    seq = (REPO / "epoch-ledger/charlab/sequences/p13_pilot.py").read_text()
+    assert "Payments: senior paid first" in seq and "Losses: equity hit first" in seq and "illustrative" in seq.lower()
+
+
+def test_progressive_legends_stay_small():
+    import formats as F
+    sc = F.steps("x", 1.0, 2.0, head="Payments: senior paid first", head_color="#3d7a52",
+                 lines=[(1.2, "#fff", "1  Senior"), (1.5, "#fff", "2  Mezzanine"), (1.8, "#fff", "3  Equity")])
+    assert sc.html.count('opacity:0') >= 4 and "1.20" in sc.js and "1.80" in sc.js   # one line at a time, on its word
+    seq = (REPO / "epoch-ledger/charlab/sequences/p13_pilot.py").read_text()
+    for lines in re.findall(r"lines=\[(.*?)\]\)", seq, re.S):
+        assert lines.count("(") <= 4
+
+
+def test_pilot_preserves_p12():
+    run = (P13 / "run_p13.sh").read_text()
+    assert "charlab_p12" not in run.replace("projects/charlab_p12/story", "").replace("projects/charlab_p12/hf/narration.wav", "")
+    assert "rm -rf" in run and "projects/charlab_p13/hf" in run and "projects/charlab_p12/hf" not in run.split("rm -rf")[1].splitlines()[0]
+
+
+def test_direction_workflow_applies_automatically_and_stays_backward_compatible(tmp_path):
+    from kit import gates as G, scene_plan, treatment as TR
+    ep = tmp_path / "ep"; (ep / "artifacts").mkdir(parents=True)
+    (ep / "artifacts/words.json").write_text("[]")
+    assert G.Gates(words=ep / "artifacts/words.json").treatment is None        # earlier episodes: no direction gate
+    TR.require(ep)                                                              # …and builds are not blocked
+    t = json.loads((REPO / "epoch-ledger/templates/episode/treatment.json").read_text())
+    (ep / "treatment.json").write_text(json.dumps(t))
+    assert G.Gates(words=ep / "artifacts/words.json").treatment == ep / "treatment.json"
+    import pytest
+    with pytest.raises(SystemExit):
+        TR.require(ep)                                                          # a new episode cannot animate unapproved
+    plan = ep / "scene_plan.json"; plan.write_text(json.dumps({"shots": []}))
+    assert TR.find(plan) == ep / "treatment.json"
+    tmpl = (REPO / "epoch-ledger/templates/episode/build.py").read_text()
+    assert "require(HERE)" in tmpl
+    qg = (REPO / "epoch-ledger/scripts/quality_gates.py").read_text()
+    assert '"direction": (("treatment",), gate_direction)' in qg
+    guide = (REPO / "skills/creative/epoch-ledger-director.md").read_text()
+    assert "examples, not templates" in guide

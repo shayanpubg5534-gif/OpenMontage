@@ -23,6 +23,8 @@ ourselves.
   - follow one family's loan through a street, a back office and a trading room;
   - tranches as floors of a building, with payments filling from the top and losses flooding from the basement;
   - a map of a town whose loans converge into one pool.
+- **Used:** P13 pilot (the town's loans pooled; the security as a building on the pool, paid from the top, flooded from
+  the bottom). An example of the method, not the default picture for securitisation.
 - **Must not imply:**
   - that the pool is the security;
   - that every missed payment destroys senior securities (they lose only when losses exceed the subordination below

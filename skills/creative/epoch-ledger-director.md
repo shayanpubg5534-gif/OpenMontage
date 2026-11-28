@@ -14,6 +14,10 @@ and only then to work out how to build it.
 - Invent whenever the subject benefits. Choose the concept first, then the means: our assets never decide the
   direction. If the best idea needs something we do not have, plan to build it, or scale it to what is achievable
   and say so.
+- **Approved examples are examples, not templates.** The P13 mortgage passage (the kitchen table, the town's loans
+  pooled, the security as a building whose floors are paid from the top and flooded from the bottom) shows the
+  method working. Do not reach for it by habit: each episode discovers its own strongest concept, places,
+  metaphors, compositions and techniques. `direction/used_devices.json` flags a reused device.
 
 ## 1. The working order (concise by design: 2–3 episodes a week)
 1. **Read the script as an argument.** What is the episode's claim, and what is its emotional shape (curiosity,

@@ -221,8 +221,11 @@ animation renders. Character problems named in the review (all open):
 | Item | State | Direction |
 |---|---|---|
 | Creative direction standard | Implemented (STANDARD §3A, director skill, `kit/treatment.py`, storyboard gate, director's review) | Use on every episode; log devices in `direction/used_devices.json` on approval |
-| P13 storyboard (P12 passage) | Six key frames and treatment awaiting approval | On approval: animate the four heroes and the directed sequences; same narration and timing |
+| P13 storyboard (P12 passage) | Approved 2026-11-28; animated pilot rendered (`../P13_PILOT_REPORT.md`), awaiting review | On approval: promote, or apply review notes |
 | Home interior (P12 item) | Done: the family's kitchen, dusk and night variants from existing components | Reuse and re-light for other households |
 | Hand actions at a table | Not in the free art; told with cut-on-action inserts | Small art brief for table poses (signing, hands on papers) — needs approval |
-| Wardrobe change across time | Proposed for the 2008 bookend (declared, in-process only) | Decide: allow declared time-jump changes, or keep strict continuity |
-| q2 and q5 key frames | Described, not drawn (directed sequences) | Build with the street map reprise and the price line over the rooftops |
+| Wardrobe change across time | Approved for the 2008 bookend (declared, identity checked) | Allow declared time-jump changes in `cast` when a story needs them |
+| q2 and q5 sequences | Implemented in the pilot (journey map, price town) | — |
+| 3D cost of animated miniatures | 322 s for 6.6 s of building (≈ 49 s per second) | Cache shadow maps after the build; render state changes as holds where possible |
+| Sync measure on moving 3D | 5 events 0.21–0.34 s off by onset measure | Hold the camera on key words in 3D; consider a per-shot noise floor in `inspect` |
+| Automatic direction workflow | Template build gate, `direction` quality gate, scene-plan direction 2 beside a treatment | Watch the overhead on the first full episodes |

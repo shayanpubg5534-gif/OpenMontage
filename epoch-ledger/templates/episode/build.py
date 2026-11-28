@@ -20,9 +20,11 @@ sys.path.insert(0, str(KIT_ROOT))
 
 from kit.assemble import Scene, assemble, prepare_workspace  # noqa: E402
 from kit.gates import Gates  # noqa: E402
+from kit.treatment import require  # noqa: E402
 from kit.characters import maya_svg  # noqa: E402
 from kit.sets import bank_street, street_foreground  # noqa: E402
 
+require(HERE)   # STANDARD §3A: no animation before the treatment checks and the hero storyboard is approved
 WORKSPACE = Path(sys.argv[1]) if len(sys.argv) > 1 else KIT_ROOT.parent / "projects" / "__SLUG__" / "hyperframes"
 ART = HERE / "artifacts"
 timing = json.loads((ART / "narration_timing.json").read_text())

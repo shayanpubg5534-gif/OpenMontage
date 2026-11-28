@@ -12,6 +12,7 @@ New episodes do not write it by hand: kit/gates.py generates it from the build (
     figures        figure and chart manifest (figures.json)          → figures
     contacts       who holds what (contacts.json), or "auto": read every R4.hold from the built composition → contacts
     interactions   events and cuts for contact sheets                → review
+    treatment      the episode's treatment.json (STANDARD §3A)       → direction
     layout_every   layout sampling step in seconds (default 0.25)
 
 Gates (each PASS/FAIL):
@@ -23,6 +24,8 @@ Gates (each PASS/FAIL):
                                     included)
     contacts  contact_check.mjs    hand-to-prop distance, hand hidden by the prop, one-frame prop jumps
     frames    qc.mjs --video       black, flash, opening jump, freeze, loudness on the stored video
+    direction kit/treatment.py     (episodes with a treatment.json) the treatment checks and its hero storyboard is
+                                    approved (STANDARD §3A); skipped for earlier episodes
 The review page (review_sheets.py) adds consecutive-frame contact sheets around every interaction and cut, a 1-in-30
 frame sample and the human checklist; it is evidence for the human review, not a gate.
 Nothing is rendered. Exit 1 if any gate fails.
@@ -69,7 +72,16 @@ def gate_frames(cfg, out):
     return code == 0, [l for l in text.splitlines() if l.strip()]
 
 
+def gate_direction(cfg, out):
+    """STANDARD §3A: the treatment is complete and its hero storyboard approved. Creative quality itself is judged by
+    the director's review (QUALITY.md) on the rendered frames; this gate only proves the direction was done."""
+    from kit.treatment import review
+    f = ROOT / cfg["treatment"]; r = review(json.loads(f.read_text()), f.parent, "motion")
+    return not r["errors"], r["errors"] + ["warning: " + w for w in r["warnings"]] + ["reminder: answer the director's review (QUALITY.md) on the frames"]
+
+
 GATES = {
+    "direction": (("treatment",), gate_direction),
     "finance": (("finance",), gate_finance),
     "figures": (("workspace", "figures", "words"), gate_node("figure_check.mjs", lambda c: ["--figures", str(ROOT / c["figures"]), "--words", str(ROOT / c["words"])], "figures.json")),
     "layout": (("workspace",), gate_node("layout_check.mjs", lambda c: ["--every", str(c.get("layout_every", 0.25))], "layout.json")),

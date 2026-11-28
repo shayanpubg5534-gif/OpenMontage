@@ -1,0 +1,344 @@
+{
+ "summary": {
+  "events": 41,
+  "in_sync": 36,
+  "missing": [],
+  "late_or_early": [
+   "e_family",
+   "e_bundled",
+   "e_steady",
+   "e_dry",
+   "e_secs"
+  ]
+ },
+ "events": [
+  {
+   "id": "e01",
+   "planned": 0.0,
+   "observed": 0.0,
+   "offset": 0.0,
+   "ok": true,
+   "strength": 66.69
+  },
+  {
+   "id": "e_year",
+   "planned": 0.22,
+   "observed": 0.333,
+   "offset": 0.113,
+   "ok": true,
+   "strength": 21.57
+  },
+  {
+   "id": "e_family",
+   "planned": 1.88,
+   "observed": 1.667,
+   "offset": -0.213,
+   "ok": false,
+   "strength": 10.94
+  },
+  {
+   "id": "e_signs",
+   "planned": 2.05,
+   "observed": 1.867,
+   "offset": -0.183,
+   "ok": true,
+   "strength": 13.17
+  },
+  {
+   "id": "e_insert",
+   "planned": 2.45,
+   "observed": 2.467,
+   "offset": 0.017,
+   "ok": true,
+   "strength": 70.82
+  },
+  {
+   "id": "e_pen",
+   "planned": 2.6,
+   "observed": 2.6,
+   "offset": 0.0,
+   "ok": true,
+   "strength": 9.81
+  },
+  {
+   "id": "e_bar",
+   "planned": 3.98,
+   "observed": 4.033,
+   "offset": 0.053,
+   "ok": true,
+   "strength": 21.05
+  },
+  {
+   "id": "e_left",
+   "planned": 4.36,
+   "observed": 4.233,
+   "offset": -0.127,
+   "ok": true,
+   "strength": 13.21
+  },
+  {
+   "id": "e_back",
+   "planned": 5.097,
+   "observed": 5.1,
+   "offset": 0.003,
+   "ok": true,
+   "strength": 74.35
+  },
+  {
+   "id": "e_look",
+   "planned": 5.577,
+   "observed": 5.467,
+   "offset": -0.11,
+   "ok": true,
+   "strength": 74.6
+  },
+  {
+   "id": "e_map",
+   "planned": 5.947,
+   "observed": 5.767,
+   "offset": -0.18,
+   "ok": true,
+   "strength": 23.83
+  },
+  {
+   "id": "e_keep",
+   "planned": 6.177,
+   "observed": 6.133,
+   "offset": -0.044,
+   "ok": true,
+   "strength": 31.8
+  },
+  {
+   "id": "e_sells",
+   "planned": 7.517,
+   "observed": 7.6,
+   "offset": 0.083,
+   "ok": true,
+   "strength": 37.34
+  },
+  {
+   "id": "e_bundled",
+   "planned": 8.797,
+   "observed": 8.567,
+   "offset": -0.23,
+   "ok": false,
+   "strength": 25.27
+  },
+  {
+   "id": "e_thousands",
+   "planned": 9.417,
+   "observed": 9.6,
+   "offset": 0.183,
+   "ok": true,
+   "strength": 10.89
+  },
+  {
+   "id": "e_plinth",
+   "planned": 10.847,
+   "observed": 10.867,
+   "offset": 0.02,
+   "ok": true,
+   "strength": 91.02
+  },
+  {
+   "id": "e_floors",
+   "planned": 10.997,
+   "observed": 10.867,
+   "offset": -0.13,
+   "ok": true,
+   "strength": 92.84
+  },
+  {
+   "id": "e_seclabel",
+   "planned": 11.457,
+   "observed": 11.333,
+   "offset": -0.124,
+   "ok": true,
+   "strength": 103.01
+  },
+  {
+   "id": "e_world",
+   "planned": 12.546,
+   "observed": 12.567,
+   "offset": 0.021,
+   "ok": true,
+   "strength": 102.15
+  },
+  {
+   "id": "e_routes",
+   "planned": 13.176,
+   "observed": 13.167,
+   "offset": -0.009,
+   "ok": true,
+   "strength": 5.11
+  },
+  {
+   "id": "e_buyers",
+   "planned": 13.756,
+   "observed": 13.767,
+   "offset": 0.011,
+   "ok": true,
+   "strength": 5.62
+  },
+  {
+   "id": "e_flow",
+   "planned": 14.356,
+   "observed": 14.2,
+   "offset": -0.156,
+   "ok": true,
+   "strength": 3.25
+  },
+  {
+   "id": "e_wf",
+   "planned": 15.446,
+   "observed": 15.467,
+   "offset": 0.021,
+   "ok": true,
+   "strength": 108.74
+  },
+  {
+   "id": "e_steady",
+   "planned": 15.716,
+   "observed": 15.467,
+   "offset": -0.249,
+   "ok": false,
+   "strength": 106.74
+  },
+  {
+   "id": "e_mezz",
+   "planned": 16.456,
+   "observed": 16.633,
+   "offset": 0.177,
+   "ok": true,
+   "strength": 57.06
+  },
+  {
+   "id": "e_town",
+   "planned": 17.253,
+   "observed": 17.267,
+   "offset": 0.014,
+   "ok": true,
+   "strength": 91.35
+  },
+  {
+   "id": "e_sale",
+   "planned": 17.483,
+   "observed": 17.367,
+   "offset": -0.116,
+   "ok": true,
+   "strength": 10.48
+  },
+  {
+   "id": "e_line",
+   "planned": 17.903,
+   "observed": 17.767,
+   "offset": -0.136,
+   "ok": true,
+   "strength": 20.46
+  },
+  {
+   "id": "e_fall",
+   "planned": 18.363,
+   "observed": 18.433,
+   "offset": 0.07,
+   "ok": true,
+   "strength": 20.18
+  },
+  {
+   "id": "e_pushhouse",
+   "planned": 18.803,
+   "observed": 19.0,
+   "offset": 0.197,
+   "ok": true,
+   "strength": 22.44
+  },
+  {
+   "id": "e_n1",
+   "planned": 19.153,
+   "observed": 19.3,
+   "offset": 0.147,
+   "ok": true,
+   "strength": 34.96
+  },
+  {
+   "id": "e_stop",
+   "planned": 19.703,
+   "observed": 19.6,
+   "offset": -0.103,
+   "ok": true,
+   "strength": 27.16
+  },
+  {
+   "id": "e_loss",
+   "planned": 20.998,
+   "observed": 21.0,
+   "offset": 0.002,
+   "ok": true,
+   "strength": 125.84
+  },
+  {
+   "id": "e_red",
+   "planned": 21.068,
+   "observed": 21.1,
+   "offset": 0.032,
+   "ok": true,
+   "strength": 16.58
+  },
+  {
+   "id": "e_dry",
+   "planned": 21.428,
+   "observed": 21.767,
+   "offset": 0.339,
+   "ok": false,
+   "strength": 69.74
+  },
+  {
+   "id": "e_secs",
+   "planned": 22.528,
+   "observed": 22.3,
+   "offset": -0.228,
+   "ok": false,
+   "strength": 11.53
+  },
+  {
+   "id": "e_collapse",
+   "planned": 23.088,
+   "observed": 23.233,
+   "offset": 0.145,
+   "ok": true,
+   "strength": 13.54
+  },
+  {
+   "id": "e_n2",
+   "planned": 24.148,
+   "observed": 24.167,
+   "offset": 0.019,
+   "ok": true,
+   "strength": 94.6
+  },
+  {
+   "id": "e_sept",
+   "planned": 24.468,
+   "observed": 24.6,
+   "offset": 0.132,
+   "ok": true,
+   "strength": 42.52
+  },
+  {
+   "id": "e_np",
+   "planned": 26.298,
+   "observed": 26.3,
+   "offset": 0.002,
+   "ok": true,
+   "strength": 30.4
+  },
+  {
+   "id": "e_bk",
+   "planned": 27.348,
+   "observed": 27.2,
+   "offset": -0.148,
+   "ok": true,
+   "strength": 23.99
+  }
+ ]
+}

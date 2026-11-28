@@ -58,11 +58,16 @@ LIGHT = {  # warm, low, practical for the home (VISUAL_LANGUAGE); 2008 night: ha
              "spots": [{"name": "face", "color": "#ffe2c0", "i": 5, "pos": [0.4, 1.9, 1.6], "target": [0.1, 1.05, -1.0], "angle": 26, "penumbra": 1, "dist": 6}],
              "fill": {"color": "#c9d4ea", "i": 0.25, "pos": [2.5, 2.0, 3.0]}, "bounce": 0.3, "hemi": 0.06},
     "night": {"sun": {"color": "#8fa6d6", "i": 1.1, "dir": [0.3, 0.25, -1.0], "target": [0.3, 0.0, -0.6]}, "sky": {"color": "#5a6f9e", "i": 0.9},
-              "practicals": [{"item": "sink_lamp", "color": "#ffbf7a", "i": 1.5, "dist": 2.2, "shadow": True}],
-              "spots": [{"name": "street", "color": "#9fb3dd", "i": 3, "pos": [0.75, 1.7, -2.6], "target": [0.1, 0.8, -0.4], "angle": 30, "penumbra": 0.8, "dist": 7}],
+              "practicals": [{"item": "sink_lamp", "color": "#ffbf7a", "i": 2.4, "dist": 2.6, "shadow": True}],
+              "spots": [{"name": "lampfill", "color": "#ffc98f", "i": 3.2, "pos": [-1.4, 1.5, -0.9], "target": [0.15, 0.95, -0.7], "angle": 34, "penumbra": 1, "dist": 4},
+                        {"name": "street", "color": "#9fb3dd", "i": 4.2, "pos": [0.75, 1.7, -2.6], "target": [0.1, 0.8, -0.4], "angle": 30, "penumbra": 0.8, "dist": 7}],
               "fill": {"color": "#33405e", "i": 0.15, "pos": [2.5, 2.0, 3.0]}, "bounce": 0.08, "hemi": 0.03},
 }
 CAM = {"pos": [0.3, 1.24, 1.45], "look": [0.0, 1.02, -1.0], "fov": 34, "dof": 0.35, "focusRange": 0.8}
+
+TOP = {"dusk": {"pos": [0.05, 1.55, 0.05], "look": [0.04, 0.81, -0.38], "fov": 36, "dof": 0.2, "focusRange": 0.5},     # the papers
+       "night": {"pos": [0.32, 1.78, 0.1], "look": [0.29, 0.81, -0.31], "fov": 33, "dof": 0.2, "focusRange": 0.5}}    # the newspaper
+EXPOSURE = {"dusk": 1.25, "night": 1.22}
 
 
 def main():
@@ -74,18 +79,26 @@ def main():
                 if i["id"] == "calendar": i["text"] = "SEPTEMBER\n2008"
                 if i["id"] == "mortgage": i["count"] = 1
                 if i["id"] == "mug_table": i["pos"] = [0.55, 0.81, -0.5]
+                if i["id"] == "mortgage": i["pos"] = [-0.22, 0.81, -0.42]
             s["window"]["backdrop"]["tint"] = "#c8d2e8"
         mats = copy.deepcopy(MATS)
         if v == "night":                                   # no sheen on the table under the cold street light
             for k in ("#9c7650", "#6e5136"): mats[k].update(spec=0.0, env=0.0, rough=1.0)
-        s["cinematic"] = {**CIN, "materials": mats, "lights": LIGHT[v], "windowGlow": 1.6 if v == "dusk" else 0.9}
+        cin = {**CIN, "materials": mats, "lights": LIGHT[v], "windowGlow": 1.6 if v == "dusk" else 0.9}
+        if v == "night":   # September 2008: the newspaper lies on their table (a textured sheet in the set, lit by the room)
+            mats["leather"] = {"set": "p13_newspaper", "size": 0.36, "tint": "#ffffff", "rough": 0.95}
+            cin["dressing"] = [{"type": "pens", "pos": [0.66, 0.81, -0.24]}, {"type": "pad", "pos": [0.26, 0.81, -0.3], "size": [0.36, 0.36], "rot": -14}]
+        s["cinematic"] = cin
         json.dump(s, open(os.path.join(M, "sets", "p13_kitchen_%s.json" % v), "w"), indent=1)
-        demo = {"env": "bank", "look": "cinematic", "exposure": 1.25 if v == "dusk" else 1.1, "set": "/epoch-ledger/charlab/motion/sets/p13_kitchen_%s.json" % v,
+        demo = {"env": "bank", "look": "cinematic", "exposure": EXPOSURE[v], "set": "/epoch-ledger/charlab/motion/sets/p13_kitchen_%s.json" % v,
                 "haze": 0.03, "actors": {}, "props": {}, "duration": 1 / 30, "camera": [{"t": 0, **CAM}],
                 "_note": "P13 storyboard plate (one frame, no characters): the family's kitchen table, %s" % ("dusk 2006" if v == "dusk" else "night 2008")}
         json.dump(demo, open(os.path.join(M, "demos", "p13_kitchen_%s.json" % v), "w"), indent=1)
+        top = dict(demo, camera=[{"t": 0, **TOP[v]}], _note="P13 insert plate: the kitchen table from above, %s" % v)
+        json.dump(top, open(os.path.join(M, "demos", "p13_kitchen_%s_top.json" % v), "w"), indent=1)
     json.dump({"wife_base": [-0.42, 0.55, -1.0], "wife_top": [-0.42, 1.36, -1.0], "husband_base": [0.62, 0.55, -1.0], "husband_top": [0.62, 1.42, -1.0],
-               "window": [0.75, 1.55, -2.2], "table_front": [0.15, 0.76, -0.15]}, open(os.path.join(HERE, "points.json"), "w"), indent=1)
+               "window": [0.75, 1.55, -2.2], "table_front": [0.15, 0.76, -0.15],
+               "calendar": [-2.25, 1.25, -1.52], "papers": [0.05, 0.81, -0.35], "newspaper": [0.26, 0.81, -0.3]}, open(os.path.join(HERE, "points.json"), "w"), indent=1)
     print("sets: p13_kitchen_dusk, p13_kitchen_night")
 
 

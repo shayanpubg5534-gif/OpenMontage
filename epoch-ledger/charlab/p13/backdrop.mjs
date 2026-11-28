@@ -37,3 +37,27 @@ const b = await chromium.launch();
 for (const m of ['dusk', 'night']) { const p = await b.newPage({ viewport: { width: 1600, height: 900 } }); p.on('pageerror', e => console.error(String(e))); await p.setContent(page(m)); await p.waitForFunction(() => window.done);
   await (await p.$('#c')).screenshot({ path: `${out}/street_${m}.png` }); }
 await b.close(); console.log('backdrops', out);
+
+// the 2008 newspaper lying on the kitchen table (a texture set for the cinematic material system: diff/rough/nor):
+// a folded front page, labelled a reconstruction, as in the P12 newspaper format
+{
+  const TX = process.argv[3] || '.runtime/charlab/textures'; const dir = `${TX}/p13_newspaper`; mkdirSync(dir, { recursive: true });
+  const b2 = await chromium.launch(); const p = await b2.newPage({ viewport: { width: 1024, height: 1024 } });
+  await p.setContent(`<canvas id=c width=1024 height=1024></canvas><script>
+  const g = c.getContext('2d'); g.fillStyle = '#ece4d2'; g.fillRect(0, 0, 1024, 1024);
+  let s = 3; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let i = 0; i < 6000; i++) { g.fillStyle = 'rgba(90,70,40,' + r() * .05 + ')'; g.fillRect(r() * 1024, r() * 1024, 2, 2); }
+  g.fillStyle = '#1d1a17'; g.textAlign = 'center'; g.font = '900 92px Georgia'; g.fillText('THE EVENING LEDGER', 512, 120);
+  g.fillRect(40, 146, 944, 6); g.fillRect(40, 196, 944, 2); g.font = '600 26px Arial'; g.textAlign = 'left'; g.fillText('Tuesday, September 16, 2008', 48, 184);
+  g.textAlign = 'right'; g.fillText('Illustrative reconstruction', 976, 184); g.textAlign = 'left';
+  g.font = '900 100px Georgia'; g.fillText('LEHMAN', 48, 320); g.fillText('BROTHERS FILES', 48, 430); g.fillText('FOR BANKRUPTCY', 48, 540);
+  g.fillStyle = '#a3241c'; g.fillRect(48, 562, g.measureText('FOR BANKRUPTCY').width, 12); g.fillStyle = '#3a3128';
+  for (let col = 0; col < 3; col++) for (let y = 650; y < 990; y += 22) g.fillRect(48 + col * 316, y, 290 - (r() < .1 ? 120 : 0), 9);
+  window.done = 1;</script>`);
+  await p.waitForFunction(() => window.done); await (await p.$('#c')).screenshot({ path: `${dir}/diff.jpg`, type: 'jpeg', quality: 92 });
+  await p.setContent('<canvas id=c width=64 height=64></canvas><script>const g=c.getContext("2d");g.fillStyle="#d8d8d8";g.fillRect(0,0,64,64);window.done=1</script>');
+  await (await p.$('#c')).screenshot({ path: `${dir}/rough.jpg`, type: 'jpeg' });
+  await p.setContent('<canvas id=c width=64 height=64></canvas><script>const g=c.getContext("2d");g.fillStyle="rgb(128,128,255)";g.fillRect(0,0,64,64);window.done=1</script>');
+  await (await p.$('#c')).screenshot({ path: `${dir}/nor.jpg`, type: 'jpeg' });
+  await b2.close(); console.log('newspaper texture', dir);
+}

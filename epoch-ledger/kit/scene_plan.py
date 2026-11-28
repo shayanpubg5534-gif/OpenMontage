@@ -127,6 +127,9 @@ def review(plan: dict) -> dict:
 def main(argv=None) -> int:
     argv = argv or sys.argv[1:]
     plan = json.loads(Path(argv[0]).read_text())
+    if "direction" not in plan:                     # §3A applies automatically to episodes that have a treatment
+        from kit.treatment import find
+        if find(Path(argv[0])): plan["direction"] = 2; print("ℹ treatment.json found: checking with direction 2 (world, acting, transitions)")
     r = review(plan)
     errs, warns = r["errors"], r["warnings"]
     for e in errs:

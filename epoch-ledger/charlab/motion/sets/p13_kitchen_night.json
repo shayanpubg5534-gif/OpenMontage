@@ -232,9 +232,9 @@
    "type": "papers",
    "id": "mortgage",
    "pos": [
-    0.05,
+    -0.22,
     0.81,
-    -0.35
+    -0.42
    ],
    "rot": 8,
    "count": 1
@@ -349,6 +349,12 @@
     "tint": "#f3e4c8",
     "normal": 0.3,
     "contrast": 0.2
+   },
+   "leather": {
+    "set": "p13_newspaper",
+    "size": 0.36,
+    "tint": "#ffffff",
+    "rough": 0.95
    }
   },
   "bevel": {
@@ -360,10 +366,23 @@
    {
     "type": "pens",
     "pos": [
-     0.42,
+     0.66,
      0.81,
-     -0.28
+     -0.24
     ]
+   },
+   {
+    "type": "pad",
+    "pos": [
+     0.26,
+     0.81,
+     -0.3
+    ],
+    "size": [
+     0.36,
+     0.36
+    ],
+    "rot": -14
    }
   ],
   "lights": {
@@ -389,16 +408,34 @@
     {
      "item": "sink_lamp",
      "color": "#ffbf7a",
-     "i": 1.5,
-     "dist": 2.2,
+     "i": 2.4,
+     "dist": 2.6,
      "shadow": true
     }
    ],
    "spots": [
     {
+     "name": "lampfill",
+     "color": "#ffc98f",
+     "i": 3.2,
+     "pos": [
+      -1.4,
+      1.5,
+      -0.9
+     ],
+     "target": [
+      0.15,
+      0.95,
+      -0.7
+     ],
+     "angle": 34,
+     "penumbra": 1,
+     "dist": 4
+    },
+    {
      "name": "street",
      "color": "#9fb3dd",
-     "i": 3,
+     "i": 4.2,
      "pos": [
       0.75,
       1.7,

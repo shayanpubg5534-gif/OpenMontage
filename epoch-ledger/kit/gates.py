@@ -44,8 +44,11 @@ def _rel(p: Path | str | None) -> str | None:
 
 
 class Gates:
-    def __init__(self, words: Path | str, finance=None):
+    def __init__(self, words: Path | str, finance=None, treatment: Path | str | None = None):
         self.words_path = Path(words)
+        # the episode's creative treatment (STANDARD §3A): found beside the artifacts folder unless given
+        t = Path(treatment) if treatment else self.words_path.resolve().parent.parent / "treatment.json"
+        self.treatment = t if t.exists() else None
         self.words = json.loads(self.words_path.read_text())
         self.scenario = finance
         self._model = {}
@@ -129,6 +132,8 @@ class Gates:
                "layout_every": layout_every}
         if video:
             cfg["video"] = _rel(video)
+        if self.treatment:
+            cfg["treatment"] = _rel(self.treatment)
         figs = {"figures": self.figures, "charts": [c for c in self.charts.values() if c["marks"]]}
         empty = [c["id"] for c in self.charts.values() if not c["marks"]]
         if empty:

@@ -102,6 +102,27 @@ def review(t: dict, base: Path | None = None, gate: str | None = None) -> dict:
     return {"errors": errs, "warnings": warns}
 
 
+def find(start: Path) -> Path | None:
+    """the episode's treatment.json for a path inside the episode (the file's folder or its parents, up to 3 levels)"""
+    p = Path(start).resolve(); p = p if p.is_dir() else p.parent
+    for d in [p, *list(p.parents)[:3]]:
+        if (d / "treatment.json").exists(): return d / "treatment.json"
+    return None
+
+
+def require(ep_dir: Path, gate: str = "motion") -> None:
+    """the storyboard gate for builds: an episode WITH a treatment.json cannot be animated until its treatment checks
+    and its hero storyboard is approved. Episodes without one (made before §3A) build as before. Set
+    EPOCH_STORYBOARD=1 to build stills for the storyboard itself."""
+    import os
+    f = Path(ep_dir) / "treatment.json"
+    if not f.exists() or os.environ.get("EPOCH_STORYBOARD") == "1": return
+    r = review(json.loads(f.read_text()), f.parent, gate)
+    if r["errors"]:
+        raise SystemExit("creative direction (STANDARD §3A): the treatment is not ready for animation\n  " + "\n  ".join(r["errors"]) +
+                         "\n(write it with the epoch-ledger-director skill; storyboard stills: EPOCH_STORYBOARD=1)")
+
+
 def to_markdown(t: dict) -> str:
     """the readable view of a treatment (generated: edit the JSON)"""
     L = [f"# Treatment: {t.get('episode', '')}", "", "_Generated from treatment.json by kit/treatment.py; edit the JSON._", "",
