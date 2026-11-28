@@ -216,3 +216,13 @@ animation renders. Character problems named in the review (all open):
 | 3D cost | About 1.0–1.5 s per 3D frame (static holds reused) | Cache reusable 3D moves; keep 3D to scale and physical-state beats |
 | Received shadows | Characters do not receive set shadows | Shadow mask from the depth pass |
 | Memory | 6.7 GB peak in HyperFrames with 4 jobs | 2–3 jobs on smaller machines |
+
+## Creative direction layer and P13 storyboard — see `../P13_STORYBOARD_REPORT.md`
+| Item | State | Direction |
+|---|---|---|
+| Creative direction standard | Implemented (STANDARD §3A, director skill, `kit/treatment.py`, storyboard gate, director's review) | Use on every episode; log devices in `direction/used_devices.json` on approval |
+| P13 storyboard (P12 passage) | Six key frames and treatment awaiting approval | On approval: animate the four heroes and the directed sequences; same narration and timing |
+| Home interior (P12 item) | Done: the family's kitchen, dusk and night variants from existing components | Reuse and re-light for other households |
+| Hand actions at a table | Not in the free art; told with cut-on-action inserts | Small art brief for table poses (signing, hands on papers) — needs approval |
+| Wardrobe change across time | Proposed for the 2008 bookend (declared, in-process only) | Decide: allow declared time-jump changes, or keep strict continuity |
+| q2 and q5 key frames | Described, not drawn (directed sequences) | Build with the street map reprise and the price line over the rooftops |

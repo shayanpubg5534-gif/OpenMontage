@@ -1,0 +1,12 @@
+{"label": "backdrop", "wall_s": 0.8, "peak_rss_mb": 578, "rc": 0}
+{"label": "sets", "wall_s": 0.3, "peak_rss_mb": 2, "rc": 0}
+{"label": "plate_dusk", "wall_s": 11.1, "peak_rss_mb": 1194, "rc": 0}
+{"label": "track_dusk", "wall_s": 4.0, "peak_rss_mb": 777, "rc": 0}
+{"label": "plate_night", "wall_s": 10.6, "peak_rss_mb": 1184, "rc": 0}
+{"label": "track_night", "wall_s": 4.0, "peak_rss_mb": 762, "rc": 0}
+{"label": "cast", "wall_s": 1.3, "peak_rss_mb": 93, "rc": 0}
+{"label": "compose_kf1_signing", "wall_s": 1.5, "peak_rss_mb": 905, "rc": 0}
+{"label": "compose_kf6_bookend", "wall_s": 1.3, "peak_rss_mb": 924, "rc": 0}
+{"label": "building_pay", "wall_s": 5.3, "peak_rss_mb": 770, "rc": 0}
+{"label": "building_loss", "wall_s": 5.3, "peak_rss_mb": 801, "rc": 0}
+{"label": "board", "wall_s": 3.8, "peak_rss_mb": 718, "rc": 0}

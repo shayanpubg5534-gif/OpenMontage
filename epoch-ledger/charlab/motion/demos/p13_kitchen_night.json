@@ -1,0 +1,29 @@
+{
+ "env": "bank",
+ "look": "cinematic",
+ "exposure": 1.1,
+ "set": "/epoch-ledger/charlab/motion/sets/p13_kitchen_night.json",
+ "haze": 0.03,
+ "actors": {},
+ "props": {},
+ "duration": 0.03333333333333333,
+ "camera": [
+  {
+   "t": 0,
+   "pos": [
+    0.3,
+    1.24,
+    1.45
+   ],
+   "look": [
+    0.0,
+    1.02,
+    -1.0
+   ],
+   "fov": 34,
+   "dof": 0.35,
+   "focusRange": 0.8
+  }
+ ],
+ "_note": "P13 storyboard plate (one frame, no characters): the family's kitchen table, night 2008"
+}
