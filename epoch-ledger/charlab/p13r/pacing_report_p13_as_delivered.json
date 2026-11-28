@@ -350,9 +350,19 @@
  "film": {
   "findings": [
    {
+    "severity": "medium",
+    "where": "0–15s",
+    "msg": "1.67× the picture changes a first-time viewer can follow at this pace"
+   },
+   {
+    "severity": "medium",
+    "where": "7–17s",
+    "msg": "1.33× the picture changes a first-time viewer can follow at this pace"
+   },
+   {
     "severity": "high",
-    "where": "0–29s",
-    "msg": "5.33× the picture changes a first-time viewer can follow at this pace"
+    "where": "9–29s",
+    "msg": "2.22× the picture changes a first-time viewer can follow at this pace"
    },
    {
     "severity": "medium",
@@ -363,157 +373,142 @@
   "series": [
    {
     "a": 0,
-    "changes": 9,
+    "changes": 4,
     "budget": 3.0,
     "motion": 8.4
    },
    {
     "a": 1,
-    "changes": 12,
+    "changes": 5,
     "budget": 3.0,
     "motion": 10.4
    },
    {
     "a": 2,
-    "changes": 15,
+    "changes": 5,
     "budget": 3.0,
     "motion": 13.1
    },
    {
     "a": 3,
-    "changes": 16,
+    "changes": 4,
     "budget": 3.0,
     "motion": 14.2
    },
    {
     "a": 4,
-    "changes": 16,
+    "changes": 4,
     "budget": 3.0,
     "motion": 14.0
    },
    {
     "a": 5,
-    "changes": 16,
+    "changes": 4,
     "budget": 3.0,
     "motion": 14.0
    },
    {
     "a": 6,
-    "changes": 14,
+    "changes": 3,
     "budget": 3.0,
     "motion": 12.5
    },
    {
     "a": 7,
-    "changes": 13,
+    "changes": 4,
     "budget": 3.0,
     "motion": 11.2
    },
    {
     "a": 8,
-    "changes": 12,
+    "changes": 3,
     "budget": 3.0,
     "motion": 11.6
    },
    {
     "a": 9,
-    "changes": 12,
+    "changes": 4,
     "budget": 3.0,
     "motion": 10.6
    },
    {
     "a": 10,
-    "changes": 13,
+    "changes": 4,
     "budget": 2.9,
     "motion": 12.8
    },
    {
     "a": 11,
-    "changes": 11,
+    "changes": 4,
     "budget": 2.8,
     "motion": 12.0
    },
    {
     "a": 12,
-    "changes": 9,
+    "changes": 5,
     "budget": 2.8,
     "motion": 9.9
    },
    {
     "a": 13,
-    "changes": 8,
+    "changes": 5,
     "budget": 2.8,
     "motion": 9.2
    },
    {
     "a": 14,
-    "changes": 9,
+    "changes": 6,
     "budget": 2.8,
     "motion": 9.5
    },
    {
     "a": 15,
-    "changes": 9,
+    "changes": 6,
     "budget": 2.7,
     "motion": 10.7
    },
    {
     "a": 16,
-    "changes": 8,
+    "changes": 5,
     "budget": 2.6,
     "motion": 9.9
    },
    {
     "a": 17,
-    "changes": 8,
+    "changes": 5,
     "budget": 2.5,
     "motion": 10.0
    },
    {
     "a": 18,
-    "changes": 7,
+    "changes": 5,
     "budget": 2.4,
     "motion": 8.8
    },
    {
     "a": 19,
-    "changes": 7,
+    "changes": 5,
     "budget": 2.3,
     "motion": 9.0
    }
   ],
   "stats": {
-   "picture_changes": 28,
-   "per_10s": 9.4,
-   "longest_hold_s": 2.9,
-   "median_hold_s": 0.4,
+   "picture_changes": 13,
+   "per_10s": 4.3,
+   "longest_hold_s": 5.2,
+   "median_hold_s": 2.1,
    "mean_motion": 9.5,
    "changes_at": [
     2.4,
     5.0,
     5.4,
-    5.8,
-    6.2,
-    6.6,
     7.5,
-    7.9,
-    8.3,
     10.2,
-    10.5,
-    10.8,
-    11.2,
-    11.5,
-    11.8,
-    12.2,
-    12.5,
     15.4,
     16.9,
-    17.2,
     18.9,
-    19.2,
     20.9,
     21.9,
-    22.2,
     23.9,
     26.2,
     28.5
@@ -521,7 +516,7 @@
   },
   "summary": {
    "high": 1,
-   "medium": 1,
+   "medium": 3,
    "info": 0
   }
  }

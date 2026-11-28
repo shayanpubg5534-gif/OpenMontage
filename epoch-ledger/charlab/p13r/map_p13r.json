@@ -70,25 +70,25 @@
   {
    "id": "S7",
    "t0": 41.6,
-   "t1": 45.99,
+   "t1": 45.98,
    "pace": "illustration",
    "medium": "diagram",
    "introduces": [
     "information",
     "consequence"
    ],
-   "purpose": "their town: the price line turns down; FOR SALE signs when they cannot sell for enough"
+   "purpose": "their town: the price line rises to 2006 and turns down, held; the camera eases to their gold house; on \"can't sell\" a FOR SALE sign on it"
   },
   {
    "id": "S8",
-   "t0": 45.99,
+   "t0": 45.98,
    "t1": 49.99,
    "pace": "emotional",
    "medium": "2.5d",
    "introduces": [
     "consequence"
    ],
-   "purpose": "the same kitchen, 2008: the letter; on 'stop' her head drops; he turns away"
+   "purpose": "the same kitchen, 2008, night: the letter; on 'stop' her head drops; he turns away"
   },
   {
    "id": "S9",
@@ -879,18 +879,18 @@
   {
    "id": "e_sale",
    "anchor": {
-    "word": "sell",
-    "n": 1
+    "word": "can't",
+    "n": 2
    },
    "offset": 0.0,
    "shot": "S7",
-   "medium": "diagram",
-   "what": "FOR SALE signs: selling no longer repays the loan",
+   "medium": "prop",
+   "what": "A FOR SALE sign on their house: selling no longer repays the loan",
    "region": [
-    0.05,
-    0.45,
-    0.95,
-    0.95
+    0.35,
+    0.2,
+    0.75,
+    0.75
    ],
    "depicts": [
     "k_cant"
@@ -902,10 +902,10 @@
     "word": "enough",
     "n": 1
    },
-   "offset": -0.16,
+   "offset": -0.17,
    "shot": "S8",
    "medium": "cut",
-   "what": "Dissolve on their window: the same kitchen, 2008, night; she holds the letter",
+   "what": "Dissolve on their house to the kitchen at night: she holds the letter",
    "region": [
     0,
     0,
@@ -1393,122 +1393,134 @@
   {
    "text": "Monthly payment",
    "t0": 6.02,
-   "t1": 8.45,
+   "t1": 9.6,
    "role": "key"
   },
   {
    "text": "Income",
    "t0": 6.02,
-   "t1": 8.45,
+   "t1": 9.6,
    "role": "key"
   },
   {
    "text": "little left",
-   "t0": 6.9,
-   "t1": 8.45,
+   "t0": 6.88,
+   "t1": 9.6,
    "role": "key"
   },
   {
    "text": "their loan",
    "t0": 9.9,
-   "t1": 12.3,
+   "t1": 10.77,
    "role": "key"
   },
   {
    "text": "their lender",
-   "t0": 10.4,
-   "t1": 12.3,
+   "t0": 10.25,
+   "t1": 12.29,
    "role": "key"
   },
   {
    "text": "THE POOL",
-   "t0": 10.95,
-   "t1": 18.4,
+   "t0": 11.37,
+   "t1": 17.4,
    "role": "key"
   },
   {
    "text": "thousands of loans",
-   "t0": 14.8,
-   "t1": 18.4,
+   "t0": 14.87,
+   "t1": 17.4,
    "role": "key"
   },
   {
    "text": "Simplified example",
    "t0": 22.29,
-   "t1": 35.4,
+   "t1": 35.39,
    "role": "support"
+  },
+  {
+   "text": "The security: three tranches",
+   "t0": 24.0,
+   "t1": 30.3,
+   "role": "key"
   },
   {
    "text": "Senior",
    "t0": 24.2,
-   "t1": 35.4,
+   "t1": 30.3,
    "role": "key"
   },
   {
    "text": "Mezzanine",
    "t0": 24.9,
-   "t1": 35.4,
+   "t1": 30.3,
    "role": "key"
   },
   {
    "text": "Equity",
    "t0": 25.6,
-   "t1": 35.4,
+   "t1": 30.3,
    "role": "key"
   },
   {
-   "text": "Payments: senior paid first",
+   "text": "Payments: paid from the top ↓",
    "t0": 30.6,
-   "t1": 35.4,
+   "t1": 35.39,
    "role": "key"
   },
   {
-   "text": "then mezzanine, then equity",
-   "t0": 33.1,
-   "t1": 35.4,
+   "text": "1 Senior",
+   "t0": 30.7,
+   "t1": 35.39,
+   "role": "key"
+  },
+  {
+   "text": "2 Mezzanine",
+   "t0": 33.4,
+   "t1": 35.39,
+   "role": "key"
+  },
+  {
+   "text": "3 Equity",
+   "t0": 33.9,
+   "t1": 35.39,
    "role": "key"
   },
   {
    "text": "Wall Street",
-   "t0": 35.4,
+   "t0": 35.39,
    "t1": 41.6,
    "role": "support"
   },
   {
-   "text": "Pension fund · Norway",
-   "t0": 35.5,
+   "text": "Pension fund · senior · Norway",
+   "t0": 35.6,
    "t1": 41.6,
    "role": "key"
   },
   {
-   "text": "Bank · Germany",
-   "t0": 36.85,
+   "text": "Bank · senior · Germany",
+   "t0": 37.0,
    "t1": 41.6,
    "role": "key"
   },
   {
-   "text": "Insurer · Japan",
-   "t0": 37.35,
+   "text": "Insurer · senior · Japan",
+   "t0": 37.5,
    "t1": 41.6,
    "role": "key"
   },
   {
    "text": "Buyers illustrative",
-   "t0": 36.2,
+   "t0": 38.6,
    "t1": 41.6,
    "role": "support"
   },
   {
-   "text": "US house prices",
-   "t0": 42.0,
-   "t1": 45.99,
+   "text": "US house prices (indicative)",
+   "t0": 41.65,
+   "t1": 44.2,
    "role": "key"
-  },
-  {
-   "text": "national index, indicative",
-   "t0": 42.9,
-   "t1": 45.99,
-   "role": "support"
   },
   {
    "text": "Simplified example",
@@ -1517,45 +1529,69 @@
    "role": "support"
   },
   {
-   "text": "rating cut",
-   "t0": 57.06,
-   "t1": 64.6,
-   "role": "key"
-  },
-  {
-   "text": "market value ↓",
-   "t0": 59.0,
-   "t1": 64.6,
-   "role": "key"
-  },
-  {
-   "text": "September 2008 the same kitchen",
-   "t0": 65.07,
-   "t1": 69.6,
-   "role": "support"
-  },
-  {
-   "text": "LEHMAN BROTHERS FILES FOR BANKRUPTCY",
-   "t0": 69.6,
-   "t1": 74.5,
-   "role": "key"
-  },
-  {
    "text": "Losses rise from the bottom ↑",
    "t0": 52.4,
-   "t1": 56.6,
+   "t1": 56.4,
    "role": "key"
   },
   {
    "text": "equity, then mezzanine",
-   "t0": 53.5,
-   "t1": 56.6,
+   "t0": 53.6,
+   "t1": 56.4,
+   "role": "key"
+  },
+  {
+   "text": "Senior, in this example:",
+   "t0": 55.42,
+   "t1": 60.8,
+   "role": "key"
+  },
+  {
+   "text": "still paid",
+   "t0": 55.5,
+   "t1": 60.8,
+   "role": "key"
+  },
+  {
+   "text": "rating cut",
+   "t0": 57.06,
+   "t1": 60.8,
+   "role": "key"
+  },
+  {
+   "text": "market value falls",
+   "t0": 59.0,
+   "t1": 60.8,
    "role": "key"
   },
   {
    "text": "Real crisis: many senior tranches lost money",
    "t0": 61.04,
    "t1": 64.6,
+   "role": "key"
+  },
+  {
+   "text": "September 2008 the same kitchen",
+   "t0": 65.07,
+   "t1": 69.4,
+   "role": "support"
+  },
+  {
+   "text": "LEHMAN BROTHERS FILES FOR BANKRUPTCY",
+   "t0": 69.6,
+   "t1": 75.2,
+   "role": "key"
+  },
+  {
+   "text": "Front page: illustrative reconstruction",
+   "t0": 69.6,
+   "t1": 75.2,
+   "role": "support"
+  },
+  {
+   "text": "FOR SALE",
+   "t0": 45.48,
+   "t1": 46.29,
    "role": "key"
   }
  ]

@@ -1,0 +1,444 @@
+{
+ "summary": {
+  "events": 52,
+  "in_sync": 37,
+  "missing": [
+   "e_banks",
+   "e_income"
+  ],
+  "held": 5,
+  "late_or_early": [
+   "e_rise",
+   "e_sells",
+   "e_country",
+   "e_senior",
+   "e_below",
+   "e_insurers",
+   "e_families",
+   "e_sale",
+   "e_equity",
+   "e_stillpaid",
+   "e_rating",
+   "e_value",
+   "e_lehman"
+  ]
+ },
+ "events": [
+  {
+   "id": "e01",
+   "planned": 0.0,
+   "observed": 0.0,
+   "offset": 0.0,
+   "ok": true,
+   "strength": 66.83
+  },
+  {
+   "id": "e_year",
+   "planned": 0.22,
+   "observed": 0.333,
+   "offset": 0.113,
+   "ok": true,
+   "strength": 12.46
+  },
+  {
+   "id": "e_signs",
+   "planned": 2.06,
+   "observed": 1.933,
+   "offset": -0.127,
+   "ok": true,
+   "strength": 14.37
+  },
+  {
+   "id": "e_home",
+   "planned": 3.84,
+   "observed": 3.667,
+   "offset": -0.173,
+   "ok": true,
+   "strength": 9.14
+  },
+  {
+   "id": "e_insert",
+   "planned": 5.0,
+   "observed": 5.0,
+   "offset": 0.0,
+   "ok": true,
+   "strength": 73.42
+  },
+  {
+   "id": "e_bar",
+   "planned": 6.02,
+   "observed": 5.967,
+   "offset": -0.053,
+   "ok": true,
+   "strength": 23.29
+  },
+  {
+   "id": "e_left",
+   "planned": 6.88,
+   "observed": 6.9,
+   "offset": 0.02,
+   "ok": true,
+   "strength": 1.93
+  },
+  {
+   "id": "e_rise",
+   "planned": 8.732,
+   "observed": 9.0,
+   "offset": 0.268,
+   "ok": false,
+   "strength": 24.82
+  },
+  {
+   "id": "e_map",
+   "planned": 9.902,
+   "observed": 9.767,
+   "offset": -0.135,
+   "ok": true,
+   "strength": 21.53
+  },
+  {
+   "id": "e_sells",
+   "planned": 10.772,
+   "observed": 11.033,
+   "offset": 0.261,
+   "ok": false,
+   "strength": 37.65
+  },
+  {
+   "id": "e_country",
+   "planned": 12.392,
+   "observed": 12.167,
+   "offset": -0.225,
+   "ok": false,
+   "strength": 29.84
+  },
+  {
+   "id": "e_thousands",
+   "planned": 14.772,
+   "observed": 14.967,
+   "offset": 0.195,
+   "ok": true,
+   "strength": 6.31
+  },
+  {
+   "id": "e_pool",
+   "planned": 17.292,
+   "observed": 17.467,
+   "offset": 0.175,
+   "ok": true,
+   "strength": 24.06
+  },
+  {
+   "id": "e_plinth",
+   "planned": 18.403,
+   "observed": 18.4,
+   "offset": -0.003,
+   "ok": true,
+   "strength": 89.12
+  },
+  {
+   "id": "e_issued",
+   "planned": 20.053,
+   "observed": 20.1,
+   "offset": 0.047,
+   "ok": true,
+   "strength": 68.85
+  },
+  {
+   "id": "e_example",
+   "planned": 22.293,
+   "observed": 22.367,
+   "offset": 0.074,
+   "ok": true,
+   "strength": 5.03
+  },
+  {
+   "id": "e_layers",
+   "planned": 24.133,
+   "observed": 24.033,
+   "offset": -0.1,
+   "ok": true,
+   "strength": 64.96
+  },
+  {
+   "id": "e_month",
+   "planned": 26.569,
+   "observed": 26.733,
+   "offset": 0.164,
+   "ok": true,
+   "strength": 38.65
+  },
+  {
+   "id": "e_flow",
+   "planned": 27.329,
+   "observed": 27.133,
+   "offset": -0.196,
+   "ok": true,
+   "strength": 42.3
+  },
+  {
+   "id": "e_top",
+   "planned": 29.509,
+   "observed": 29.633,
+   "offset": 0.124,
+   "ok": true,
+   "strength": 77.48
+  },
+  {
+   "id": "e_senior",
+   "planned": 30.509,
+   "observed": 30.267,
+   "offset": -0.242,
+   "ok": false,
+   "strength": 40.48
+  },
+  {
+   "id": "e_first",
+   "planned": 31.989,
+   "observed": null,
+   "offset": 0.0,
+   "ok": true,
+   "held": true
+  },
+  {
+   "id": "e_below",
+   "planned": 33.369,
+   "observed": 33.133,
+   "offset": -0.236,
+   "ok": false,
+   "strength": 14.73
+  },
+  {
+   "id": "e_world",
+   "planned": 35.398,
+   "observed": 35.4,
+   "offset": 0.002,
+   "ok": true,
+   "strength": 94.28
+  },
+  {
+   "id": "e_banks",
+   "planned": 36.818,
+   "observed": null,
+   "offset": null,
+   "ok": false,
+   "strength": 0.59
+  },
+  {
+   "id": "e_insurers",
+   "planned": 37.318,
+   "observed": 37.667,
+   "offset": 0.349,
+   "ok": false,
+   "strength": 2.22
+  },
+  {
+   "id": "e_income",
+   "planned": 40.398,
+   "observed": null,
+   "offset": null,
+   "ok": false,
+   "strength": 0.26
+  },
+  {
+   "id": "e_town",
+   "planned": 41.605,
+   "observed": 41.6,
+   "offset": -0.005,
+   "ok": true,
+   "strength": 16.03
+  },
+  {
+   "id": "e_fall",
+   "planned": 42.815,
+   "observed": 42.833,
+   "offset": 0.018,
+   "ok": true,
+   "strength": 3.73
+  },
+  {
+   "id": "e_families",
+   "planned": 43.755,
+   "observed": 44.167,
+   "offset": 0.412,
+   "ok": false,
+   "strength": 22.26
+  },
+  {
+   "id": "e_sale",
+   "planned": 45.475,
+   "observed": 45.233,
+   "offset": -0.242,
+   "ok": false,
+   "strength": 43.65
+  },
+  {
+   "id": "e_night",
+   "planned": 45.985,
+   "observed": 46.133,
+   "offset": 0.148,
+   "ok": true,
+   "strength": 27.26
+  },
+  {
+   "id": "e_stop",
+   "planned": 46.955,
+   "observed": 46.933,
+   "offset": -0.022,
+   "ok": true,
+   "strength": 15.1
+  },
+  {
+   "id": "e_lossvo",
+   "planned": 48.877,
+   "observed": null,
+   "offset": 0.0,
+   "ok": true,
+   "held": true
+  },
+  {
+   "id": "e_bldg2",
+   "planned": 49.997,
+   "observed": 50.0,
+   "offset": 0.003,
+   "ok": true,
+   "strength": 120.79
+  },
+  {
+   "id": "e_equity",
+   "planned": 51.877,
+   "observed": 52.133,
+   "offset": 0.256,
+   "ok": false,
+   "strength": 17.83
+  },
+  {
+   "id": "e_losshead",
+   "planned": 52.397,
+   "observed": 52.467,
+   "offset": 0.07,
+   "ok": true,
+   "strength": 59.56
+  },
+  {
+   "id": "e_mezz",
+   "planned": 53.477,
+   "observed": 53.533,
+   "offset": 0.056,
+   "ok": true,
+   "strength": 7.21
+  },
+  {
+   "id": "e_seniorup",
+   "planned": 54.537,
+   "observed": 54.667,
+   "offset": 0.13,
+   "ok": true,
+   "strength": 53.1
+  },
+  {
+   "id": "e_stillpaid",
+   "planned": 55.597,
+   "observed": 55.367,
+   "offset": -0.23,
+   "ok": false,
+   "strength": 51.81
+  },
+  {
+   "id": "e_rating",
+   "planned": 57.057,
+   "observed": 56.833,
+   "offset": -0.224,
+   "ok": false,
+   "strength": 7.25
+  },
+  {
+   "id": "e_value",
+   "planned": 58.997,
+   "observed": 58.767,
+   "offset": -0.23,
+   "ok": false,
+   "strength": 6.81
+  },
+  {
+   "id": "e_real",
+   "planned": 61.037,
+   "observed": 61.1,
+   "offset": 0.063,
+   "ok": true,
+   "strength": 50.9
+  },
+  {
+   "id": "e_many",
+   "planned": 62.097,
+   "observed": null,
+   "offset": 0.0,
+   "ok": true,
+   "held": true
+  },
+  {
+   "id": "e_n2",
+   "planned": 64.604,
+   "observed": 64.6,
+   "offset": -0.004,
+   "ok": true,
+   "strength": 87.09
+  },
+  {
+   "id": "e_sept",
+   "planned": 65.074,
+   "observed": 65.2,
+   "offset": 0.126,
+   "ok": true,
+   "strength": 21.66
+  },
+  {
+   "id": "e_lehman",
+   "planned": 67.194,
+   "observed": 67.5,
+   "offset": 0.306,
+   "ok": false,
+   "strength": 21.17
+  },
+  {
+   "id": "e_np",
+   "planned": 69.604,
+   "observed": 69.6,
+   "offset": -0.004,
+   "ok": true,
+   "strength": 30.05
+  },
+  {
+   "id": "e_files",
+   "planned": 71.514,
+   "observed": null,
+   "offset": 0.0,
+   "ok": true,
+   "held": true
+  },
+  {
+   "id": "e_bk",
+   "planned": 72.134,
+   "observed": 72.067,
+   "offset": -0.067,
+   "ok": true,
+   "strength": 16.76
+  },
+  {
+   "id": "e_end",
+   "planned": 72.384,
+   "observed": 72.333,
+   "offset": -0.051,
+   "ok": true,
+   "strength": 8.67
+  },
+  {
+   "id": "e_hold",
+   "planned": 72.434,
+   "observed": null,
+   "offset": 0.0,
+   "ok": true,
+   "held": true
+  }
+ ]
+}

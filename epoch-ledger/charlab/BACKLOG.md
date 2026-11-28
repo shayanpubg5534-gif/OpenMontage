@@ -234,5 +234,6 @@ animation renders. Character problems named in the review (all open):
 | Item | State | Direction |
 |---|---|---|
 | Pacing standard and checks | Implemented (STANDARD §3B, `kit/pacing.py`, treatment compression warning, held compositions, pacing gate) | Calibrate the load budgets from the user's first viewing of P13R (evidence, not to pass a film) |
-| P13R (refined ~74 s narration) | Narration, treatment, plan and pacing report awaiting approval | On approval: render, check, watch at 1×, send for review |
+| P13R (refined ~74 s narration) | Rendered (`../P13R_REPORT.md`); awaiting the user's first viewing | On approval: promote; calibrate load budgets from the viewing |
 | Text dwell on the rendered film | Measured on the plan only | Detect label appearance in the frames (layout_check) for a film-level reading-time check |
+| Sync measure for small changes | Thin routes and payment dots unmeasurable by region change | A per-event minimum-strength note in `inspect` (report, not fail) |

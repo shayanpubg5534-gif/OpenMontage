@@ -3,18 +3,43 @@
   "findings": [
    {
     "severity": "high",
+    "where": "9.9s",
+    "msg": "\"their loan\" readable for 0.6 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "59.0s",
+    "msg": "\"market value falls\" readable for 1.5 s; minimum ≈ 1.5 s"
+   },
+   {
+    "severity": "high",
+    "where": "45.5s",
+    "msg": "\"FOR SALE\" readable for 0.5 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "36.8s",
+    "msg": "3 things introduced within 0.6 s (e_banks, Bank · senior · Germany, e_insurers): one focal point at a time"
+   },
+   {
+    "severity": "high",
     "where": "0–28s",
     "msg": "cognitive load 1.8× the budget for its pace (compositions, elements, motion, text and captions together)"
    },
    {
-    "severity": "high",
-    "where": "26–63s",
-    "msg": "cognitive load 2.2× the budget for its pace (compositions, elements, motion, text and captions together)"
+    "severity": "medium",
+    "where": "21–32s",
+    "msg": "cognitive load 1.1× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "medium",
+    "where": "24–34s",
+    "msg": "cognitive load 1.1× the budget for its pace (compositions, elements, motion, text and captions together)"
    },
    {
     "severity": "high",
-    "where": "55–78s",
-    "msg": "cognitive load 2.0× the budget for its pace (compositions, elements, motion, text and captions together)"
+    "where": "26–78s",
+    "msg": "cognitive load 2.2× the budget for its pace (compositions, elements, motion, text and captions together)"
    },
    {
     "severity": "medium",
@@ -47,7 +72,7 @@
    },
    {
     "a": 1,
-    "load": 16.2,
+    "load": 15.8,
     "budget": 9.1,
     "compositions": 2,
     "comp_budget": 2.0
@@ -117,7 +142,7 @@
    },
    {
     "a": 11,
-    "load": 10.5,
+    "load": 10.9,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.9
@@ -145,168 +170,168 @@
    },
    {
     "a": 15,
-    "load": 10.5,
+    "load": 11.3,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 16,
-    "load": 10.5,
+    "load": 11.3,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 17,
-    "load": 11.0,
+    "load": 11.8,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 18,
-    "load": 11.0,
+    "load": 11.8,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 19,
-    "load": 7.8,
+    "load": 8.6,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 20,
-    "load": 8.3,
-    "budget": 10.0,
-    "compositions": 0,
-    "comp_budget": 1.5
-   },
-   {
-    "a": 21,
     "load": 9.1,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
+    "a": 21,
+    "load": 10.7,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
     "a": 22,
-    "load": 9.3,
+    "load": 10.9,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 23,
-    "load": 7.6,
+    "load": 9.2,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 24,
-    "load": 9.7,
+    "load": 11.3,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 25,
-    "load": 8.3,
+    "load": 9.1,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 26,
-    "load": 12.4,
+    "load": 13.6,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 27,
-    "load": 13.8,
+    "load": 14.0,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 28,
-    "load": 14.4,
+    "load": 16.0,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.6
    },
    {
     "a": 29,
-    "load": 14.5,
+    "load": 16.5,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.7
    },
    {
     "a": 30,
-    "load": 14.0,
+    "load": 16.0,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.8
    },
    {
     "a": 31,
-    "load": 13.2,
+    "load": 14.4,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.8
    },
    {
     "a": 32,
-    "load": 16.1,
+    "load": 18.1,
     "budget": 10.0,
     "compositions": 2,
     "comp_budget": 1.9
    },
    {
     "a": 33,
-    "load": 18.5,
+    "load": 19.3,
     "budget": 9.9,
     "compositions": 2,
     "comp_budget": 1.9
    },
    {
     "a": 34,
-    "load": 16.8,
+    "load": 17.6,
     "budget": 9.8,
     "compositions": 2,
     "comp_budget": 1.9
    },
    {
     "a": 35,
-    "load": 16.9,
+    "load": 17.7,
     "budget": 9.7,
     "compositions": 2,
     "comp_budget": 2.0
    },
    {
     "a": 36,
-    "load": 16.9,
+    "load": 17.7,
     "budget": 9.6,
     "compositions": 2,
     "comp_budget": 2.0
    },
    {
     "a": 37,
-    "load": 16.2,
+    "load": 18.0,
     "budget": 9.2,
     "compositions": 2,
     "comp_budget": 1.9
    },
    {
     "a": 38,
-    "load": 14.4,
+    "load": 14.8,
     "budget": 8.8,
     "compositions": 2,
     "comp_budget": 1.9
@@ -334,98 +359,98 @@
    },
    {
     "a": 42,
-    "load": 14.9,
+    "load": 14.1,
     "budget": 8.0,
     "compositions": 2,
     "comp_budget": 1.7
    },
    {
     "a": 43,
-    "load": 14.9,
+    "load": 15.3,
     "budget": 8.1,
     "compositions": 2,
     "comp_budget": 1.6
    },
    {
     "a": 44,
-    "load": 16.2,
+    "load": 16.6,
     "budget": 8.2,
     "compositions": 2,
     "comp_budget": 1.6
    },
    {
     "a": 45,
-    "load": 16.6,
+    "load": 17.0,
     "budget": 8.3,
     "compositions": 2,
     "comp_budget": 1.6
    },
    {
     "a": 46,
-    "load": 13.6,
+    "load": 14.8,
     "budget": 8.4,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 47,
-    "load": 12.4,
+    "load": 13.6,
     "budget": 8.8,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 48,
-    "load": 14.1,
+    "load": 15.3,
     "budget": 9.2,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 49,
-    "load": 15.1,
+    "load": 16.3,
     "budget": 9.6,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 50,
-    "load": 12.5,
+    "load": 13.7,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 51,
-    "load": 12.2,
+    "load": 13.4,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 52,
-    "load": 13.3,
+    "load": 14.5,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 53,
-    "load": 11.2,
+    "load": 12.4,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 54,
-    "load": 9.5,
+    "load": 10.7,
     "budget": 10.0,
     "compositions": 0,
     "comp_budget": 1.5
    },
    {
     "a": 55,
-    "load": 11.9,
+    "load": 13.1,
     "budget": 10.0,
     "compositions": 1,
     "comp_budget": 1.5
@@ -460,71 +485,71 @@
    },
    {
     "a": 60,
-    "load": 14.4,
+    "load": 15.2,
     "budget": 8.0,
     "compositions": 2,
     "comp_budget": 1.5
    },
    {
     "a": 61,
-    "load": 14.2,
+    "load": 15.0,
     "budget": 7.6,
     "compositions": 2,
     "comp_budget": 1.5
    },
    {
     "a": 62,
-    "load": 11.9,
+    "load": 12.7,
     "budget": 7.2,
     "compositions": 2,
     "comp_budget": 1.5
    },
    {
     "a": 63,
-    "load": 13.2,
+    "load": 14.0,
     "budget": 6.8,
     "compositions": 2,
     "comp_budget": 1.5
    },
    {
     "a": 64,
-    "load": 13.0,
+    "load": 13.8,
     "budget": 6.4,
     "compositions": 2,
     "comp_budget": 1.5
    },
    {
     "a": 65,
-    "load": 9.8,
+    "load": 10.6,
     "budget": 6.0,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 66,
-    "load": 7.6,
+    "load": 8.4,
     "budget": 6.0,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 67,
-    "load": 7.6,
+    "load": 8.4,
     "budget": 6.0,
     "compositions": 1,
     "comp_budget": 1.5
    },
    {
     "a": 68,
-    "load": 6.3,
+    "load": 7.1,
     "budget": 6.0,
     "compositions": 1,
     "comp_budget": 1.5
    }
   ],
   "summary": {
-   "high": 3,
-   "medium": 4,
+   "high": 4,
+   "medium": 8,
    "info": 0
   }
  }

@@ -193,7 +193,7 @@ def main(argv=None):
         return 1 if res["errors"] else 0
     rep = inspect(res["resolved"], a.video)
     for x in rep: print(json.dumps(x))
-    summ = {"events": len(rep), "in_sync": sum(x["ok"] for x in rep), "missing": [x["id"] for x in rep if x["observed"] is None],
+    summ = {"events": len(rep), "in_sync": sum(x["ok"] for x in rep), "missing": [x["id"] for x in rep if x["observed"] is None and not x.get("held")], "held": sum(1 for x in rep if x.get("held")),
             "late_or_early": [x["id"] for x in rep if x["observed"] is not None and not x["ok"]]}
     print(json.dumps(summ))
     if a.out: Path(a.out).write_text(json.dumps({"summary": summ, "events": rep}, indent=1))

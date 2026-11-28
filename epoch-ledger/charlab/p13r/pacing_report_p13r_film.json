@@ -1,0 +1,1020 @@
+{
+ "plan": {
+  "findings": [
+   {
+    "severity": "high",
+    "where": "9.9s",
+    "msg": "\"their loan\" readable for 0.6 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "59.0s",
+    "msg": "\"market value falls\" readable for 1.5 s; minimum ≈ 1.5 s"
+   },
+   {
+    "severity": "high",
+    "where": "45.5s",
+    "msg": "\"FOR SALE\" readable for 0.5 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "36.8s",
+    "msg": "3 things introduced within 0.6 s (e_banks, Bank · senior · Germany, e_insurers): one focal point at a time"
+   },
+   {
+    "severity": "high",
+    "where": "0–28s",
+    "msg": "cognitive load 1.8× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "medium",
+    "where": "21–32s",
+    "msg": "cognitive load 1.1× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "medium",
+    "where": "24–34s",
+    "msg": "cognitive load 1.1× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "high",
+    "where": "26–78s",
+    "msg": "cognitive load 2.2× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "medium",
+    "where": "9–19s",
+    "msg": "new compositions 1.0× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "32–44s",
+    "msg": "new compositions 1.1× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "37–55s",
+    "msg": "new compositions 1.7× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "60–74s",
+    "msg": "new compositions 1.3× the budget for its pace: develop within a composition instead of replacing it"
+   }
+  ],
+  "series": [
+   {
+    "a": 0,
+    "load": 16.0,
+    "budget": 9.0,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 1,
+    "load": 15.8,
+    "budget": 9.1,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 2,
+    "load": 16.2,
+    "budget": 9.2,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 3,
+    "load": 16.2,
+    "budget": 9.3,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 4,
+    "load": 15.3,
+    "budget": 9.4,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 5,
+    "load": 17.0,
+    "budget": 9.5,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 6,
+    "load": 14.0,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 7,
+    "load": 10.9,
+    "budget": 9.7,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 8,
+    "load": 12.0,
+    "budget": 9.8,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 9,
+    "load": 14.6,
+    "budget": 9.9,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 10,
+    "load": 11.2,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 11,
+    "load": 10.9,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 12,
+    "load": 10.4,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 13,
+    "load": 10.8,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 14,
+    "load": 10.6,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 15,
+    "load": 11.3,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 16,
+    "load": 11.3,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 17,
+    "load": 11.8,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 18,
+    "load": 11.8,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 19,
+    "load": 8.6,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 20,
+    "load": 9.1,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 21,
+    "load": 10.7,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 22,
+    "load": 10.9,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 23,
+    "load": 9.2,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 24,
+    "load": 11.3,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 25,
+    "load": 9.1,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 26,
+    "load": 13.6,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 27,
+    "load": 14.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 28,
+    "load": 16.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 29,
+    "load": 16.5,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 30,
+    "load": 16.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 31,
+    "load": 14.4,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 32,
+    "load": 18.1,
+    "budget": 10.0,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 33,
+    "load": 19.3,
+    "budget": 9.9,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 34,
+    "load": 17.6,
+    "budget": 9.8,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 35,
+    "load": 17.7,
+    "budget": 9.7,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 36,
+    "load": 17.7,
+    "budget": 9.6,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 37,
+    "load": 18.0,
+    "budget": 9.2,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 38,
+    "load": 14.8,
+    "budget": 8.8,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 39,
+    "load": 14.4,
+    "budget": 8.4,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 40,
+    "load": 17.4,
+    "budget": 8.0,
+    "compositions": 3,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 41,
+    "load": 16.7,
+    "budget": 8.0,
+    "compositions": 3,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 42,
+    "load": 14.1,
+    "budget": 8.0,
+    "compositions": 2,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 43,
+    "load": 15.3,
+    "budget": 8.1,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 44,
+    "load": 16.6,
+    "budget": 8.2,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 45,
+    "load": 17.0,
+    "budget": 8.3,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 46,
+    "load": 14.8,
+    "budget": 8.4,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 47,
+    "load": 13.6,
+    "budget": 8.8,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 48,
+    "load": 15.3,
+    "budget": 9.2,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 49,
+    "load": 16.3,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 50,
+    "load": 13.7,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 51,
+    "load": 13.4,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 52,
+    "load": 14.5,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 53,
+    "load": 12.4,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 54,
+    "load": 10.7,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 55,
+    "load": 13.1,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 56,
+    "load": 12.7,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 57,
+    "load": 12.5,
+    "budget": 9.2,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 58,
+    "load": 12.0,
+    "budget": 8.8,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 59,
+    "load": 10.8,
+    "budget": 8.4,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 60,
+    "load": 15.2,
+    "budget": 8.0,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 61,
+    "load": 15.0,
+    "budget": 7.6,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 62,
+    "load": 12.7,
+    "budget": 7.2,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 63,
+    "load": 14.0,
+    "budget": 6.8,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 64,
+    "load": 13.8,
+    "budget": 6.4,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 65,
+    "load": 10.6,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 66,
+    "load": 8.4,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 67,
+    "load": 8.4,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 68,
+    "load": 7.1,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   }
+  ],
+  "summary": {
+   "high": 4,
+   "medium": 8,
+   "info": 0
+  }
+ },
+ "film": {
+  "findings": [
+   {
+    "severity": "medium",
+    "where": "40–59s",
+    "msg": "1.54× the picture changes a first-time viewer can follow at this pace"
+   },
+   {
+    "severity": "medium",
+    "where": "18–28s",
+    "msg": "busy motion (1.0× the calm level) while the viewer must read or think"
+   },
+   {
+    "severity": "medium",
+    "where": "20–30s",
+    "msg": "busy motion (1.0× the calm level) while the viewer must read or think"
+   },
+   {
+    "severity": "medium",
+    "where": "41–55s",
+    "msg": "busy motion (1.2× the calm level) while the viewer must read or think"
+   }
+  ],
+  "series": [
+   {
+    "a": 0,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 3.2
+   },
+   {
+    "a": 1,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 3.3
+   },
+   {
+    "a": 2,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 5.2
+   },
+   {
+    "a": 3,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 5.7
+   },
+   {
+    "a": 4,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 5.6
+   },
+   {
+    "a": 5,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 4.9
+   },
+   {
+    "a": 6,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 4.8
+   },
+   {
+    "a": 7,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 4.8
+   },
+   {
+    "a": 8,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 6.1
+   },
+   {
+    "a": 9,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 7.4
+   },
+   {
+    "a": 10,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 5.9
+   },
+   {
+    "a": 11,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 8.1
+   },
+   {
+    "a": 12,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 8.3
+   },
+   {
+    "a": 13,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.8
+   },
+   {
+    "a": 14,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.8
+   },
+   {
+    "a": 15,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.9
+   },
+   {
+    "a": 16,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.9
+   },
+   {
+    "a": 17,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 8.5
+   },
+   {
+    "a": 18,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 9.1
+   },
+   {
+    "a": 19,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.8
+   },
+   {
+    "a": 20,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 9.2
+   },
+   {
+    "a": 21,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 8.0
+   },
+   {
+    "a": 22,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 6.0
+   },
+   {
+    "a": 23,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 6.3
+   },
+   {
+    "a": 24,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 6.5
+   },
+   {
+    "a": 25,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 6.5
+   },
+   {
+    "a": 26,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 7.5
+   },
+   {
+    "a": 27,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 7.0
+   },
+   {
+    "a": 28,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 5.0
+   },
+   {
+    "a": 29,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 4.9
+   },
+   {
+    "a": 30,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 3.6
+   },
+   {
+    "a": 31,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 2.4
+   },
+   {
+    "a": 32,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 2.4
+   },
+   {
+    "a": 33,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 2.1
+   },
+   {
+    "a": 34,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 1.9
+   },
+   {
+    "a": 35,
+    "changes": 3,
+    "budget": 3.0,
+    "motion": 3.3
+   },
+   {
+    "a": 36,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 4.5
+   },
+   {
+    "a": 37,
+    "changes": 2,
+    "budget": 2.9,
+    "motion": 5.9
+   },
+   {
+    "a": 38,
+    "changes": 2,
+    "budget": 2.8,
+    "motion": 6.1
+   },
+   {
+    "a": 39,
+    "changes": 2,
+    "budget": 2.7,
+    "motion": 6.2
+   },
+   {
+    "a": 40,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 7.5
+   },
+   {
+    "a": 41,
+    "changes": 4,
+    "budget": 2.6,
+    "motion": 9.3
+   },
+   {
+    "a": 42,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 10.2
+   },
+   {
+    "a": 43,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 10.5
+   },
+   {
+    "a": 44,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 10.5
+   },
+   {
+    "a": 45,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 9.8
+   },
+   {
+    "a": 46,
+    "changes": 3,
+    "budget": 2.6,
+    "motion": 8.6
+   },
+   {
+    "a": 47,
+    "changes": 3,
+    "budget": 2.7,
+    "motion": 7.3
+   },
+   {
+    "a": 48,
+    "changes": 3,
+    "budget": 2.8,
+    "motion": 7.2
+   },
+   {
+    "a": 49,
+    "changes": 3,
+    "budget": 2.9,
+    "motion": 7.2
+   },
+   {
+    "a": 50,
+    "changes": 2,
+    "budget": 3.0,
+    "motion": 6.1
+   },
+   {
+    "a": 51,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 4.5
+   },
+   {
+    "a": 52,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 3.5
+   },
+   {
+    "a": 53,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 3.7
+   },
+   {
+    "a": 54,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 3.9
+   },
+   {
+    "a": 55,
+    "changes": 1,
+    "budget": 3.0,
+    "motion": 4.0
+   },
+   {
+    "a": 56,
+    "changes": 1,
+    "budget": 2.9,
+    "motion": 3.1
+   },
+   {
+    "a": 57,
+    "changes": 1,
+    "budget": 2.8,
+    "motion": 2.8
+   },
+   {
+    "a": 58,
+    "changes": 1,
+    "budget": 2.7,
+    "motion": 3.0
+   },
+   {
+    "a": 59,
+    "changes": 1,
+    "budget": 2.6,
+    "motion": 3.3
+   },
+   {
+    "a": 60,
+    "changes": 2,
+    "budget": 2.5,
+    "motion": 3.6
+   },
+   {
+    "a": 61,
+    "changes": 2,
+    "budget": 2.4,
+    "motion": 3.4
+   },
+   {
+    "a": 62,
+    "changes": 2,
+    "budget": 2.3,
+    "motion": 3.2
+   },
+   {
+    "a": 63,
+    "changes": 2,
+    "budget": 2.2,
+    "motion": 2.9
+   },
+   {
+    "a": 64,
+    "changes": 2,
+    "budget": 2.1,
+    "motion": 2.8
+   },
+   {
+    "a": 65,
+    "changes": 1,
+    "budget": 2.0,
+    "motion": 1.8
+   },
+   {
+    "a": 66,
+    "changes": 2,
+    "budget": 2.0,
+    "motion": 2.4
+   },
+   {
+    "a": 67,
+    "changes": 2,
+    "budget": 2.0,
+    "motion": 2.4
+   }
+  ],
+  "stats": {
+   "picture_changes": 16,
+   "per_10s": 2.1,
+   "longest_hold_s": 9.9,
+   "median_hold_s": 4.9,
+   "mean_motion": 5.2,
+   "changes_at": [
+    4.9,
+    9.6,
+    11.0,
+    17.4,
+    20.0,
+    26.7,
+    29.5,
+    35.3,
+    41.5,
+    44.2,
+    49.9,
+    50.5,
+    54.6,
+    64.5,
+    69.5,
+    75.1
+   ]
+  },
+  "summary": {
+   "high": 0,
+   "medium": 4,
+   "info": 0
+  }
+ }
+}

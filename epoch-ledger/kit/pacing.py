@@ -158,9 +158,10 @@ def film_signal(video: str, fps: int = 10, w: int = 160, h: int = 90):
 
 def check_film(P: dict, video: str) -> dict:
     d, fps = film_signal(video)
-    big = [i / fps for i in range(len(d)) if d[i] > MAJOR]; changes = []
-    for t in big:
-        if not changes or t - changes[-1] > 0.3: changes.append(t)
+    big = [i / fps for i in range(len(d)) if d[i] > MAJOR]; changes = []; last = -9.0
+    for t in big:                       # one continuous episode (a cut, a dissolve, one camera move) is one change
+        if t - last > 0.3: changes.append(t)
+        last = t
     dur = len(d) / fps; F = []
     add = lambda sev, where, msg: F.append({"severity": sev, "where": where, "msg": msg})
     over, busy, series = [], [], []

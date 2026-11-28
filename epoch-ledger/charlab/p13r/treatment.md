@@ -104,9 +104,9 @@ _Generated from treatment.json by kit/treatment.py; edit the JSON._
 | literal baseline | literal | a full-screen price chart (P12) | **rejected** | correct but detached from the town we have been following |
 | the chart grows out of the town | data | back on the street map, FOR SALE signs appear; the national price index line (sourced, labelled) draws across the rooftops and turns down | **chosen** | the data stays tied to the place, and the line is the ledger line again |
 
-**Pace:** illustration · **Steps:** the price line turns down → FOR SALE: selling no longer repays
+**Pace:** illustration · **Steps:** the price line rises to 2006 and turns down → FOR SALE on their house
 
-**Transitions:** → q6: push in on their gold house; dissolve on its window to the kitchen at night
+**Transitions:** → q6: the camera eases toward their gold house; dissolve on it to their kitchen at night
 
 ## q6 (hero): stop paying.
 
@@ -140,7 +140,7 @@ _Generated from treatment.json by kit/treatment.py; edit the JSON._
 
 **Pace:** mechanism · **Steps:** losses start at the foundation → equity wiped out → then mezzanine → senior still paid, rating cut, value falls → the real-crisis caveat
 
-**Accuracy:** Losses hit the most junior tranche first and reach senior tranches only when they exceed the subordination below. Do not show the senior floors destroyed by the first missed payments: in 2007–08 most senior pieces were downgraded and fell in market value, and losses came later and unevenly. 'Collapse' in the narration is shown as market value and ratings collapsing (overlay), not every floor flooding. The narration says the example is simplified and that in the real crisis many senior securities lost money too; the senior floors staying dry is the example's subordination at work, not a claim about every senior security.
+**Accuracy:** Losses hit the most junior tranche first and reach senior tranches only when they exceed the subordination below. Do not show the senior floors destroyed by the first missed payments: in 2007–08 most senior pieces were downgraded and fell in market value, and losses came later and unevenly. 'Collapse' in the narration is shown as market value and ratings collapsing (overlay), not every floor flooding. The narration says the example is simplified and that in the real crisis many senior securities lost money too; the senior floors staying dry is the example's subordination at work, not a claim about every senior security. On screen, the senior box reads 'Senior, in this example: still paid · rating cut · market value falls', followed by 'Real crisis: many senior tranches lost money'.
 
 **Transitions:** → q8: the camera sinks into the flooded foundation, then cuts to the kitchen table (match on the red)
 

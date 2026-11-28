@@ -59,8 +59,16 @@ def test_regression_p13_as_delivered_is_flagged():
     msgs = " ".join(x["msg"] for x in f)
     assert "far too short to absorb" in msgs and "readable for" in msgs and "develop within a composition" in msgs
     film = json.loads((R / "pacing_report_p13_as_delivered.json").read_text())["film"]   # measured on the rendered P13 MP4
-    assert film["stats"]["per_10s"] > 5 and film["stats"]["longest_hold_s"] < 3.5
+    assert film["stats"]["per_10s"] > 4 and film["stats"]["longest_hold_s"] < 6 and film["stats"]["median_hold_s"] < 2.5
     assert any(x["severity"] == "high" for x in film["findings"])
+
+
+def test_p13r_film_measures_against_p13():
+    a = json.loads((R / "pacing_report_p13_as_delivered.json").read_text())["film"]
+    b = json.loads((R / "pacing_report_p13r_film.json").read_text())["film"]
+    assert b["stats"]["per_10s"] < a["stats"]["per_10s"] / 1.5 and b["stats"]["median_hold_s"] > 2 * a["stats"]["median_hold_s"]
+    assert b["stats"]["mean_motion"] < a["stats"]["mean_motion"]
+    assert not any(x["severity"] == "high" for x in b["findings"])            # measured on the rendered P13R MP4
 
 
 def test_p13r_plan_is_far_lighter_than_p13_and_its_map_checks():
@@ -92,7 +100,7 @@ def test_treatment_warns_when_narration_is_too_compressed_and_stays_backward_com
     assert sum("narration too compressed" in w for w in TR.review(paced)["warnings"]) >= 5
     p13r = json.loads((R / "treatment.json").read_text())
     assert not any("too compressed" in w for w in TR.review(p13r)["warnings"])
-    assert TR.review(p13r, R, gate="motion")["errors"]                          # awaiting approval: the gate is closed
+    assert TR.review(p13r, R, gate="motion")["errors"] == []                    # approved 2026-11-28: the gate is open
 
 
 def test_pacing_gate_is_wired_and_advisory_for_earlier_episodes():

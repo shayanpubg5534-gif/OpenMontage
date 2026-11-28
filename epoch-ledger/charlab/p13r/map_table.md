@@ -30,8 +30,8 @@
 | 41.60 s | Then house prices fall, | "Then" @ 41.77 s (-0.17) | Their town; the house-price line over the rooftops | S7 | cut |
 | 42.81 s | Then house prices fall, | "fall," @ 42.81 s (+0.00) | The line turns down, in red | S7 | diagram |
 | 43.76 s | families who can't keep up and can't sell for enough to repay stop paying. | "families" @ 43.76 s (+0.00) | The camera eases toward their gold house | S7 | camera |
-| 45.80 s | families who can't keep up and can't sell for enough to repay stop paying. | "sell" @ 45.80 s (+0.00) | FOR SALE signs: selling no longer repays the loan | S7 | diagram |
-| 45.99 s | families who can't keep up and can't sell for enough to repay stop paying. | "enough" @ 46.16 s (-0.16) | Dissolve on their window: the same kitchen, 2008, night; she holds the letter | S8 | cut |
+| 45.48 s | families who can't keep up and can't sell for enough to repay stop paying. | "can't" @ 45.48 s (+0.00) | A FOR SALE sign on their house: selling no longer repays the loan | S7 | prop |
+| 45.98 s | families who can't keep up and can't sell for enough to repay stop paying. | "enough" @ 46.16 s (-0.17) | Dissolve on their house to the kitchen at night: she holds the letter | S8 | cut |
 | 46.95 s | families who can't keep up and can't sell for enough to repay stop paying. | "stop" @ 46.95 s (+0.00) | Her head drops to the letter; he turns away | S8 | character-action |
 | 48.88 s | Now the losses rise from the bottom. | "losses" @ 48.88 s (+0.00) | Held on the two of them while 'Now the losses rise from the bottom' is heard: the losses start at kitchen tables | S8 | character-action |
 | 50.00 s | Now the losses rise from the bottom. | "bottom." @ 50.04 s (-0.04) | Cut on 'bottom': close on their red house; red water appears at the foundation, the losses' starting point | S9 | cut |

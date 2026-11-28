@@ -108,7 +108,7 @@
      "shows": "the kitchen two-shot at dusk; the mortgage on the table"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "character",
    "steps": [
     "they sign at their kitchen table",
@@ -156,7 +156,7 @@
     }
    ],
    "storyboard": [],
-   "approved": false,
+   "approved": true,
    "pace": "diagram",
    "steps": [
     "their loan to their lender",
@@ -215,7 +215,7 @@
      "shows": "the security as a building of three tranches on the pool"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "mechanism",
    "steps": [
     "issued on the pool",
@@ -270,7 +270,7 @@
      "shows": "each floor sold to a different investor abroad"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "diagram",
    "steps": [
     "buyers abroad, each on its word",
@@ -310,15 +310,15 @@
    "transitions": [
     {
      "to": "q6",
-     "motive": "push in on their gold house; dissolve on its window to the kitchen at night"
+     "motive": "the camera eases toward their gold house; dissolve on it to their kitchen at night"
     }
    ],
    "storyboard": [],
-   "approved": false,
+   "approved": true,
    "pace": "illustration",
    "steps": [
-    "the price line turns down",
-    "FOR SALE: selling no longer repays"
+    "the price line rises to 2006 and turns down",
+    "FOR SALE on their house"
    ],
    "accuracy": []
   },
@@ -378,7 +378,7 @@
      "shows": "the same kitchen, 2008: the letter in her hands"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "emotional",
    "steps": [
     "the letter at the same table"
@@ -415,7 +415,8 @@
     "Losses hit the most junior tranche first and reach senior tranches only when they exceed the subordination below.",
     "Do not show the senior floors destroyed by the first missed payments: in 2007–08 most senior pieces were downgraded and fell in market value, and losses came later and unevenly.",
     "'Collapse' in the narration is shown as market value and ratings collapsing (overlay), not every floor flooding.",
-    "The narration says the example is simplified and that in the real crisis many senior securities lost money too; the senior floors staying dry is the example's subordination at work, not a claim about every senior security."
+    "The narration says the example is simplified and that in the real crisis many senior securities lost money too; the senior floors staying dry is the example's subordination at work, not a claim about every senior security.",
+    "On screen, the senior box reads 'Senior, in this example: still paid · rating cut · market value falls', followed by 'Real crisis: many senior tranches lost money'."
    ],
    "human_anchor": "their house, now red in the foundation",
    "worlds": [
@@ -433,7 +434,7 @@
      "shows": "losses rise from the bottom; senior dry but downgraded"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "mechanism",
    "steps": [
     "losses start at the foundation",
@@ -488,12 +489,13 @@
      "shows": "the newspaper on the kitchen table beside the notice"
     }
    ],
-   "approved": false,
+   "approved": true,
    "pace": "emotional",
    "steps": [
     "the newspaper on their table",
     "the headline"
    ]
   }
- ]
+ ],
+ "_approved": "2026-11-28: P13R narration and creative direction approved by the user, with refinements (keep ~78 s; senior paid in the simplified example vs real losses; 17 s and 15 s building compositions; calm 37–55 s; room for the family and the newspaper)"
 }
