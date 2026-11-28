@@ -9,7 +9,9 @@ skills/creative/epoch-ledger-director.md):
                   "concepts": [{"name", "kind", "idea", "verdict": "chosen"|"rejected", "why"}],
                   "accuracy": [...], "human_anchor" | "human_anchor_reason", "worlds": [ids],
                   "acting": [{"who", "wants", "does", "feels"}], "transitions": [{"to", "motive"}],
-                  "storyboard": [{"frame", "shows"}], "approved": bool}]}
+                  "storyboard": [{"frame", "shows"}], "approved": bool,
+                  "pace": "hook|character|illustration|diagram|mechanism|emotional|transition", "steps": [...]}]}
+                  (pace and steps: STANDARD §3B; the checker warns when the narration is too short for them)
 
 Concept kinds: literal (the baseline: always considered, chosen only with a reason), metaphor, journey, mechanism,
 human, data, reconstruction, other. The checker confirms the thinking was written down. It cannot judge whether it is
@@ -33,6 +35,12 @@ MINOR = {"head", "heads", "turn", "turns", "turning", "nod", "nods", "nodding", 
          "mouth", "mouths", "eyes", "look", "looks", "looking", "smile", "smiles", "his", "her", "their", "the", "a", "and",
          "slightly", "at", "to", "up", "down", "camera", "she", "he", "they"}
 USED = Path(__file__).resolve().parents[1] / "direction" / "used_devices.json"
+# STANDARD §3B: each sequence may declare its pace and the steps it must teach; a mechanism or diagram needs about
+# STEP_S seconds of narration per step (a guideline: lengthen or simplify the script when the narration is shorter)
+PACES = ("hook", "character", "illustration", "diagram", "mechanism", "emotional", "transition")
+PACE_MIN = {"hook": 1.5, "character": 5, "illustration": 3, "diagram": 6, "mechanism": 10, "emotional": 5, "transition": 1}
+STEP_S = 3.0
+WPS = 2.4          # narration words per second when no timing is given
 
 
 def review(t: dict, base: Path | None = None, gate: str | None = None) -> dict:
@@ -83,6 +91,15 @@ def review(t: dict, base: Path | None = None, gate: str | None = None) -> dict:
         for tr in s.get("transitions", []):
             if tr.get("to") not in ids | {"end"}: errs.append(f"{sid}: transition to unknown sequence {tr.get('to')!r}")
             if len(tr.get("motive", "")) < 10: errs.append(f"{sid}: transition to {tr.get('to')} needs a motive (match cut, follow the object, …)")
+        if s.get("pace") is not None:                       # §3B pacing (sequences without a pace: as before)
+            if s["pace"] not in PACES: errs.append(f"{sid}: pace {s['pace']!r} not in {PACES}")
+            else:
+                d = (s["t"][1] - s["t"][0]) if s.get("t") else len(str(s.get("narration", "")).split()) / WPS
+                steps = s.get("steps") or []
+                need = max(PACE_MIN[s["pace"]], STEP_S * len(steps) if s["pace"] in ("diagram", "mechanism") else 0)
+                if d < need * .8:
+                    warns.append(f"{sid}: narration too compressed: {d:.1f} s for a {s['pace']} with {len(steps)} step(s) "
+                                 f"(guideline ≥ {need:.0f} s): lengthen or simplify the script (STANDARD §3B.10)")
         if s.get("hero") and gate == "motion":
             fr = s.get("storyboard") or []
             if not fr: errs.append(f"{sid}: hero sequence has no storyboard key frames (storyboard gate)")
@@ -136,6 +153,7 @@ def to_markdown(t: dict) -> str:
               f"- **Understand:** {s.get('understand', '')}", f"- **Feel:** {s.get('feel', '')}",
               f"- **Human anchor:** {s.get('human_anchor') or s.get('human_anchor_reason', '')}", "", "| Concept | Kind | Idea | Verdict | Why |", "|---|---|---|---|---|"]
         L += [f"| {c.get('name', '')} | {c.get('kind', '')} | {c.get('idea', '')} | **{c.get('verdict', '')}** | {c.get('why', '')} |" for c in s.get("concepts", [])]
+        if s.get("pace"): L += ["", f"**Pace:** {s['pace']}" + (f" · **Steps:** " + " → ".join(s.get("steps", [])) if s.get("steps") else "")]
         if s.get("acting"): L += ["", "**Acting:** " + " · ".join(f"{a['who']}: wants {a['wants']}; does {a['does']}; feels {a['feels']}" for a in s["acting"])]
         if s.get("accuracy"): L += ["", "**Accuracy:** " + " ".join(s["accuracy"])]
         if s.get("transitions"): L += ["", "**Transitions:** " + " · ".join(f"→ {x['to']}: {x['motive']}" for x in s["transitions"])]

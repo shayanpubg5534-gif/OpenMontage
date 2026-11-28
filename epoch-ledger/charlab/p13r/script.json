@@ -1,0 +1,10 @@
+{"lines": [
+ {"id": "n1", "text": "In two thousand six, a family signs a mortgage on their first home. The monthly payment takes almost everything they earn."},
+ {"id": "n2", "text": "Their lender doesn't keep the loan. It sells it on. Lenders across the country do the same, and thousands of mortgages are gathered into a single pool."},
+ {"id": "n3", "text": "On top of that pool, a new security is issued. In this simplified example, it has three layers, called tranches."},
+ {"id": "n4", "text": "Each month, the families' payments flow in. The top layer, the senior tranche, is paid first. The layers below are paid only after it."},
+ {"id": "n5", "text": "Pension funds, banks and insurers around the world buy these layers for their steady income."},
+ {"id": "n6", "text": "Then house prices fall. Families who can't keep up, and can't sell for enough to repay, stop paying."},
+ {"id": "n7", "text": "Now the losses rise from the bottom. The lowest layer is wiped out first, then the next. The senior layer is still being paid, but its rating is cut, and its market value falls. In the real crisis, many senior securities lost money too."},
+ {"id": "n8", "text": "In September two thousand eight, Lehman Brothers, heavily invested in mortgage-related assets, files for bankruptcy."}
+]}

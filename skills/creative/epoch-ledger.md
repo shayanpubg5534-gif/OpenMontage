@@ -67,7 +67,8 @@ Scenes, compositions, metaphors and the signature device are still authored fres
    pilot measured 156 incl. pauses): 8–10 min ≈ 1,200–1,500 words; 12–13 min ≈ 1,800–1,950.
    Justify any length over 10 minutes in the proposal (what depth or context needs it).
    Open on the hook — never a logo or title card. Structure for retention: hook → stakes →
-   mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s.
+   mechanism → turn/reveal → consequence, with a fresh visual question every 30–60 s. Pace each sequence for a first
+   viewing at normal speed (STANDARD §3B): develop compositions progressively and give text and diagrams time to be read.
 3. **Reuse first** → check `epoch-ledger/COMPONENTS.md` (component index) before reading
    source or writing new code; update the index in the same commit as any new reusable part.
 4. **Standard** → `epoch-ledger/STANDARD.md` is the authoritative production standard (hard requirements,

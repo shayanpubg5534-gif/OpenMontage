@@ -134,6 +134,30 @@ fit.
   still chosen for its clause, staged for its idea and connected by the through-line. Re-stage, re-frame and re-light
   rather than repeat a layout.
 
+## 6A. Pacing for a first viewing (STANDARD §3B)
+The viewer listens, reads the caption and watches at the same time, once, at normal speed.
+- **Decide the pace of each sequence** in the treatment (`pace`: hook, character, illustration, diagram, mechanism,
+  emotional, transition) and the `steps` it must teach. If the narration is too short for them, rewrite the script
+  (longer or simpler) before recording. Never cram the pictures.
+- **Develop one composition instead of replacing it.**
+  - A mechanism is one place the camera explores: start wide or start on the first part, reveal each step on its
+    word, hold while the caption is read, then move on.
+  - Plan the camera's path through a diagram rather than cutting between diagrams.
+- **Spend attention deliberately.**
+  - A cut costs the most, a new element less, a camera move or animation less again, but nothing is free.
+  - Calm the motion while the viewer reads.
+  - Stagger new elements so there is one focal point at a time.
+- **Text:** few words, large, staying up at least `0.5 s + words ÷ 3` after it is fully revealed. Treat that as a
+  minimum, not proof. Labels accumulate in place rather than flashing past.
+- **Keep it alive.**
+  - Holds breathe with slow camera moves, light, performance and small motivated motion.
+  - Openings can move fast; emotional beats hold; transitions with nothing to read stay brief.
+  - Keep rich formats (maps, 3D, charts) when they add understanding.
+- **Check, then watch.**
+  - `python -m kit.pacing plan MAP.json` while planning and `python -m kit.pacing film MAP.json OUT.mp4` on the render
+    are diagnostics.
+  - Then watch the whole film at 1× without pausing and answer QUALITY.md's "First viewing".
+
 ## 7. Accuracy is part of the art
 - Every metaphor keeps the mechanism's real rules. Write what it must not imply, for example:
   - pooled mortgages are not the security itself;

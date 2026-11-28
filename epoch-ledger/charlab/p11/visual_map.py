@@ -14,13 +14,17 @@ The narration is the spine. Every clause the narrator speaks must be SHOWN, at t
 
 Map file (JSON):
   {"title", "words": "path/to/words.json", "duration",
-   "sync": {"lead": 0.35, "lag": 0.25, "first_event": 0.8, "max_gap": 2.6, "clause_lag": 0.6},
+   "sync": {"lead": 0.35, "lag": 0.25, "first_event": 0.8, "clause_lag": 0.6},
    "shots":  [{"id", "t0", "t1", "medium", "introduces": [...], "purpose"}],
    "concepts": [{"id", "idea", "anchor": {"word", "n"}}],
    "events": [{"id", "anchor": {"word", "n"}, "offset", "shot", "what", "medium", "depicts": [concept ids], "region": [x0, y0, x1, y1]}]}
   concepts: the ideas the narration states (the key word of each); each must be DEPICTED by an event close to its word
   (within `concept_window` s), so "the vault stays shut" is shown when "vault" is said, not merely captioned.
   region: normalised screen box where the event's change is visible (for `inspect`); "cut" events use the whole frame.
+  held: true marks a clause served by the composition already on screen (STANDARD §3B semantic coverage): no new
+  change is required or timed. Shots may carry "pace" (hook, character, illustration, diagram, mechanism, emotional,
+  transition) and the map a "text" list ({text, t0, t1, role}) for kit/pacing.py, which judges load and reading time;
+  this checker no longer asks for a new event every few seconds.
 
     python3 epoch-ledger/charlab/p11/visual_map.py check MAP.json [--table OUT.md] [--resolved OUT.json]
     python3 epoch-ledger/charlab/p11/visual_map.py inspect MAP.json VIDEO.mp4 [--out REPORT.json]
@@ -96,6 +100,7 @@ def check(m: dict, words: list[dict]) -> dict:
         if not s.get("purpose"): errs.append(f"{s['id']}: missing purpose")
         if s["t1"] - s["t0"] < 1.5: warns.append(f"{s['id']}: {s['t1'] - s['t0']:.2f}s is short to absorb")
     for e in r["events"]:
+        if e.get("held") and e.get("medium") == "cut": errs.append(f"{e['id']}: a held event cannot be a cut")
         if e.get("medium") not in MEDIA: errs.append(f"{e['id']}: medium {e.get('medium')!r} not in {MEDIA}")
         if e["shot"] not in sid: errs.append(f"{e['id']}: unknown shot {e['shot']}"); continue
         s = sid[e["shot"]]
@@ -114,9 +119,8 @@ def check(m: dict, words: list[dict]) -> dict:
         se = [e["t"] for e in r["events"] if e["shot"] == s["id"]]
         if not se: errs.append(f"{s['id']}: no events (a shot must show something happen)"); continue
         if se[0] - s["t0"] > S["first_event"]: warns.append(f"{s['id']}: first event {se[0] - s['t0']:.2f}s after the cut")
-        pts = [s["t0"]] + se + [min(s["t1"], m["duration"])]
-        gap = max(b - a for a, b in zip(pts, pts[1:]))
-        if gap > S["max_gap"] and not s.get("hold_reason"): warns.append(f"{s['id']}: {gap:.2f}s without a new visual event")
+        # (STANDARD §3B) no "new event every N seconds" rule any more: a held, developing composition is good pacing.
+        # Load and reading time are judged by kit/pacing.py.
     # every stated idea is depicted near its word (semantic sync, not only coverage)
     for k in m.get("concepts", []):
         kt = words[anchor_index(words, k["anchor"])]["start"]
@@ -149,6 +153,8 @@ def inspect(r: dict, video: str, fps: int = 30, w: int = 192, h: int = 108) -> l
     F = np.frombuffer(raw, np.uint8).reshape(-1, h, w).astype(np.float32); n = len(F)
     shots = {s["id"]: s for s in r["shots"]}; out = []
     for e in r["events"]:
+        if e.get("held"):        # served by the composition already on screen: no change is expected, nothing to time
+            out.append({"id": e["id"], "planned": e["t"], "observed": None, "offset": 0.0, "ok": True, "held": True}); continue
         x0, y0, x1, y1 = e.get("region") or [0, 0, 1, 1]
         R = (slice(int(y0 * h), max(int(y0 * h) + 1, int(y1 * h))), slice(int(x0 * w), max(int(x0 * w) + 1, int(x1 * w))))
         s = shots[e["shot"]]; a = int(round(s["t0"] * fps)); b = min(n - 1, int(round(s["t1"] * fps)) - 1)

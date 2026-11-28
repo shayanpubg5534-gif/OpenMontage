@@ -1,0 +1,1562 @@
+{
+ "title": "P13R: Sold on, paced for a first viewing (refined narration)",
+ "words": "projects/charlab_p13r/story/artifacts/words.json",
+ "duration": 78.0,
+ "sync": {
+  "lead": 0.35,
+  "lag": 0.3,
+  "first_event": 0.5,
+  "clause_lag": 0.6
+ },
+ "shots": [
+  {
+   "id": "S1",
+   "t0": 0.0,
+   "t1": 5.0,
+   "pace": "character",
+   "medium": "2.5d",
+   "introduces": [
+    "context",
+    "action"
+   ],
+   "purpose": "their kitchen at dusk, 2006: he leans in to sign; she watches, then looks around their first home"
+  },
+  {
+   "id": "S2",
+   "t0": 5.0,
+   "t1": 9.9,
+   "pace": "illustration",
+   "medium": "insert",
+   "introduces": [
+    "action",
+    "information"
+   ],
+   "purpose": "cut on action: the signature, then one bar (payment against income); the camera rises off the papers and the table dissolves into the town from above"
+  },
+  {
+   "id": "S4",
+   "t0": 9.9,
+   "t1": 18.4,
+   "pace": "diagram",
+   "medium": "diagram",
+   "introduces": [
+    "information",
+    "action"
+   ],
+   "purpose": "one map, developing: their loan → their lender → sold on to the pool → the country's loans → thousands, one pool"
+  },
+  {
+   "id": "S5",
+   "t0": 18.4,
+   "t1": 35.39,
+   "pace": "mechanism",
+   "medium": "3d",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "one building, developing: issued on the pool; three tranches (simplified example); payments flow in; paid from the top"
+  },
+  {
+   "id": "S6",
+   "t0": 35.39,
+   "t1": 41.6,
+   "pace": "diagram",
+   "medium": "diagram",
+   "introduces": [
+    "information"
+   ],
+   "purpose": "who buys the layers: pension fund, bank, insurer abroad, each on its word (illustrative)"
+  },
+  {
+   "id": "S7",
+   "t0": 41.6,
+   "t1": 45.99,
+   "pace": "illustration",
+   "medium": "diagram",
+   "introduces": [
+    "information",
+    "consequence"
+   ],
+   "purpose": "their town: the price line turns down; FOR SALE signs when they cannot sell for enough"
+  },
+  {
+   "id": "S8",
+   "t0": 45.99,
+   "t1": 49.99,
+   "pace": "emotional",
+   "medium": "2.5d",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "the same kitchen, 2008: the letter; on 'stop' her head drops; he turns away"
+  },
+  {
+   "id": "S9",
+   "t0": 49.99,
+   "t1": 64.6,
+   "pace": "mechanism",
+   "medium": "3d",
+   "introduces": [
+    "consequence",
+    "information"
+   ],
+   "purpose": "one building, developing: losses rise from the bottom; equity, then mezzanine; senior still paid, rating cut, value falls; the real-crisis caveat"
+  },
+  {
+   "id": "S10",
+   "t0": 64.6,
+   "t1": 69.6,
+   "pace": "emotional",
+   "medium": "2.5d",
+   "introduces": [
+    "consequence",
+    "context"
+   ],
+   "purpose": "September 2008: the newspaper on their table; he looks down at it"
+  },
+  {
+   "id": "S11",
+   "t0": 69.6,
+   "t1": 78.0,
+   "pace": "emotional",
+   "medium": "insert",
+   "introduces": [
+    "consequence"
+   ],
+   "purpose": "the front page from above ('bankruptcy' marked), then the two of them at the table and the lamp; fade",
+   "hold_reason": "the last image: the headline, then the family and the lamp after the final word"
+  }
+ ],
+ "concepts": [
+  {
+   "id": "k_year",
+   "idea": "the year: 2006",
+   "anchor": {
+    "word": "2006,",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_sign",
+   "idea": "they sign a mortgage",
+   "anchor": {
+    "word": "signs",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_home",
+   "idea": "their first home",
+   "anchor": {
+    "word": "home.",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_afford",
+   "idea": "the payment takes almost all they earn",
+   "anchor": {
+    "word": "takes",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_keep",
+   "idea": "the lender does not keep the loan",
+   "anchor": {
+    "word": "loan,",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_sell",
+   "idea": "it sells it on",
+   "anchor": {
+    "word": "sells",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_country",
+   "idea": "lenders across the country do the same",
+   "anchor": {
+    "word": "Lenders",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_thousands",
+   "idea": "thousands of mortgages",
+   "anchor": {
+    "word": "thousands",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_pool",
+   "idea": "one pool",
+   "anchor": {
+    "word": "pool.",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_issue",
+   "idea": "a new security is issued",
+   "anchor": {
+    "word": "security",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_example",
+   "idea": "a simplified example",
+   "anchor": {
+    "word": "simplified",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_tranches",
+   "idea": "three layers: tranches",
+   "anchor": {
+    "word": "three",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_flow",
+   "idea": "payments flow in",
+   "anchor": {
+    "word": "payments",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_senior",
+   "idea": "senior paid first",
+   "anchor": {
+    "word": "senior",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_below",
+   "idea": "the layers below are paid after it",
+   "anchor": {
+    "word": "below",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_pension",
+   "idea": "pension funds",
+   "anchor": {
+    "word": "Pension",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_banks",
+   "idea": "banks",
+   "anchor": {
+    "word": "banks",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_income",
+   "idea": "for their steady income",
+   "anchor": {
+    "word": "steady",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_fall",
+   "idea": "house prices fall",
+   "anchor": {
+    "word": "fall,",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_cant",
+   "idea": "they can't sell for enough to repay",
+   "anchor": {
+    "word": "sell",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_stop",
+   "idea": "families stop paying",
+   "anchor": {
+    "word": "stop",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_losses",
+   "idea": "the losses",
+   "anchor": {
+    "word": "losses",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_bottom",
+   "idea": "rise from the bottom",
+   "anchor": {
+    "word": "bottom.",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_wiped",
+   "idea": "the lowest layer is wiped out first",
+   "anchor": {
+    "word": "wiped",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_next",
+   "idea": "then the next",
+   "anchor": {
+    "word": "next.",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_stillpaid",
+   "idea": "the senior layer is still paid",
+   "anchor": {
+    "word": "paid,",
+    "n": 3
+   }
+  },
+  {
+   "id": "k_rating",
+   "idea": "its rating is cut",
+   "anchor": {
+    "word": "rating",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_value",
+   "idea": "its market value falls",
+   "anchor": {
+    "word": "value",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_real",
+   "idea": "in the real crisis many senior securities lost money",
+   "anchor": {
+    "word": "crisis,",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_sept",
+   "idea": "September 2008",
+   "anchor": {
+    "word": "September",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_lehman",
+   "idea": "Lehman Brothers",
+   "anchor": {
+    "word": "Lehman",
+    "n": 1
+   }
+  },
+  {
+   "id": "k_assets",
+   "idea": "heavily invested in mortgage-related assets",
+   "anchor": {
+    "word": "mortgage",
+    "n": 2
+   }
+  },
+  {
+   "id": "k_bankrupt",
+   "idea": "files for bankruptcy",
+   "anchor": {
+    "word": "bankruptcy.",
+    "n": 1
+   }
+  }
+ ],
+ "events": [
+  {
+   "id": "e01",
+   "anchor": {
+    "word": "In",
+    "n": 1
+   },
+   "offset": -0.1,
+   "shot": "S1",
+   "medium": "cut",
+   "what": "Their kitchen at dusk",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_year",
+   "anchor": {
+    "word": "2006,",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S1",
+   "medium": "graphic",
+   "what": "'2006' set in the corner",
+   "region": [
+    0.02,
+    0.03,
+    0.3,
+    0.22
+   ],
+   "depicts": [
+    "k_year"
+   ]
+  },
+  {
+   "id": "e_signs",
+   "anchor": {
+    "word": "signs",
+    "n": 1
+   },
+   "offset": -0.1,
+   "shot": "S1",
+   "medium": "character-action",
+   "what": "He leans in over the papers, weight forward; she watches him",
+   "region": [
+    0.58,
+    0.15,
+    0.9,
+    0.85
+   ],
+   "depicts": [
+    "k_sign"
+   ]
+  },
+  {
+   "id": "e_home",
+   "anchor": {
+    "word": "home.",
+    "n": 1
+   },
+   "offset": -0.2,
+   "shot": "S1",
+   "medium": "character-action",
+   "what": "She looks up and around the room: their first home",
+   "region": [
+    0.25,
+    0.2,
+    0.5,
+    0.8
+   ],
+   "depicts": [
+    "k_home"
+   ]
+  },
+  {
+   "id": "e_insert",
+   "anchor": {
+    "word": "The",
+    "n": 1
+   },
+   "offset": -0.02,
+   "shot": "S2",
+   "medium": "cut",
+   "what": "Cut on action: the table from above, the pen finishing the signature",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_bar",
+   "anchor": {
+    "word": "takes",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "graphic",
+   "what": "One bar: the payment fills almost all of the income",
+   "region": [
+    0.3,
+    0.3,
+    0.75,
+    0.6
+   ],
+   "depicts": [
+    "k_afford"
+   ]
+  },
+  {
+   "id": "e_left",
+   "anchor": {
+    "word": "everything",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "graphic",
+   "what": "'little left' marked",
+   "region": [
+    0.55,
+    0.3,
+    0.8,
+    0.6
+   ]
+  },
+  {
+   "id": "e_map",
+   "anchor": {
+    "word": "loan,",
+    "n": 1
+   },
+   "offset": 0.05,
+   "shot": "S4",
+   "medium": "cut",
+   "what": "Dissolve: the town from above, their house gold, their line to their lender",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k_keep"
+   ]
+  },
+  {
+   "id": "e_sells",
+   "anchor": {
+    "word": "sells",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "Sold on: the gold line leaves the lender for the pool; THE POOL appears",
+   "region": [
+    0.45,
+    0.2,
+    1.0,
+    0.9
+   ],
+   "depicts": [
+    "k_sell"
+   ]
+  },
+  {
+   "id": "e_country",
+   "anchor": {
+    "word": "Lenders",
+    "n": 1
+   },
+   "offset": 0.1,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "The camera eases back; the town's other loans run to their lenders and on",
+   "region": [
+    0.05,
+    0.1,
+    0.7,
+    0.95
+   ],
+   "depicts": [
+    "k_country"
+   ]
+  },
+  {
+   "id": "e_thousands",
+   "anchor": {
+    "word": "thousands",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "The pool fills with thousands of loans",
+   "region": [
+    0.8,
+    0.1,
+    1.0,
+    0.85
+   ],
+   "depicts": [
+    "k_thousands"
+   ]
+  },
+  {
+   "id": "e_pool",
+   "anchor": {
+    "word": "pool.",
+    "n": 1
+   },
+   "offset": -0.3,
+   "shot": "S4",
+   "medium": "diagram",
+   "what": "One pool, held: the camera begins to close on it",
+   "region": [
+    0.7,
+    0.1,
+    1.0,
+    0.9
+   ],
+   "depicts": [
+    "k_pool"
+   ]
+  },
+  {
+   "id": "e_plinth",
+   "anchor": {
+    "word": "top",
+    "n": 1
+   },
+   "offset": -0.21,
+   "shot": "S5",
+   "medium": "cut",
+   "what": "Match cut: the pool becomes the plinth of the model",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_issued",
+   "anchor": {
+    "word": "security",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "3d",
+   "what": "Floors rise onto the pool as the camera lifts: a new security",
+   "region": [
+    0.3,
+    0.0,
+    0.8,
+    0.8
+   ],
+   "depicts": [
+    "k_issue"
+   ]
+  },
+  {
+   "id": "e_example",
+   "anchor": {
+    "word": "simplified",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "graphic",
+   "what": "'Simplified example' tag",
+   "region": [
+    0.7,
+    0.02,
+    0.98,
+    0.15
+   ],
+   "depicts": [
+    "k_example"
+   ]
+  },
+  {
+   "id": "e_layers",
+   "anchor": {
+    "word": "three",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "graphic",
+   "what": "Senior, mezzanine, equity named one at a time beside their floors",
+   "region": [
+    0.0,
+    0.1,
+    0.35,
+    0.6
+   ],
+   "depicts": [
+    "k_tranches"
+   ]
+  },
+  {
+   "id": "e_flow",
+   "anchor": {
+    "word": "family's",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "3d",
+   "what": "Payment drops climb the servicer's pipe (their gold drop first)",
+   "region": [
+    0.6,
+    0.0,
+    0.9,
+    0.9
+   ],
+   "depicts": [
+    "k_flow"
+   ]
+  },
+  {
+   "id": "e_senior",
+   "anchor": {
+    "word": "senior",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "3d",
+   "what": "The senior floors light from the top; 'Payments: senior paid first'",
+   "region": [
+    0.3,
+    0.0,
+    0.8,
+    0.5
+   ],
+   "depicts": [
+    "k_senior"
+   ]
+  },
+  {
+   "id": "e_below",
+   "anchor": {
+    "word": "below",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "3d",
+   "what": "Then mezzanine, then equity light",
+   "region": [
+    0.3,
+    0.4,
+    0.8,
+    0.85
+   ],
+   "depicts": [
+    "k_below"
+   ]
+  },
+  {
+   "id": "e_world",
+   "anchor": {
+    "word": "Pension",
+    "n": 1
+   },
+   "offset": -0.08,
+   "shot": "S6",
+   "medium": "cut",
+   "what": "The world map: Wall Street; a route draws to a pension fund",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k_pension"
+   ]
+  },
+  {
+   "id": "e_banks",
+   "anchor": {
+    "word": "banks",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S6",
+   "medium": "diagram",
+   "what": "A route to a bank",
+   "region": [
+    0.5,
+    0.2,
+    0.75,
+    0.6
+   ],
+   "depicts": [
+    "k_banks"
+   ]
+  },
+  {
+   "id": "e_insurers",
+   "anchor": {
+    "word": "insurers",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S6",
+   "medium": "diagram",
+   "what": "A route to an insurer",
+   "region": [
+    0.75,
+    0.25,
+    1.0,
+    0.7
+   ]
+  },
+  {
+   "id": "e_income",
+   "anchor": {
+    "word": "steady",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S6",
+   "medium": "diagram",
+   "what": "Payments flow steadily along the routes",
+   "region": [
+    0.3,
+    0.2,
+    1.0,
+    0.8
+   ],
+   "depicts": [
+    "k_income"
+   ]
+  },
+  {
+   "id": "e_town",
+   "anchor": {
+    "word": "Then",
+    "n": 1
+   },
+   "offset": -0.17,
+   "shot": "S7",
+   "medium": "cut",
+   "what": "Their town; the house-price line over the rooftops",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_fall",
+   "anchor": {
+    "word": "fall,",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "diagram",
+   "what": "The line turns down, in red",
+   "region": [
+    0.5,
+    0.05,
+    0.95,
+    0.45
+   ],
+   "depicts": [
+    "k_fall"
+   ]
+  },
+  {
+   "id": "e_sale",
+   "anchor": {
+    "word": "sell",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "diagram",
+   "what": "FOR SALE signs: selling no longer repays the loan",
+   "region": [
+    0.05,
+    0.45,
+    0.95,
+    0.95
+   ],
+   "depicts": [
+    "k_cant"
+   ]
+  },
+  {
+   "id": "e_night",
+   "anchor": {
+    "word": "enough",
+    "n": 1
+   },
+   "offset": -0.16,
+   "shot": "S8",
+   "medium": "cut",
+   "what": "Dissolve on their window: the same kitchen, 2008, night; she holds the letter",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_stop",
+   "anchor": {
+    "word": "stop",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S8",
+   "medium": "character-action",
+   "what": "Her head drops to the letter; he turns away",
+   "region": [
+    0.25,
+    0.15,
+    0.9,
+    0.85
+   ],
+   "depicts": [
+    "k_stop"
+   ]
+  },
+  {
+   "id": "e_lossvo",
+   "anchor": {
+    "word": "losses",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S8",
+   "medium": "character-action",
+   "what": "Held on the two of them while 'Now the losses rise from the bottom' is heard: the losses start at kitchen tables",
+   "region": [
+    0.25,
+    0.15,
+    0.9,
+    0.85
+   ],
+   "depicts": [
+    "k_losses"
+   ],
+   "held": true
+  },
+  {
+   "id": "e_bldg2",
+   "anchor": {
+    "word": "bottom.",
+    "n": 1
+   },
+   "offset": -0.04,
+   "shot": "S9",
+   "medium": "cut",
+   "what": "Cut on 'bottom': close on their red house; red water appears at the foundation, the losses' starting point",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k_bottom"
+   ]
+  },
+  {
+   "id": "e_equity",
+   "anchor": {
+    "word": "wiped",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "3d",
+   "what": "The flood fills the equity floor",
+   "region": [
+    0.25,
+    0.45,
+    0.8,
+    0.9
+   ],
+   "depicts": [
+    "k_wiped"
+   ]
+  },
+  {
+   "id": "e_mezz",
+   "anchor": {
+    "word": "next.",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "3d",
+   "what": "The flood rises into mezzanine",
+   "region": [
+    0.25,
+    0.35,
+    0.8,
+    0.8
+   ],
+   "depicts": [
+    "k_next"
+   ]
+  },
+  {
+   "id": "e_stillpaid",
+   "anchor": {
+    "word": "paid,",
+    "n": 3
+   },
+   "offset": -0.3,
+   "shot": "S9",
+   "medium": "3d",
+   "what": "Senior windows stay lit; a thin flow still reaches the roof",
+   "region": [
+    0.3,
+    0.0,
+    0.8,
+    0.45
+   ],
+   "depicts": [
+    "k_stillpaid"
+   ]
+  },
+  {
+   "id": "e_rating",
+   "anchor": {
+    "word": "rating",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "graphic",
+   "what": "A 'rating cut' tag on the senior floors",
+   "region": [
+    0.55,
+    0.05,
+    0.95,
+    0.35
+   ],
+   "depicts": [
+    "k_rating"
+   ]
+  },
+  {
+   "id": "e_value",
+   "anchor": {
+    "word": "value",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "graphic",
+   "what": "A 'market value ↓' tag",
+   "region": [
+    0.55,
+    0.15,
+    0.95,
+    0.45
+   ],
+   "depicts": [
+    "k_value"
+   ]
+  },
+  {
+   "id": "e_real",
+   "anchor": {
+    "word": "crisis,",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "graphic",
+   "what": "Card: in the real crisis many senior securities also lost money",
+   "region": [
+    0.02,
+    0.6,
+    0.5,
+    0.85
+   ],
+   "depicts": [
+    "k_real"
+   ]
+  },
+  {
+   "id": "e_n2",
+   "anchor": {
+    "word": "In",
+    "n": 5
+   },
+   "offset": -0.33,
+   "shot": "S10",
+   "medium": "cut",
+   "what": "The kitchen at night: the newspaper on their table",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_sept",
+   "anchor": {
+    "word": "September",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S10",
+   "medium": "graphic",
+   "what": "'September 2008' set in the corner; he looks down at the newspaper",
+   "region": [
+    0.02,
+    0.03,
+    0.4,
+    0.22
+   ],
+   "depicts": [
+    "k_sept"
+   ]
+  },
+  {
+   "id": "e_lehman",
+   "anchor": {
+    "word": "Lehman",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S10",
+   "medium": "character-action",
+   "what": "She looks to him; the camera eases toward the newspaper",
+   "region": [
+    0.4,
+    0.4,
+    0.9,
+    0.95
+   ],
+   "depicts": [
+    "k_lehman"
+   ]
+  },
+  {
+   "id": "e_np",
+   "anchor": {
+    "word": "mortgage",
+    "n": 2
+   },
+   "offset": 0.03,
+   "shot": "S11",
+   "medium": "cut",
+   "what": "The front page from above",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "depicts": [
+    "k_assets"
+   ]
+  },
+  {
+   "id": "e_bk",
+   "anchor": {
+    "word": "bankruptcy.",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S11",
+   "medium": "graphic",
+   "what": "'bankruptcy' marked in red",
+   "region": [
+    0.25,
+    0.25,
+    0.85,
+    0.75
+   ],
+   "depicts": [
+    "k_bankrupt"
+   ]
+  },
+  {
+   "id": "e_end",
+   "anchor": {
+    "word": "bankruptcy.",
+    "n": 1
+   },
+   "offset": 0.25,
+   "shot": "S11",
+   "medium": "camera",
+   "what": "The camera keeps easing in on the headline",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_hold",
+   "anchor": {
+    "word": "bankruptcy.",
+    "n": 1
+   },
+   "offset": 0.3,
+   "shot": "S11",
+   "medium": "character-action",
+   "what": "Hold on the headline before returning to the family",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ],
+   "held": true
+  },
+  {
+   "id": "e_month",
+   "anchor": {
+    "word": "Each",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "camera",
+   "what": "The camera drifts toward the servicer's pipe",
+   "region": [
+    0.5,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_top",
+   "anchor": {
+    "word": "top",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "camera",
+   "what": "The camera tilts up toward the top floors",
+   "region": [
+    0.3,
+    0,
+    0.8,
+    0.5
+   ]
+  },
+  {
+   "id": "e_first",
+   "anchor": {
+    "word": "first.",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "S5",
+   "medium": "3d",
+   "what": "The senior floors lit, held while 'paid first' is read",
+   "region": [
+    0.3,
+    0,
+    0.8,
+    0.5
+   ],
+   "held": true
+  },
+  {
+   "id": "e_families",
+   "anchor": {
+    "word": "families",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S7",
+   "medium": "camera",
+   "what": "The camera eases toward their gold house",
+   "region": [
+    0.05,
+    0.3,
+    0.95,
+    0.95
+   ]
+  },
+  {
+   "id": "e_seniorup",
+   "anchor": {
+    "word": "senior",
+    "n": 2
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "camera",
+   "what": "The camera tilts up to the senior floors",
+   "region": [
+    0.3,
+    0,
+    0.8,
+    0.5
+   ]
+  },
+  {
+   "id": "e_many",
+   "anchor": {
+    "word": "many",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "graphic",
+   "what": "The real-crisis card, held while it is read",
+   "region": [
+    0.02,
+    0.6,
+    0.5,
+    0.85
+   ],
+   "held": true
+  },
+  {
+   "id": "e_files",
+   "anchor": {
+    "word": "files",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S11",
+   "medium": "insert",
+   "what": "The headline, held while it is read",
+   "region": [
+    0.25,
+    0.25,
+    0.85,
+    0.75
+   ],
+   "held": true
+  },
+  {
+   "id": "e_rise",
+   "anchor": {
+    "word": "lender",
+    "n": 1
+   },
+   "offset": 0.0,
+   "shot": "S2",
+   "medium": "camera",
+   "what": "The camera rises off the papers: the table begins to dissolve into the town",
+   "region": [
+    0,
+    0,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "e_losshead",
+   "anchor": {
+    "word": "first,",
+    "n": 3
+   },
+   "offset": 0.0,
+   "shot": "S9",
+   "medium": "graphic",
+   "what": "'Losses rise from the bottom ↑'",
+   "region": [
+    0,
+    0,
+    0.4,
+    0.3
+   ]
+  }
+ ],
+ "text": [
+  {
+   "text": "2006 their kitchen",
+   "t0": 0.22,
+   "t1": 4.7,
+   "role": "support"
+  },
+  {
+   "text": "Monthly payment",
+   "t0": 6.02,
+   "t1": 8.45,
+   "role": "key"
+  },
+  {
+   "text": "Income",
+   "t0": 6.02,
+   "t1": 8.45,
+   "role": "key"
+  },
+  {
+   "text": "little left",
+   "t0": 6.9,
+   "t1": 8.45,
+   "role": "key"
+  },
+  {
+   "text": "their loan",
+   "t0": 9.9,
+   "t1": 12.3,
+   "role": "key"
+  },
+  {
+   "text": "their lender",
+   "t0": 10.4,
+   "t1": 12.3,
+   "role": "key"
+  },
+  {
+   "text": "THE POOL",
+   "t0": 10.95,
+   "t1": 18.4,
+   "role": "key"
+  },
+  {
+   "text": "thousands of loans",
+   "t0": 14.8,
+   "t1": 18.4,
+   "role": "key"
+  },
+  {
+   "text": "Simplified example",
+   "t0": 22.29,
+   "t1": 35.4,
+   "role": "support"
+  },
+  {
+   "text": "Senior",
+   "t0": 24.2,
+   "t1": 35.4,
+   "role": "key"
+  },
+  {
+   "text": "Mezzanine",
+   "t0": 24.9,
+   "t1": 35.4,
+   "role": "key"
+  },
+  {
+   "text": "Equity",
+   "t0": 25.6,
+   "t1": 35.4,
+   "role": "key"
+  },
+  {
+   "text": "Payments: senior paid first",
+   "t0": 30.6,
+   "t1": 35.4,
+   "role": "key"
+  },
+  {
+   "text": "then mezzanine, then equity",
+   "t0": 33.1,
+   "t1": 35.4,
+   "role": "key"
+  },
+  {
+   "text": "Wall Street",
+   "t0": 35.4,
+   "t1": 41.6,
+   "role": "support"
+  },
+  {
+   "text": "Pension fund · Norway",
+   "t0": 35.5,
+   "t1": 41.6,
+   "role": "key"
+  },
+  {
+   "text": "Bank · Germany",
+   "t0": 36.85,
+   "t1": 41.6,
+   "role": "key"
+  },
+  {
+   "text": "Insurer · Japan",
+   "t0": 37.35,
+   "t1": 41.6,
+   "role": "key"
+  },
+  {
+   "text": "Buyers illustrative",
+   "t0": 36.2,
+   "t1": 41.6,
+   "role": "support"
+  },
+  {
+   "text": "US house prices",
+   "t0": 42.0,
+   "t1": 45.99,
+   "role": "key"
+  },
+  {
+   "text": "national index, indicative",
+   "t0": 42.9,
+   "t1": 45.99,
+   "role": "support"
+  },
+  {
+   "text": "Simplified example",
+   "t0": 50.6,
+   "t1": 64.6,
+   "role": "support"
+  },
+  {
+   "text": "rating cut",
+   "t0": 57.06,
+   "t1": 64.6,
+   "role": "key"
+  },
+  {
+   "text": "market value ↓",
+   "t0": 59.0,
+   "t1": 64.6,
+   "role": "key"
+  },
+  {
+   "text": "September 2008 the same kitchen",
+   "t0": 65.07,
+   "t1": 69.6,
+   "role": "support"
+  },
+  {
+   "text": "LEHMAN BROTHERS FILES FOR BANKRUPTCY",
+   "t0": 69.6,
+   "t1": 74.5,
+   "role": "key"
+  },
+  {
+   "text": "Losses rise from the bottom ↑",
+   "t0": 52.4,
+   "t1": 56.6,
+   "role": "key"
+  },
+  {
+   "text": "equity, then mezzanine",
+   "t0": 53.5,
+   "t1": 56.6,
+   "role": "key"
+  },
+  {
+   "text": "Real crisis: many senior tranches lost money",
+   "t0": 61.04,
+   "t1": 64.6,
+   "role": "key"
+  }
+ ]
+}

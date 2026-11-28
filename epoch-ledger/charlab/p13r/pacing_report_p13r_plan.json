@@ -1,0 +1,531 @@
+{
+ "plan": {
+  "findings": [
+   {
+    "severity": "high",
+    "where": "0–28s",
+    "msg": "cognitive load 1.8× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "high",
+    "where": "26–63s",
+    "msg": "cognitive load 2.2× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "high",
+    "where": "55–78s",
+    "msg": "cognitive load 2.0× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "medium",
+    "where": "9–19s",
+    "msg": "new compositions 1.0× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "32–44s",
+    "msg": "new compositions 1.1× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "37–55s",
+    "msg": "new compositions 1.7× the budget for its pace: develop within a composition instead of replacing it"
+   },
+   {
+    "severity": "medium",
+    "where": "60–74s",
+    "msg": "new compositions 1.3× the budget for its pace: develop within a composition instead of replacing it"
+   }
+  ],
+  "series": [
+   {
+    "a": 0,
+    "load": 16.0,
+    "budget": 9.0,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 1,
+    "load": 16.2,
+    "budget": 9.1,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 2,
+    "load": 16.2,
+    "budget": 9.2,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 3,
+    "load": 16.2,
+    "budget": 9.3,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 4,
+    "load": 15.3,
+    "budget": 9.4,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 5,
+    "load": 17.0,
+    "budget": 9.5,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 6,
+    "load": 14.0,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 7,
+    "load": 10.9,
+    "budget": 9.7,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 8,
+    "load": 12.0,
+    "budget": 9.8,
+    "compositions": 1,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 9,
+    "load": 14.6,
+    "budget": 9.9,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 10,
+    "load": 11.2,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 11,
+    "load": 10.5,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 12,
+    "load": 10.4,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 13,
+    "load": 10.8,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 14,
+    "load": 10.6,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 15,
+    "load": 10.5,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 16,
+    "load": 10.5,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 17,
+    "load": 11.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 18,
+    "load": 11.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 19,
+    "load": 7.8,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 20,
+    "load": 8.3,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 21,
+    "load": 9.1,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 22,
+    "load": 9.3,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 23,
+    "load": 7.6,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 24,
+    "load": 9.7,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 25,
+    "load": 8.3,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 26,
+    "load": 12.4,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 27,
+    "load": 13.8,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 28,
+    "load": 14.4,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 29,
+    "load": 14.5,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 30,
+    "load": 14.0,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 31,
+    "load": 13.2,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 32,
+    "load": 16.1,
+    "budget": 10.0,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 33,
+    "load": 18.5,
+    "budget": 9.9,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 34,
+    "load": 16.8,
+    "budget": 9.8,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 35,
+    "load": 16.9,
+    "budget": 9.7,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 36,
+    "load": 16.9,
+    "budget": 9.6,
+    "compositions": 2,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 37,
+    "load": 16.2,
+    "budget": 9.2,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 38,
+    "load": 14.4,
+    "budget": 8.8,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 39,
+    "load": 14.4,
+    "budget": 8.4,
+    "compositions": 2,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 40,
+    "load": 17.4,
+    "budget": 8.0,
+    "compositions": 3,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 41,
+    "load": 16.7,
+    "budget": 8.0,
+    "compositions": 3,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 42,
+    "load": 14.9,
+    "budget": 8.0,
+    "compositions": 2,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 43,
+    "load": 14.9,
+    "budget": 8.1,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 44,
+    "load": 16.2,
+    "budget": 8.2,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 45,
+    "load": 16.6,
+    "budget": 8.3,
+    "compositions": 2,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 46,
+    "load": 13.6,
+    "budget": 8.4,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 47,
+    "load": 12.4,
+    "budget": 8.8,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 48,
+    "load": 14.1,
+    "budget": 9.2,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 49,
+    "load": 15.1,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 50,
+    "load": 12.5,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 51,
+    "load": 12.2,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 52,
+    "load": 13.3,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 53,
+    "load": 11.2,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 54,
+    "load": 9.5,
+    "budget": 10.0,
+    "compositions": 0,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 55,
+    "load": 11.9,
+    "budget": 10.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 56,
+    "load": 12.7,
+    "budget": 9.6,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 57,
+    "load": 12.5,
+    "budget": 9.2,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 58,
+    "load": 12.0,
+    "budget": 8.8,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 59,
+    "load": 10.8,
+    "budget": 8.4,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 60,
+    "load": 14.4,
+    "budget": 8.0,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 61,
+    "load": 14.2,
+    "budget": 7.6,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 62,
+    "load": 11.9,
+    "budget": 7.2,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 63,
+    "load": 13.2,
+    "budget": 6.8,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 64,
+    "load": 13.0,
+    "budget": 6.4,
+    "compositions": 2,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 65,
+    "load": 9.8,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 66,
+    "load": 7.6,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 67,
+    "load": 7.6,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 68,
+    "load": 6.3,
+    "budget": 6.0,
+    "compositions": 1,
+    "comp_budget": 1.5
+   }
+  ],
+  "summary": {
+   "high": 3,
+   "medium": 4,
+   "info": 0
+  }
+ }
+}

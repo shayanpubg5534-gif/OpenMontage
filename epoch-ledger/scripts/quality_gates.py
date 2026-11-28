@@ -24,6 +24,8 @@ Gates (each PASS/FAIL):
                                     included)
     contacts  contact_check.mjs    hand-to-prop distance, hand hidden by the prop, one-frame prop jumps
     frames    qc.mjs --video       black, flash, opening jump, freeze, loudness on the stored video
+    pacing    kit/pacing.py        (STANDARD §3B) picture changes and motion against each shot's pace; with a plan
+                                    (gates.json "pacing_plan"), reading time, focal points and load per 10 s
     direction kit/treatment.py     (episodes with a treatment.json) the treatment checks and its hero storyboard is
                                     approved (STANDARD §3A); skipped for earlier episodes
 The review page (review_sheets.py) adds consecutive-frame contact sheets around every interaction and cut, a 1-in-30
@@ -80,6 +82,24 @@ def gate_direction(cfg, out):
     return not r["errors"], r["errors"] + ["warning: " + w for w in r["warnings"]] + ["reminder: answer the director's review (QUALITY.md) on the frames"]
 
 
+def gate_pacing(cfg, out):
+    """STANDARD §3B: picture changes, motion while reading, and (with a plan) composition durations, reading time,
+    focal points and load per 10 s. Diagnostics: fails only on "high" findings; watching at 1× decides."""
+    from kit import pacing as PC
+    P = PC.load_plan(ROOT / cfg["pacing_plan"]) if cfg.get("pacing_plan") else {"duration": 1e9, "shots": [], "events": [], "text": [], "words": []}
+    rep = {"film": PC.check_film(P, str(ROOT / cfg["video"]))}
+    if cfg.get("pacing_plan"): rep["plan"] = PC.check_plan(P)
+    (out / "pacing.json").write_text(json.dumps(rep, indent=1, ensure_ascii=False))
+    lines = [f"{f['severity']} {k} {f['where']}: {f['msg']}" for k, r in rep.items() for f in r["findings"] if f["severity"] != "info"]
+    lines.append("film: " + json.dumps({k: v for k, v in rep["film"]["stats"].items() if k != "changes_at"}))
+    lines.append("reminder: watch the film once at normal speed without pausing (QUALITY.md, First viewing)")
+    high = any(f["severity"] == "high" for r in rep.values() for f in r["findings"])
+    if high and not cfg.get("treatment"):        # episodes made before §3B: advisory only (backward compatible)
+        lines.append("advisory: this episode predates STANDARD §3B (no treatment.json), so pacing findings do not fail the gate")
+        return True, lines
+    return not high, lines
+
+
 GATES = {
     "direction": (("treatment",), gate_direction),
     "finance": (("finance",), gate_finance),
@@ -87,6 +107,7 @@ GATES = {
     "layout": (("workspace",), gate_node("layout_check.mjs", lambda c: ["--every", str(c.get("layout_every", 0.25))], "layout.json")),
     "contacts": (("workspace", "contacts"), gate_node("contact_check.mjs", lambda c: ["--auto"] if c["contacts"] == "auto" else ["--contacts", str(ROOT / c["contacts"])], "contacts.json")),
     "frames": (("video",), gate_frames),
+    "pacing": (("video",), gate_pacing),
 }
 
 

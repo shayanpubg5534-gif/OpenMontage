@@ -1,0 +1,528 @@
+{
+ "plan": {
+  "findings": [
+   {
+    "severity": "medium",
+    "where": "S1",
+    "msg": "2.5 s for a character composition (guideline 5–8 s)"
+   },
+   {
+    "severity": "high",
+    "where": "S3",
+    "msg": "0.9 s for a character composition (guideline 5–8 s): far too short to absorb"
+   },
+   {
+    "severity": "high",
+    "where": "S5",
+    "msg": "1.7 s for a mechanism composition (guideline 10–20 s): far too short to absorb"
+   },
+   {
+    "severity": "medium",
+    "where": "S6",
+    "msg": "2.9 s for a diagram composition (guideline 6–12 s)"
+   },
+   {
+    "severity": "high",
+    "where": "S7",
+    "msg": "1.8 s for a mechanism composition (guideline 10–20 s): far too short to absorb"
+   },
+   {
+    "severity": "medium",
+    "where": "S8",
+    "msg": "1.9 s for an illustration composition (guideline 3–5 s)"
+   },
+   {
+    "severity": "high",
+    "where": "S9",
+    "msg": "1.8 s for an emotional composition (guideline 5–10 s): far too short to absorb"
+   },
+   {
+    "severity": "high",
+    "where": "S10",
+    "msg": "3.2 s for a mechanism composition (guideline 10–20 s): far too short to absorb"
+   },
+   {
+    "severity": "medium",
+    "where": "S11",
+    "msg": "2.1 s for an emotional composition (guideline 5–10 s)"
+   },
+   {
+    "severity": "medium",
+    "where": "S12",
+    "msg": "3.7 s for an emotional composition (guideline 5–10 s)"
+   },
+   {
+    "severity": "high",
+    "where": "2.5s",
+    "msg": "\"MORTGAGE AGREEMENT Borrowers The family Purpose Purchase of the family home Monthly payment against monthly income the mortgage payment Signature\" readable for 2.3 s; minimum ≈ 7.2 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "4.4s",
+    "msg": "\"little left\" readable for 0.4 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "9.5s",
+    "msg": "\"thousands of loans\" readable for 0.5 s; minimum ≈ 1.5 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "11.4s",
+    "msg": "\"One security, built on the pool\" readable for 0.9 s; minimum ≈ 2.5 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "11.7s",
+    "msg": "\"Senior\" readable for 0.5 s; minimum ≈ 0.8 s"
+   },
+   {
+    "severity": "high",
+    "where": "11.9s",
+    "msg": "\"Mezzanine\" readable for 0.4 s; minimum ≈ 0.8 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "12.0s",
+    "msg": "\"Equity\" readable for 0.2 s; minimum ≈ 0.8 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "13.8s",
+    "msg": "\"Oslo pension · senior\" readable for 1.4 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "13.8s",
+    "msg": "\"Frankfurt bank · senior\" readable for 1.3 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "13.9s",
+    "msg": "\"Tokyo insurer · senior\" readable for 1.3 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "13.9s",
+    "msg": "\"London fund · mezzanine\" readable for 1.2 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "15.6s",
+    "msg": "\"Payments: senior paid first\" readable for 1.3 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "15.9s",
+    "msg": "\"1 Senior\" readable for 1.1 s; minimum ≈ 1.2 s"
+   },
+   {
+    "severity": "high",
+    "where": "16.5s",
+    "msg": "\"2 Mezzanine\" readable for 0.5 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "16.8s",
+    "msg": "\"3 Equity\" readable for 0.1 s; minimum ≈ 1.2 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "17.8s",
+    "msg": "\"US house prices\" readable for 0.8 s; minimum ≈ 1.5 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "17.8s",
+    "msg": "\"national index, indicative shape\" readable for 0.8 s; minimum ≈ 1.3 s"
+   },
+   {
+    "severity": "high",
+    "where": "21.1s",
+    "msg": "\"their loan stops paying\" readable for 0.6 s; minimum ≈ 1.8 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "22.4s",
+    "msg": "\"Losses: equity hit first\" readable for 1.4 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "medium",
+    "where": "22.6s",
+    "msg": "\"1 Equity: wiped out\" readable for 1.3 s; minimum ≈ 1.8 s"
+   },
+   {
+    "severity": "high",
+    "where": "22.9s",
+    "msg": "\"2 Mezzanine: hit next\" readable for 0.9 s; minimum ≈ 1.8 s with captions running"
+   },
+   {
+    "severity": "high",
+    "where": "23.3s",
+    "msg": "\"Senior: downgraded, value falls\" readable for 0.6 s; minimum ≈ 1.8 s with captions running"
+   },
+   {
+    "severity": "medium",
+    "where": "26.3s",
+    "msg": "\"LEHMAN BROTHERS FILES FOR BANKRUPTCY\" readable for 2.0 s; minimum ≈ 2.2 s"
+   },
+   {
+    "severity": "medium",
+    "where": "1.9s",
+    "msg": "3 things introduced within 0.6 s (e_family, e_signs, e_insert): one focal point at a time"
+   },
+   {
+    "severity": "medium",
+    "where": "15.4s",
+    "msg": "3 things introduced within 0.6 s (e_wf, e_steady, 1 Senior): one focal point at a time"
+   },
+   {
+    "severity": "medium",
+    "where": "21.0s",
+    "msg": "3 things introduced within 0.6 s (e_loss, e_red, e_dry): one focal point at a time"
+   },
+   {
+    "severity": "high",
+    "where": "0–30s",
+    "msg": "cognitive load 4.4× the budget for its pace (compositions, elements, motion, text and captions together)"
+   },
+   {
+    "severity": "high",
+    "where": "0–30s",
+    "msg": "new compositions 3.1× the budget for its pace: develop within a composition instead of replacing it"
+   }
+  ],
+  "series": [
+   {
+    "a": 0,
+    "load": 28.8,
+    "budget": 9.4,
+    "compositions": 3,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 1,
+    "load": 31.4,
+    "budget": 9.5,
+    "compositions": 4,
+    "comp_budget": 2.0
+   },
+   {
+    "a": 2,
+    "load": 32.9,
+    "budget": 9.6,
+    "compositions": 4,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 3,
+    "load": 28.9,
+    "budget": 9.7,
+    "compositions": 4,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 4,
+    "load": 33.1,
+    "budget": 9.8,
+    "compositions": 4,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 5,
+    "load": 32.9,
+    "budget": 9.9,
+    "compositions": 4,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 6,
+    "load": 31.2,
+    "budget": 10.0,
+    "compositions": 3,
+    "comp_budget": 1.9
+   },
+   {
+    "a": 7,
+    "load": 31.4,
+    "budget": 10.0,
+    "compositions": 3,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 8,
+    "load": 36.8,
+    "budget": 9.9,
+    "compositions": 4,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 9,
+    "load": 36.9,
+    "budget": 9.8,
+    "compositions": 4,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 10,
+    "load": 39.2,
+    "budget": 9.4,
+    "compositions": 5,
+    "comp_budget": 1.8
+   },
+   {
+    "a": 11,
+    "load": 38.0,
+    "budget": 9.0,
+    "compositions": 5,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 12,
+    "load": 38.4,
+    "budget": 9.0,
+    "compositions": 5,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 13,
+    "load": 36.7,
+    "budget": 9.0,
+    "compositions": 4,
+    "comp_budget": 1.7
+   },
+   {
+    "a": 14,
+    "load": 33.1,
+    "budget": 9.0,
+    "compositions": 4,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 15,
+    "load": 37.2,
+    "budget": 8.6,
+    "compositions": 5,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 16,
+    "load": 31.7,
+    "budget": 8.2,
+    "compositions": 4,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 17,
+    "load": 34.0,
+    "budget": 7.8,
+    "compositions": 5,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 18,
+    "load": 28.5,
+    "budget": 7.5,
+    "compositions": 4,
+    "comp_budget": 1.6
+   },
+   {
+    "a": 19,
+    "load": 26.8,
+    "budget": 7.2,
+    "compositions": 4,
+    "comp_budget": 1.5
+   },
+   {
+    "a": 20,
+    "load": 22.6,
+    "budget": 7.2,
+    "compositions": 3,
+    "comp_budget": 1.5
+   }
+  ],
+  "summary": {
+   "high": 19,
+   "medium": 19,
+   "info": 0
+  }
+ },
+ "film": {
+  "findings": [
+   {
+    "severity": "high",
+    "where": "0–29s",
+    "msg": "5.33× the picture changes a first-time viewer can follow at this pace"
+   },
+   {
+    "severity": "medium",
+    "where": "1–26s",
+    "msg": "busy motion (1.6× the calm level) while the viewer must read or think"
+   }
+  ],
+  "series": [
+   {
+    "a": 0,
+    "changes": 9,
+    "budget": 3.0,
+    "motion": 8.4
+   },
+   {
+    "a": 1,
+    "changes": 12,
+    "budget": 3.0,
+    "motion": 10.4
+   },
+   {
+    "a": 2,
+    "changes": 15,
+    "budget": 3.0,
+    "motion": 13.1
+   },
+   {
+    "a": 3,
+    "changes": 16,
+    "budget": 3.0,
+    "motion": 14.2
+   },
+   {
+    "a": 4,
+    "changes": 16,
+    "budget": 3.0,
+    "motion": 14.0
+   },
+   {
+    "a": 5,
+    "changes": 16,
+    "budget": 3.0,
+    "motion": 14.0
+   },
+   {
+    "a": 6,
+    "changes": 14,
+    "budget": 3.0,
+    "motion": 12.5
+   },
+   {
+    "a": 7,
+    "changes": 13,
+    "budget": 3.0,
+    "motion": 11.2
+   },
+   {
+    "a": 8,
+    "changes": 12,
+    "budget": 3.0,
+    "motion": 11.6
+   },
+   {
+    "a": 9,
+    "changes": 12,
+    "budget": 3.0,
+    "motion": 10.6
+   },
+   {
+    "a": 10,
+    "changes": 13,
+    "budget": 2.9,
+    "motion": 12.8
+   },
+   {
+    "a": 11,
+    "changes": 11,
+    "budget": 2.8,
+    "motion": 12.0
+   },
+   {
+    "a": 12,
+    "changes": 9,
+    "budget": 2.8,
+    "motion": 9.9
+   },
+   {
+    "a": 13,
+    "changes": 8,
+    "budget": 2.8,
+    "motion": 9.2
+   },
+   {
+    "a": 14,
+    "changes": 9,
+    "budget": 2.8,
+    "motion": 9.5
+   },
+   {
+    "a": 15,
+    "changes": 9,
+    "budget": 2.7,
+    "motion": 10.7
+   },
+   {
+    "a": 16,
+    "changes": 8,
+    "budget": 2.6,
+    "motion": 9.9
+   },
+   {
+    "a": 17,
+    "changes": 8,
+    "budget": 2.5,
+    "motion": 10.0
+   },
+   {
+    "a": 18,
+    "changes": 7,
+    "budget": 2.4,
+    "motion": 8.8
+   },
+   {
+    "a": 19,
+    "changes": 7,
+    "budget": 2.3,
+    "motion": 9.0
+   }
+  ],
+  "stats": {
+   "picture_changes": 28,
+   "per_10s": 9.4,
+   "longest_hold_s": 2.9,
+   "median_hold_s": 0.4,
+   "mean_motion": 9.5,
+   "changes_at": [
+    2.4,
+    5.0,
+    5.4,
+    5.8,
+    6.2,
+    6.6,
+    7.5,
+    7.9,
+    8.3,
+    10.2,
+    10.5,
+    10.8,
+    11.2,
+    11.5,
+    11.8,
+    12.2,
+    12.5,
+    15.4,
+    16.9,
+    17.2,
+    18.9,
+    19.2,
+    20.9,
+    21.9,
+    22.2,
+    23.9,
+    26.2,
+    28.5
+   ]
+  },
+  "summary": {
+   "high": 1,
+   "medium": 1,
+   "info": 0
+  }
+ }
+}

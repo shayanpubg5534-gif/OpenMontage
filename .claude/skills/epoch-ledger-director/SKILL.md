@@ -15,3 +15,5 @@ Read `skills/creative/epoch-ledger-director.md` (the full guide) and apply it wi
   `epoch-ledger-motion-craft` skill and the kit.
 
 Choose the concept first and the means second. Every element serves understanding or feeling.
+
+Pacing: STANDARD §3B (viewer comprehension and visual pacing), the director's guide §6A, and `python -m kit.pacing`.

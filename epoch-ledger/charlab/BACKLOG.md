@@ -229,3 +229,10 @@ animation renders. Character problems named in the review (all open):
 | 3D cost of animated miniatures | 322 s for 6.6 s of building (≈ 49 s per second) | Cache shadow maps after the build; render state changes as holds where possible |
 | Sync measure on moving 3D | 5 events 0.21–0.34 s off by onset measure | Hold the camera on key words in 3D; consider a per-shot noise floor in `inspect` |
 | Automatic direction workflow | Template build gate, `direction` quality gate, scene-plan direction 2 beside a treatment | Watch the overhead on the first full episodes |
+
+## Viewer comprehension and pacing — see `../PACING_PROPOSAL.md`, `../P13R_PLAN.md`
+| Item | State | Direction |
+|---|---|---|
+| Pacing standard and checks | Implemented (STANDARD §3B, `kit/pacing.py`, treatment compression warning, held compositions, pacing gate) | Calibrate the load budgets from the user's first viewing of P13R (evidence, not to pass a film) |
+| P13R (refined ~74 s narration) | Narration, treatment, plan and pacing report awaiting approval | On approval: render, check, watch at 1×, send for review |
+| Text dwell on the rendered film | Measured on the plan only | Detect label appearance in the frames (layout_check) for a film-level reading-time check |

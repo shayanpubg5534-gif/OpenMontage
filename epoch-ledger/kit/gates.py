@@ -134,6 +134,9 @@ class Gates:
             cfg["video"] = _rel(video)
         if self.treatment:
             cfg["treatment"] = _rel(self.treatment)
+        ep = self.words_path.resolve().parent.parent          # the episode's plan, for the pacing gate (STANDARD §3B)
+        for name in ("visual_map.json", "scene_plan.json"):
+            if (ep / name).exists(): cfg["pacing_plan"] = _rel(ep / name); break
         figs = {"figures": self.figures, "charts": [c for c in self.charts.values() if c["marks"]]}
         empty = [c["id"] for c in self.charts.values() if not c["marks"]]
         if empty:

@@ -7,8 +7,9 @@ the film's data, and `visual_map.py` is the method.
 ## Steps
 1. **Record the narration first.** Narration is voice-over, with Whisper word timestamps (`narrate.py` →
    `artifacts/words.json`).
-2. **Clauses.** `visual_map.py` splits the narration at the narrator's own punctuation. Every clause must have at least
-   one visual event.
+2. **Clauses.** `visual_map.py` splits the narration at the narrator's own punctuation. Every clause must be *shown*,
+   either by a change or by the composition already on screen (a `held` event; STANDARD §3B). Synchronisation is for
+   meaningful changes: a new visual per phrase is not the goal.
 3. **Concepts.** For each clause, list the ideas it states and anchor each one to the word that carries it.
    Examples: "vault", "$10,000", "credits", "tariff", "1873", "the run on the bank".
 4. **Events.** For each concept, decide how it is *shown*:
@@ -35,8 +36,10 @@ the film's data, and `visual_map.py` is the method.
      - shots that do not tile the film, or that introduce nothing.
    - Warnings:
      - a slow first visual after a clause or a cut;
-     - long gaps with no new event;
      - more than 4 cuts per 10 s.
+   - Pacing (load, reading time with captions, competing focal points, composition durations by pace) is checked by
+     `python -m kit.pacing plan MAP.json` and, on the render, `python -m kit.pacing film MAP.json OUT.mp4`. A long,
+     developing composition is good pacing, not a gap.
    - The checker also writes the timestamped table (`--table`) and the resolved times (`--resolved`).
 7. **Build from the resolved times.** Character performance, 3D camera keys and graphic tweens all read the same
    resolved events. In P11: `prepare.py`, `render_vault.sh` and `sequences/p11_test.py`.

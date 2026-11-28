@@ -14,6 +14,10 @@ checklist to run before asking for approval. It adds no creative rules of its ow
 - [ ] `python -m kit.scene_plan PLAN.json` reports no errors. Warnings are answered with a reason or accepted
       knowingly.
 - [ ] One `kit/finstate.Ledger` holds the sequence's figures (STANDARD §2.1).
+- [ ] Each sequence's `pace` and `steps` are in the treatment, and the narration is long enough for them (no
+      "too compressed" warnings left unanswered; STANDARD §3B.10).
+- [ ] `python -m kit.pacing plan MAP.json` reviewed: compositions, reading time with captions, competing focal
+      points and load per 10 s. Warnings are answered or accepted with a reason (§3B).
 
 ## Before asking for approval
 - [ ] Facts are sourced; illustrative figures and fictional companies are labelled (§2.1–2.2).
@@ -29,6 +33,17 @@ checklist to run before asking for approval. It adds no creative rules of its ow
       intersections, foot sliding, continuity). Automated gates are necessary, not sufficient.
 - [ ] Watched the render with sound and muted. The story is followable, and key moments land on their words
       (§3).
+
+## First viewing (STANDARD §3B: watch at normal speed, start to finish, without pausing)
+`python -m kit.pacing film MAP.json OUT.mp4` reports picture changes, holds, motion and reading time. It is a
+diagnostic; these questions are answered by watching.
+- [ ] Could a first-time viewer follow every sequence without pausing or rewinding?
+- [ ] Was every important label readable while the caption ran, and did any picture vanish before it was understood?
+- [ ] Did one thing at a time ask for attention, or did camera moves, animations and labels compete?
+- [ ] Did complex ideas build one step at a time, with time to see the relationship before the next step?
+- [ ] Did the pace suit each sequence (hook, character, diagram, mechanism, emotional moment, transition)?
+- [ ] Did emotional moments breathe, and did the film stay alive and engaging (not a slideshow)?
+- [ ] Is the narration long enough for what it explains, or was anything crammed?
 
 ## Director's review (judged on the rendered frames, not on fields or tests)
 Review a contact sheet of the actual frames (and watch the film) against the treatment, then write a short answer to

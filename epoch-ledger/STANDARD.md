@@ -8,7 +8,7 @@ the craft techniques, or hold machine settings.
 **Precedence:**
 1. §2, the hard requirements.
 2. The user's direction for the episode.
-3. §3, the creative principles, and §3A, creative direction.
+3. §3, the creative principles, §3A, creative direction, and §3B, viewer comprehension and pacing.
 4. Direction guidance in `skills/creative/epoch-ledger-director.md` (skill `epoch-ledger-director`) and its references in
    `epoch-ledger/direction/`; craft guidance in `skills/creative/epoch-ledger-motion-craft.md`. Both are references,
    not templates.
@@ -156,6 +156,67 @@ and memorable way to make the audience understand it and feel it, then work out 
     - Creative quality is judged on the rendered frames and the watched film: the director's review in `QUALITY.md`.
     - Completed schema fields and passing tests show the thinking was written down, not that it is good.
 
+## 3B. Viewer comprehension and visual pacing (permanent; approved 2026-11-28)
+
+A viewer must understand the film comfortably on the **first viewing, at normal speed, without pausing**, while
+listening to the narration and reading the captions. The goal is not the most visual change per second; it is the
+most understanding, engagement and emotional connection. These are a director's principles, not a stopwatch: the
+numbers below are guidelines adapted to each sequence, and checks of them are diagnostics, not proof.
+
+1. **Comprehension over density.** A shot succeeds when its idea is understood, not when it changes on every
+   keyword.
+2. **Semantic coverage, not a new event per phrase.**
+   - Every clause must be *shown*. But it can be served by the composition already on screen (a held composition) or
+     by a change within it.
+   - Synchronisation still matters for meaningful changes: what changes must change on its word.
+3. **Develop, don't replace.**
+   - Prefer progressive development within one composition (a line draws, a layer lights, a label arrives, the
+     camera moves to the next detail) over a new scene.
+   - Replace the whole picture when the place, time or idea changes.
+4. **Cognitive load is the whole picture.**
+   - Load comes from everything that asks for attention at once: new compositions, new elements, labels and captions
+     to read, and motion.
+   - Camera moves, rapid zooms, simultaneous animations, competing focal points and frequent internal changes all add
+     load. Motion inside a scene is cheaper than a cut, but it is not free.
+   - Calm the motion where the viewer must read or think.
+5. **One step, one focal point at a time.**
+   - Complex ideas are built in steps, each readable before the next.
+   - New elements are staggered, so the eye knows where to look. Camera, light and colour lead it.
+6. **Reading time includes the subtitles.**
+   - Important text stays on screen at least `0.5 s + words ÷ 3` after it is fully revealed. This is a minimum
+     estimate, not proof of understanding.
+   - Supporting text is concise.
+   - Mobile first: key text is at least 40 px at 1080p, labels are seven words or fewer, and normally no more than four
+     lines of text are on screen besides the caption.
+7. **Pacing adapts to the sequence.** Each sequence declares its pace, and the director adapts:
+
+| Pace | Character | Typical duration of a composition |
+|---|---|---|
+| `hook` | opening energy: faster cutting allowed if nothing essential must be read | 1.5–4 s |
+| `character` | natural, cinematic, room for performance | 5–8 s |
+| `illustration` | a simple picture of one idea | 3–5 s |
+| `diagram` | a financial diagram, developed progressively | 6–12 s |
+| `mechanism` | a complex mechanism, step by step | 10–20 s when necessary |
+| `emotional` | a cinematic moment that breathes | 5–10 s |
+| `transition` | brief, nothing essential to read | 1–2 s |
+
+   Films should not share one editing rhythm. Energy comes from motivated motion, performance and progressive
+   reveals, not from replacing pictures.
+8. **Preserve visual richness.**
+   - The standard is not a reason to simplify into slides. Keep cinematic camera direction, detailed environments,
+     expressive acting, meaningful 2D, 2.5D and 3D animation, animated charts, maps and mechanisms, motivated
+     transitions, metaphors and human consequence.
+   - Keep a format (a world map, say) when it adds real understanding. Do not drop it only to pass a count.
+9. **Let moments breathe.** Emotional beats and reveals hold, kept alive by quiet motion: a slow push, breath, light.
+10. **Script for comprehension.**
+    - At the treatment stage, each sequence's load is estimated against its narration.
+    - When the narration is too short for what must be understood, lengthen or simplify the script (see the concept
+      notes for accuracy). Never cram the pictures to fit.
+11. **Judged at normal speed.**
+    - The automated pacing report (`kit/pacing.py`) is a diagnostic.
+    - Comprehension is judged by watching the film at 1×, start to finish, without pausing. The director does this
+      first, then the user (QUALITY.md, "First viewing").
+
 ## 4. Capabilities
 
 `epoch-ledger/COMPONENTS.md` indexes the kit:
@@ -172,7 +233,8 @@ Use what serves the scene, and build new parts when nothing fits (then index the
    - per sequence: the concepts considered (including the literal baseline), the chosen concept and why, the
      accuracy notes for any metaphor, the human anchor and the motivated transitions.
 
-   Checked by `python -m kit.treatment`, which also writes `treatment.md` for reading.
+   Checked by `python -m kit.treatment`, which also writes `treatment.md` for reading. Each sequence also names its
+   `pace` (§3B) and the `steps` it must teach; the checker warns when the narration is too compressed for them.
 2. **Storyboard gate.** Key frames of the hero sequences, as stills made with the production tools, are approved in
    one batch before animation. Directed sequences that are not heroes need no storyboard gate unless the look
    changes.
@@ -183,6 +245,8 @@ Use what serves the scene, and build new parts when nothing fits (then index the
 5. **Check:**
    - Automated, by `scripts/qc.mjs`: determinism, frame scan (black, flash, frozen), loudness and timing study
      (information only), plus `scripts/layout_check.mjs` for text.
+   - Pacing (§3B): `python -m kit.pacing plan MAP.json` before building and `python -m kit.pacing film MAP.json OUT.mp4`
+     after rendering. These are diagnostics of load and reading time, not proof of comprehension.
    - **Not evidence of creative quality:** motion frequency, cut counts, camera drift, blinking or particles.
-6. **Watch** the render with sound and muted, run the director's review (`QUALITY.md`) on the frames, then ask
-   for approval.
+6. **Watch** the render at normal speed from start to finish, with sound and muted. Run the first-viewing review and
+   the director's review (`QUALITY.md`), then ask for approval.
